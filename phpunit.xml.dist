@@ -10,16 +10,19 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Telegram Bot PHP SDK Test Suite">
-            <directory suffix="Test.php">tests/</directory>
+        <testsuite name="Telegram Bot API PHP SDK Test Suite">
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
             <directory suffix=".php">src/</directory>
-            <exclude>
-                <directory suffix=".php">src/Laravel/config/</directory>
-            </exclude>
         </whitelist>
     </filter>
+    <logging>
+        <log type="junit" target="build/report.junit.xml"/>
+        <log type="coverage-html" target="build/coverage"/>
+        <log type="coverage-text" target="build/coverage.txt"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
 </phpunit>
