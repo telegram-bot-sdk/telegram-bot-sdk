@@ -6,11 +6,11 @@ We accept contributions via Pull Requests on Github.
 
 ## Pull Requests
 
-- **[PSR-12 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-12-extended-coding-style-guide.md)** - Check the code style with ``$ composer check-style`` and fix it with ``$ composer fix-style``.
+- **Coding Standard** - Please follow the **[PSR-12 Coding Standard](https://www.php-fig.org/psr/psr-12/)**.
 
-- **Add tests!** - Your patch won't be accepted if it doesn't have tests.
+- **Add Tests** Ensure that the current tests pass, and if you've added something new, add the tests where relevant.
 
-- **Document any change in behaviour** - Make sure the `CHANGELOG.md` and any other relevant documentation are kept up-to-date.
+- **Document any change in behaviour** - Make sure the relevant documentation are kept up-to-date.
 
 - **Consider our release cycle** - We try to follow [SemVer v2.0.0](https://semver.org/). Randomly breaking public APIs is not an option.
 
