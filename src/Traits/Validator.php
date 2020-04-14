@@ -69,7 +69,7 @@ trait Validator
      *
      * @return bool
      */
-    protected function isJson(string $string): bool
+    protected function is_json(string $string): bool
     {
         json_decode($string);
 
