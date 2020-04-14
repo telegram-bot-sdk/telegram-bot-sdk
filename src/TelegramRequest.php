@@ -12,31 +12,31 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 class TelegramRequest
 {
     /** @var string|null The bot access token to use for this request. */
-    protected $accessToken;
+    protected ?string $accessToken;
 
     /** @var string The HTTP method for this request. */
-    protected $method;
+    protected string $method;
 
     /** @var string The API endpoint for this request. */
-    protected $endpoint;
+    protected string $endpoint;
 
     /** @var array The headers to send with this request. */
-    protected $headers = [];
+    protected array $headers = [];
 
     /** @var array The parameters to send with this request. */
-    protected $params = [];
+    protected array $params = [];
 
     /** @var array The files to send with this request. */
-    protected $files = [];
+    protected array $files = [];
 
     /** @var bool Indicates if the request to Telegram will be asynchronous (non-blocking). */
-    protected $isAsyncRequest = false;
+    protected bool $isAsyncRequest = false;
 
     /** @var int Timeout of the request in seconds. */
-    protected $timeOut;
+    protected int $timeOut;
 
     /** @var int Connection timeout of the request in seconds. */
-    protected $connectTimeOut;
+    protected int $connectTimeOut;
 
     /**
      * Creates a new Request entity.
@@ -48,11 +48,11 @@ class TelegramRequest
      * @param bool        $isAsyncRequest
      */
     public function __construct(
-        $accessToken = null,
-        $method = null,
-        $endpoint = null,
+        string $accessToken = null,
+        string $method = null,
+        string $endpoint = null,
         array $params = [],
-        $isAsyncRequest = false
+        bool $isAsyncRequest = false
     ) {
         $this->setAccessToken($accessToken);
         $this->setMethod($method);
@@ -80,7 +80,7 @@ class TelegramRequest
      *
      * @throws TelegramSDKException
      */
-    public function validateAccessToken()
+    public function validateAccessToken(): void
     {
         if (null === $this->getAccessToken()) {
             throw new TelegramSDKException('You must provide your bot access token to make any API requests.');
@@ -92,7 +92,7 @@ class TelegramRequest
      *
      * @return string|null
      */
-    public function getAccessToken()
+    public function getAccessToken(): ?string
     {
         return $this->accessToken;
     }
@@ -116,13 +116,13 @@ class TelegramRequest
      *
      * @throws TelegramSDKException
      */
-    public function validateMethod()
+    public function validateMethod(): void
     {
-        if (! $this->method) {
+        if (!$this->method) {
             throw new TelegramSDKException('HTTP method not specified.');
         }
 
-        if (! in_array($this->method, ['GET', 'POST'])) {
+        if (!in_array($this->method, ['GET', 'POST'])) {
             throw new TelegramSDKException('Invalid HTTP method specified. Must be GET or POST');
         }
     }
@@ -185,7 +185,7 @@ class TelegramRequest
     public function getDefaultHeaders(): array
     {
         return [
-            'User-Agent' => 'Telegram Bot PHP SDK v'.Api::VERSION.' - (https://github.com/irazasyed/telegram-bot-sdk)',
+            'User-Agent' => 'Telegram Bot API PHP SDK/' . Api::VERSION . ' - (https://github.com/telegram-bot-api/php-sdk)',
         ];
     }
 
@@ -206,11 +206,7 @@ class TelegramRequest
      */
     public function getPostParams(): array
     {
-        if ($this->getMethod() === 'POST') {
-            return $this->getParams();
-        }
-
-        return [];
+        return ($this->getMethod() === 'POST') ? $this->getParams() : [];
     }
 
     /**
