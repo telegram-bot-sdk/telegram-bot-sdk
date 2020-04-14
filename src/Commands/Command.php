@@ -197,7 +197,7 @@ abstract class Command implements CommandInterface
         }
 
         $requiredParams = $required->map(fn ($varName) => "(?P<$varName>[^ ]++)")->implode('\s+?');
-        $optionalParams =$optional->map(fn ($varName) => "(?:\s+?(?P<$varName>[^ ]++))?")->implode('');
+        $optionalParams = $optional->map(fn ($varName) => "(?:\s+?(?P<$varName>[^ ]++))?")->implode('');
 
         return "%/[\w\d]+{$optionalBotName}{$requiredParams}{$optionalParams}{$customRegex}%si";
     }
