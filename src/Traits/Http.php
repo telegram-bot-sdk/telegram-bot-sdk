@@ -18,25 +18,25 @@ trait Http
     use Validator;
 
     /** @var string Telegram Bot API Access Token. */
-    protected $accessToken = null;
+    protected ?string $accessToken = null;
 
     /** @var TelegramClient The Telegram client service. */
-    protected $client = null;
+    protected ?TelegramClient $client = null;
 
     /** @var HttpClientInterface|null Http Client Handler */
-    protected $httpClientHandler = null;
+    protected ?HttpClientInterface $httpClientHandler = null;
 
     /** @var bool Indicates if the request to Telegram will be asynchronous (non-blocking). */
-    protected $isAsyncRequest = false;
+    protected bool $isAsyncRequest = false;
 
     /** @var int Timeout of the request in seconds. */
-    protected $timeOut = 60;
+    protected int $timeOut = 60;
 
     /** @var int Connection timeout of the request in seconds. */
-    protected $connectTimeOut = 10;
+    protected int $connectTimeOut = 10;
 
     /** @var TelegramResponse|null Stores the last request made to Telegram Bot API. */
-    protected $lastResponse;
+    protected ?TelegramResponse $lastResponse;
 
     /**
      * Set Http Client Handler.
@@ -45,7 +45,7 @@ trait Http
      *
      * @return $this
      */
-    public function setHttpClientHandler(HttpClientInterface $httpClientHandler)
+    public function setHttpClientHandler(HttpClientInterface $httpClientHandler): self
     {
         $this->httpClientHandler = $httpClientHandler;
 
@@ -59,11 +59,7 @@ trait Http
      */
     protected function getClient(): TelegramClient
     {
-        if ($this->client === null) {
-            $this->client = new TelegramClient($this->httpClientHandler);
-        }
-
-        return $this->client;
+        return $this->client ??= new TelegramClient($this->httpClientHandler);
     }
 
     /**
@@ -71,7 +67,7 @@ trait Http
      *
      * @return TelegramResponse|null
      */
-    public function getLastResponse()
+    public function getLastResponse(): ?TelegramResponse
     {
         return $this->lastResponse;
     }
@@ -93,7 +89,7 @@ trait Http
      *
      * @return $this
      */
-    public function setAccessToken(string $accessToken)
+    public function setAccessToken(string $accessToken): self
     {
         $this->accessToken = $accessToken;
 
@@ -117,7 +113,7 @@ trait Http
      *
      * @return $this
      */
-    public function setAsyncRequest(bool $isAsyncRequest)
+    public function setAsyncRequest(bool $isAsyncRequest): self
     {
         $this->isAsyncRequest = $isAsyncRequest;
 
@@ -137,7 +133,7 @@ trait Http
      *
      * @return $this
      */
-    public function setTimeOut(int $timeOut)
+    public function setTimeOut(int $timeOut): self
     {
         $this->timeOut = $timeOut;
 
@@ -157,7 +153,7 @@ trait Http
      *
      * @return $this
      */
-    public function setConnectTimeOut(int $connectTimeOut)
+    public function setConnectTimeOut(int $connectTimeOut): self
     {
         $this->connectTimeOut = $connectTimeOut;
 
@@ -170,9 +166,9 @@ trait Http
      * @param string $endpoint
      * @param array  $params
      *
+     * @return TelegramResponse
      * @throws TelegramSDKException
      *
-     * @return TelegramResponse
      */
     protected function get(string $endpoint, array $params = []): TelegramResponse
     {
@@ -188,10 +184,10 @@ trait Http
      * @param array  $params
      * @param bool   $fileUpload Set true if a file is being uploaded.
      *
-     * @throws TelegramSDKException
      * @return TelegramResponse
+     * @throws TelegramSDKException
      */
-    protected function post(string $endpoint, array $params = [], $fileUpload = false): TelegramResponse
+    protected function post(string $endpoint, array $params = [], bool $fileUpload = false): TelegramResponse
     {
         $params = $this->normalizeParams($params, $fileUpload);
 
@@ -208,7 +204,7 @@ trait Http
     protected function replyMarkupToString(array $params): array
     {
         if (isset($params['reply_markup'])) {
-            $params['reply_markup'] = (string) $params['reply_markup'];
+            $params['reply_markup'] = (string)$params['reply_markup'];
         }
 
         return $params;
@@ -222,14 +218,15 @@ trait Http
      * @param array  $params
      * @param string $inputFileField
      *
-     * @throws CouldNotUploadInputFile
-     *
      * @return TelegramResponse
+     * @throws TelegramSDKException
+     *
+     * @throws CouldNotUploadInputFile
      */
-    protected function uploadFile(string $endpoint, array $params, $inputFileField): TelegramResponse
+    protected function uploadFile(string $endpoint, array $params, string $inputFileField): TelegramResponse
     {
         //Check if the field in the $params array (that is being used to send the relative file), is a file id.
-        if (! isset($params[$inputFileField])) {
+        if (!isset($params[$inputFileField])) {
             throw CouldNotUploadInputFile::missingParam($inputFileField);
         }
 
@@ -237,7 +234,7 @@ trait Http
             return $this->post($endpoint, $params);
         }
 
-        //Sending an actual file requires it to be sent using multipart/form-data
+        // Sending an actual file requires it to be sent using multipart/form-data
         return $this->post($endpoint, $this->prepareMultipartParams($params, $inputFileField), true);
     }
 
@@ -247,22 +244,18 @@ trait Http
      * @param array  $params
      * @param string $inputFileField
      *
+     * @return array
      * @throws CouldNotUploadInputFile
      *
-     * @return array
      */
-    protected function prepareMultipartParams(array $params, $inputFileField): array
+    protected function prepareMultipartParams(array $params, string $inputFileField): array
     {
         $this->validateInputFileField($params, $inputFileField);
 
-        //Iterate through all param options and convert to multipart/form-data.
+        // Iterate through all param options and convert to multipart/form-data.
         return collect($params)
-            ->reject(function ($value) {
-                return null === $value;
-            })
-            ->map(function ($contents, $name) {
-                return $this->generateMultipartData($contents, $name);
-            })
+            ->reject(fn($value) => null === $value)
+            ->map(fn($contents, $name) => $this->generateMultipartData($contents, $name))
             ->values()
             ->all();
     }
@@ -275,16 +268,17 @@ trait Http
      *
      * @return array
      */
-    protected function generateMultipartData($contents, $name): array
+    protected function generateMultipartData($contents, string $name): array
     {
-        if (! $this->isInputFile($contents)) {
+        if (!$this->isInputFile($contents)) {
             return compact('name', 'contents');
         }
 
-        $filename = $contents->getFilename();
-        $contents = $contents->getContents();
-
-        return compact('name', 'contents', 'filename');
+        return [
+            'name' => $name,
+            'contents' => $contents->getContents(),
+            'filename' => $contents->getFilename(),
+        ];
     }
 
     /**
@@ -294,11 +288,11 @@ trait Http
      * @param string $endpoint
      * @param array  $params
      *
+     * @return TelegramResponse
      * @throws TelegramSDKException
      *
-     * @return TelegramResponse
      */
-    protected function sendRequest($method, $endpoint, array $params = []): TelegramResponse
+    protected function sendRequest(string $method, string $endpoint, array $params = []): TelegramResponse
     {
         $telegramRequest = $this->resolveTelegramRequest($method, $endpoint, $params);
 
@@ -314,7 +308,7 @@ trait Http
      *
      * @return TelegramRequest
      */
-    protected function resolveTelegramRequest($method, $endpoint, array $params = []): TelegramRequest
+    protected function resolveTelegramRequest(string $method, string $endpoint, array $params = []): TelegramRequest
     {
         return (new TelegramRequest(
             $this->getAccessToken(),
@@ -328,30 +322,32 @@ trait Http
     }
 
     /**
-     * @param array $params
-     * @param $inputFileField
+     * @param array  $params
+     * @param string $inputFileField
      *
      * @throws CouldNotUploadInputFile
      */
-    protected function validateInputFileField(array $params, $inputFileField): void
+    protected function validateInputFileField(array $params, string $inputFileField): void
     {
-        if (! isset($params[$inputFileField])) {
+        if (!isset($params[$inputFileField])) {
             throw CouldNotUploadInputFile::missingParam($inputFileField);
         }
 
         // All file-paths, urls, or file resources should be provided by using the InputFile object
-        if ((! $params[$inputFileField] instanceof InputFile) || (is_string($params[$inputFileField]) && ! $this->is_json($params[$inputFileField]))) {
+        if ((!$params[$inputFileField] instanceof InputFile) || (is_string($params[$inputFileField]) && !$this->isJson(
+                    $params[$inputFileField]
+                ))) {
             throw CouldNotUploadInputFile::inputFileParameterShouldBeInputFileEntity($inputFileField);
         }
     }
 
     /**
      * @param array $params
-     * @param $fileUpload
+     * @param bool  $fileUpload
      *
      * @return array
      */
-    private function normalizeParams(array $params, $fileUpload)
+    protected function normalizeParams(array $params, bool $fileUpload = false): array
     {
         if ($fileUpload) {
             return ['multipart' => $params];

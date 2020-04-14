@@ -43,7 +43,7 @@ trait Validator
      */
     protected function isFileId($value): bool
     {
-        if (! is_string($value)) {
+        if (!is_string($value)) {
             return false;
         }
 
@@ -57,18 +57,19 @@ trait Validator
      *
      * @return bool
      */
-    protected function isUrl($value): bool
+    protected function isUrl(string $value): bool
     {
-        return (bool) filter_var($value, FILTER_VALIDATE_URL);
+        return (bool)filter_var($value, FILTER_VALIDATE_URL);
     }
 
     /**
      * Determine given string is a json object.
      *
      * @param string $string A json string
+     *
      * @return bool
      */
-    protected function is_json($string): bool
+    protected function isJson(string $string): bool
     {
         json_decode($string);
 

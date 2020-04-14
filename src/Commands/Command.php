@@ -14,81 +14,17 @@ abstract class Command implements CommandInterface
 {
     use Answerable;
 
-    /**
-     * The name of the Telegram command.
-     * Ex: help - Whenever the user sends /help, this would be resolved.
-     *
-     * @var string
-     */
-    protected $name;
-
-    /** @var string[] Command Aliases - Helpful when you want to trigger command with more than one name. */
-    protected $aliases = [];
-
     /** @var string The Telegram command description. */
-    protected $description;
+    protected string $description;
 
     /** @var array Holds parsed command arguments */
-    protected $arguments = [];
+    protected array $arguments = [];
 
     /** @var string Command Argument Pattern */
-    protected $pattern = '';
+    protected string $pattern = '';
 
     /** @var array|null Details of the current entity this command is responding to - offset, length, type etc */
-    protected $entity;
-
-    /**
-     * Get the Command Name.
-     *
-     * The name of the Telegram command.
-     * Ex: help - Whenever the user sends /help, this would be resolved.
-     *
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set Command Name.
-     *
-     * @param $name
-     *
-     * @return Command
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get Command Aliases.
-     *
-     * Helpful when you want to trigger command with more than one name.
-     *
-     * @return array
-     */
-    public function getAliases(): array
-    {
-        return $this->aliases;
-    }
-
-    /**
-     * Set Command Aliases.
-     *
-     * @param string|array $aliases
-     *
-     * @return Command
-     */
-    public function setAliases($aliases): self
-    {
-        $this->aliases = is_array($aliases) ? $aliases : [$aliases];
-
-        return $this;
-    }
+    protected ?array $entity;
 
     /**
      * Get Command Description.
@@ -182,11 +118,11 @@ abstract class Command implements CommandInterface
         $this->entity = $entity;
         $this->arguments = $this->parseCommandArguments();
 
-        return call_user_func_array([$this, 'handle'], $this->getArguments());
+        return $this->handle();
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     abstract public function handle();
 
@@ -196,6 +132,7 @@ abstract class Command implements CommandInterface
      * @param string $command
      *
      * @return mixed
+     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
      */
     protected function triggerCommand(string $command)
     {
@@ -236,7 +173,7 @@ abstract class Command implements CommandInterface
      *
      * @return Collection
      */
-    private function extractVariableNames($regex)
+    private function extractVariableNames($regex): Collection
     {
         preg_match_all($regex, $this->pattern, $matches);
 
@@ -251,7 +188,7 @@ abstract class Command implements CommandInterface
      *
      * @return string
      */
-    private function prepareRegex(Collection $required, Collection $optional, $customRegex)
+    private function prepareRegex(Collection $required, Collection $optional, $customRegex): string
     {
         $optionalBotName = '(?:@.+?bot)?\s+?';
 
@@ -259,19 +196,10 @@ abstract class Command implements CommandInterface
             $customRegex = "(?P<custom>$customRegex)";
         }
 
-        $required = $required
-            ->map(function ($varName) {
-                return "(?P<$varName>[^ ]++)";
-            })
-            ->implode('\s+?');
+        $requiredParams = $required->map(fn($varName) => "(?P<$varName>[^ ]++)")->implode('\s+?');
+        $optionalParams =$optional->map(fn($varName) => "(?:\s+?(?P<$varName>[^ ]++))?")->implode('');
 
-        $optional = $optional
-            ->map(function ($varName) {
-                return "(?:\s+?(?P<$varName>[^ ]++))?";
-            })
-            ->implode('');
-
-        return "%/{$this->getName()}{$optionalBotName}{$required}{$optional}{$customRegex}%si";
+        return "%/[\w\d]+{$optionalBotName}{$requiredParams}{$optionalParams}{$customRegex}%si";
     }
 
     private function formatMatches(array $matches, Collection $required, Collection $optional)
@@ -289,7 +217,7 @@ abstract class Command implements CommandInterface
         ) : [];
     }
 
-    private function checkForCustomRegex(Collection $required, Collection $optional)
+    protected function checkForCustomRegex(Collection $required, Collection $optional): string
     {
         if ($this->pattern && $required->isEmpty() && $optional->isEmpty()) {
             return $this->pattern;
@@ -335,12 +263,12 @@ abstract class Command implements CommandInterface
     /**
      * @return Collection
      */
-    private function allCommandOffsets()
+    private function allCommandOffsets(): Collection
     {
-        return $this->getUpdate()->getMessage()->getEntities()
-            ->filter(function ($entity) {
-                return $entity['type'] === 'bot_command';
-            })
+        return $this->getUpdate()
+            ->getMessage()
+            ->entities
+            ->filter(fn($entity) => $entity['type'] === 'bot_command')
             ->pluck('offset');
     }
 }

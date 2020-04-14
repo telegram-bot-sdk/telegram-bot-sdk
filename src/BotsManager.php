@@ -9,17 +9,19 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 
 /**
  * Class BotsManager.
+ *
+ * @mixin Api
  */
 class BotsManager
 {
     /** @var array The config instance. */
-    protected $config;
+    protected array $config;
 
     /** @var Container The container instance. */
-    protected $container;
+    protected Container $container;
 
     /** @var Api[] The active bot instances. */
-    protected $bots = [];
+    protected array $bots = [];
 
     /**
      * TelegramManager constructor.
@@ -50,17 +52,16 @@ class BotsManager
      *
      * @param string|null $name
      *
-     * @throws InvalidArgumentException
-     *
      * @return array
+     * @throws InvalidArgumentException
      */
     public function getBotConfig($name = null): array
     {
-        $name = $name ?? $this->getDefaultBotName();
+        $name ??= $this->getDefaultBotName();
 
         $bots = collect($this->getConfig('bots'));
 
-        if (! $config = $bots->get($name, null)) {
+        if (!$config = $bots->get($name, null)) {
             throw new InvalidArgumentException("Bot [$name] not configured.");
         }
 
@@ -74,18 +75,14 @@ class BotsManager
      *
      * @param string $name
      *
-     * @throws TelegramSDKException
      * @return Api
+     * @throws TelegramSDKException
      */
     public function bot($name = null): Api
     {
-        $name = $name ?? $this->getDefaultBotName();
+        $name ??= $this->getDefaultBotName();
 
-        if (! isset($this->bots[$name])) {
-            $this->bots[$name] = $this->makeBot($name);
-        }
-
-        return $this->bots[$name];
+        return $this->bots[$name] ??= $this->makeBot($name);
     }
 
     /**
@@ -93,12 +90,11 @@ class BotsManager
      *
      * @param string $name
      *
-     * @throws TelegramSDKException
      * @return Api
+     * @throws TelegramSDKException
      */
     public function reconnect($name = null): Api
     {
-        $name = $name ?? $this->getDefaultBotName();
         $this->disconnect($name);
 
         return $this->bot($name);
@@ -113,7 +109,7 @@ class BotsManager
      */
     public function disconnect($name = null): self
     {
-        $name = $name ?? $this->getDefaultBotName();
+        $name ??= $this->getDefaultBotName();
         unset($this->bots[$name]);
 
         return $this;
@@ -137,7 +133,7 @@ class BotsManager
      *
      * @return string|null
      */
-    public function getDefaultBotName()
+    public function getDefaultBotName(): ?string
     {
         return $this->getConfig('default');
     }
@@ -148,10 +144,13 @@ class BotsManager
      * @param string $name
      *
      * @return BotsManager
+     * @throws TelegramSDKException
      */
     public function setDefaultBot($name): self
     {
         Arr::set($this->config, 'default', $name);
+
+        $this->reconnect($name);
 
         return $this;
     }
@@ -175,7 +174,7 @@ class BotsManager
      */
     protected function deduplicateArray(array $array): array
     {
-        return array_values(array_unique($array));
+        return array_unique($array);
     }
 
     /**
@@ -183,28 +182,25 @@ class BotsManager
      *
      * @param string $name
      *
-     * @throws TelegramSDKException
      * @return Api
+     * @throws TelegramSDKException
      */
     protected function makeBot($name): Api
     {
         $config = $this->getBotConfig($name);
 
-        $token = data_get($config, 'token');
-
         $telegram = new Api(
-            $token,
+            data_get($config, 'token'),
             $this->getConfig('async_requests', false),
             $this->getConfig('http_client_handler', null)
         );
 
         // Check if DI needs to be enabled for Commands
-        if ($this->getConfig('resolve_command_dependencies', false) && isset($this->container)) {
+        if (isset($this->container) && $this->getConfig('resolve_command_dependencies', false)) {
             $telegram->setContainer($this->container);
         }
 
-        $commands = data_get($config, 'commands', []);
-        $commands = $this->parseBotCommands($commands);
+        $commands = $this->parseBotCommands(data_get($config, 'commands', []));
 
         // Register Commands
         $telegram->addCommands($commands);
@@ -236,38 +232,28 @@ class BotsManager
      */
     protected function parseCommands(array $commands): array
     {
-        if (! is_array($commands)) {
-            return $commands;
-        }
-
         $commandGroups = $this->getConfig('command_groups');
         $sharedCommands = $this->getConfig('shared_commands');
 
-        //TODO: This is ripe for refactor / collections.
-        $results = [];
-        foreach ($commands as $command) {
-            // If the command is a group, we'll parse through the group of commands
-            // and resolve the full class name.
-            if (isset($commandGroups[$command])) {
-                $results = array_merge(
-                    $results, $this->parseCommands($commandGroups[$command])
-                );
+        return collect($commands)
+            ->flatMap(
+                function ($command, $name) use ($commandGroups, $sharedCommands) {
+                    // If the command is a group, we'll parse through the group of commands
+                    // and resolve the full class name.
+                    if (isset($commandGroups[$command])) {
+                        return $this->parseCommands($commandGroups[$command]);
+                    }
 
-                continue;
-            }
+                    // If this command is actually a shared command, we'll extract the full
+                    // class name out of the command list now.
+                    if (isset($sharedCommands[$command])) {
+                        $name = $command;
+                        $command = $sharedCommands[$command];
+                    }
 
-            // If this command is actually a shared command, we'll extract the full
-            // class name out of the command list now.
-            if (isset($sharedCommands[$command])) {
-                $command = $sharedCommands[$command];
-            }
-
-            if (! in_array($command, $results)) {
-                $results[] = $command;
-            }
-        }
-
-        return $results;
+                    return [$name => $command];
+                }
+            )->all();
     }
 
     /**
@@ -276,11 +262,11 @@ class BotsManager
      * @param string $method
      * @param array  $parameters
      *
-     * @throws TelegramSDKException
      * @return mixed
+     * @throws TelegramSDKException
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array([$this->bot(), $method], $parameters);
+        return $this->bot()->{$method}(...$parameters);
     }
 }

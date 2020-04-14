@@ -10,6 +10,23 @@ use Telegram\Bot\Objects\Update;
  */
 trait CommandsHandler
 {
+    /** @var CommandBus Command Bus */
+    protected CommandBus $commandBus;
+
+    /**
+     * Set command bus.
+     *
+     * @param CommandBus $commandBus
+     *
+     * @return $this
+     */
+    protected function setCommandBus(CommandBus $commandBus): self
+    {
+        $this->commandBus = $commandBus;
+
+        return $this;
+    }
+
     /**
      * Return Command Bus.
      *
@@ -17,7 +34,7 @@ trait CommandsHandler
      */
     protected function getCommandBus(): CommandBus
     {
-        return CommandBus::Instance()->setTelegram($this);
+        return $this->commandBus ??= new CommandBus($this);
     }
 
     /**
@@ -70,8 +87,8 @@ trait CommandsHandler
             $this->processCommand($update);
         }
 
-        //An update is considered confirmed as soon as getUpdates is called with an offset higher than it's update_id.
-        if ($highestId != -1) {
+        // An update is considered confirmed as soon as getUpdates is called with an offset higher than it's update_id.
+        if ($highestId !== -1) {
             $this->markUpdateAsRead($highestId);
         }
 
@@ -98,10 +115,12 @@ trait CommandsHandler
      * Check update object for a command and process.
      *
      * @param Update $update
+     *
+     * @return Update
      */
-    public function processCommand(Update $update)
+    public function processCommand(Update $update): Update
     {
-        $this->getCommandBus()->handler($update);
+        return $this->getCommandBus()->handler($update);
     }
 
     /**

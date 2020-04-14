@@ -17,9 +17,9 @@ abstract class AnswerBus
      * @param string $method
      * @param array  $parameters
      *
+     * @return mixed
      * @throws \BadMethodCallException
      *
-     * @return mixed
      */
     public function __call($method, $parameters)
     {
@@ -36,11 +36,13 @@ abstract class AnswerBus
      * @param $answerClass
      *
      * @return object
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws \ReflectionException
      */
     protected function buildDependencyInjectedAnswer($answerClass)
     {
         // check if the command has a constructor
-        if (! method_exists($answerClass, '__construct')) {
+        if (!method_exists($answerClass, '__construct')) {
             return new $answerClass();
         }
 

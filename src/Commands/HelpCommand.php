@@ -7,23 +7,11 @@ namespace Telegram\Bot\Commands;
  */
 class HelpCommand extends Command
 {
-    /**
-     * @var string Command Name
-     */
-    protected $name = 'help';
+    /** @var string Command Description */
+    protected string $description = 'Help command, Get a list of commands';
 
     /**
-     * @var array Command Aliases
-     */
-    protected $aliases = ['listcommands'];
-
-    /**
-     * @var string Command Description
-     */
-    protected $description = 'Help command, Get a list of commands';
-
-    /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function handle()
     {
@@ -32,7 +20,8 @@ class HelpCommand extends Command
         $text = '';
         foreach ($commands as $name => $handler) {
             /* @var Command $handler */
-            $text .= sprintf('/%s - %s'.PHP_EOL, $name, $handler->getDescription());
+            $handler = $this->getCommandBus()->resolveCommand($handler);
+            $text .= sprintf('/%s - %s' . PHP_EOL, $name, $handler->getDescription());
         }
 
         $this->replyWithMessage(compact('text'));

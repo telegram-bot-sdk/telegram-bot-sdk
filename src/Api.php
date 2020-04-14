@@ -36,17 +36,18 @@ class Api
         Methods\Update;
 
     /** @var string Version number of the Telegram Bot PHP SDK. */
-    const VERSION = '3.0.0';
+    public const VERSION = '4.0.0';
 
     /** @var string The name of the environment variable that contains the Telegram Bot API Access Token. */
-    const BOT_TOKEN_ENV_NAME = 'TELEGRAM_BOT_TOKEN';
+    public const BOT_TOKEN_ENV_NAME = 'TELEGRAM_BOT_TOKEN';
 
     /**
      * Instantiates a new Telegram super-class object.
      *
      *
      * @param string                   $token             The Telegram Bot API Access Token.
-     * @param bool                     $async             (Optional) Indicates if the request to Telegram will be asynchronous (non-blocking).
+     * @param bool                     $async             (Optional) Indicates if the request to Telegram will be
+     *                                                    asynchronous (non-blocking).
      * @param HttpClientInterface|null $httpClientHandler (Optional) Custom HTTP Client Handler.
      *
      * @throws TelegramSDKException
@@ -90,12 +91,12 @@ class Api
         }
 
         if (method_exists($this, $method)) {
-            return call_user_func_array([$this, $method], $arguments);
+            return $this->{$method}(...$arguments);
         }
 
-        //If the method does not exist on the API, try the commandBus.
+        // If the method does not exist on the API, try the commandBus.
         if (preg_match('/^\w+Commands?/', $method, $matches)) {
-            return call_user_func_array([$this->getCommandBus(), $matches[0]], $arguments);
+            return $this->getCommandBus()->{$matches[0]}(...$arguments);
         }
 
         throw new BadMethodCallException("Method [$method] does not exist.");
@@ -104,9 +105,9 @@ class Api
     /**
      * @throws TelegramSDKException
      */
-    private function validateAccessToken()
+    protected function validateAccessToken(): void
     {
-        if (! $this->accessToken || ! is_string($this->accessToken)) {
+        if (!$this->accessToken || !is_string($this->accessToken)) {
             throw TelegramSDKException::tokenNotProvided(static::BOT_TOKEN_ENV_NAME);
         }
     }
