@@ -9,24 +9,16 @@ use Telegram\Bot\Answers\AnswerBus;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Update;
-use Telegram\Bot\Traits\Singleton;
 
 /**
  * Class CommandBus.
  */
 class CommandBus extends AnswerBus
 {
-    use Singleton;
-
     /**
      * @var Command[] Holds all commands.
      */
-    protected $commands = [];
-
-    /**
-     * @var Command[] Holds all commands' aliases.
-     */
-    protected $commandAliases = [];
+    protected array $commands = [];
 
     /**
      * Instantiate Command Bus.
