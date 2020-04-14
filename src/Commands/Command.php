@@ -196,8 +196,8 @@ abstract class Command implements CommandInterface
             $customRegex = "(?P<custom>$customRegex)";
         }
 
-        $requiredParams = $required->map(fn($varName) => "(?P<$varName>[^ ]++)")->implode('\s+?');
-        $optionalParams =$optional->map(fn($varName) => "(?:\s+?(?P<$varName>[^ ]++))?")->implode('');
+        $requiredParams = $required->map(fn ($varName) => "(?P<$varName>[^ ]++)")->implode('\s+?');
+        $optionalParams =$optional->map(fn ($varName) => "(?:\s+?(?P<$varName>[^ ]++))?")->implode('');
 
         return "%/[\w\d]+{$optionalBotName}{$requiredParams}{$optionalParams}{$customRegex}%si";
     }
@@ -268,7 +268,7 @@ abstract class Command implements CommandInterface
         return $this->getUpdate()
             ->getMessage()
             ->entities
-            ->filter(fn($entity) => $entity['type'] === 'bot_command')
+            ->filter(fn ($entity) => $entity['type'] === 'bot_command')
             ->pluck('offset');
     }
 }

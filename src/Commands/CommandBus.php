@@ -141,7 +141,7 @@ class CommandBus extends AnswerBus
         $message = $update->getMessage();
 
         if ($message->has('entities')) {
-            $this->parseCommandsIn($message)->each(fn(array $botCommand) => $this->process($botCommand, $update));
+            $this->parseCommandsIn($message)->each(fn (array $botCommand) => $this->process($botCommand, $update));
         }
 
         return $update;
@@ -157,7 +157,7 @@ class CommandBus extends AnswerBus
     protected function parseCommandsIn(Collection $message): Collection
     {
         return collect($message->get('entities'))
-            ->filter(fn($entity) => $entity['type'] === 'bot_command');
+            ->filter(fn ($entity) => $entity['type'] === 'bot_command');
     }
 
     /**
@@ -192,8 +192,8 @@ class CommandBus extends AnswerBus
     public function execute(string $name, Update $update, array $entity)
     {
         $command = $this->commands[$name] ?? collect($this->commands)->filter(
-                fn($command) => $command instanceof $name
-            )->first();
+            fn ($command) => $command instanceof $name
+        )->first();
 
         if ($command === null) {
             return false;

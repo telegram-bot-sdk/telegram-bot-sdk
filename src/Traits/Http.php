@@ -254,8 +254,8 @@ trait Http
 
         // Iterate through all param options and convert to multipart/form-data.
         return collect($params)
-            ->reject(fn($value) => null === $value)
-            ->map(fn($contents, $name) => $this->generateMultipartData($contents, $name))
+            ->reject(fn ($value) => null === $value)
+            ->map(fn ($contents, $name) => $this->generateMultipartData($contents, $name))
             ->values()
             ->all();
     }
@@ -335,8 +335,8 @@ trait Http
 
         // All file-paths, urls, or file resources should be provided by using the InputFile object
         if ((!$params[$inputFileField] instanceof InputFile) || (is_string($params[$inputFileField]) && !$this->isJson(
-                    $params[$inputFileField]
-                ))) {
+            $params[$inputFileField]
+        ))) {
             throw CouldNotUploadInputFile::inputFileParameterShouldBeInputFileEntity($inputFileField);
         }
     }
