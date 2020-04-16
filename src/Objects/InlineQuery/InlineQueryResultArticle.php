@@ -2,7 +2,6 @@
 
 namespace Telegram\Bot\Objects\InlineQuery;
 
-
 /**
  * Class InlineQueryResultArticle.
  *
