@@ -116,7 +116,7 @@ class CommandBus extends AnswerBus
             throw new InvalidArgumentException('Message is empty, Cannot parse for command');
         }
 
-        return Str::between(substr($text, $offset, $length), '/', '@');
+        return Parser::between(substr($text, $offset, $length), '/', '@');
     }
 
     /**

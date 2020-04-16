@@ -113,7 +113,7 @@ class Parser
                         return sprintf(
                             '(?:\s+?(?P<%s>%s))?',
                             $param->getName(),
-                            Str::between($param->getDefaultValue(), '{', '}')
+                            self::between($param->getDefaultValue(), '{', '}')
                         );
                     }
 
@@ -190,5 +190,24 @@ class Parser
             ->entities
             ->filter(fn ($entity) => $entity['type'] === 'bot_command')
             ->pluck('offset');
+    }
+
+    /**
+     * Get the portion of a string between a given values.
+     *
+     * @param  string  $subject
+     * @param  string  $before
+     * @param  string  $after
+     * @return string
+     */
+    public static function between($subject, $before, $after)
+    {
+        if ($before === '' || $after === '') {
+            return $subject;
+        }
+
+        $rightCropped = Str::after($subject, $before);
+
+        return Str::beforeLast($rightCropped, $after);
     }
 }
