@@ -34,13 +34,16 @@
     "ext-json": "*",
     "guzzlehttp/guzzle": "^6.3 || 7.0",
     "guzzlehttp/psr7": "^1.3",
-    "illuminate/support": "^6.0 || ^7.0",
     "illuminate/container": "^6.0 || ^7.0",
+    "illuminate/support": "^6.0 || ^7.0",
     "league/event": "^2.1"
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.3",
     "phpunit/phpunit": ">=8.5"
+  },
+  "suggest": {
+    "irazasyed/larasupport": "Allows you to use any Laravel Package in Lumen by adding support!"
   },
   "config": {
     "preferred-install": "dist",
