@@ -7,19 +7,15 @@ namespace Telegram\Bot\Objects;
  *
  * Contains information about the current status of a webhook.
  *
- * @link https://core.telegram.org/bots/api#webhookinfo
+ * @link https://core.telegram.org/bots/api#webhooki    nfo
  *
- * @property string $url                  Webhook URL, may be empty if webhook is not set up
- * @property bool   $hasCustomCertificate True, if a custom certificate was provided for webhook certificate checks
- * @property int    $pendingUpdateCount   Number of updates awaiting delivery
- * @property int    $lastErrorDate        (Optional). Unix time for the most recent error that happened when trying to
- *           deliver an update via webhook
- * @property string $lastErrorMessage     (Optional). Error message in human-readable format for the most recent error
- *           that happened when trying to deliver an update via webhook
- * @property int    $maxConnections       (Optional). Maximum allowed number of simultaneous HTTPS connections to the
- *           webhook for update delivery
- * @property array  $allowedUpdates       (Optional). A list of update types the bot is subscribed to. Defaults to all
- *           update types
+ * @property string $url                   Webhook URL, may be empty if webhook is not set up
+ * @property bool   $hasCustomCertificate  True, if a custom certificate was provided for webhook certificate checks
+ * @property int    $pendingUpdateCount    Number of updates awaiting delivery
+ * @property int    $lastErrorDate         (Optional). Unix time for the most recent error that happened when trying to deliver an update via webhook
+ * @property string $lastErrorMessage      (Optional). Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
+ * @property int    $maxConnections        (Optional). Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
+ * @property array  $allowedUpdates        (Optional). A list of update types the bot is subscribed to. Defaults to all update types
  */
 class WebhookInfo extends BaseObject
 {

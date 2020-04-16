@@ -3,6 +3,9 @@
 namespace Telegram\Bot\Objects;
 
 /**
+ *
+ * @link https://core.telegram.org/bots/api#videonote
+ *
  * @property string    $fileId         Unique identifier for this file.
  * @property string    $fileUniqueId   Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
  * @property int       $length         Video width and height as defined by sender.
@@ -10,7 +13,6 @@ namespace Telegram\Bot\Objects;
  * @property PhotoSize $thumb          (Optional). Video thumbnail.
  * @property int       $fileSize       (Optional). File size.
  *
- * @link https://core.telegram.org/bots/api#videonote
  */
 class VideoNote extends BaseObject
 {

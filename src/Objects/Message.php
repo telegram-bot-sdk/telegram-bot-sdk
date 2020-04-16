@@ -9,6 +9,8 @@ use Telegram\Bot\Objects\Payments\SuccessfulPayment;
 /**
  * Class Message.
  *
+ * @link https://core.telegram.org/bots/api#message
+ *
  * @property int               $messageId              Unique message identifier.
  * @property User              $from                   (Optional). Sender, can be empty for messages sent to channels.
  * @property int               $date                   Date the message was sent in Unix time.
@@ -98,7 +100,7 @@ class Message extends BaseObject
     /**
      * Determine if the message is of given type.
      *
-     * @param  string  $type
+     * @param string $type
      *
      * @return bool
      */
@@ -156,6 +158,6 @@ class Message extends BaseObject
      */
     public function hasCommand()
     {
-        return (bool) $this->get('entities', collect())->contains('type', 'bot_command');
+        return (bool)$this->get('entities', collect())->contains('type', 'bot_command');
     }
 }

@@ -9,29 +9,21 @@ use Telegram\Bot\Objects\Payments\ShippingQuery;
 /**
  * Class Update.
  *
- *
- * @property int                $updateId               The update's unique identifier. Update identifiers start from a
- *                                                      certain positive number and increase sequentially.
- * @property Message            $message                (Optional). New incoming message of any kind - text, photo,
- *                                                      sticker, etc.
- * @property EditedMessage      $editedMessage          (Optional). New version of a message that is known to the bot
- *                                                      and was edited.
- * @property Message            $channelPost            (Optional).Optional. New incoming channel post of any kind —
- *           text, photo, sticker, etc.
- * @property EditedMessage      $editedChannelPost      (Optional). New version of a channel post that is known to the
- *                                                      bot and was edited sticker, etc.
- * @property InlineQuery        $inlineQuery            (Optional). New incoming inline query.
- * @property ChosenInlineResult $chosenInlineResult     (Optional). A result of an inline query that was chosen by the
- *                                                      user and sent to their chat partner.
- * @property CallbackQuery      $callbackQuery          (Optional). Incoming callback query.
- * @property ShippingQuery      $shippingQuery          (Optional). New incoming shipping query. Only for invoices with
- *                                                      flexible price
- * @property PreCheckoutQuery   $preCheckoutQuery       (Optional). New incoming pre-checkout query. Contains full
- *                                                      information about checkout
- * @property Poll               $poll                   (Optional). Optional. New poll state. Bots receive only updates
- *           about stopped polls and polls, which are sent by the bot
- *
  * @link https://core.telegram.org/bots/api#update
+ *
+ * @property int                $updateId            The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially.
+ * @property Message            $message             (Optional). New incoming message of any kind - text, photo, sticker, etc.
+ * @property EditedMessage      $editedMessage       (Optional). New version of a message that is known to the bot and was edited.
+ * @property Message            $channelPost         (Optional).(Optional). New incoming channel post of any kind — text, photo, sticker, etc.
+ * @property EditedMessage      $editedChannelPost   (Optional). New version of a channel post that is known to the bot and was edited sticker, etc.
+ * @property InlineQuery        $inlineQuery         (Optional). New incoming inline query.
+ * @property ChosenInlineResult $chosenInlineResult  (Optional). A result of an inline query that was chosen by the user and sent to their chat partner.
+ * @property CallbackQuery      $callbackQuery       (Optional). Incoming callback query.
+ * @property ShippingQuery      $shippingQuery       (Optional). New incoming shipping query. Only for invoices with flexible price
+ * @property PreCheckoutQuery   $preCheckoutQuery    (Optional). New incoming pre-checkout query. Contains full information about checkout
+ * @property Poll               $poll                (Optional). New poll state. Bots receive only updates about stopped polls and polls, which are sent by the bot
+ * @property PollAnswer         $pollAnswer          (Optional). A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself.
+ *
  */
 class Update extends BaseObject
 {
@@ -41,16 +33,17 @@ class Update extends BaseObject
     public function relations(): array
     {
         return [
-            'message' => Message::class,
-            'edited_message' => EditedMessage::class,
-            'channel_post' => Message::class,
-            'edited_channel_post' => EditedMessage::class,
-            'inline_query' => InlineQuery::class,
+            'message'              => Message::class,
+            'edited_message'       => EditedMessage::class,
+            'channel_post'         => Message::class,
+            'edited_channel_post'  => EditedMessage::class,
+            'inline_query'         => InlineQuery::class,
             'chosen_inline_result' => ChosenInlineResult::class,
-            'callback_query' => CallbackQuery::class,
-            'shipping_query' => ShippingQuery::class,
-            'pre_checkout_query' => PreCheckoutQuery::class,
-            'poll' => Poll::class,
+            'callback_query'       => CallbackQuery::class,
+            'shipping_query'       => ShippingQuery::class,
+            'pre_checkout_query'   => PreCheckoutQuery::class,
+            'poll'                 => Poll::class,
+            'poll_answer'          => PollAnswer::class,
         ];
     }
 
@@ -98,6 +91,7 @@ class Update extends BaseObject
             'shipping_query',
             'pre_checkout_query',
             'poll',
+            'poll_answer',
         ];
 
         return $this->keys()
@@ -137,6 +131,8 @@ class Update extends BaseObject
                 return $this->preCheckoutQuery;
             case 'poll':
                 return $this->poll;
+            case 'poll_answer':
+                return $this->pollAnswer;
         }
 
         return collect();

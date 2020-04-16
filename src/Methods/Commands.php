@@ -2,12 +2,13 @@
 
 namespace Telegram\Bot\Methods;
 
-use Telegram\Bot\Traits\Http;
-use Telegram\Bot\Objects\BotCommand;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\BotCommand;
+use Telegram\Bot\Traits\Http;
 
 /**
  * Class Commands.
+ *
  * @mixin Http
  */
 trait Commands
@@ -18,17 +19,19 @@ trait Commands
      *
      * @link https://core.telegram.org/bots/api#getmycommands
      *
-     * @return BotCommand[]
      * @throws TelegramSDKException
+     * @return BotCommand[]
      */
     public function getMyCommands(): array
     {
         $response = $this->get('getMyCommands');
 
         return collect($response->getResult())
-            ->map(function ($botCommand) {
-                return new BotCommand($botCommand);
-            })
+            ->map(
+                function ($botCommand) {
+                    return new BotCommand($botCommand);
+                }
+            )
             ->all();
     }
 
@@ -37,23 +40,18 @@ trait Commands
      *
      * <code>
      * $params = [
-     *   'commands'              => '',
-     * ];
+     *      'commands'  => '',  // array - Required. A JSON-serialized list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
+     * ]
      * </code>
      *
      * @link https://core.telegram.org/bots/api#setmycommands
      *
-     * @param array $params   [
-     *
-     * @var array   $commands Required. A JSON-serialized list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
-     *
-     * ]
+     * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return Bool
+     * @return bool
      */
-    public function setMyCommands(array $params): Bool
+    public function setMyCommands(array $params): bool
     {
         $params['commands'] = json_encode($params['commands']);
 
