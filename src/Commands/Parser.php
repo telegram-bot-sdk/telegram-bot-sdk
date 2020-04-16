@@ -18,6 +18,9 @@ class Parser
     /** @var CommandInterface|string */
     protected $command;
 
+    /** @var Collection|array Hold command params */
+    protected $params;
+
     /**
      * @param $command
      *
@@ -69,45 +72,6 @@ class Parser
     }
 
     /**
-     * Get all command handle params except typehinted classes.
-     *
-     * @throws \ReflectionException
-     * @return Collection
-     */
-    protected function getAllParams(): Collection
-    {
-        $reflection = new ReflectionMethod($this->command, 'handle');
-
-        // Get all params except typehinted classes.
-        return collect($reflection->getParameters())->reject(fn (ReflectionParameter $param) => $param->getClass());
-    }
-
-    protected function makeCommandArgumentsPattern(): string
-    {
-        $pattern = $this->getAllParams()->map(
-            static function (ReflectionParameter $param) {
-                if ($param->isOptional() && $param->isDefaultValueAvailable()) {
-                    if (Str::is('{*}', $param->getDefaultValue())) {
-                        return sprintf(
-                            '(?:\s+?(?P<%s>%s))?',
-                            $param->getName(),
-                            Str::between($param->getDefaultValue(), '{', '}')
-                        );
-                    }
-
-                    return "(?:\s+?(?P<{$param->getName()}>[^ ]++))?";
-                }
-
-                return "(?P<{$param->getName()}>[^ ]++)";
-            }
-        )->implode('');
-
-        $optionalBotName = '(?:@.+?bot)?\s+?';
-
-        return "%/[\w]+{$optionalBotName}{$pattern}%si";
-    }
-
-    /**
      * Parse Command Arguments.
      *
      * @throws \ReflectionException
@@ -119,6 +83,52 @@ class Parser
         $regexParams = $this->getNullifiedRegexParams();
 
         return collect($regexParams)->merge($matches)->all();
+    }
+
+    /**
+     * Get all command handle params except typehinted classes.
+     *
+     * @throws \ReflectionException
+     * @return Collection
+     */
+    protected function getAllParams(): Collection
+    {
+        return $this->params ??= collect((new ReflectionMethod($this->command, 'handle'))->getParameters())
+            ->reject(fn (ReflectionParameter $param) => $param->getClass());
+    }
+
+    /**
+     * Make command arguments regex pattern.
+     *
+     * @throws \ReflectionException
+     * @return string
+     */
+    protected function makeCommandArgumentsPattern(): string
+    {
+        $pattern = $this->getAllParams()->map(
+            static function (ReflectionParameter $param) {
+                if ($param->isOptional() && $param->isDefaultValueAvailable()) {
+                    // Regex param
+                    if (Str::is('{*}', $param->getDefaultValue())) {
+                        return sprintf(
+                            '(?:\s+?(?P<%s>%s))?',
+                            $param->getName(),
+                            Str::between($param->getDefaultValue(), '{', '}')
+                        );
+                    }
+
+                    // Optional param
+                    return "(?:\s+?(?P<{$param->getName()}>[^ ]++))?";
+                }
+
+                // Required param
+                return "(?P<{$param->getName()}>[^ ]++)";
+            }
+        )->implode('');
+
+        // Ex: /start@Somebot <arg> ...<arg>
+        // Ex: /start <arg> ...<arg>
+        return "%/[\w]+(?:@.+?bot)?\s+?{$pattern}%si";
     }
 
     /**
