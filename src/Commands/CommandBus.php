@@ -5,6 +5,8 @@ namespace Telegram\Bot\Commands;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use ReflectionMethod;
+use ReflectionParameter;
 use Telegram\Bot\Answers\AnswerBus;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -57,8 +59,8 @@ class CommandBus extends AnswerBus
     /**
      * Add a command to the commands list.
      *
-     * @param string                  $command Either an object or full path to the command class.
-     * @param CommandInterface|string $commandClass
+     * @param string                  $command      Command name.
+     * @param CommandInterface|string $commandClass Either an object or full path to the command class.
      *
      * @return $this
      */
@@ -72,11 +74,11 @@ class CommandBus extends AnswerBus
     /**
      * Remove a command from the list.
      *
-     * @param $name
+     * @param string $name Command name.
      *
      * @return $this
      */
-    public function removeCommand($name): self
+    public function removeCommand(string $name): self
     {
         unset($this->commands[$name]);
 
@@ -114,19 +116,7 @@ class CommandBus extends AnswerBus
             throw new InvalidArgumentException('Message is empty, Cannot parse for command');
         }
 
-        $command = substr(
-            $text,
-            $offset + 1,
-            $length - 1
-        );
-
-        // When in group - Ex: /command@MyBot
-        if (Str::contains($command, '@') && Str::endsWith($command, ['bot', 'Bot'])) {
-            $command = explode('@', $command);
-            $command = $command[0];
-        }
-
-        return $command;
+        return Str::between(substr($text, $offset, $length), '/', '@');
     }
 
     /**
@@ -182,73 +172,108 @@ class CommandBus extends AnswerBus
     /**
      * Execute the command.
      *
-     * @param string $name
-     * @param Update $update
-     * @param array  $entity
+     * @param CommandInterface|string $name
+     * @param Update                  $update
+     * @param array                   $entity
      *
-     * @return mixed
      * @throws TelegramSDKException
+     * @return mixed
      */
-    public function execute(string $name, Update $update, array $entity)
+    public function execute($name, Update $update, array $entity)
     {
-        $command = $this->commands[$name] ?? collect($this->commands)->filter(
-            fn ($command) => $command instanceof $name
-        )->first();
+        $command = $this->commands[$name] ?? $name;
 
         if ($command === null) {
             return false;
         }
 
-        return $this->resolveCommand($command)->make($this->telegram, $update, $entity);
+        return $this->callCommand($command, $update, $entity);
     }
 
     /**
-     * @param $command
+     * @param CommandInterface|string $command
+     * @param Update                  $update
+     * @param array                   $entity
      *
-     * @return object
-     * @throws TelegramSDKException
+     * @throws TelegramSDKException|\ReflectionException
+     * @return mixed
      */
-    public function resolveCommand($command)
+    protected function callCommand($command, Update $update, array $entity)
     {
-        $command = $this->makeCommandObj($command);
+        $command = $this->resolveCommand($command);
 
-        if (!($command instanceof CommandInterface)) {
-            throw new TelegramSDKException(
-                sprintf(
-                    'Command class "%s" should be an instance of "Telegram\Bot\Commands\CommandInterface"',
-                    get_class($command)
-                )
-            );
+        $arguments = Parser::parse($command)->setUpdate($update)->setEntity($entity)->parseCommandArguments();
+
+        $command->setTelegram($this->telegram)->setUpdate($update)->setEntity($entity)->setArguments($arguments);
+
+        try {
+            return $this->telegram->getContainer()->call([$command, 'handle'], $arguments);
+        } catch (\Throwable $e) {
+            if (method_exists($command, 'fail')) {
+                $params = $this->findArgumentsNotProvided($command, $arguments);
+
+                $command->setArgumentsNotProvided($params)->fail($params);
+            }
         }
-
-        return $command;
     }
 
     /**
-     * @param $command
+     * Resolve given command with IoC container.
      *
-     * @return object
+     * @param CommandInterface|string|object $command
+     *
      * @throws TelegramSDKException
+     * @return object
      */
-    protected function makeCommandObj($command)
+    protected function resolveCommand($command)
     {
         if (is_object($command)) {
-            return $command;
+            return $this->validateCommandClassInstance($command);
         }
 
         if (!class_exists($command)) {
-            throw new TelegramSDKException(
-                sprintf(
-                    'Command class "%s" not found! Please make sure the class exists.',
-                    $command
-                )
-            );
+            throw TelegramSDKException::commandClassDoesNotExist($command);
         }
 
-        if ($this->telegram->hasContainer()) {
-            return $this->buildDependencyInjectedAnswer($command);
+        $command = $this->telegram->getContainer()->make($command);
+
+        return $this->validateCommandClassInstance($command);
+    }
+
+    /**
+     * Find arguments that are required but have not been provided.
+     *
+     * @param CommandInterface $command
+     * @param array            $arguments
+     *
+     * @throws \ReflectionException
+     * @return array
+     */
+    private function findArgumentsNotProvided(CommandInterface $command, $arguments): array
+    {
+        $reflection = new ReflectionMethod($command, 'handle');
+
+        return collect($reflection->getParameters())
+            ->reject(fn (ReflectionParameter $param) => $param->isOptional())
+            ->whereNotIn('name', array_keys($arguments))
+            ->pluck('name')
+            ->all();
+    }
+
+    /**
+     * Validate Command Class Instance.
+     *
+     * @param object $command
+     *
+     * @throws TelegramSDKException
+     * @return CommandInterface
+     */
+    protected function validateCommandClassInstance(object $command): CommandInterface
+    {
+        if ($command instanceof CommandInterface) {
+            return $command;
         }
 
-        return new $command();
+        throw TelegramSDKException::commandClassNotValid($command);
     }
 }

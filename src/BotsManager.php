@@ -2,10 +2,10 @@
 
 namespace Telegram\Bot;
 
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Traits\HasContainer;
 
 /**
  * Class BotsManager.
@@ -14,11 +14,10 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
  */
 class BotsManager
 {
+    use HasContainer;
+
     /** @var array The config instance. */
     protected array $config;
-
-    /** @var Container The container instance. */
-    protected Container $container;
 
     /** @var Api[] The active bot instances. */
     protected array $bots = [];
@@ -31,20 +30,6 @@ class BotsManager
     public function __construct(array $config)
     {
         $this->config = $config;
-    }
-
-    /**
-     * Set the IoC Container.
-     *
-     * @param $container Container instance
-     *
-     * @return BotsManager
-     */
-    public function setContainer(Container $container): self
-    {
-        $this->container = $container;
-
-        return $this;
     }
 
     /**
@@ -166,18 +151,6 @@ class BotsManager
     }
 
     /**
-     * De-duplicate an array.
-     *
-     * @param array $array
-     *
-     * @return array
-     */
-    protected function deduplicateArray(array $array): array
-    {
-        return array_unique($array);
-    }
-
-    /**
      * Make the bot instance.
      *
      * @param string $name
@@ -195,10 +168,7 @@ class BotsManager
             $this->getConfig('http_client_handler', null)
         );
 
-        // Check if DI needs to be enabled for Commands
-        if (isset($this->container) && $this->getConfig('resolve_command_dependencies', false)) {
-            $telegram->setContainer($this->container);
-        }
+        $telegram->setContainer($this->container);
 
         $commands = $this->parseBotCommands(data_get($config, 'commands', []));
 
@@ -215,12 +185,12 @@ class BotsManager
      *
      * @return array An array of commands which includes global and bot specific commands.
      */
-    public function parseBotCommands(array $commands): array
+    protected function parseBotCommands(array $commands): array
     {
         $globalCommands = $this->getConfig('commands', []);
         $parsedCommands = $this->parseCommands($commands);
 
-        return $this->deduplicateArray(array_merge($globalCommands, $parsedCommands));
+        return array_unique(array_merge($globalCommands, $parsedCommands));
     }
 
     /**

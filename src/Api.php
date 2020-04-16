@@ -19,12 +19,11 @@ class Api
     }
 
     use Events\EmitsEvents;
-
     use Traits\Http;
-
     use Traits\CommandsHandler;
-
     use Traits\HasContainer;
+    use Traits\HasUpdate;
+
     use Methods\Chat;
     use Methods\Commands;
     use Methods\EditMessage;

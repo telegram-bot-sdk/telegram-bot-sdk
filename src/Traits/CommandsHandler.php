@@ -20,7 +20,7 @@ trait CommandsHandler
      *
      * @return $this
      */
-    protected function setCommandBus(CommandBus $commandBus): self
+    public function setCommandBus(CommandBus $commandBus): self
     {
         $this->commandBus = $commandBus;
 
@@ -32,7 +32,7 @@ trait CommandsHandler
      *
      * @return CommandBus
      */
-    protected function getCommandBus(): CommandBus
+    public function getCommandBus(): CommandBus
     {
         return $this->commandBus ??= new CommandBus($this);
     }
@@ -69,7 +69,7 @@ trait CommandsHandler
         $update = $this->getWebhookUpdate();
         $this->processCommand($update);
 
-        return $update;
+        return $this->update = $update;
     }
 
     /**
@@ -83,6 +83,7 @@ trait CommandsHandler
         $highestId = -1;
 
         foreach ($updates as $update) {
+            $this->update = $update;
             $highestId = $update->updateId;
             $this->processCommand($update);
         }

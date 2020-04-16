@@ -10,12 +10,12 @@ use Illuminate\Contracts\Container\Container;
 trait HasContainer
 {
     /** @var Container IoC Container */
-    protected ?Container $container;
+    protected Container $container;
 
     /**
      * Set the IoC Container.
      *
-     * @param $container Container instance
+     * @param Container $container instance
      *
      * @return $this
      */
@@ -33,7 +33,7 @@ trait HasContainer
      */
     public function getContainer(): Container
     {
-        return $this->container;
+        return $this->container ?? \Illuminate\Container\Container::getInstance();
     }
 
     /**

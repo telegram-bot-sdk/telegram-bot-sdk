@@ -3,8 +3,8 @@
 namespace Telegram\Bot\Answers;
 
 use Illuminate\Support\Str;
-use Telegram\Bot\Objects\Update;
-use Telegram\Bot\Traits\Telegram;
+use Telegram\Bot\Traits\HasTelegram;
+use Telegram\Bot\Traits\HasUpdate;
 
 /**
  * Class Answerable.
@@ -30,20 +30,8 @@ use Telegram\Bot\Traits\Telegram;
  */
 trait Answerable
 {
-    use Telegram;
-
-    /** @var Update Holds an Update object. */
-    protected Update $update;
-
-    /**
-     * Returns Update object.
-     *
-     * @return Update
-     */
-    public function getUpdate(): Update
-    {
-        return $this->update;
-    }
+    use HasTelegram;
+    use HasUpdate;
 
     /**
      * Magic Method to handle all ReplyWith Methods.
@@ -58,8 +46,8 @@ trait Answerable
         if (!Str::startsWith($method, 'replyWith')) {
             throw new \BadMethodCallException("Method [$method] does not exist.");
         }
-        $reply_name = Str::studly(substr($method, 9));
-        $methodName = 'send' . $reply_name;
+
+        $methodName = 'send' . Str::studly(substr($method, 9));
 
         if (!method_exists($this->telegram, $methodName)) {
             throw new \BadMethodCallException("Method [$method] does not exist.");

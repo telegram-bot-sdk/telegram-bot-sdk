@@ -2,14 +2,15 @@
 
 namespace Telegram\Bot\Answers;
 
-use Telegram\Bot\Traits\Telegram;
+use BadMethodCallException;
+use Telegram\Bot\Traits\HasTelegram;
 
 /**
  * Class AnswerBus.
  */
 abstract class AnswerBus
 {
-    use Telegram;
+    use HasTelegram;
 
     /**
      * Handle calls to missing methods.
@@ -18,53 +19,15 @@ abstract class AnswerBus
      * @param array  $parameters
      *
      * @return mixed
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      *
      */
     public function __call($method, $parameters)
     {
         if (method_exists($this, $method)) {
-            return call_user_func_array([$this, $method], $parameters);
+            return $this->{$method}(...$parameters);
         }
 
-        throw new \BadMethodCallException("Method [$method] does not exist.");
-    }
-
-    /**
-     * Use PHP Reflection and Laravel Container to instantiate the answer with type hinted dependencies.
-     *
-     * @param $answerClass
-     *
-     * @return object
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     * @throws \ReflectionException
-     */
-    protected function buildDependencyInjectedAnswer($answerClass)
-    {
-        // check if the command has a constructor
-        if (!method_exists($answerClass, '__construct')) {
-            return new $answerClass();
-        }
-
-        // get constructor params
-        $constructorReflector = new \ReflectionMethod($answerClass, '__construct');
-        $params = $constructorReflector->getParameters();
-
-        // if no params are needed proceed with normal instantiation
-        if (empty($params)) {
-            return new $answerClass();
-        }
-
-        // otherwise fetch each dependency out of the container
-        $container = $this->telegram->getContainer();
-        $dependencies = [];
-        foreach ($params as $param) {
-            $dependencies[] = $container->make($param->getClass()->name);
-        }
-
-        // and instantiate the object with dependencies through ReflectionClass
-        $classReflector = new \ReflectionClass($answerClass);
-
-        return $classReflector->newInstanceArgs($dependencies);
+        throw new BadMethodCallException("Method [$method] does not exist.");
     }
 }

@@ -5,12 +5,12 @@ namespace Telegram\Bot\Traits;
 use Telegram\Bot\Api;
 
 /**
- * Class Telegram.
+ * Class HasTelegram.
  */
-trait Telegram
+trait HasTelegram
 {
     /** @var Api Holds the Super Class Instance. */
-    protected $telegram = null;
+    protected ?Api $telegram;
 
     /**
      * Returns Super Class Instance.
@@ -29,10 +29,20 @@ trait Telegram
      *
      * @return $this
      */
-    public function setTelegram(Api $telegram)
+    public function setTelegram(Api $telegram): self
     {
         $this->telegram = $telegram;
 
         return $this;
+    }
+
+    /**
+     * Determine Telegram Api instance has been set.
+     *
+     * @return bool
+     */
+    public function hasTelegram(): bool
+    {
+        return $this->telegram !== null;
     }
 }
