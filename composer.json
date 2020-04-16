@@ -1,5 +1,5 @@
 {
-  "name": "telegram-bot-api/php-sdk",
+  "name": "telegram-bot-sdk/telegram-bot-sdk",
   "type": "library",
   "description": "The Telegram Bot API PHP SDK",
   "keywords": [
@@ -10,10 +10,16 @@
     "telegram chatbot",
     "telegram bot api",
     "telegram bot sdk",
+    "telegram-bot-sdk",
     "telegram bot php sdk",
-    "telegram bot api php sdk"
+    "telegram bot api php sdk",
+    "telegram bot sdk laravel",
+    "php telegram bot",
+    "lumen telegram bot",
+    "laravel telegram",
+    "laravel telegram bot"
   ],
-  "homepage": "https://github.com/telegram-bot-api/php-sdk",
+  "homepage": "https://github.com/telegram-bot-sdk/telegram-bot-sdk",
   "license": "BSD-3-Clause",
   "authors": [
     {
@@ -29,15 +35,12 @@
     "guzzlehttp/guzzle": "^6.3 || 7.0",
     "guzzlehttp/psr7": "^1.3",
     "illuminate/support": "^6.0 || ^7.0",
+    "illuminate/container": "^6.0 || ^7.0",
     "league/event": "^2.1"
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.3",
     "phpunit/phpunit": ">=8.5"
-  },
-  "suggest": {
-    "illuminate/container": "Hold dependencies to be injected in commands constructors",
-    "telegram-bot-api/laravel": "Install the Laravel service provider if you're using the SDK in Laravel"
   },
   "config": {
     "preferred-install": "dist",
@@ -46,6 +49,14 @@
   "extra": {
     "branch-alias": {
       "dev-master": "4.0-dev"
+    },
+    "laravel": {
+      "providers": [
+        "Telegram\\Bot\\Laravel\\TelegramServiceProvider"
+      ],
+      "aliases": {
+        "Telegram": "Telegram\\Bot\\Laravel\\Facades\\Telegram"
+      }
     }
   },
   "autoload": {

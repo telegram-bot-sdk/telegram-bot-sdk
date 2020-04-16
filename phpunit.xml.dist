@@ -10,13 +10,16 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Telegram Bot API PHP SDK Test Suite">
+        <testsuite name="Telegram Bot SDK Test Suite">
             <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
             <directory suffix=".php">src/</directory>
+            <exclude>
+                <directory suffix=".php">src/Laravel/config/</directory>
+            </exclude>
         </whitelist>
     </filter>
     <logging>
