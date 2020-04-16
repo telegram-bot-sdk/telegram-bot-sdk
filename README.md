@@ -3,9 +3,9 @@
 <p align="center">
 <a href="https://phpchat.co"><img src="https://img.shields.io/badge/Slack-PHP%20Chat-5c6aaa.svg?logo=slack&labelColor=4A154B&style=for-the-badge" alt="Join PHP Chat"/></a>
 <a href="https://t.me/PHPChatCo"><img src="https://img.shields.io/badge/Chat-on%20Telegram-2CA5E0.svg?logo=telegram&style=for-the-badge" alt="Chat on Telegram"/></a>
-<a href="https://github.com/telegram-bot-api/php-sdk/actions"><img src="https://img.shields.io/github/workflow/status/telegram-bot-api/php-sdk/CI.svg?style=for-the-badge" alt="Build Status"/></a>
-<a href="https://github.com/telegram-bot-api/php-sdk/releases"><img src="https://img.shields.io/github/release/telegram-bot-api/php-sdk.svg?style=for-the-badge" alt="Latest Version"/></a>
-<a href="https://packagist.org/packages/telegram-bot-api/php-sdk"><img src="https://img.shields.io/packagist/dt/telegram-bot-api/php-sdk.svg?style=for-the-badge" alt="Total Downloads"/></a>
+<a href="https://github.com/telegram-bot-sdk/telegram-bot-sdk/actions"><img src="https://img.shields.io/github/workflow/status/telegram-bot-sdk/telegram-bot-sdk/CI.svg?style=for-the-badge" alt="Build Status"/></a>
+<a href="https://github.com/telegram-bot-sdk/telegram-bot-sdk/releases"><img src="https://img.shields.io/github/release/telegram-bot-sdk/telegram-bot-sdk.svg?style=for-the-badge" alt="Latest Version"/></a>
+<a href="https://packagist.org/packages/telegram-bot-sdk/telegram-bot-sdk"><img src="https://img.shields.io/packagist/dt/telegram-bot-sdk/telegram-bot-sdk.svg?style=for-the-badge" alt="Total Downloads"/></a>
 </p>
 
 Telegram Bot API - PHP SDK
@@ -46,11 +46,11 @@ See License section for more details.
 This project is released under the [BSD 3-Clause][link-license] License.
 
 [link-author]: https://github.com/irazasyed
-[link-repo]: https://github.com/telegram-bot-api/php-sdk
-[link-issues]: https://github.com/telegram-bot-api/php-sdk/issues
-[link-contributors]: https://github.com/telegram-bot-api/php-sdk/contributors
+[link-repo]: https://github.com/telegram-bot-sdk/telegram-bot-sdk
+[link-issues]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/issues
+[link-contributors]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/contributors
 [link-docs]: https://telegram-bot-sdk.readme.io/docs
-[link-license]: https://github.com/telegram-bot-api/php-sdk/blob/master/LICENSE.md
-[link-contributing]: https://github.com/telegram-bot-api/php-sdk/blob/master/.github/CONTRIBUTING.md
+[link-license]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/blob/master/LICENSE.md
+[link-contributing]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/blob/master/.github/CONTRIBUTING.md
 [link-laravel-package]: https://github.com/telegram-bot-api/laravel
 [link-telegram-bot-api]: https://core.telegram.org/bots
