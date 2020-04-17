@@ -59,7 +59,7 @@ class TelegramResponse
         }
 
         $this->request = $request;
-        $this->endPoint = (string) $request->getEndpoint();
+        $this->endPoint = (string)$request->getEndpoint();
     }
 
     /**
@@ -74,7 +74,7 @@ class TelegramResponse
             parse_str($this->body, $this->decodedBody);
         }
 
-        if (! is_array($this->decodedBody)) {
+        if (!is_array($this->decodedBody)) {
             $this->decodedBody = [];
         }
 

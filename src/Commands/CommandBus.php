@@ -3,7 +3,6 @@
 namespace Telegram\Bot\Commands;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use InvalidArgumentException;
 use ReflectionMethod;
 use ReflectionParameter;

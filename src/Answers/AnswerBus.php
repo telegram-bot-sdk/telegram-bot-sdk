@@ -18,9 +18,9 @@ abstract class AnswerBus
      * @param string $method
      * @param array  $parameters
      *
-     * @return mixed
      * @throws BadMethodCallException
      *
+     * @return mixed
      */
     public function __call($method, $parameters)
     {

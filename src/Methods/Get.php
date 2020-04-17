@@ -10,6 +10,7 @@ use Telegram\Bot\Traits\Http;
 
 /**
  * Class Get.
+ *
  * @mixin Http
  */
 trait Get

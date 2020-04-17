@@ -97,11 +97,9 @@ trait Game
         $response = $this->get('getGameHighScores', $params);
 
         return collect($response->getResult())
-            ->map(
-                function ($data) {
-                    return new GameHighScore($data);
-                }
-            )
+            ->map(function ($data) {
+                return new GameHighScore($data);
+            })
             ->all();
     }
 }

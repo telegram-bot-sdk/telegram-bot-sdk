@@ -20,7 +20,7 @@ class Base extends Collection
      */
     public function __call($method, $args)
     {
-        if (! Str::startsWith($method, 'set')) {
+        if (!Str::startsWith($method, 'set')) {
             return parent::__call($method, $args);
         }
         $property = Str::snake(substr($method, 3));

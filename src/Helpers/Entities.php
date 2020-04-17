@@ -17,7 +17,7 @@ class Entities
     /**
      * Entities constructor.
      *
-     * @param  string  $text
+     * @param string $text
      */
     public function __construct(string $text)
     {
@@ -25,7 +25,7 @@ class Entities
     }
 
     /**
-     * @param  string  $text
+     * @param string $text
      *
      * @return static
      */
@@ -35,7 +35,7 @@ class Entities
     }
 
     /**
-     * @param  array  $entities
+     * @param array $entities
      *
      * @return $this
      */

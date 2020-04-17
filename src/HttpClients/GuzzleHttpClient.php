@@ -41,6 +41,7 @@ class GuzzleHttpClient implements HttpClientInterface
 
     /**
      * Unwrap Promises.
+     *
      * @throws Throwable
      */
     public function __destruct()
@@ -87,7 +88,7 @@ class GuzzleHttpClient implements HttpClientInterface
         } catch (RequestException $e) {
             $response = $e->getResponse();
 
-            if (! $response instanceof ResponseInterface) {
+            if (!$response instanceof ResponseInterface) {
                 throw new TelegramSDKException($e->getMessage(), $e->getCode());
             }
         }
@@ -117,7 +118,7 @@ class GuzzleHttpClient implements HttpClientInterface
             RequestOptions::BODY            => $body,
             RequestOptions::TIMEOUT         => $this->getTimeOut(),
             RequestOptions::CONNECT_TIMEOUT => $this->getConnectTimeOut(),
-            RequestOptions::SYNCHRONOUS     => ! $isAsyncRequest,
+            RequestOptions::SYNCHRONOUS     => !$isAsyncRequest,
         ];
 
         if ($proxy !== null) {
