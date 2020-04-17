@@ -82,7 +82,10 @@ class Parser
         preg_match($this->makeCommandArgumentsPattern(), $this->relevantMessageSubString(), $matches);
         $regexParams = $this->getNullifiedRegexParams();
 
-        return collect($regexParams)->merge($matches)->all();
+        // Discard non-named key-value pairs.
+        $filteredMatches = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+
+        return collect($regexParams)->merge($filteredMatches)->all();
     }
 
     /**
@@ -105,30 +108,21 @@ class Parser
      */
     protected function makeCommandArgumentsPattern(): string
     {
-        $pattern = $this->getAllParams()->map(
-            static function (ReflectionParameter $param) {
-                if ($param->isOptional() && $param->isDefaultValueAvailable()) {
-                    // Regex param
-                    if (Str::is('{*}', $param->getDefaultValue())) {
-                        return sprintf(
-                            '(?:\s+?(?P<%s>%s))?',
-                            $param->getName(),
-                            self::between($param->getDefaultValue(), '{', '}')
-                        );
-                    }
-
-                    // Optional param
-                    return "(?:\s+?(?P<{$param->getName()}>[^ ]++))?";
-                }
-
-                // Required param
-                return "(?P<{$param->getName()}>[^ ]++)";
+        $pattern = $this->getAllParams()->map(static function (ReflectionParameter $param) {
+            if ($param->isDefaultValueAvailable() && Str::is('{*}', $param->getDefaultValue())) {
+                return sprintf(
+                    '(?:\s+)?(?P<%s>%s)?',
+                    $param->getName(),
+                    self::between($param->getDefaultValue(), '{', '}')
+                );
             }
-        )->implode('');
+
+            return "(?:\s+)?(?P<{$param->getName()}>[^ ]++)?";
+        })->implode('');
 
         // Ex: /start@Somebot <arg> ...<arg>
         // Ex: /start <arg> ...<arg>
-        return "%/[\w]+(?:@.+?bot)?\s+?{$pattern}%si";
+        return "%/[\w]+(?:@.+?bot)?{$pattern}%si";
     }
 
     /**
@@ -195,9 +189,10 @@ class Parser
     /**
      * Get the portion of a string between a given values.
      *
-     * @param  string  $subject
-     * @param  string  $before
-     * @param  string  $after
+     * @param string $subject
+     * @param string $before
+     * @param string $after
+     *
      * @return string
      */
     public static function between($subject, $before, $after)

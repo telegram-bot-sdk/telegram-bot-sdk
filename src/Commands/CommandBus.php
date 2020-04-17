@@ -209,10 +209,10 @@ class CommandBus extends AnswerBus
         try {
             return $this->telegram->getContainer()->call([$command, 'handle'], $arguments);
         } catch (\Throwable $e) {
-            if (method_exists($command, 'fail')) {
+            if (method_exists($command, 'failed')) {
                 $params = $this->findArgumentsNotProvided($command, $arguments);
 
-                $command->setArgumentsNotProvided($params)->fail($params);
+                $command->setArgumentsNotProvided($params)->failed($params, $e);
             }
         }
     }
