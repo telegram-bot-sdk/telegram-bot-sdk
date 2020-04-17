@@ -183,6 +183,7 @@ class BotsManager
      *
      * @param array $commands
      *
+     * @throws TelegramSDKException
      * @return array An array of commands which includes global and bot specific commands.
      */
     protected function parseBotCommands(array $commands): array
@@ -190,7 +191,14 @@ class BotsManager
         $globalCommands = $this->getConfig('commands', []);
         $parsedCommands = $this->parseCommands($commands);
 
-        return array_unique(array_merge($globalCommands, $parsedCommands));
+        $uniqueCommands = array_unique(array_merge($globalCommands, $parsedCommands));
+
+        // Any command without a name associated with it will force the unique list to have an index key of 0.
+        if (isset($uniqueCommands[0])) {
+            throw new TelegramSDKException('A command in your config file did not have a name associated with the class.');
+        }
+
+        return $uniqueCommands;
     }
 
     /**
