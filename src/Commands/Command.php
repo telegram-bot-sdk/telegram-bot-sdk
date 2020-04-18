@@ -3,6 +3,8 @@
 namespace Telegram\Bot\Commands;
 
 use Telegram\Bot\Answers\Answerable;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 /**
  * Class Command.
@@ -136,11 +138,21 @@ abstract class Command implements CommandInterface
      *
      * @param string $command
      *
-     * @throws \Telegram\Bot\Exceptions\TelegramSDKException
+     * @throws TelegramSDKException
      * @return mixed
      */
     protected function triggerCommand(string $command)
     {
         return $this->telegram->getCommandBus()->execute($command, $this->update, $this->entity);
     }
+
+    /**
+     * This method will be called if any exception is thrown during execution.
+     *
+     * @param array     $arguments
+     * @param Throwable $exception
+     *
+     * @return mixed
+     */
+    abstract public function failed(array $arguments, Throwable $exception);
 }

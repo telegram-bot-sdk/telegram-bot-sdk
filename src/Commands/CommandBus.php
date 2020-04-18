@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Commands;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -223,9 +224,10 @@ class CommandBus extends AnswerBus
      * @param CommandInterface|string|object $command
      *
      * @throws TelegramSDKException
+     * @throws BindingResolutionException
      * @return object
      */
-    protected function resolveCommand($command)
+    public function resolveCommand($command)
     {
         if (is_object($command)) {
             return $this->validateCommandClassInstance($command);
