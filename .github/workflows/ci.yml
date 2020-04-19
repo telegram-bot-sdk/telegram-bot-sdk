@@ -72,5 +72,5 @@ jobs:
           composer require "illuminate/support:${{ matrix.laravel }}" --no-interaction --no-update --no-progress --no-suggest
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
-      - name: Execute tests
-        run: vendor/bin/phpunit
+#      - name: Execute tests
+#        run: vendor/bin/phpunit
