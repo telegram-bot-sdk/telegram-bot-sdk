@@ -92,7 +92,7 @@ class InputFile
      */
     public function getFilename(): string
     {
-        if ($this->isFileResourceOrStream() && ! isset($this->filename)) {
+        if ($this->isFileResourceOrStream() && !isset($this->filename)) {
             return $this->filename = $this->attemptFileNameDetection();
         }
 
@@ -156,8 +156,8 @@ class InputFile
     /**
      * Get contents.
      *
-     * @return StreamInterface|resource|string
      * @throws CouldNotUploadInputFile
+     * @return StreamInterface|resource|string
      */
     public function getContents()
     {
@@ -238,7 +238,7 @@ class InputFile
      */
     protected function isFileLocalAndExists(): bool
     {
-        if (! is_string($this->file)) {
+        if (!is_string($this->file)) {
             return false;
         }
 

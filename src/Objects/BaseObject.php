@@ -52,7 +52,7 @@ abstract class BaseObject extends Collection
     protected function getPropertyValue($property, $default = null)
     {
         $property = Str::snake($property);
-        if (! $this->offsetExists($property)) {
+        if (!$this->offsetExists($property)) {
             return value($default);
         }
 
@@ -138,7 +138,7 @@ abstract class BaseObject extends Collection
      */
     public function __call($name, $arguments)
     {
-        if (! Str::startsWith($name, 'get')) {
+        if (!Str::startsWith($name, 'get')) {
             return false;
         }
         $property = substr($name, 3);

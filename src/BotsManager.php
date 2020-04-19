@@ -37,8 +37,8 @@ class BotsManager
      *
      * @param string|null $name
      *
-     * @return array
      * @throws InvalidArgumentException
+     * @return array
      */
     public function getBotConfig($name = null): array
     {
@@ -60,8 +60,8 @@ class BotsManager
      *
      * @param string $name
      *
-     * @return Api
      * @throws TelegramSDKException
+     * @return Api
      */
     public function bot($name = null): Api
     {
@@ -75,8 +75,8 @@ class BotsManager
      *
      * @param string $name
      *
-     * @return Api
      * @throws TelegramSDKException
+     * @return Api
      */
     public function reconnect($name = null): Api
     {
@@ -128,8 +128,8 @@ class BotsManager
      *
      * @param string $name
      *
-     * @return BotsManager
      * @throws TelegramSDKException
+     * @return BotsManager
      */
     public function setDefaultBot($name): self
     {
@@ -155,8 +155,8 @@ class BotsManager
      *
      * @param string $name
      *
-     * @return Api
      * @throws TelegramSDKException
+     * @return Api
      */
     protected function makeBot($name): Api
     {
@@ -240,8 +240,8 @@ class BotsManager
      * @param string $method
      * @param array  $parameters
      *
-     * @return mixed
      * @throws TelegramSDKException
+     * @return mixed
      */
     public function __call($method, $parameters)
     {

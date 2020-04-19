@@ -9,6 +9,7 @@ use Telegram\Bot\Traits\Http;
 
 /**
  * Class EditMessage.
+ *
  * @mixin Http
  */
 trait EditMessage
@@ -27,7 +28,9 @@ trait EditMessage
      *       'reply_markup'              => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
      * ]
      * </code>
+     *
      * @link https://core.telegram.org/bots/api#editmessagetext
+     *
      * @param array $params
      *
      * @throws TelegramSDKException
@@ -53,7 +56,9 @@ trait EditMessage
      *       'reply_markup'       => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
      * ]
      * </code>
+     *
      * @link https://core.telegram.org/bots/api#editmessagecaption
+     *
      * @param array $params
      *
      * @throws TelegramSDKException
@@ -79,7 +84,9 @@ trait EditMessage
      *       'reply_markup'       => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
      * ]
      * </code>
+     *
      * @link https://core.telegram.org/bots/api#editmessagemedia
+     *
      * @param array $params
      *
      * @throws TelegramSDKException
@@ -104,7 +111,9 @@ trait EditMessage
      *       'reply_markup'       => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
      * ]
      * </code>
+     *
      * @link https://core.telegram.org/bots/api#editmessagereplymarkup
+     *
      * @param array $params
      *
      * @throws TelegramSDKException
@@ -130,7 +139,9 @@ trait EditMessage
      *       'reply_markup'  => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
      * ]
      * </code>
+     *
      * @link https://core.telegram.org/bots/api#stoppoll
+     *
      * @param array $params
      *
      * @throws TelegramSDKException

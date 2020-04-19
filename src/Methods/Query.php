@@ -7,6 +7,7 @@ use Telegram\Bot\Traits\Http;
 
 /**
  * Class Query.
+ *
  * @mixin Http
  */
 trait Query
@@ -29,7 +30,9 @@ trait Query
      *       'cache_time'         => '',  // int    - (Optional). The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.
      * ]
      * </code>
+     *
      * @link https://core.telegram.org/bots/api#answerCallbackQuery
+     *
      * @param array $params
      *
      * @throws TelegramSDKException
@@ -59,7 +62,9 @@ trait Query
      *       'switch_pm_parameter'  => '',  // string - (Optional). Deep-linking parameter for the /start message sent to the bot when user presses the switch button. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed.
      * ]
      * </code>
+     *
      * @link https://core.telegram.org/bots/api#answerCallbackQuery
+     *
      * @param array $params
      *
      * @throws TelegramSDKException

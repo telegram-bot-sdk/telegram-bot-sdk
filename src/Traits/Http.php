@@ -166,9 +166,9 @@ trait Http
      * @param string $endpoint
      * @param array  $params
      *
-     * @return TelegramResponse
      * @throws TelegramSDKException
      *
+     * @return TelegramResponse
      */
     protected function get(string $endpoint, array $params = []): TelegramResponse
     {
@@ -184,8 +184,8 @@ trait Http
      * @param array  $params
      * @param bool   $fileUpload Set true if a file is being uploaded.
      *
-     * @return TelegramResponse
      * @throws TelegramSDKException
+     * @return TelegramResponse
      */
     protected function post(string $endpoint, array $params = [], bool $fileUpload = false): TelegramResponse
     {
@@ -218,10 +218,10 @@ trait Http
      * @param array  $params
      * @param string $inputFileField
      *
-     * @return TelegramResponse
      * @throws TelegramSDKException
      *
      * @throws CouldNotUploadInputFile
+     * @return TelegramResponse
      */
     protected function uploadFile(string $endpoint, array $params, string $inputFileField): TelegramResponse
     {
@@ -244,9 +244,9 @@ trait Http
      * @param array  $params
      * @param string $inputFileField
      *
-     * @return array
      * @throws CouldNotUploadInputFile
      *
+     * @return array
      */
     protected function prepareMultipartParams(array $params, string $inputFileField): array
     {
@@ -275,7 +275,7 @@ trait Http
         }
 
         return [
-            'name' => $name,
+            'name'     => $name,
             'contents' => $contents->getContents(),
             'filename' => $contents->getFilename(),
         ];
@@ -288,9 +288,9 @@ trait Http
      * @param string $endpoint
      * @param array  $params
      *
-     * @return TelegramResponse
      * @throws TelegramSDKException
      *
+     * @return TelegramResponse
      */
     protected function sendRequest(string $method, string $endpoint, array $params = []): TelegramResponse
     {
@@ -334,9 +334,10 @@ trait Http
         }
 
         // All file-paths, urls, or file resources should be provided by using the InputFile object
-        if ((!$params[$inputFileField] instanceof InputFile) || (is_string($params[$inputFileField]) && !$this->is_json(
-            $params[$inputFileField]
-        ))) {
+        if (
+            (!$params[$inputFileField] instanceof InputFile) ||
+            (is_string($params[$inputFileField]) && !$this->is_json($params[$inputFileField]))
+        ) {
             throw CouldNotUploadInputFile::inputFileParameterShouldBeInputFileEntity($inputFileField);
         }
     }
