@@ -2,6 +2,8 @@
 
 namespace Telegram\Bot\Commands;
 
+use Telegram\Bot\Api;
+
 /**
  * Interface CommandInterface.
  */
