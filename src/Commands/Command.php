@@ -3,8 +3,8 @@
 namespace Telegram\Bot\Commands;
 
 use Telegram\Bot\Answers\Answerable;
+use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use Throwable;
 
 /**
  * Class Command.
@@ -19,11 +19,8 @@ abstract class Command implements CommandInterface
     /** @var array Holds parsed command arguments */
     protected array $arguments = [];
 
-    /** @var array|null Details of the current entity this command is responding to - offset, length, type etc */
-    protected ?array $entity;
-
     /** @var array Arguments that are required but have not been provided by the user */
-    protected array $argumentsNotProvided;
+    protected array $argumentsNotProvided = [];
 
     /**
      * Get Command Description.
@@ -78,26 +75,6 @@ abstract class Command implements CommandInterface
     }
 
     /**
-     * @param array $entity
-     *
-     * @return $this
-     */
-    public function setEntity(array $entity): self
-    {
-        $this->entity = $entity;
-
-        return $this;
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getEntity(): ?array
-    {
-        return $this->entity;
-    }
-
-    /**
      * Set arguments that have not been provided.
      *
      * @param array $arguments
@@ -136,23 +113,15 @@ abstract class Command implements CommandInterface
     /**
      * Helper to Trigger other Commands.
      *
-     * @param string $command
+     * @param CommandInterface|string $command
+     * @param array                   $params
      *
+     * @throws TelegramCommandException
      * @throws TelegramSDKException
-     * @return mixed
+     * @return void
      */
-    protected function triggerCommand(string $command)
+    protected function triggerCommand($command, array $params = []): void
     {
-        return $this->telegram->getCommandBus()->execute($command, $this->update, $this->entity);
+        $this->telegram->getCommandBus()->execute($command, $this->update, $params, true);
     }
-
-    /**
-     * This method will be called if any exception is thrown during execution.
-     *
-     * @param array     $arguments
-     * @param Throwable $exception
-     *
-     * @return mixed
-     */
-    abstract public function failed(array $arguments, Throwable $exception);
 }
