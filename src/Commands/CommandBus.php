@@ -5,10 +5,9 @@ namespace Telegram\Bot\Commands;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
-use ReflectionMethod;
-use ReflectionParameter;
 use Telegram\Bot\Answers\AnswerBus;
 use Telegram\Bot\Api;
+use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Update;
 
@@ -116,7 +115,7 @@ class CommandBus extends AnswerBus
             throw new InvalidArgumentException('Message is empty, Cannot parse for command');
         }
 
-        return Parser::between(substr($text, $offset, $length), '/', '@');
+        return Parser::between(mb_substr($text, $offset, $length, 'UTF-8'), '/', '@');
     }
 
     /**
@@ -172,45 +171,41 @@ class CommandBus extends AnswerBus
     /**
      * Execute the command.
      *
-     * @param CommandInterface|string $name
-     * @param Update                  $update
-     * @param array                   $entity
-     *
-     * @throws TelegramSDKException
-     * @return mixed
-     */
-    public function execute($name, Update $update, array $entity)
-    {
-        $command = $this->commands[$name] ?? $name;
-
-        if ($command === null) {
-            return false;
-        }
-
-        return $this->callCommand($command, $update, $entity);
-    }
-
-    /**
      * @param CommandInterface|string $command
      * @param Update                  $update
      * @param array                   $entity
+     * @param bool                    $isTriggered
      *
-     * @throws TelegramSDKException|\ReflectionException
-     * @return mixed
+     * @throws TelegramCommandException
+     * @throws TelegramSDKException
+     * @return void
      */
-    protected function callCommand($command, Update $update, array $entity)
+    public function execute($command, Update $update, array $entity, bool $isTriggered = false): void
     {
         $command = $this->resolveCommand($command);
 
-        $arguments = Parser::parse($command)->setUpdate($update)->setEntity($entity)->parseCommandArguments();
+        $parser = Parser::parse($command)->setUpdate($update);
 
-        $command->setTelegram($this->telegram)->setUpdate($update)->setEntity($entity)->setArguments($arguments);
+        if ($isTriggered) {
+            $arguments = $entity;
+        } else {
+            $parser->setEntity($entity);
+            $arguments = $parser->arguments();
+        }
+
+        $command->setTelegram($this->telegram)->setUpdate($update)->setArguments($arguments);
+
+        $requiredParamsNotProvided = $parser->requiredParamsNotProvided(array_keys($arguments));
 
         try {
-            return $this->telegram->getContainer()->call([$command, 'handle'], $arguments);
-        } catch (\Throwable $e) {
+            if ($requiredParamsNotProvided->isNotEmpty()) {
+                throw TelegramCommandException::requiredParamsNotProvided($requiredParamsNotProvided);
+            }
+
+            $this->telegram->getContainer()->call([$command, 'handle'], $arguments);
+        } catch (BindingResolutionException|TelegramCommandException $e) {
             if (method_exists($command, 'failed')) {
-                $params = $this->findArgumentsNotProvided($command, $arguments);
+                $params = $requiredParamsNotProvided->all();
 
                 $command->setArgumentsNotProvided($params)->failed($params, $e);
             }
@@ -222,43 +217,28 @@ class CommandBus extends AnswerBus
      *
      * @param CommandInterface|string|object $command
      *
-     * @throws TelegramSDKException
-     * @throws BindingResolutionException
-     * @return object
+     * @throws TelegramCommandException
+     * @return CommandInterface
      */
-    public function resolveCommand($command)
+    protected function resolveCommand($command): CommandInterface
     {
         if (is_object($command)) {
             return $this->validateCommandClassInstance($command);
         }
 
+        $command = $this->commands[$command] ?? $command;
+
         if (!class_exists($command)) {
-            throw TelegramSDKException::commandClassDoesNotExist($command);
+            throw TelegramCommandException::commandClassDoesNotExist($command);
         }
 
-        $command = $this->telegram->getContainer()->make($command);
+        try {
+            $command = $this->telegram->getContainer()->make($command);
+        } catch (BindingResolutionException $e) {
+            throw TelegramCommandException::commandNotInstantiable($command, $e);
+        }
 
         return $this->validateCommandClassInstance($command);
-    }
-
-    /**
-     * Find arguments that are required but have not been provided.
-     *
-     * @param CommandInterface $command
-     * @param array            $arguments
-     *
-     * @throws \ReflectionException
-     * @return array
-     */
-    private function findArgumentsNotProvided(CommandInterface $command, $arguments): array
-    {
-        $reflection = new ReflectionMethod($command, 'handle');
-
-        return collect($reflection->getParameters())
-            ->reject(fn (ReflectionParameter $param) => $param->isOptional())
-            ->whereNotIn('name', array_keys($arguments))
-            ->pluck('name')
-            ->all();
     }
 
     /**
@@ -266,7 +246,7 @@ class CommandBus extends AnswerBus
      *
      * @param object $command
      *
-     * @throws TelegramSDKException
+     * @throws TelegramCommandException
      * @return CommandInterface
      */
     protected function validateCommandClassInstance(object $command): CommandInterface
@@ -275,6 +255,6 @@ class CommandBus extends AnswerBus
             return $command;
         }
 
-        throw TelegramSDKException::commandClassNotValid($command);
+        throw TelegramCommandException::commandClassNotValid($command);
     }
 }
