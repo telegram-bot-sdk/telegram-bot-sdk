@@ -3,7 +3,6 @@
 namespace Telegram\Bot\Exceptions;
 
 use Exception;
-use Telegram\Bot\Commands\CommandInterface;
 
 /**
  * Class TelegramSDKException.
@@ -15,7 +14,7 @@ class TelegramSDKException extends Exception
      *
      * @param $tokenEnvName
      *
-     * @return TelegramSDKException
+     * @return static
      */
     public static function tokenNotProvided($tokenEnvName): self
     {
@@ -25,32 +24,12 @@ class TelegramSDKException extends Exception
     }
 
     /**
-     * Thrown when command class doesn't exist.
+     * Thrown when update object is not found.
      *
-     * @param string $commandClass
-     *
-     * @return TelegramSDKException
+     * @return static
      */
-    public static function commandClassDoesNotExist(string $commandClass): self
+    public static function updateObjectNotFound(): self
     {
-        return new static('Command class [' . $commandClass . '] does not exist.');
-    }
-
-    /**
-     * Thrown when command class is not a valid instance of CommandInterface.
-     *
-     * @param object $commandClass
-     *
-     * @return TelegramSDKException
-     */
-    public static function commandClassNotValid(object $commandClass): self
-    {
-        return new static(
-            sprintf(
-                'Command class "%s" should be an instance of "%s"',
-                get_class($commandClass),
-                CommandInterface::class
-            )
-        );
+        return new static('No Update Object Found.');
     }
 }

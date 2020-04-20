@@ -8,11 +8,11 @@ namespace Telegram\Bot\Helpers;
 class Entities
 {
     /** @var string Message or Caption */
-    protected $text;
+    protected string $text;
     /** @var array Entities from Telegram */
-    protected $entities;
+    protected array $entities;
     /** @var int Formatting Mode: 0:Markdown | 1:HTML */
-    protected $mode = 0;
+    protected int $mode = 0;
 
     /**
      * Entities constructor.

@@ -4,8 +4,11 @@ namespace Telegram\Bot\Commands;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use ReflectionException;
 use ReflectionMethod;
 use ReflectionParameter;
+use Telegram\Bot\Exceptions\TelegramCommandException;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Traits\HasUpdate;
 
 class Parser
@@ -74,73 +77,116 @@ class Parser
     /**
      * Parse Command Arguments.
      *
-     * @throws \ReflectionException
+     * @throws TelegramCommandException|TelegramSDKException
      * @return array
      */
-    public function parseCommandArguments(): array
+    public function arguments(): array
     {
-        preg_match($this->makeCommandArgumentsPattern(), $this->relevantMessageSubString(), $matches);
-        $regexParams = $this->getNullifiedRegexParams();
+        preg_match($this->argumentsPattern(), $this->relevantMessageSubString(), $matches);
 
-        // Discard non-named key-value pairs.
-        $filteredMatches = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
-
-        return collect($regexParams)->merge($filteredMatches)->all();
+        return $this->nullifiedRegexParams()
+            // Discard non-named key-value pairs and merge with nullified regex params.
+            ->merge(array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY))
+            ->all();
     }
 
     /**
-     * Get all command handle params except typehinted classes.
+     * Get all command handle params except type-hinted classes.
      *
-     * @throws \ReflectionException
+     * @throws TelegramCommandException
      * @return Collection
      */
-    protected function getAllParams(): Collection
+    public function allParams(): Collection
     {
-        return $this->params ??= collect((new ReflectionMethod($this->command, 'handle'))->getParameters())
+        if (null !== $this->params) {
+            return $this->params;
+        }
+
+        try {
+            $handle = new ReflectionMethod($this->command, 'handle');
+        } catch (ReflectionException $e) {
+            throw TelegramCommandException::commandMethodDoesNotExist($e);
+        }
+
+        return $this->params = Collection::make($handle->getParameters())
             ->reject(fn (ReflectionParameter $param) => $param->getClass());
+    }
+
+    /**
+     * Get all REQUIRED params of a command handle.
+     *
+     * @throws TelegramCommandException
+     * @return Collection
+     */
+    public function requiredParams(): Collection
+    {
+        return $this->allParams()
+            ->reject(fn ($parameter): bool => $parameter->isDefaultValueAvailable() || $parameter->isVariadic())
+            ->pluck('name');
+    }
+
+    /**
+     * Get params that are required but have not been provided.
+     *
+     * @param array $params
+     *
+     * @throws TelegramCommandException
+     * @return Collection
+     */
+    public function requiredParamsNotProvided(array $params): Collection
+    {
+        return $this->requiredParams()->diff($params)->values();
+    }
+
+    /**
+     * Get Nullified Regex Params.
+     *
+     * @throws TelegramCommandException
+     * @return Collection
+     */
+    public function nullifiedRegexParams(): Collection
+    {
+        return $this->allParams()
+            ->filter(fn (ReflectionParameter $param): bool => $this->isRegexParam($param))
+            ->mapWithKeys(fn (ReflectionParameter $param): array => [$param->getName() => null]);
     }
 
     /**
      * Make command arguments regex pattern.
      *
-     * @throws \ReflectionException
+     * @throws TelegramCommandException
      * @return string
      */
-    protected function makeCommandArgumentsPattern(): string
+    protected function argumentsPattern(): string
     {
-        $pattern = $this->getAllParams()->map(static function (ReflectionParameter $param) {
-            if ($param->isDefaultValueAvailable() && Str::is('{*}', $param->getDefaultValue())) {
-                return sprintf(
-                    '(?:\s+)?(?P<%s>%s)?',
-                    $param->getName(),
-                    self::between($param->getDefaultValue(), '{', '}')
-                );
-            }
+        $pattern = $this->allParams()->map(function (ReflectionParameter $param): string {
+            $regex = $this->isRegexParam($param)
+                ? self::between($param->getDefaultValue(), '{', '}')
+                : '[^ ]++';
 
-            return "(?:\s+)?(?P<{$param->getName()}>[^ ]++)?";
-        })->implode('');
+            return sprintf('(?P<%s>%s)?', $param->getName(), $regex);
+        })->implode('(?:\s+)?');
 
         // Ex: /start@Somebot <arg> ...<arg>
         // Ex: /start <arg> ...<arg>
-        return "%/[\w]+(?:@.+?bot)?{$pattern}%si";
+        return "%/[\w]+(?:@.+?bot)?(?:\s+)?{$pattern}%si";
     }
 
     /**
-     * @throws \ReflectionException
-     * @return array
+     * Determine if its a regex parameter.
+     *
+     * @param ReflectionParameter $param
+     *
+     * @throws ReflectionException
+     * @return bool
      */
-    protected function getNullifiedRegexParams(): array
+    protected function isRegexParam(ReflectionParameter $param): bool
     {
-        $params = $this->getAllParams()
-            ->filter(fn (ReflectionParameter $param) => $param->isDefaultValueAvailable())
-            ->filter(fn (ReflectionParameter $param) => Str::is('{*}', $param->getDefaultValue()))
-            ->pluck('name')
-            ->all();
-
-        return array_fill_keys($params, null);
+        return $param->isDefaultValueAvailable() && Str::is('{*}', $param->getDefaultValue());
     }
 
     /**
+     * @throws TelegramSDKException
      * @return bool|string
      */
     private function relevantMessageSubString()
@@ -157,24 +203,23 @@ class Parser
         return $splice->count() === 2 ? $this->cutTextBetween($splice) : $this->cutTextFrom($splice);
     }
 
-    private function cutTextBetween(Collection $splice)
+    private function cutTextBetween(Collection $splice): string
     {
-        return substr(
+        return mb_substr(
             $this->getUpdate()->getMessage()->text,
             $splice->first(),
-            $splice->last() - $splice->first()
+            $splice->last() - $splice->first(),
+            'UTF-8'
         );
     }
 
-    private function cutTextFrom(Collection $splice)
+    private function cutTextFrom(Collection $splice): string
     {
-        return substr(
-            $this->getUpdate()->getMessage()->text,
-            $splice->first()
-        );
+        return mb_substr($this->getUpdate()->getMessage()->text, $splice->first(), null, 'UTF-8');
     }
 
     /**
+     * @throws TelegramSDKException
      * @return Collection
      */
     private function allCommandOffsets(): Collection
@@ -195,14 +240,12 @@ class Parser
      *
      * @return string
      */
-    public static function between($subject, $before, $after)
+    public static function between(string $subject, string $before, string $after): string
     {
         if ($before === '' || $after === '') {
             return $subject;
         }
 
-        $rightCropped = Str::after($subject, $before);
-
-        return Str::beforeLast($rightCropped, $after);
+        return Str::beforeLast(Str::after($subject, $before), $after);
     }
 }

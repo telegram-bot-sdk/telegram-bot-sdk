@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot;
 
-use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Exceptions\TelegramRequestException;
 
 /**
  * Class TelegramRequest.
@@ -78,12 +78,12 @@ class TelegramRequest
     /**
      * Validate that bot access token exists for this request.
      *
-     * @throws TelegramSDKException
+     * @throws TelegramRequestException
      */
     public function validateAccessToken(): void
     {
         if (null === $this->getAccessToken()) {
-            throw new TelegramSDKException('You must provide your bot access token to make any API requests.');
+            throw TelegramRequestException::botAccessTokenNotProvided();
         }
     }
 
@@ -114,16 +114,16 @@ class TelegramRequest
     /**
      * Validate that the HTTP method is set.
      *
-     * @throws TelegramSDKException
+     * @throws TelegramRequestException
      */
     public function validateMethod(): void
     {
         if (!$this->method) {
-            throw new TelegramSDKException('HTTP method not specified.');
+            throw TelegramRequestException::httpMethodNotSpecified();
         }
 
         if (!in_array($this->method, ['GET', 'POST'])) {
-            throw new TelegramSDKException('Invalid HTTP method specified. Must be GET or POST');
+            throw TelegramRequestException::invalidHttpMethod();
         }
     }
 
@@ -185,7 +185,7 @@ class TelegramRequest
     public function getDefaultHeaders(): array
     {
         return [
-            'User-Agent' => 'Telegram Bot API PHP SDK/' . Api::VERSION . ' - (https://github.com/telegram-bot-api/php-sdk)',
+            'User-Agent' => 'Telegram Bot SDK/' . Api::VERSION . ' - (https://github.com/telegram-bot-sdk/telegram-bot-sdk)',
         ];
     }
 
@@ -250,7 +250,7 @@ class TelegramRequest
      *
      * @return TelegramRequest
      */
-    public function setParams(array $params = []): self
+    public function setParams(array $params): self
     {
         $this->params = array_merge($this->params, $params);
 
