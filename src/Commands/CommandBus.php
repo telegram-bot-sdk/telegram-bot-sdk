@@ -226,7 +226,7 @@ class CommandBus extends AnswerBus
             return $this->validateCommandClassInstance($command);
         }
 
-        $command = $this->commands[$command] ?? $command;
+        $command = array_change_key_case($this->commands)[strtolower($command)] ?? $command;
 
         if (!class_exists($command)) {
             throw TelegramCommandException::commandClassDoesNotExist($command);
