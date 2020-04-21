@@ -27,7 +27,7 @@ abstract class BaseObject extends Collection
      *
      * @return array
      */
-    abstract public function relations();
+    abstract public function relations(): array;
 
     /**
      * Magically access collection data.
