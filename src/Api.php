@@ -4,8 +4,6 @@ namespace Telegram\Bot;
 
 use BadMethodCallException;
 use Illuminate\Support\Traits\Macroable;
-use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\HttpClients\HttpClientInterface;
 
 /**
  * Class Api.
@@ -40,42 +38,14 @@ class Api
     /** @var string Version number of the Telegram Bot PHP SDK. */
     public const VERSION = '4.0.0';
 
-    /** @var string The name of the environment variable that contains the Telegram Bot API Access Token. */
-    public const BOT_TOKEN_ENV_NAME = 'TELEGRAM_BOT_TOKEN';
-
     /**
      * Instantiates a new Telegram super-class object.
      *
-     *
-     * @param string                   $token             The Telegram Bot API Access Token.
-     * @param bool                     $async             (Optional) Indicates if the request to Telegram will be
-     *                                                    asynchronous (non-blocking).
-     * @param HttpClientInterface|null $httpClientHandler (Optional) Custom HTTP Client Handler.
-     *
-     * @throws TelegramSDKException
+     * @param string $token The Telegram Bot API Access Token.
      */
-    public function __construct($token = null, $async = false, $httpClientHandler = null)
+    public function __construct(string $token = null)
     {
-        $this->accessToken = $token ?? getenv(static::BOT_TOKEN_ENV_NAME);
-        $this->validateAccessToken();
-
-        if ($async) {
-            $this->setAsyncRequest($async);
-        }
-
-        $this->httpClientHandler = $httpClientHandler;
-    }
-
-    /**
-     * Invoke Bots Manager.
-     *
-     * @param $config
-     *
-     * @return BotsManager
-     */
-    public static function manager($config): BotsManager
-    {
-        return new BotsManager($config);
+        $this->setAccessToken($token);
     }
 
     /**
@@ -96,21 +66,25 @@ class Api
             return $this->{$method}(...$arguments);
         }
 
+        if (in_array($method, ['getConnectTimeOut', 'getTimeOut', 'isAsyncRequest'])) {
+            return $this->getClient()->{$method}();
+        }
+
+        if (in_array($method, ['setConnectTimeOut', 'setTimeOut', 'setAsyncRequest'])) {
+            $this->getClient()->{$method}(...$arguments);
+
+            return $this;
+        }
+
+        if (method_exists($this->getClient(), $method)) {
+            return $this->getClient()->{$method}(...$arguments);
+        }
+
         // If the method does not exist on the API, try the commandBus.
         if (preg_match('/^\w+Commands?/', $method, $matches)) {
             return $this->getCommandBus()->{$matches[0]}(...$arguments);
         }
 
         throw new BadMethodCallException("Method [$method] does not exist.");
-    }
-
-    /**
-     * @throws TelegramSDKException
-     */
-    protected function validateAccessToken(): void
-    {
-        if (!$this->accessToken || !is_string($this->accessToken)) {
-            throw TelegramSDKException::tokenNotProvided(static::BOT_TOKEN_ENV_NAME);
-        }
     }
 }

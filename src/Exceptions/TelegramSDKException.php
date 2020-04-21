@@ -3,6 +3,7 @@
 namespace Telegram\Bot\Exceptions;
 
 use Exception;
+use Throwable;
 
 /**
  * Class TelegramSDKException.
@@ -22,16 +23,14 @@ class TelegramSDKException extends Exception
     }
 
     /**
-     * Thrown when token is not provided.
-     *
-     * @param $tokenEnvName
+     * Thrown when bot token is not provided.
      *
      * @return static
      */
-    public static function tokenNotProvided($tokenEnvName): self
+    public static function tokenNotProvided(): self
     {
         return new static(
-            'Required "token" not supplied in config and could not find fallback environment variable ' . $tokenEnvName . ''
+            'Required "token" not supplied in config'
         );
     }
 
@@ -43,5 +42,33 @@ class TelegramSDKException extends Exception
     public static function updateObjectNotFound(): self
     {
         return new static('No Update Object Found.');
+    }
+
+    /**
+     * Thrown when command name is not set.
+     *
+     * @param string|object $command
+     *
+     * @return static
+     */
+    public static function commandNameNotSet($command): self
+    {
+        $command = is_object($command) ? get_class($command) : $command;
+
+        return new static("[$command] command has no name. Add a command name in your config!");
+    }
+
+    /**
+     * Thrown when http client handler class is not instantiable.
+     *
+     * @param string    $httpClient
+     * @param Throwable $e
+     * @param int       $code
+     *
+     * @return static
+     */
+    public static function httpClientNotInstantiable(string $httpClient, Throwable $e, int $code = 0): self
+    {
+        return new static('Http Client class [' . $httpClient . '] is not instantiable.', $code, $e);
     }
 }

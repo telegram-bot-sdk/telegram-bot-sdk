@@ -8,19 +8,9 @@ namespace Telegram\Bot\Exceptions;
 class TelegramRequestException extends TelegramSDKException
 {
     /**
-     * Thrown when bot access token is not provided.
-     *
-     * @return TelegramRequestException
-     */
-    public static function botAccessTokenNotProvided(): self
-    {
-        return new static('You must provide your bot access token to make any API requests.');
-    }
-
-    /**
      * Thrown when HTTP method is not specified.
      *
-     * @return TelegramRequestException
+     * @return static
      */
     public static function httpMethodNotSpecified(): self
     {
@@ -30,7 +20,7 @@ class TelegramRequestException extends TelegramSDKException
     /**
      * Thrown when HTTP method is invalid.
      *
-     * @return TelegramRequestException
+     * @return static
      */
     public static function invalidHttpMethod(): self
     {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Telegram\Bot\Traits;
+namespace Telegram\Bot\Helpers;
 
 use Telegram\Bot\FileUpload\InputFile;
 
 /**
  * Validator.
  */
-trait Validator
+class Validator
 {
     /**
      * Determine given param in params array is a file id.
@@ -17,9 +17,9 @@ trait Validator
      *
      * @return bool
      */
-    protected function hasFileId(string $inputFileField, array $params): bool
+    public static function hasFileId(string $inputFileField, array $params): bool
     {
-        return isset($params[$inputFileField]) && $this->isFileId($params[$inputFileField]);
+        return isset($params[$inputFileField]) && static::isFileId($params[$inputFileField]);
     }
 
     /**
@@ -29,7 +29,7 @@ trait Validator
      *
      * @return bool
      */
-    protected function isInputFile($contents): bool
+    public static function isInputFile($contents): bool
     {
         return $contents instanceof InputFile;
     }
@@ -41,7 +41,7 @@ trait Validator
      *
      * @return bool
      */
-    protected function isFileId($value): bool
+    public static function isFileId($value): bool
     {
         if (!is_string($value)) {
             return false;
@@ -57,7 +57,7 @@ trait Validator
      *
      * @return bool
      */
-    protected function isUrl(string $value): bool
+    public static function isUrl(string $value): bool
     {
         return (bool)filter_var($value, FILTER_VALIDATE_URL);
     }
@@ -69,7 +69,7 @@ trait Validator
      *
      * @return bool
      */
-    protected function is_json(string $string): bool
+    public static function isJson(string $string): bool
     {
         json_decode($string);
 

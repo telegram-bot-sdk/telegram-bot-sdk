@@ -2,9 +2,10 @@
 
 namespace Telegram\Bot;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Http\GuzzleHttpClient;
 use Telegram\Bot\Traits\HasContainer;
 
 /**
@@ -16,7 +17,7 @@ class BotsManager
 {
     use HasContainer;
 
-    /** @var array The config instance. */
+    /** @var array Config */
     protected array $config;
 
     /** @var Api[] The active bot instances. */
@@ -30,6 +31,31 @@ class BotsManager
     public function __construct(array $config)
     {
         $this->config = $config;
+    }
+
+    /**
+     * Get the specified configuration value for Telegram.
+     *
+     * @param array|string|null $key
+     * @param mixed             $default
+     *
+     * @return mixed
+     */
+    public function config($key = null, $default = null)
+    {
+        if (null === $key) {
+            return $this->config;
+        }
+
+        if (is_array($key)) {
+            foreach ($key as $name => $value) {
+                Arr::set($this->config, $name, $value);
+            }
+
+            return true;
+        }
+
+        return Arr::get($this->config, $key, $default);
     }
 
     /**
@@ -49,7 +75,7 @@ class BotsManager
      */
     public function getDefaultBotName(): ?string
     {
-        return $this->getConfig('default');
+        return $this->config('default');
     }
 
     /**
@@ -60,9 +86,9 @@ class BotsManager
      * @throws TelegramSDKException
      * @return BotsManager
      */
-    public function setDefaultBot(string $name): self
+    public function setDefaultBotName(string $name): self
     {
-        Arr::set($this->config, 'default', $name);
+        $this->config(['default' => $name]);
 
         $this->reconnect($name);
 
@@ -115,46 +141,19 @@ class BotsManager
     }
 
     /**
-     * Make the bot instance.
-     *
-     * @param string $name
-     *
-     * @throws TelegramSDKException
-     * @return Api
-     */
-    protected function makeBot(string $name): Api
-    {
-        $config = $this->getBotConfig($name);
-
-        $telegram = new Api(
-            data_get($config, 'token'),
-            $this->getConfig('async_requests', false),
-            $this->getConfig('http_client_handler', null)
-        );
-
-        $telegram->setContainer($this->getContainer());
-
-        $commands = $this->buildCommandsList(data_get($config, 'commands', []));
-
-        // Register Commands
-        $telegram->addCommands($commands);
-
-        return $telegram;
-    }
-
-    /**
      * Get the configuration for a bot.
      *
      * @param string|null $name
      *
      * @throws TelegramSDKException
+     *
      * @return array
      */
     public function getBotConfig(string $name = null): array
     {
         $name ??= $this->getDefaultBotName();
 
-        $config = Collection::make($this->getConfig('bots'))->get($name, null);
+        $config = $this->config("bots.{$name}");
 
         if (!$config) {
             throw TelegramSDKException::botNotConfigured($name);
@@ -166,16 +165,60 @@ class BotsManager
     }
 
     /**
-     * Get the specified configuration value for Telegram.
+     * Make the bot instance.
      *
-     * @param string $key
-     * @param mixed  $default
+     * @param string $name
      *
-     * @return mixed
+     * @throws TelegramSDKException
+     * @return Api
      */
-    public function getConfig($key, $default = null)
+    protected function makeBot(string $name): Api
     {
-        return data_get($this->config, $key, $default);
+        $config = $this->getBotConfig($name);
+
+        $api = new Api(Arr::get($config, 'token'));
+        $api->setContainer($this->getContainer())->setAsyncRequest($this->config('async_requests', false));
+
+        $this->setHttpClientHandler($api);
+        $this->registerCommands($config, $api);
+
+        return $api;
+    }
+
+    /**
+     * Set the HTTP Client Handler.
+     *
+     * @param Api $api
+     *
+     * @throws TelegramSDKException
+     */
+    protected function setHttpClientHandler(Api $api): void
+    {
+        $handler = $this->config('http_client_handler', GuzzleHttpClient::class);
+
+        try {
+            $client = is_string($handler) ? $this->getContainer()->make($handler) : $handler;
+
+            $api->setHttpClientHandler($client);
+        } catch (BindingResolutionException $e) {
+            throw TelegramSDKException::httpClientNotInstantiable($handler, $e);
+        }
+    }
+
+    /**
+     * Register the commands.
+     *
+     * @param array $config
+     * @param Api   $api
+     *
+     * @throws TelegramSDKException
+     */
+    protected function registerCommands(array $config, Api $api): void
+    {
+        $commands = $this->buildCommandsList(Arr::get($config, 'commands', []));
+
+        // Register Commands
+        $api->addCommands($commands);
     }
 
     /**
@@ -188,17 +231,14 @@ class BotsManager
      */
     protected function buildCommandsList(array $commands): array
     {
-        $globalCommands = $this->getConfig('commands', []);
-        $parsedCommands = $this->parseCommands($commands);
-
-        $uniqueCommands = array_unique(array_merge($globalCommands, $parsedCommands));
+        $unique = collect($this->config('commands', []))->merge($this->parseCommands($commands))->unique();
 
         // Any command without a name associated with it will force the unique list to have an index key of 0.
-        if (isset($uniqueCommands[0])) {
-            throw new TelegramSDKException('A command in your config file did not have a name associated with the class.');
+        if ($unique->has(0)) {
+            throw TelegramSDKException::commandNameNotSet($unique->get(0));
         }
 
-        return $uniqueCommands;
+        return $unique->all();
     }
 
     /**
@@ -210,26 +250,25 @@ class BotsManager
      */
     protected function parseCommands(array $commands): array
     {
-        $commandGroups = $this->getConfig('command_groups');
-        $sharedCommands = $this->getConfig('shared_commands');
+        $groups = $this->config('command_groups');
+        $shared = $this->config('shared_commands');
 
-        return Collection::make($commands)
-            ->flatMap(function ($command, $name) use ($commandGroups, $sharedCommands) {
-                // If the command is a group, we'll parse through the group of commands
-                // and resolve the full class name.
-                if (isset($commandGroups[$command])) {
-                    return $this->parseCommands($commandGroups[$command]);
-                }
+        return collect($commands)->flatMap(function ($command, $name) use ($groups, $shared) {
+            // If the command is a group, we'll parse through the group of commands
+            // and resolve the full class name.
+            if (isset($groups[$command])) {
+                return $this->parseCommands($groups[$command]);
+            }
 
-                // If this command is actually a shared command, we'll extract the full
-                // class name out of the command list now.
-                if (isset($sharedCommands[$command])) {
-                    $name = $command;
-                    $command = $sharedCommands[$command];
-                }
+            // If this command is actually a shared command, we'll extract the full
+            // class name out of the command list now.
+            if (isset($shared[$command])) {
+                $name = $command;
+                $command = $shared[$command];
+            }
 
-                return [$name => $command];
-            })->all();
+            return [$name => $command];
+        })->all();
     }
 
     /**

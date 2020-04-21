@@ -1,6 +1,6 @@
 <?php
 
-namespace Telegram\Bot;
+namespace Telegram\Bot\Http;
 
 use GuzzleHttp\Promise\PromiseInterface;
 use InvalidArgumentException;
@@ -59,7 +59,7 @@ class TelegramResponse
         }
 
         $this->request = $request;
-        $this->endPoint = (string)$request->getEndpoint();
+        $this->endPoint = $request->getEndpoint();
     }
 
     /**
@@ -135,6 +135,7 @@ class TelegramResponse
     /**
      * Return the bot access token that was used for this request.
      *
+     * @throws TelegramSDKException
      * @return string|null
      */
     public function getAccessToken(): ?string

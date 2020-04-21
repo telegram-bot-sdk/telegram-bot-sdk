@@ -3,21 +3,19 @@
 namespace Telegram\Bot\Tests\Unit\Traits;
 
 use PHPUnit\Framework\TestCase;
-use Telegram\Bot\Traits\Validator;
+use Telegram\Bot\Helpers\Validator;
 
 class ValidatorTest extends TestCase
 {
-    use Validator;
-
     /** @test */
     public function it_checks_it_can_detect_a_file_id()
     {
-        $result01 = $this->isFileId('https://short.url');
-        $result02 = $this->isFileId('/path/to/file.pdf');
-        $result03 = $this->isFileId([]);
-        $result04 = $this->isFileId('asuperlongfilenamethatisover20characters.pdf');
+        $result01 = Validator::isFileId('https://short.url');
+        $result02 = Validator::isFileId('/path/to/file.pdf');
+        $result03 = Validator::isFileId([]);
+        $result04 = Validator::isFileId('asuperlongfilenamethatisover20characters.pdf');
 
-        $result10 = $this->isFileId('AwADBAADYwADO1wlBuF1ogMa7HnMAg');
+        $result10 = Validator::isFileId('AwADBAADYwADO1wlBuF1ogMa7HnMAg');
 
         $this->assertFalse($result01);
         $this->assertFalse($result02);

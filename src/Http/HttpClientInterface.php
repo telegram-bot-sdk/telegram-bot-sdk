@@ -1,6 +1,6 @@
 <?php
 
-namespace Telegram\Bot\HttpClients;
+namespace Telegram\Bot\Http;
 
 /**
  * Interface HttpClientInterface.
@@ -19,11 +19,11 @@ interface HttpClientInterface
      * @return mixed
      */
     public function send(
-        $url,
-        $method,
+        string $url,
+        string $method,
         array $headers = [],
         array $options = [],
-        $isAsyncRequest = false
+        bool $isAsyncRequest = false
     );
 
     /**
@@ -40,7 +40,7 @@ interface HttpClientInterface
      *
      * @return $this
      */
-    public function setTimeOut($timeOut);
+    public function setTimeOut(int $timeOut): self;
 
     /**
      * Get Connection Timeout.
@@ -56,5 +56,5 @@ interface HttpClientInterface
      *
      * @return $this
      */
-    public function setConnectTimeOut($connectTimeOut);
+    public function setConnectTimeOut(int $connectTimeOut): self;
 }

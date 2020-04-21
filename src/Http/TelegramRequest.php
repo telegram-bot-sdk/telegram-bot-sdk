@@ -1,8 +1,10 @@
 <?php
 
-namespace Telegram\Bot;
+namespace Telegram\Bot\Http;
 
+use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramRequestException;
+use Telegram\Bot\Traits\HasAccessToken;
 
 /**
  * Class TelegramRequest.
@@ -11,8 +13,7 @@ use Telegram\Bot\Exceptions\TelegramRequestException;
  */
 class TelegramRequest
 {
-    /** @var string|null The bot access token to use for this request. */
-    protected ?string $accessToken;
+    use HasAccessToken;
 
     /** @var string The HTTP method for this request. */
     protected string $method;
@@ -71,42 +72,6 @@ class TelegramRequest
     public function setAsyncRequest($isAsyncRequest): self
     {
         $this->isAsyncRequest = $isAsyncRequest;
-
-        return $this;
-    }
-
-    /**
-     * Validate that bot access token exists for this request.
-     *
-     * @throws TelegramRequestException
-     */
-    public function validateAccessToken(): void
-    {
-        if (null === $this->getAccessToken()) {
-            throw TelegramRequestException::botAccessTokenNotProvided();
-        }
-    }
-
-    /**
-     * Return the bot access token for this request.
-     *
-     * @return string|null
-     */
-    public function getAccessToken(): ?string
-    {
-        return $this->accessToken;
-    }
-
-    /**
-     * Set the bot access token for this request.
-     *
-     * @param string $accessToken
-     *
-     * @return TelegramRequest
-     */
-    public function setAccessToken(string $accessToken): self
-    {
-        $this->accessToken = $accessToken;
 
         return $this;
     }

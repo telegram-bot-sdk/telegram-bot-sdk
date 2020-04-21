@@ -10,7 +10,7 @@ class CouldNotUploadInputFile extends TelegramSDKException
     /**
      * @param $file
      *
-     * @return CouldNotUploadInputFile
+     * @return static
      */
     public static function fileDoesNotExistOrNotReadable($file): self
     {
@@ -20,7 +20,7 @@ class CouldNotUploadInputFile extends TelegramSDKException
     /**
      * @param $path
      *
-     * @return CouldNotUploadInputFile
+     * @return static
      */
     public static function filenameNotProvided($path): self
     {
@@ -35,7 +35,7 @@ class CouldNotUploadInputFile extends TelegramSDKException
     /**
      * @param $path
      *
-     * @return CouldNotUploadInputFile
+     * @return static
      */
     public static function couldNotOpenResource($path): self
     {
@@ -45,7 +45,7 @@ class CouldNotUploadInputFile extends TelegramSDKException
     /**
      * @param $property
      *
-     * @return CouldNotUploadInputFile
+     * @return static
      */
     public static function inputFileParameterShouldBeInputFileEntity($property): self
     {
@@ -55,7 +55,7 @@ class CouldNotUploadInputFile extends TelegramSDKException
     /**
      * @param $inputFileField
      *
-     * @return CouldNotUploadInputFile
+     * @return static
      */
     public static function missingParam($inputFileField): self
     {

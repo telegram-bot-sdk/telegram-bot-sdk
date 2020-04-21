@@ -6,7 +6,7 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Update;
 
 /**
- * HasTelegramUpdate.
+ * HasUpdate.
  */
 trait HasUpdate
 {

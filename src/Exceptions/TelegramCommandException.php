@@ -16,7 +16,7 @@ class TelegramCommandException extends TelegramSDKException
      *
      * @param Throwable $e
      *
-     * @return TelegramCommandException
+     * @return static
      */
     public static function commandMethodDoesNotExist(Throwable $e): self
     {
@@ -28,7 +28,7 @@ class TelegramCommandException extends TelegramSDKException
      *
      * @param string $commandClass
      *
-     * @return TelegramCommandException
+     * @return static
      */
     public static function commandClassDoesNotExist(string $commandClass): self
     {
@@ -40,7 +40,7 @@ class TelegramCommandException extends TelegramSDKException
      *
      * @param object $commandClass
      *
-     * @return TelegramCommandException
+     * @return static
      */
     public static function commandClassNotValid(object $commandClass): self
     {
@@ -60,7 +60,7 @@ class TelegramCommandException extends TelegramSDKException
      * @param Throwable $e
      * @param int       $code
      *
-     * @return TelegramCommandException
+     * @return static
      */
     public static function commandNotInstantiable(string $commandClass, Throwable $e, int $code = 0): self
     {
@@ -72,7 +72,7 @@ class TelegramCommandException extends TelegramSDKException
      *
      * @param Collection $requiredParamsNotProvided
      *
-     * @return TelegramCommandException
+     * @return static
      */
     public static function requiredParamsNotProvided(Collection $requiredParamsNotProvided): self
     {

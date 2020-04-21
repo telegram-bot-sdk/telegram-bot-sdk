@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Exceptions;
 
-use Telegram\Bot\TelegramResponse;
+use Telegram\Bot\Http\TelegramResponse;
 
 /**
  * Class TelegramResponseException.
@@ -10,10 +10,10 @@ use Telegram\Bot\TelegramResponse;
 class TelegramResponseException extends TelegramSDKException
 {
     /** @var TelegramResponse The response that threw the exception. */
-    protected $response;
+    protected TelegramResponse $response;
 
     /** @var array Decoded response. */
-    protected $responseData;
+    protected array $responseData;
 
     /**
      * Creates a TelegramResponseException.
@@ -40,7 +40,7 @@ class TelegramResponseException extends TelegramSDKException
      *
      * @return mixed
      */
-    protected function get($key, $default = null)
+    protected function get(string $key, $default = null)
     {
         return $this->responseData[$key] ?? $default;
     }
@@ -50,7 +50,7 @@ class TelegramResponseException extends TelegramSDKException
      *
      * @param TelegramResponse $response The response that threw the exception.
      *
-     * @return TelegramResponseException
+     * @return static
      */
     public static function create(TelegramResponse $response): self
     {
@@ -72,7 +72,7 @@ class TelegramResponseException extends TelegramSDKException
      *
      * @return int
      */
-    public function getHttpStatusCode()
+    public function getHttpStatusCode(): int
     {
         return $this->response->getHttpStatusCode();
     }

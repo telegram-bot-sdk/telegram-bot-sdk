@@ -1,6 +1,6 @@
 <?php
 
-namespace Telegram\Bot\HttpClients;
+namespace Telegram\Bot\Http;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -18,16 +18,16 @@ use Throwable;
 class GuzzleHttpClient implements HttpClientInterface
 {
     /** @var PromiseInterface[] Holds promises. */
-    private static $promises = [];
+    private static array $promises = [];
 
-    /** @var Client|ClientInterface HTTP client. */
-    protected $client;
+    /** @var ClientInterface HTTP client. */
+    protected ClientInterface $client;
 
     /** @var int Timeout of the request in seconds. */
-    protected $timeOut = 30;
+    protected int $timeOut = 30;
 
     /** @var int Connection timeout of the request in seconds. */
-    protected $connectTimeOut = 10;
+    protected int $connectTimeOut = 10;
 
     /**
      * GuzzleHttpClient constructor.
@@ -36,7 +36,7 @@ class GuzzleHttpClient implements HttpClientInterface
      */
     public function __construct(ClientInterface $client = null)
     {
-        $this->client = $client ?? new Client();
+        $this->setClient($client ?? new Client());
     }
 
     /**
@@ -50,7 +50,17 @@ class GuzzleHttpClient implements HttpClientInterface
     }
 
     /**
-     * Sets HTTP client.
+     * Get the HTTP client.
+     *
+     * @return ClientInterface
+     */
+    public function getClient(): ClientInterface
+    {
+        return $this->client;
+    }
+
+    /**
+     * Set the HTTP client.
      *
      * @param ClientInterface $client
      *
@@ -61,71 +71,6 @@ class GuzzleHttpClient implements HttpClientInterface
         $this->client = $client;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     * @throws TelegramSDKException
-     */
-    public function send(
-        $url,
-        $method,
-        array $headers = [],
-        array $options = [],
-        $isAsyncRequest = false
-    ) {
-        $body = $options['body'] ?? null;
-        $options = $this->getOptions($headers, $body, $options, $isAsyncRequest);
-
-        try {
-            $response = $this->getClient()->requestAsync($method, $url, $options);
-
-            if ($isAsyncRequest) {
-                self::$promises[] = $response;
-            } else {
-                $response = $response->wait();
-            }
-        } catch (RequestException $e) {
-            $response = $e->getResponse();
-
-            if (!$response instanceof ResponseInterface) {
-                throw new TelegramSDKException($e->getMessage(), $e->getCode());
-            }
-        }
-
-        return $response;
-    }
-
-    /**
-     * Prepares and returns request options.
-     *
-     * @param array $headers
-     * @param       $body
-     * @param array $options
-     * @param bool  $isAsyncRequest
-     *
-     * @return array
-     */
-    private function getOptions(
-        array $headers,
-        $body,
-        $options,
-        $isAsyncRequest = false,
-        $proxy = null
-    ): array {
-        $default_options = [
-            RequestOptions::HEADERS         => $headers,
-            RequestOptions::BODY            => $body,
-            RequestOptions::TIMEOUT         => $this->getTimeOut(),
-            RequestOptions::CONNECT_TIMEOUT => $this->getConnectTimeOut(),
-            RequestOptions::SYNCHRONOUS     => !$isAsyncRequest,
-        ];
-
-        if ($proxy !== null) {
-            $default_options[RequestOptions::PROXY] = $proxy;
-        }
-
-        return array_merge($default_options, $options);
     }
 
     /**
@@ -165,12 +110,68 @@ class GuzzleHttpClient implements HttpClientInterface
     }
 
     /**
-     * Gets HTTP client for internal class use.
-     *
-     * @return Client
+     * {@inheritdoc}
+     * @throws TelegramSDKException
      */
-    private function getClient(): Client
-    {
-        return $this->client;
+    public function send(
+        string $url,
+        string $method,
+        array $headers = [],
+        array $options = [],
+        bool $isAsyncRequest = false
+    ) {
+        $body = $options['body'] ?? null;
+        $options = $this->getOptions($headers, $body, $options, $isAsyncRequest);
+
+        try {
+            $response = $this->getClient()->requestAsync($method, $url, $options);
+
+            if ($isAsyncRequest) {
+                self::$promises[] = $response;
+            } else {
+                $response = $response->wait();
+            }
+        } catch (RequestException $e) {
+            $response = $e->getResponse();
+
+            if (!$response instanceof ResponseInterface) {
+                throw new TelegramSDKException($e->getMessage(), $e->getCode());
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * Prepares and returns request options.
+     *
+     * @param array             $headers
+     * @param                   $body
+     * @param array             $options
+     * @param bool              $isAsyncRequest
+     * @param string|array|null $proxy
+     *
+     * @return array
+     */
+    private function getOptions(
+        array $headers,
+        $body,
+        $options,
+        bool $isAsyncRequest = false,
+        $proxy = null
+    ): array {
+        $default_options = [
+            RequestOptions::HEADERS         => $headers,
+            RequestOptions::BODY            => $body,
+            RequestOptions::TIMEOUT         => $this->getTimeOut(),
+            RequestOptions::CONNECT_TIMEOUT => $this->getConnectTimeOut(),
+            RequestOptions::SYNCHRONOUS     => !$isAsyncRequest,
+        ];
+
+        if ($proxy !== null) {
+            $default_options[RequestOptions::PROXY] = $proxy;
+        }
+
+        return array_merge($default_options, $options);
     }
 }

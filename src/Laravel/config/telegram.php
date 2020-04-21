@@ -87,13 +87,13 @@ return [
     |--------------------------------------------------------------------------
     |
     | If you'd like to use a custom HTTP Client Handler.
-    | Should be an instance of \Telegram\Bot\HttpClients\HttpClientInterface
+    | Should be an instance of \Telegram\Bot\Http\HttpClientInterface
     |
     | Default: GuzzlePHP
     |
     */
 
-    'http_client_handler' => null,
+    'http_client_handler' => \Telegram\Bot\Http\GuzzleHttpClient::class,
 
     /*
     |--------------------------------------------------------------------------
