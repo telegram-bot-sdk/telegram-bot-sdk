@@ -94,12 +94,8 @@ trait Game
      */
     public function getGameHighScores(array $params): array
     {
-        $response = $this->get('getGameHighScores', $params);
-
-        return collect($response->getResult())
-            ->map(function ($data) {
-                return new GameHighScore($data);
-            })
+        return collect($this->get('getGameHighScores', $params)->getResult())
+            ->mapInto(GameHighScore::class)
             ->all();
     }
 }

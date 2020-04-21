@@ -482,7 +482,7 @@ trait Message
             'upload_video_note',
         ];
 
-        if (isset($params['action']) && in_array($params['action'], $validActions)) {
+        if (isset($params['action']) && in_array($params['action'], $validActions, true)) {
             $this->post('sendChatAction', $params);
 
             return true;

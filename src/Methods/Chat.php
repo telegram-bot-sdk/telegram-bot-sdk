@@ -65,9 +65,7 @@ trait Chat
      */
     public function exportChatInviteLink(array $params): string
     {
-        $response = $this->post('exportChatInviteLink', $params);
-
-        return $response->getResult();
+        return $this->post('exportChatInviteLink', $params)->getResult();
     }
 
     /**
@@ -91,9 +89,7 @@ trait Chat
      */
     public function setChatPhoto(array $params): bool
     {
-        $response = $this->post('setChatPhoto', $params);
-
-        return $response->getResult();
+        return $this->post('setChatPhoto', $params)->getResult();
     }
 
     /**
@@ -116,9 +112,7 @@ trait Chat
      */
     public function deleteChatPhoto(array $params): bool
     {
-        $response = $this->post('deleteChatPhoto', $params);
-
-        return $response->getResult();
+        return $this->post('deleteChatPhoto', $params)->getResult();
     }
 
     /**
@@ -142,9 +136,7 @@ trait Chat
      */
     public function setChatTitle(array $params): bool
     {
-        $response = $this->post('setChatTitle', $params);
-
-        return $response->getResult();
+        return $this->post('setChatTitle', $params)->getResult();
     }
 
     /**
@@ -168,9 +160,7 @@ trait Chat
      */
     public function setChatDescription(array $params): bool
     {
-        $response = $this->post('setChatDescription', $params);
-
-        return $response->getResult();
+        return $this->post('setChatDescription', $params)->getResult();
     }
 
     /**
@@ -196,9 +186,7 @@ trait Chat
      */
     public function pinChatMessage(array $params): bool
     {
-        $response = $this->post('pinChatMessage', $params);
-
-        return $response->getResult();
+        return $this->post('pinChatMessage', $params)->getResult();
     }
 
     /**
@@ -224,9 +212,7 @@ trait Chat
      */
     public function unpinChatMessage(array $params): bool
     {
-        $response = $this->post('unpinChatMessage', $params);
-
-        return $response->getResult();
+        return $this->post('unpinChatMessage', $params)->getResult();
     }
 
     /**
@@ -301,9 +287,7 @@ trait Chat
      */
     public function restrictChatMember(array $params): bool
     {
-        $response = $this->post('restrictChatMember', $params);
-
-        return $response->getResult();
+        return $this->post('restrictChatMember', $params)->getResult();
     }
 
     /**
@@ -337,9 +321,7 @@ trait Chat
      */
     public function promoteChatMember(array $params): bool
     {
-        $response = $this->post('promoteChatMember', $params);
-
-        return $response->getResult();
+        return $this->post('promoteChatMember', $params)->getResult();
     }
 
     /**
@@ -364,9 +346,7 @@ trait Chat
      */
     public function setChatAdministratorCustomTitle(array $params): bool
     {
-        $response = $this->post('setChatAdministratorCustomTitle', $params);
-
-        return $response->getResult();
+        return $this->post('setChatAdministratorCustomTitle', $params)->getResult();
     }
 
     /**
@@ -390,9 +370,7 @@ trait Chat
      */
     public function setChatPermissions(array $params): bool
     {
-        $response = $this->post('setChatPermissions', $params);
-
-        return $response->getResult();
+        return $this->post('setChatPermissions', $params)->getResult();
     }
 
     /**
@@ -440,11 +418,7 @@ trait Chat
         $response = $this->get('getChatAdministrators', $params);
 
         return collect($response->getResult())
-            ->map(
-                function ($admin) {
-                    return new ChatMember($admin);
-                }
-            )
+            ->mapInto(ChatMember::class)
             ->all();
     }
 
@@ -514,9 +488,7 @@ trait Chat
      */
     public function setChatStickerSet(array $params): bool
     {
-        $response = $this->post('setChatStickerSet', $params);
-
-        return $response->getResult();
+        return $this->post('setChatStickerSet', $params)->getResult();
     }
 
     /**
@@ -539,8 +511,6 @@ trait Chat
      */
     public function deleteChatStickerSet(array $params): bool
     {
-        $response = $this->post('deleteChatStickerSet', $params);
-
-        return $response->getResult();
+        return $this->post('deleteChatStickerSet', $params)->getResult();
     }
 }

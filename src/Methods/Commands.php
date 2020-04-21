@@ -13,7 +13,6 @@ use Telegram\Bot\Traits\Http;
  */
 trait Commands
 {
-
     /**
      * Get the current list of the bot's commands.
      *
@@ -24,14 +23,8 @@ trait Commands
      */
     public function getMyCommands(): array
     {
-        $response = $this->get('getMyCommands');
-
-        return collect($response->getResult())
-            ->map(
-                function ($botCommand) {
-                    return new BotCommand($botCommand);
-                }
-            )
+        return collect($this->get('getMyCommands')->getResult())
+            ->mapInto(BotCommand::class)
             ->all();
     }
 

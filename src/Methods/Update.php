@@ -2,7 +2,6 @@
 
 namespace Telegram\Bot\Methods;
 
-use Telegram\Bot\Events\UpdateWasReceived;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Objects\Update as UpdateObject;
@@ -30,29 +29,18 @@ trait Update
      *
      * @link https://core.telegram.org/bots/api#getupdates
      *
-     * @param bool  $shouldEmitEvents
      * @param array $params
      *
      * @throws TelegramSDKException
      *
      * @return UpdateObject[]
      */
-    public function getUpdates(array $params = [], $shouldEmitEvents = true): array
+    public function getUpdates(array $params = []): array
     {
         $response = $this->get('getUpdates', $params);
 
         return collect($response->getResult())
-            ->map(
-                function ($data) use ($shouldEmitEvents) {
-                    $update = new UpdateObject($data);
-
-                    if ($shouldEmitEvents) {
-                        $this->emitEvent(new UpdateWasReceived($update, $this));
-                    }
-
-                    return $update;
-                }
-            )
+            ->mapInto(UpdateObject::class)
             ->all();
     }
 
@@ -108,11 +96,11 @@ trait Update
      * @link https://core.telegram.org/bots/api#getwebhookinfo
      *
      * @throws TelegramSDKException
+     *
      * @return WebhookInfo
      */
     public function getWebhookInfo(): WebhookInfo
     {
-        /**       'response' => '',  // TelegramResponse~*/
         $response = $this->get('getWebhookInfo');
 
         return new WebhookInfo($response->getDecodedBody());
@@ -122,23 +110,14 @@ trait Update
      * Returns a webhook update sent by Telegram.
      * Works only if you set a webhook.
      *
-     * @param bool $shouldEmitEvent
-     *
      * @return UpdateObject
      * @see setWebhook
-     *
      */
-    public function getWebhookUpdate($shouldEmitEvent = true): UpdateObject
+    public function getWebhookUpdate(): UpdateObject
     {
         $body = json_decode(file_get_contents('php://input'), true);
 
-        $update = new UpdateObject($body);
-
-        if ($shouldEmitEvent) {
-            $this->emitEvent(new UpdateWasReceived($update, $this));
-        }
-
-        return $update;
+        return new UpdateObject($body);
     }
 
     /**
@@ -154,6 +133,8 @@ trait Update
     }
 
     /**
+     * Validate Hook URL.
+     *
      * @param string $url
      *
      * @throws TelegramSDKException
@@ -169,6 +150,13 @@ trait Update
         }
     }
 
+    /**
+     * Format Certificate.
+     *
+     * @param $certificate
+     *
+     * @return InputFile
+     */
     protected function formatCertificate($certificate): InputFile
     {
         if ($certificate instanceof InputFile) {

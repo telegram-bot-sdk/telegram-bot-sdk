@@ -82,9 +82,7 @@ trait Payments
      */
     public function answerShippingQuery(array $params): bool
     {
-        $response = $this->post('answerShippingQuery', $params);
-
-        return $response->getResult();
+        return $this->post('answerShippingQuery', $params)->getResult();
     }
 
     /**
@@ -108,8 +106,6 @@ trait Payments
      */
     public function answerPreCheckoutQuery(array $params): bool
     {
-        $response = $this->post('answerPreCheckoutQuery', $params);
-
-        return $response->getResult();
+        return $this->post('answerPreCheckoutQuery', $params)->getResult();
     }
 }

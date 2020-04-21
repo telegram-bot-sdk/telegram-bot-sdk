@@ -20,7 +20,7 @@ trait Passport
      *
      * @return bool
      */
-    public function setPassportDataErrors(array $params)
+    public function setPassportDataErrors(array $params): bool
     {
         return $this->post('setPassportDataErrors', $params)->getResult();
     }

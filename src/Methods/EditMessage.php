@@ -148,7 +148,7 @@ trait EditMessage
      *
      * @return Poll
      */
-    public function stopPoll(array $params)
+    public function stopPoll(array $params): Poll
     {
         $response = $this->post('stopPoll', $params);
 
@@ -178,12 +178,10 @@ trait EditMessage
      *
      * @throws TelegramSDKException
      *
-     * @return Message|bool
+     * @return bool
      */
-    public function deleteMessage(array $params)
+    public function deleteMessage(array $params): bool
     {
-        $response = $this->post('deleteMessage', $params);
-
-        return $response->getResult();
+        return $this->post('deleteMessage', $params)->getResult();
     }
 }
