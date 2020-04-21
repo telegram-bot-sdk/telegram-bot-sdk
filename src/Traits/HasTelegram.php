@@ -9,11 +9,21 @@ use Telegram\Bot\Api;
  */
 trait HasTelegram
 {
-    /** @var Api Holds the Super Class Instance. */
-    protected ?Api $telegram;
+    /** @var Api|null Telegram Api. */
+    protected ?Api $telegram = null;
 
     /**
-     * Returns Super Class Instance.
+     * Determine if Telegram Api is set.
+     *
+     * @return bool
+     */
+    public function hasTelegram(): bool
+    {
+        return $this->telegram !== null;
+    }
+
+    /**
+     * Get the Telegram Api.
      *
      * @return Api
      */
@@ -23,7 +33,7 @@ trait HasTelegram
     }
 
     /**
-     * Set Telegram Api Instance.
+     * Set the Telegram Api.
      *
      * @param Api $telegram
      *
@@ -34,15 +44,5 @@ trait HasTelegram
         $this->telegram = $telegram;
 
         return $this;
-    }
-
-    /**
-     * Determine Telegram Api instance has been set.
-     *
-     * @return bool
-     */
-    public function hasTelegram(): bool
-    {
-        return $this->telegram !== null;
     }
 }

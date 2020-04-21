@@ -9,21 +9,17 @@ use Illuminate\Contracts\Container\Container;
  */
 trait HasContainer
 {
-    /** @var Container IoC Container */
-    protected Container $container;
+    /** @var Container|null IoC Container */
+    protected ?Container $container = null;
 
     /**
-     * Set the IoC Container.
+     * Determine if IoC Container is set.
      *
-     * @param Container $container instance
-     *
-     * @return $this
+     * @return bool
      */
-    public function setContainer(Container $container): self
+    public function hasContainer(): bool
     {
-        $this->container = $container;
-
-        return $this;
+        return $this->container !== null;
     }
 
     /**
@@ -37,12 +33,16 @@ trait HasContainer
     }
 
     /**
-     * Check if IoC Container has been set.
+     * Set the IoC Container.
      *
-     * @return bool
+     * @param Container $container instance
+     *
+     * @return $this
      */
-    public function hasContainer(): bool
+    public function setContainer(Container $container): self
     {
-        return $this->container !== null;
+        $this->container = $container;
+
+        return $this;
     }
 }

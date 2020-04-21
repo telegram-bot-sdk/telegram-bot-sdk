@@ -3,6 +3,7 @@
 namespace Telegram\Bot;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Traits\HasContainer;
@@ -44,7 +45,7 @@ class BotsManager
     {
         $name ??= $this->getDefaultBotName();
 
-        $bots = collect($this->getConfig('bots'));
+        $bots = Collection::make($this->getConfig('bots'));
 
         if (!$config = $bots->get($name, null)) {
             throw new InvalidArgumentException("Bot [$name] not configured.");
@@ -168,7 +169,7 @@ class BotsManager
             $this->getConfig('http_client_handler', null)
         );
 
-        $telegram->setContainer($this->container);
+        $telegram->setContainer($this->getContainer());
 
         $commands = $this->parseBotCommands(data_get($config, 'commands', []));
 
@@ -213,7 +214,7 @@ class BotsManager
         $commandGroups = $this->getConfig('command_groups');
         $sharedCommands = $this->getConfig('shared_commands');
 
-        return collect($commands)
+        return Collection::make($commands)
             ->flatMap(
                 function ($command, $name) use ($commandGroups, $sharedCommands) {
                     // If the command is a group, we'll parse through the group of commands

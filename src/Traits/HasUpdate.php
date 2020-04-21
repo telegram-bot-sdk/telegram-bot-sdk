@@ -10,25 +10,21 @@ use Telegram\Bot\Objects\Update;
  */
 trait HasUpdate
 {
-    /** @var Update Holds Telegram Update */
+    /** @var Update Telegram Update. */
     protected ?Update $update = null;
 
     /**
-     * Set Telegram Update.
+     * Determine if Telegram Update is set.
      *
-     * @param Update $update Telegram Update.
-     *
-     * @return $this
+     * @return bool
      */
-    public function setUpdate(Update $update): self
+    public function hasUpdate(): bool
     {
-        $this->update = $update;
-
-        return $this;
+        return $this->update !== null;
     }
 
     /**
-     * Get Telegram Update
+     * Get the Telegram Update.
      *
      * @throws TelegramSDKException
      * @return Update
@@ -43,12 +39,16 @@ trait HasUpdate
     }
 
     /**
-     * Determine Telegram Update is set.
+     * Set the Telegram Update.
      *
-     * @return bool
+     * @param Update $update Telegram Update.
+     *
+     * @return $this
      */
-    public function hasUpdate(): bool
+    public function setUpdate(Update $update): self
     {
-        return $this->update !== null;
+        $this->update = $update;
+
+        return $this;
     }
 }
