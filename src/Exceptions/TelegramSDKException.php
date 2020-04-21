@@ -10,6 +10,18 @@ use Exception;
 class TelegramSDKException extends Exception
 {
     /**
+     * Thrown when bot is not configured.
+     *
+     * @param string $name
+     *
+     * @return static
+     */
+    public static function botNotConfigured(string $name): self
+    {
+        return new static("Bot [$name] not configured.");
+    }
+
+    /**
      * Thrown when token is not provided.
      *
      * @param $tokenEnvName

@@ -4,7 +4,6 @@ namespace Telegram\Bot;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use InvalidArgumentException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Traits\HasContainer;
 
@@ -34,84 +33,13 @@ class BotsManager
     }
 
     /**
-     * Get the configuration for a bot.
+     * Return all of the created bots.
      *
-     * @param string|null $name
-     *
-     * @throws InvalidArgumentException
-     * @return array
+     * @return Api[]
      */
-    public function getBotConfig($name = null): array
+    public function getBots(): array
     {
-        $name ??= $this->getDefaultBotName();
-
-        $bots = Collection::make($this->getConfig('bots'));
-
-        if (!$config = $bots->get($name, null)) {
-            throw new InvalidArgumentException("Bot [$name] not configured.");
-        }
-
-        $config['bot'] = $name;
-
-        return $config;
-    }
-
-    /**
-     * Get a bot instance.
-     *
-     * @param string $name
-     *
-     * @throws TelegramSDKException
-     * @return Api
-     */
-    public function bot($name = null): Api
-    {
-        $name ??= $this->getDefaultBotName();
-
-        return $this->bots[$name] ??= $this->makeBot($name);
-    }
-
-    /**
-     * Reconnect to the given bot.
-     *
-     * @param string $name
-     *
-     * @throws TelegramSDKException
-     * @return Api
-     */
-    public function reconnect($name = null): Api
-    {
-        $this->disconnect($name);
-
-        return $this->bot($name);
-    }
-
-    /**
-     * Disconnect from the given bot.
-     *
-     * @param string $name
-     *
-     * @return BotsManager
-     */
-    public function disconnect($name = null): self
-    {
-        $name ??= $this->getDefaultBotName();
-        unset($this->bots[$name]);
-
-        return $this;
-    }
-
-    /**
-     * Get the specified configuration value for Telegram.
-     *
-     * @param string $key
-     * @param mixed  $default
-     *
-     * @return mixed
-     */
-    public function getConfig($key, $default = null)
-    {
-        return data_get($this->config, $key, $default);
+        return $this->bots;
     }
 
     /**
@@ -132,7 +60,7 @@ class BotsManager
      * @throws TelegramSDKException
      * @return BotsManager
      */
-    public function setDefaultBot($name): self
+    public function setDefaultBot(string $name): self
     {
         Arr::set($this->config, 'default', $name);
 
@@ -142,13 +70,48 @@ class BotsManager
     }
 
     /**
-     * Return all of the created bots.
+     * Get a bot instance.
      *
-     * @return Api[]
+     * @param string $name
+     *
+     * @throws TelegramSDKException
+     * @return Api
      */
-    public function getBots(): array
+    public function bot(string $name = null): Api
     {
-        return $this->bots;
+        $name ??= $this->getDefaultBotName();
+
+        return $this->bots[$name] ??= $this->makeBot($name);
+    }
+
+    /**
+     * Reconnect to the given bot.
+     *
+     * @param string $name
+     *
+     * @throws TelegramSDKException
+     * @return Api
+     */
+    public function reconnect(string $name = null): Api
+    {
+        $this->disconnect($name);
+
+        return $this->bot($name);
+    }
+
+    /**
+     * Disconnect from the given bot.
+     *
+     * @param string $name
+     *
+     * @return BotsManager
+     */
+    public function disconnect(string $name = null): self
+    {
+        $name ??= $this->getDefaultBotName();
+        unset($this->bots[$name]);
+
+        return $this;
     }
 
     /**
@@ -159,7 +122,7 @@ class BotsManager
      * @throws TelegramSDKException
      * @return Api
      */
-    protected function makeBot($name): Api
+    protected function makeBot(string $name): Api
     {
         $config = $this->getBotConfig($name);
 
@@ -171,12 +134,48 @@ class BotsManager
 
         $telegram->setContainer($this->getContainer());
 
-        $commands = $this->parseBotCommands(data_get($config, 'commands', []));
+        $commands = $this->buildCommandsList(data_get($config, 'commands', []));
 
         // Register Commands
         $telegram->addCommands($commands);
 
         return $telegram;
+    }
+
+    /**
+     * Get the configuration for a bot.
+     *
+     * @param string|null $name
+     *
+     * @throws TelegramSDKException
+     * @return array
+     */
+    public function getBotConfig(string $name = null): array
+    {
+        $name ??= $this->getDefaultBotName();
+
+        $config = Collection::make($this->getConfig('bots'))->get($name, null);
+
+        if (!$config) {
+            throw TelegramSDKException::botNotConfigured($name);
+        }
+
+        $config['bot'] = $name;
+
+        return $config;
+    }
+
+    /**
+     * Get the specified configuration value for Telegram.
+     *
+     * @param string $key
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    public function getConfig($key, $default = null)
+    {
+        return data_get($this->config, $key, $default);
     }
 
     /**
@@ -187,7 +186,7 @@ class BotsManager
      * @throws TelegramSDKException
      * @return array An array of commands which includes global and bot specific commands.
      */
-    protected function parseBotCommands(array $commands): array
+    protected function buildCommandsList(array $commands): array
     {
         $globalCommands = $this->getConfig('commands', []);
         $parsedCommands = $this->parseCommands($commands);
@@ -215,24 +214,22 @@ class BotsManager
         $sharedCommands = $this->getConfig('shared_commands');
 
         return Collection::make($commands)
-            ->flatMap(
-                function ($command, $name) use ($commandGroups, $sharedCommands) {
-                    // If the command is a group, we'll parse through the group of commands
-                    // and resolve the full class name.
-                    if (isset($commandGroups[$command])) {
-                        return $this->parseCommands($commandGroups[$command]);
-                    }
-
-                    // If this command is actually a shared command, we'll extract the full
-                    // class name out of the command list now.
-                    if (isset($sharedCommands[$command])) {
-                        $name = $command;
-                        $command = $sharedCommands[$command];
-                    }
-
-                    return [$name => $command];
+            ->flatMap(function ($command, $name) use ($commandGroups, $sharedCommands) {
+                // If the command is a group, we'll parse through the group of commands
+                // and resolve the full class name.
+                if (isset($commandGroups[$command])) {
+                    return $this->parseCommands($commandGroups[$command]);
                 }
-            )->all();
+
+                // If this command is actually a shared command, we'll extract the full
+                // class name out of the command list now.
+                if (isset($sharedCommands[$command])) {
+                    $name = $command;
+                    $command = $sharedCommands[$command];
+                }
+
+                return [$name => $command];
+            })->all();
     }
 
     /**
