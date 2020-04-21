@@ -18,7 +18,7 @@ class ShippingQuery extends BaseObject
     /**
      * {@inheritdoc}
      */
-    public function relations()
+    public function relations(): array
     {
         return [
             'from'             => User::class,

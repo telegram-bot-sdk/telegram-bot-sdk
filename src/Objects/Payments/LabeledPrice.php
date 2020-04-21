@@ -15,9 +15,8 @@ class LabeledPrice extends BaseObject
     /**
      * {@inheritdoc}
      */
-    public function relations()
+    public function relations(): array
     {
-        return [
-        ];
+        return [];
     }
 }

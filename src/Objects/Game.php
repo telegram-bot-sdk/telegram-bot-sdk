@@ -19,7 +19,7 @@ class Game extends BaseObject
     /**
      * {@inheritdoc}
      */
-    public function relations()
+    public function relations(): array
     {
         return [
             'photo'         => PhotoSize::class,

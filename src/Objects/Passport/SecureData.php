@@ -24,7 +24,7 @@ class SecureData extends BaseObject
     /**
      * {@inheritdoc}
      */
-    public function relations()
+    public function relations(): array
     {
         return [
             'personal_details'       => SecureValue::class,

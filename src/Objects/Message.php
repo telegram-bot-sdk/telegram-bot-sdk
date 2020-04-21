@@ -64,7 +64,7 @@ class Message extends BaseObject
     /**
      * {@inheritdoc}
      */
-    public function relations()
+    public function relations(): array
     {
         return [
             'from'               => User::class,
@@ -104,7 +104,7 @@ class Message extends BaseObject
      *
      * @return bool
      */
-    public function isType($type)
+    public function isType($type): bool
     {
         if ($this->has(strtolower($type))) {
             return true;
@@ -118,7 +118,7 @@ class Message extends BaseObject
      *
      * @return string|null
      */
-    public function detectType()
+    public function detectType(): ?string
     {
         $types = [
             'text',
@@ -156,7 +156,7 @@ class Message extends BaseObject
      *
      * @return bool
      */
-    public function hasCommand()
+    public function hasCommand(): bool
     {
         return (bool)$this->get('entities', collect())->contains('type', 'bot_command');
     }

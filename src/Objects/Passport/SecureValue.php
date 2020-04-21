@@ -19,7 +19,7 @@ class SecureValue extends BaseObject
     /**
      * {@inheritdoc}
      */
-    public function relations()
+    public function relations(): array
     {
         return [
             'data'         => DataCredentials::class,

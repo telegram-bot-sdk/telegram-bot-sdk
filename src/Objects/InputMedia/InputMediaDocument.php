@@ -19,7 +19,7 @@ class InputMediaDocument extends InputMedia
     /**
      * {@inheritdoc}
      */
-    public function relations()
+    public function relations(): array
     {
         return [
             'thumb' => InputFile::class,
