@@ -2,108 +2,66 @@
 
 namespace Telegram\Bot\Objects;
 
+use ArrayAccess;
+use Countable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 
 /**
  * Class BaseObject.
- *
- * @mixin Collection
  */
-abstract class BaseObject extends Collection
+abstract class BaseObject implements ArrayAccess, Countable
 {
+    /** @var array|object The fields contained in the object. */
+    protected $fields = [];
+
     /**
-     * Builds collection entity.
+     * Create a new object.
      *
-     * @param array|mixed $data
+     * @param mixed $fields
      */
-    public function __construct($data)
+    public function __construct($fields = [])
     {
-        parent::__construct($this->getRawResult($data));
+        $data = $this->getRawResult($fields);
+
+        if (is_array($data)) {
+            $data = json_decode(json_encode($fields));
+        }
+
+        $this->fields = $data;
     }
 
     /**
-     * Property relations.
+     * Make object with given data.
      *
-     * @return array
+     * @param mixed $data
+     *
+     * @return static
      */
-    abstract public function relations(): array;
-
-    /**
-     * Magically access collection data.
-     *
-     * @param $property
-     *
-     * @return mixed
-     */
-    public function __get($property)
+    public static function make($data = []): self
     {
-        return $this->getPropertyValue($property);
+        return new static($data);
     }
 
     /**
-     * Magically map to an object class (if exists) and return data.
+     * Make a collection out of the given data.
      *
-     * @param      $property
-     * @param null $default
-     *
-     * @return mixed
+     * @return Collection
      */
-    protected function getPropertyValue($property, $default = null)
+    public function collect(): Collection
     {
-        $property = Str::snake($property);
-        if (!$this->offsetExists($property)) {
-            return value($default);
-        }
-
-        $value = $this->items[$property];
-
-        $relations = $this->relations();
-        if (isset($relations[$property])) {
-            return $relations[$property]::make($value);
-        }
-
-        /** @var BaseObject $class */
-        $class = 'Telegram\Bot\Objects\\' . Str::studly($property);
-
-        if (class_exists($class)) {
-            return $class::make($value);
-        }
-
-        if (is_array($value)) {
-            return TelegramObject::make($value);
-        }
-
-        return $value;
+        return collect($this->fields);
     }
 
     /**
-     * Get an item from the collection by key.
+     * Get all fields.
      *
-     * @param mixed $key
-     * @param mixed $default
-     *
-     * @return mixed|static
+     * @return array|mixed|object
      */
-    public function get($key, $default = null)
+    public function all()
     {
-        $value = parent::get($key, $default);
-
-        if (null !== $value && is_array($value)) {
-            return $this->getPropertyValue($key, $default);
-        }
-
-        return $value;
-    }
-
-    /**
-     * Returns raw response.
-     *
-     * @return array|mixed
-     */
-    public function getRawResponse()
-    {
-        return $this->items;
+        return $this->fields;
     }
 
     /**
@@ -125,7 +83,180 @@ abstract class BaseObject extends Collection
      */
     public function getStatus()
     {
-        return data_get($this->items, 'ok', false);
+        return data_get($this->fields, 'ok', false);
+    }
+
+    /**
+     * Determine if a field exists.
+     *
+     * @param mixed $key
+     *
+     * @return bool
+     */
+    public function has($key): bool
+    {
+        return $this->offsetExists($key);
+    }
+
+    /**
+     * Get a field.
+     *
+     * @param mixed $key
+     *
+     * @return mixed
+     */
+    public function get($key)
+    {
+        return $this->offsetGet($key);
+    }
+
+    /**
+     * Set the field with given value.
+     *
+     * @param mixed $key
+     * @param mixed $value
+     */
+    public function set($key, $value): void
+    {
+        $this->offsetSet($key, $value);
+    }
+
+    /**
+     * Forget a field.
+     *
+     * @param mixed $key
+     */
+    public function forget($key): void
+    {
+        $this->offsetUnset($key);
+    }
+
+    /**
+     * Count the number of fields in the object.
+     *
+     * @return int
+     */
+    public function count(): int
+    {
+        return count((array)$this->fields);
+    }
+
+    /**
+     * Determine if a field exists at an offset.
+     *
+     * @param mixed $key
+     *
+     * @return bool
+     */
+    public function offsetExists($key): bool
+    {
+        return isset($this->fields->{Str::snake($key)});
+    }
+
+    /**
+     * Get a field at a given offset.
+     *
+     * @param mixed $key
+     *
+     * @return mixed
+     */
+    public function offsetGet($key)
+    {
+        return data_get($this->fields, Str::snake($key));
+    }
+
+    /**
+     * Set the field at a given offset.
+     *
+     * @param mixed $key
+     * @param mixed $value
+     */
+    public function offsetSet($key, $value): void
+    {
+        data_set($this->fields, Str::snake($key), $value);
+    }
+
+    /**
+     * Unset the field at a given offset.
+     *
+     * @param string $key
+     */
+    public function offsetUnset($key): void
+    {
+        unset($this->fields->{Str::snake($key)});
+    }
+
+    /**
+     * Get the object of fields as an associative array.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return json_decode($this->toJson(), true);
+    }
+
+    /**
+     * Get the collection of fields as JSON.
+     *
+     * @param int $options
+     *
+     * @return string
+     */
+    public function toJson($options = 0): string
+    {
+        return json_encode($this->all(), $options);
+    }
+
+    /**
+     * Convert the collection to its string representation.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
+    }
+
+    /**
+     * Magically access collection data.
+     *
+     * @param $field
+     *
+     * @return mixed
+     */
+    public function __get($field)
+    {
+        if (!$this->has($field)) {
+            return null;
+        }
+
+        return $this->get($field);
+    }
+
+    /**
+     * @param $field
+     * @param $value
+     *
+     * @throws TelegramSDKException
+     */
+    public function __set($field, $value)
+    {
+        if (!$this->has($field)) {
+            throw new TelegramSDKException("Property [{$field}] does not exist on this object instance.");
+        }
+
+        $this->set($field, $value);
+    }
+
+    public function __isset($field)
+    {
+        return $this->has($field);
+    }
+
+    public function __unset($field)
+    {
+        $this->forget($field);
     }
 
     /**
@@ -134,15 +265,17 @@ abstract class BaseObject extends Collection
      * @param $name
      * @param $arguments
      *
+     * @throws TelegramSDKException
      * @return mixed
      */
     public function __call($name, $arguments)
     {
-        if (!Str::startsWith($name, 'get')) {
-            return false;
-        }
-        $property = substr($name, 3);
+        $collect = $this->collect();
 
-        return $this->getPropertyValue($property);
+        if (method_exists($this->collect(), $name)) {
+            return $collect->{$name}(...$arguments);
+        }
+
+        throw new TelegramSDKException("Method [$name] not found");
     }
 }
