@@ -16,7 +16,6 @@ class Api
         __call as macroCall;
     }
 
-    use Events\EmitsEvents;
     use Traits\Http;
     use Traits\CommandsHandler;
     use Traits\HasContainer;
