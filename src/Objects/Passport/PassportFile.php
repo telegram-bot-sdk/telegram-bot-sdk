@@ -14,11 +14,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class PassportFile extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

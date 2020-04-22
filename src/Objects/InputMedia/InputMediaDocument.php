@@ -16,13 +16,4 @@ use Telegram\Bot\FileUpload\InputFile;
  */
 class InputMediaDocument extends InputMedia
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'thumb' => InputFile::class,
-        ];
-    }
 }

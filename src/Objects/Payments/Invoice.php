@@ -15,11 +15,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class Invoice extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

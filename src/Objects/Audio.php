@@ -18,13 +18,4 @@ namespace Telegram\Bot\Objects;
  */
 class Audio extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'thumb' => PhotoSize::class,
-        ];
-    }
 }

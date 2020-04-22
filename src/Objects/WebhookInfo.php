@@ -19,11 +19,4 @@ namespace Telegram\Bot\Objects;
  */
 class WebhookInfo extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

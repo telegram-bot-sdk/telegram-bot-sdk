@@ -14,13 +14,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class OrderInfo extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'shipping_address' => ShippingAddress::class,
-        ];
-    }
 }

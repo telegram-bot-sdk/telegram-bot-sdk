@@ -13,11 +13,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class EncryptedCredentials extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

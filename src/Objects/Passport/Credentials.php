@@ -12,13 +12,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class Credentials extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'secure_data' => SecureData::class,
-        ];
-    }
 }

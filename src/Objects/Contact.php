@@ -15,11 +15,4 @@ namespace Telegram\Bot\Objects;
  */
 class Contact extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

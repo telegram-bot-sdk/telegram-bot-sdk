@@ -19,13 +19,4 @@ namespace Telegram\Bot\Objects;
  */
 class Animation extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'thumb' => PhotoSize::class,
-        ];
-    }
 }

@@ -15,14 +15,4 @@ use Telegram\Bot\Objects\User;
  */
 class ShippingQuery extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'from'             => User::class,
-            'shipping_address' => ShippingAddress::class,
-        ];
-    }
 }

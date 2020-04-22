@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects;
 
-use Telegram\Bot\Objects\Inputmedia\InputMedia;
+use Telegram\Bot\Objects\InputMedia\InputMedia;
 
 /**
  * Class Chat.
@@ -26,15 +26,4 @@ use Telegram\Bot\Objects\Inputmedia\InputMedia;
  */
 class Chat extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'photo'          => InputMedia::class,
-            'pinned_message' => Message::class,
-            'permissions'    => ChatPermissions::class,
-        ];
-    }
 }

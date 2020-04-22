@@ -16,15 +16,4 @@ namespace Telegram\Bot\Objects;
  */
 class Game extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'photo'         => PhotoSize::class,
-            'text_entities' => MessageEntity::class,
-            'animation'     => Animation::class,
-        ];
-    }
 }

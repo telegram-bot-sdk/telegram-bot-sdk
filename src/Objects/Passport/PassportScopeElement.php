@@ -9,11 +9,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class PassportScopeElement extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

@@ -20,14 +20,4 @@ namespace Telegram\Bot\Objects;
  */
 class Sticker extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'thumb'         => PhotoSize::class,
-            'mask_position' => MaskPosition::class,
-        ];
-    }
 }

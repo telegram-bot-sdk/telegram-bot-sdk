@@ -14,11 +14,4 @@ namespace Telegram\Bot\Objects;
  */
 class ChatPhoto extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

@@ -20,17 +20,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class EncryptedPassportElement extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'files'        => PassportFile::class,
-            'front_side'   => PassportFile::class,
-            'reverse_side' => PassportFile::class,
-            'selfie'       => PassportFile::class,
-            'translation'  => PassportFile::class,
-        ];
-    }
 }

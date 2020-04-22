@@ -15,11 +15,4 @@ namespace Telegram\Bot\Objects;
  */
 class Voice extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

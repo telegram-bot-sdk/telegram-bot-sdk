@@ -14,11 +14,4 @@ namespace Telegram\Bot\Objects;
  */
 class MaskPosition extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

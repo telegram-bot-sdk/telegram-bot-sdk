@@ -28,13 +28,4 @@ namespace Telegram\Bot\Objects;
  */
 class ChatMember extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'user' => User::class,
-        ];
-    }
 }

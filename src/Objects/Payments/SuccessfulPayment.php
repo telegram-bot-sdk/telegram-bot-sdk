@@ -17,13 +17,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class SuccessfulPayment extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'order_info' => OrderInfo::class,
-        ];
-    }
 }

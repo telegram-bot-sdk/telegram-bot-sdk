@@ -13,13 +13,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class ShippingOption extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'prices' => LabeledPrice::class,
-        ];
-    }
 }

@@ -15,13 +15,4 @@ namespace Telegram\Bot\Objects;
  */
 class Venue extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'location' => Location::class,
-        ];
-    }
 }

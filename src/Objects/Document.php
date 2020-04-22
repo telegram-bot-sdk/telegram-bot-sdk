@@ -16,13 +16,4 @@ namespace Telegram\Bot\Objects;
  */
 class Document extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'thumb' => PhotoSize::class,
-        ];
-    }
 }

@@ -18,14 +18,4 @@ use Telegram\Bot\Objects\User;
  */
 class PreCheckoutQuery extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'from'       => User::class,
-            'order_info' => OrderInfo::class,
-        ];
-    }
 }

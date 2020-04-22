@@ -13,11 +13,4 @@ namespace Telegram\Bot\Objects;
  */
 class Dice extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

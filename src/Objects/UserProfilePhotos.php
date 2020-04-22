@@ -12,13 +12,4 @@ namespace Telegram\Bot\Objects;
  */
 class UserProfilePhotos extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'photos' => PhotoSize::class,
-        ];
-    }
 }

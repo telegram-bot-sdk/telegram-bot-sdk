@@ -14,11 +14,4 @@ namespace Telegram\Bot\Objects;
  */
 class File extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

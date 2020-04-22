@@ -19,13 +19,4 @@ use Telegram\Bot\FileUpload\InputFile;
  */
 class InputMediaAudio extends InputMedia
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'thumb' => InputFile::class,
-        ];
-    }
 }

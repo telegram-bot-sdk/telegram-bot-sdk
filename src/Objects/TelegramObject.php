@@ -7,13 +7,4 @@ namespace Telegram\Bot\Objects;
  */
 class TelegramObject extends BaseObject
 {
-    /**
-     * Property relations.
-     *
-     * @return array
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

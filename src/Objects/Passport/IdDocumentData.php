@@ -12,11 +12,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class IdDocumentData extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

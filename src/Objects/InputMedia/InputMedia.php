@@ -10,11 +10,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class InputMedia extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

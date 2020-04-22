@@ -18,13 +18,4 @@ namespace Telegram\Bot\Objects;
  */
 class Video extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'thumb' => PhotoSize::class,
-        ];
-    }
 }

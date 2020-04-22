@@ -3,7 +3,7 @@
 namespace Telegram\Bot\Objects;
 
 /**
- * {@inheritdoc}
+ * Class EditedMessage
  */
 class EditedMessage extends Message
 {

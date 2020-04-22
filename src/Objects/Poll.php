@@ -19,13 +19,4 @@ namespace Telegram\Bot\Objects;
  */
 class Poll extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'options' => PollOption::class,
-        ];
-    }
 }

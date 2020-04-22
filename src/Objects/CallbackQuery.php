@@ -17,14 +17,4 @@ namespace Telegram\Bot\Objects;
  */
 class CallbackQuery extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'from'    => User::class,
-            'message' => Message::class,
-        ];
-    }
 }

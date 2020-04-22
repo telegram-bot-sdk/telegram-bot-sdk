@@ -16,11 +16,4 @@ use Telegram\Bot\Objects\BaseObject;
  */
 class ResidentialAddress extends BaseObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }
