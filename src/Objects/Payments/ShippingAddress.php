@@ -2,8 +2,6 @@
 
 namespace Telegram\Bot\Objects\Payments;
 
-use Telegram\Bot\Objects\BaseObject;
-
 /**
  * @link https://core.telegram.org/bots/api#shippingaddress
  *
@@ -14,13 +12,6 @@ use Telegram\Bot\Objects\BaseObject;
  * @property string $streetLine2                   Second line for the address.
  * @property string $postCode                      Address post code
  */
-class ShippingAddress extends BaseObject
+class ShippingAddress
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

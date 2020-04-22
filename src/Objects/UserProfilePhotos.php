@@ -10,15 +10,6 @@ namespace Telegram\Bot\Objects;
  * @property int         $totalCount  Total number of profile pictures the target user has.
  * @property PhotoSize[] $photos      Array of Array of PhotoSize. Requested profile pictures (in up to 4 sizes each).
  */
-class UserProfilePhotos extends BaseObject
+class UserProfilePhotos
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'photos' => PhotoSize::class,
-        ];
-    }
 }

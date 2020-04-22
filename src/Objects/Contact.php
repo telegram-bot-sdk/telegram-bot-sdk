@@ -13,13 +13,6 @@ namespace Telegram\Bot\Objects;
  * @property int    $userId       (Optional). Contact's user identifier in Telegram.
  * @property string $vcard        (Optional). Additional data about the contact in the form of a vCard.
  */
-class Contact extends BaseObject
+class Contact
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

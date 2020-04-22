@@ -14,15 +14,6 @@ namespace Telegram\Bot\Objects;
  * @property int       $fileSize       (Optional). File size.
  *
  */
-class VideoNote extends BaseObject
+class VideoNote
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'thumb' => PhotoSize::class,
-        ];
-    }
 }

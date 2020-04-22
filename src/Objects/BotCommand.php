@@ -12,13 +12,6 @@ namespace Telegram\Bot\Objects;
  * @property string $description Description of the command, 3-256 characters.
  * @property string $command     Text of the command, 1-32 characters. Can contain only lowercase English letters, digits and underscores.
  */
-class BotCommand extends BaseObject
+class BotCommand
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

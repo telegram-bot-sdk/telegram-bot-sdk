@@ -5,15 +5,6 @@ namespace Telegram\Bot\Objects;
 /**
  * Class Object.
  */
-class TelegramObject extends BaseObject
+class TelegramObject
 {
-    /**
-     * Property relations.
-     *
-     * @return array
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

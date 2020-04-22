@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects;
 
-use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Telegram\Bot\Objects\Payments\PreCheckoutQuery;
 use Telegram\Bot\Objects\Payments\ShippingQuery;
 
@@ -28,36 +28,6 @@ use Telegram\Bot\Objects\Payments\ShippingQuery;
 class Update extends BaseObject
 {
     /**
-     * @inheritdoc
-     */
-    public function relations(): array
-    {
-        return [
-            'message'              => Message::class,
-            'edited_message'       => EditedMessage::class,
-            'channel_post'         => Message::class,
-            'edited_channel_post'  => EditedMessage::class,
-            'inline_query'         => InlineQuery::class,
-            'chosen_inline_result' => ChosenInlineResult::class,
-            'callback_query'       => CallbackQuery::class,
-            'shipping_query'       => ShippingQuery::class,
-            'pre_checkout_query'   => PreCheckoutQuery::class,
-            'poll'                 => Poll::class,
-            'poll_answer'          => PollAnswer::class,
-        ];
-    }
-
-    /**
-     * Get recent message.
-     *
-     * @return Update
-     */
-    public function recentMessage(): Update
-    {
-        return new static($this->last());
-    }
-
-    /**
      * Determine if the update is of given type.
      *
      * @param string $type
@@ -66,7 +36,9 @@ class Update extends BaseObject
      */
     public function isType($type): bool
     {
-        if ($this->has(strtolower($type))) {
+        $type = Str::lower($type);
+
+        if ($this->has($type)) {
             return true;
         }
 
@@ -94,45 +66,43 @@ class Update extends BaseObject
             'poll_answer',
         ];
 
-        return $this->keys()
+        return $this->collect()
+            ->keys()
             ->intersect($types)
             ->pop();
     }
 
     /**
      * Get the message contained in the Update.
-     *
-     * @return Message|EditedMessage|Collection
      */
-    public function getMessage(): Collection
+    public function getMessage()
     {
         switch ($this->detectType()) {
             case 'message':
                 return $this->message;
             case 'edited_message':
-                return $this->editedMessage;
+                return $this->edited_message;
             case 'channel_post':
-                return $this->channelPost;
+                return $this->channel_post;
             case 'edited_channel_post':
-                return $this->editedChannelPost;
+                return $this->edited_channel_post;
             case 'inline_query':
-                return $this->inlineQuery;
+                return $this->inline_query;
             case 'chosen_inline_result':
-                return $this->chosenInlineResult;
+                return $this->chosen_inline_result;
             case 'callback_query':
-                $callbackQuery = $this->callbackQuery;
-                if ($callbackQuery->has('message')) {
-                    return $callbackQuery->message;
+                if (isset($this->callback_query->message)) {
+                    return $this->callback_query->message;
                 }
                 break;
             case 'shipping_query':
-                return $this->shippingQuery;
+                return $this->shipping_query;
             case 'pre_checkout_query':
-                return $this->preCheckoutQuery;
+                return $this->pre_checkout_query;
             case 'poll':
                 return $this->poll;
             case 'poll_answer':
-                return $this->pollAnswer;
+                return $this->poll_answer;
         }
 
         return collect();
@@ -140,14 +110,12 @@ class Update extends BaseObject
 
     /**
      * Get chat object (if exists).
-     *
-     * @return Chat|Collection
      */
-    public function getChat(): Collection
+    public function getChat()
     {
         $message = $this->getMessage();
 
-        return $message->has('chat') ? $message->get('chat') : collect();
+        return $message->chat ?? collect();
     }
 
     /**
@@ -157,6 +125,8 @@ class Update extends BaseObject
      */
     public function hasCommand(): bool
     {
-        return (bool)$this->getMessage()->get('entities', collect())->contains('type', 'bot_command');
+        $message = collect($this->getMessage());
+
+        return (bool)collect($message->get('entities'))->contains('type', 'bot_command');
     }
 }

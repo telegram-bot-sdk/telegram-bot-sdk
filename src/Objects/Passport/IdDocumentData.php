@@ -2,21 +2,12 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\BaseObject;
-
 /**
  * @link https://core.telegram.org/bots/api#iddocumentdata
  *
  * @property string $documentNo    Document number
  * @property string $expiryDate    (Optional). Date of expiry, in DD.MM.YYYY format
  */
-class IdDocumentData extends BaseObject
+class IdDocumentData
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

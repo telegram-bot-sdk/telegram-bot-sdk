@@ -17,6 +17,7 @@ use Telegram\Bot\Objects\InlineQuery\InlineBaseObject;
  * </code>
  *
  * @link https://core.telegram.org/bots/api#inputcontactmessagecontent
+ *
  * @method $this setPhoneNumber($string) Contact's phone number
  * @method $this setFirstName($string)   Contact's first name
  * @method $this setLastName($string)    (Optional). Contact's last name

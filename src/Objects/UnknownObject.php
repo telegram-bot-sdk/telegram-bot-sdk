@@ -5,13 +5,6 @@ namespace Telegram\Bot\Objects;
 /**
  * Class UnknownObject.
  */
-class UnknownObject extends BaseObject
+class UnknownObject
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [];
-    }
 }

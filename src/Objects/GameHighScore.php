@@ -11,15 +11,6 @@ namespace Telegram\Bot\Objects;
  * @property User $user      User
  * @property int  $score     Score
  */
-class GameHighScore extends BaseObject
+class GameHighScore
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'user' => User::class,
-        ];
-    }
 }

@@ -13,16 +13,6 @@ namespace Telegram\Bot\Objects;
  * @property string   $inlineMessageId  (Optional). Identifier of the sent inline message. Available only if there is an inline keyboard attached to the message. Will be also received in callback queries and can be used to edit the message.
  * @property string   $query            The query that was used to obtain the result.
  */
-class ChosenInlineResult extends BaseObject
+class ChosenInlineResult
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'from'     => User::class,
-            'location' => Location::class,
-        ];
-    }
 }

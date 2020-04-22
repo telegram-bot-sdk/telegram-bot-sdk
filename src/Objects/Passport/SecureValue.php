@@ -2,8 +2,6 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\BaseObject;
-
 /**
  * @link https://core.telegram.org/bots/api#securevalue
  *
@@ -14,20 +12,6 @@ use Telegram\Bot\Objects\BaseObject;
  * @property FileCredentials[] $translation   (Optional). Credentials for an encrypted translation of the document. Available for “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration” and “temporary_registration”.
  * @property FileCredentials[] $files         (Optional). Credentials for encrypted files. Available for “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration” and “temporary_registration” types.
  */
-class SecureValue extends BaseObject
+class SecureValue
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'data'         => DataCredentials::class,
-            'front_side'   => FileCredentials::class,
-            'reverse_side' => FileCredentials::class,
-            'selfie'       => FileCredentials::class,
-            'translation'  => FileCredentials::class,
-            'files'        => FileCredentials::class,
-        ];
-    }
 }

@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects;
 
-use Telegram\Bot\Objects\Inputmedia\InputMedia;
+use Telegram\Bot\Objects\InputMedia\InputMedia;
 
 /**
  * Class Chat.
@@ -24,17 +24,6 @@ use Telegram\Bot\Objects\Inputmedia\InputMedia;
  * @property string          $stickerSetName    (Optional). For supergroups, name of group sticker set. Returned only in getChat.
  * @property bool            $canSetStickerSet  (Optional). True, if the bot can change the group sticker set. Returned only in getChat.
  */
-class Chat extends BaseObject
+class Chat
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function relations(): array
-    {
-        return [
-            'photo'          => InputMedia::class,
-            'pinned_message' => Message::class,
-            'permissions'    => ChatPermissions::class,
-        ];
-    }
 }
