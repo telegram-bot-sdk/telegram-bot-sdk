@@ -13,6 +13,6 @@ namespace Telegram\Bot\Objects;
  * @property string $mimeType      (Optional). MIME type of the file as defined by sender.
  * @property int    $fileSize      (Optional). File size.
  */
-class Voice extends BaseObject
+class Voice
 {
 }

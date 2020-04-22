@@ -2,8 +2,6 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\BaseObject;
-
 /**
  * @link https://core.telegram.org/bots/api#personaldetails
  * @property string $firstName              First Name
@@ -17,6 +15,6 @@ use Telegram\Bot\Objects\BaseObject;
  * @property string $lastNameNative         Last Name in the language of the user's country of residence
  * @property string $middleNameNative       (Optional). Middle Name in the language of the user's country of residence
  */
-class PersonalDetails extends BaseObject
+class PersonalDetails
 {
 }

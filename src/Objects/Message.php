@@ -59,6 +59,6 @@ use Telegram\Bot\Objects\Payments\SuccessfulPayment;
  * @property PassportData      $passportData           (Optional). Telegram Passport data
  * @property string            $replyMarkup            (Optional). Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
  */
-class Message extends BaseObject
+class Message
 {
 }

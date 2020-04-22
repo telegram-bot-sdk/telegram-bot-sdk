@@ -2,7 +2,6 @@
 
 namespace Telegram\Bot\Objects\Payments;
 
-use Telegram\Bot\Objects\BaseObject;
 use Telegram\Bot\Objects\User;
 
 /**
@@ -16,6 +15,6 @@ use Telegram\Bot\Objects\User;
  * @property string    $shippingOptionId       (Optional). Identifier of the shipping option chosen by the user
  * @property OrderInfo $orderInfo              (Optional). Order info provided by the user
  */
-class PreCheckoutQuery extends BaseObject
+class PreCheckoutQuery
 {
 }

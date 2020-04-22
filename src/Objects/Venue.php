@@ -13,6 +13,6 @@ namespace Telegram\Bot\Objects;
  * @property string   $foursquareId    (Optional). Foursquare identifier of the venue.
  * @property string   $foursquareType  (Optional). Foursquare type of the venue. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
  */
-class Venue extends BaseObject
+class Venue
 {
 }

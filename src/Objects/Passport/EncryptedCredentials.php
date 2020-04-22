@@ -2,8 +2,6 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\BaseObject;
-
 /**
  * @property string $data             Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes and secrets required for EncryptedPassportElement decryption and authentication
  * @property string $hash             Base64-encoded data hash for data authentication
@@ -11,6 +9,6 @@ use Telegram\Bot\Objects\BaseObject;
  *
  * @link https://core.telegram.org/bots/api#encryptedcredentials
  */
-class EncryptedCredentials extends BaseObject
+class EncryptedCredentials
 {
 }

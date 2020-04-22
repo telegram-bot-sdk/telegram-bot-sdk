@@ -2,8 +2,6 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\BaseObject;
-
 /**
  * @link https://core.telegram.org/bots/api#securedata
  *
@@ -19,6 +17,6 @@ use Telegram\Bot\Objects\BaseObject;
  * @property SecureValue $passportRegistration       (Optional). Credentials for encrypted registration from internal passport
  * @property SecureValue $temporaryRegistration      (Optional). Credentials for encrypted temporary registration
  */
-class SecureData extends BaseObject
+class SecureData
 {
 }

@@ -13,6 +13,6 @@ namespace Telegram\Bot\Objects;
  * @property int    $height         Photo height.
  * @property int    $fileSize       (Optional). File size.
  */
-class PhotoSize extends BaseObject
+class PhotoSize
 {
 }

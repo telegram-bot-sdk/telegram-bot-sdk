@@ -14,6 +14,6 @@ namespace Telegram\Bot\Objects;
  * @property int       $fileSize       (Optional). File size.
  *
  */
-class VideoNote extends BaseObject
+class VideoNote
 {
 }

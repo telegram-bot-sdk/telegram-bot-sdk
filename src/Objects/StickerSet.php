@@ -14,6 +14,6 @@ namespace Telegram\Bot\Objects;
  * @property Sticker[] $stickers       List of all set stickers
  * @property PhotoSize $thumb          (Optional). Sticker set thumbnail in the .WEBP or .TGS format
  */
-class StickerSet extends BaseObject
+class StickerSet
 {
 }

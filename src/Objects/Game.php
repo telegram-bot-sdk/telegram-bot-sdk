@@ -14,6 +14,6 @@ namespace Telegram\Bot\Objects;
  * @property MessageEntity[] $textEntities  (Optional). Special entities that appear in text, such as usernames, URLs, bot commands, etc.
  * @property Animation       $animation     (Optional). Animation that will be displayed in the game message in chats. Upload via BotFather.
  */
-class Game extends BaseObject
+class Game
 {
 }

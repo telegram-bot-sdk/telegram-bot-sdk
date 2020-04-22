@@ -16,6 +16,6 @@ namespace Telegram\Bot\Objects;
  * @property string    $mimeType      (Optional). Mime type of a file as defined by sender.
  * @property int       $fileSize      (Optional). File size.
  */
-class Video extends BaseObject
+class Video
 {
 }

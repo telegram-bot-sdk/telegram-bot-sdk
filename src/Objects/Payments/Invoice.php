@@ -2,8 +2,6 @@
 
 namespace Telegram\Bot\Objects\Payments;
 
-use Telegram\Bot\Objects\BaseObject;
-
 /**
  * @link https://core.telegram.org/bots/api#invoice
  *
@@ -13,6 +11,6 @@ use Telegram\Bot\Objects\BaseObject;
  * @property string $currency                 Three-letter ISO 4217 currency code
  * @property int    $totalAmount              Total price in the smallest units of the currency (integer, not float/double)
  */
-class Invoice extends BaseObject
+class Invoice
 {
 }

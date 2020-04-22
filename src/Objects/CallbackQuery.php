@@ -15,6 +15,6 @@ namespace Telegram\Bot\Objects;
  * @property string  $data             (Optional). Data associated with the callback button. Be aware that a bad client can send arbitrary data in this field.
  * @property string  $gameShortName    (Optional). Short name of a Game to be returned, serves as the unique identifier for the game
  */
-class CallbackQuery extends BaseObject
+class CallbackQuery
 {
 }
