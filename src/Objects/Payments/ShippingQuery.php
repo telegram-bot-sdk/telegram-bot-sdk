@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Objects\Payments;
 
+use Telegram\Bot\Objects\BaseObject;
 use Telegram\Bot\Objects\User;
 
 /**

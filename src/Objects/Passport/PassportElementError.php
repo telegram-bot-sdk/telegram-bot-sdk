@@ -2,6 +2,8 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
+use Telegram\Bot\Objects\BaseObject;
+
 /**
  * Class PassportElementError.
  * This object represents an error in the Telegram Passport element
