@@ -26,6 +26,6 @@ namespace Telegram\Bot\Objects;
  * @property bool   $can_send_other_messages    (Optional). Restricted only. True, if the user can send animations, games, stickers and use inline bots, implies can_send_media_messages
  * @property bool   $can_add_web_page_previews  (Optional). Restricted only. True, if user may add web page previews to his messages, implies can_send_media_messages
  */
-class ChatMember
+class ChatMember extends BaseObject
 {
 }

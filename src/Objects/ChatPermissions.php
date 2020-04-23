@@ -16,6 +16,6 @@ namespace Telegram\Bot\Objects;
  * @property bool $can_invite_users           (Optional). True, if the user is allowed to invite new users to the chat
  * @property bool $can_pin_messages           (Optional). True, if the user is allowed to pin messages. Ignored in public supergroups
  */
-class ChatPermissions
+class ChatPermissions extends BaseObject
 {
 }
