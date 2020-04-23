@@ -388,6 +388,7 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
+     *
      * @return ChatObject
      */
     public function getChat(array $params): ChatObject

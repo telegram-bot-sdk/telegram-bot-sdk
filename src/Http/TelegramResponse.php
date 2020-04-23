@@ -24,8 +24,8 @@ class TelegramResponse
     /** @var string The raw body of the response from API request. */
     protected string $body;
 
-    /** @var array The decoded body of the API response. */
-    protected array $decodedBody = [];
+    /** @var object The decoded body of the API response. */
+    protected object $decodedBody;
 
     /** @var string API Endpoint used to make the request. */
     protected string $endPoint;
@@ -67,15 +67,10 @@ class TelegramResponse
      */
     public function decodeBody(): void
     {
-        $this->decodedBody = json_decode($this->body, true);
+        $this->decodedBody = json_decode($this->body);
 
-        if ($this->decodedBody === null) {
-            $this->decodedBody = [];
-            parse_str($this->body, $this->decodedBody);
-        }
-
-        if (!is_array($this->decodedBody)) {
-            $this->decodedBody = [];
+        if (!is_object($this->decodedBody)) {
+            $this->decodedBody = new \stdClass();
         }
 
         if ($this->isError()) {
@@ -90,7 +85,7 @@ class TelegramResponse
      */
     public function isError(): bool
     {
-        return isset($this->decodedBody['ok']) && ($this->decodedBody['ok'] === false);
+        return isset($this->decodedBody->ok) && ($this->decodedBody->ok === false);
     }
 
     /**
@@ -166,9 +161,9 @@ class TelegramResponse
     /**
      * Return the decoded body response.
      *
-     * @return array
+     * @return object
      */
-    public function getDecodedBody(): array
+    public function getDecodedBody(): object
     {
         return $this->decodedBody;
     }
@@ -180,7 +175,7 @@ class TelegramResponse
      */
     public function getResult()
     {
-        return $this->decodedBody['result'];
+        return $this->decodedBody->result;
     }
 
     /**

@@ -13,8 +13,8 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
  */
 abstract class BaseObject implements ArrayAccess, Countable
 {
-    /** @var array|object The fields contained in the object. */
-    protected $fields = [];
+    /** @var object The fields contained in the object. */
+    protected object $fields;
 
     /**
      * Create a new object.
@@ -57,9 +57,9 @@ abstract class BaseObject implements ArrayAccess, Countable
     /**
      * Get all fields.
      *
-     * @return array|mixed|object
+     * @return object
      */
-    public function all()
+    public function all(): object
     {
         return $this->fields;
     }
@@ -262,20 +262,20 @@ abstract class BaseObject implements ArrayAccess, Countable
     /**
      * Magic method to get properties dynamically.
      *
-     * @param $name
+     * @param $method
      * @param $arguments
      *
-     * @throws TelegramSDKException
+     * @throws $method
      * @return mixed
      */
-    public function __call($name, $arguments)
+    public function __call($method, $arguments)
     {
         $collect = $this->collect();
 
-        if (method_exists($this->collect(), $name)) {
-            return $collect->{$name}(...$arguments);
+        if (method_exists($this->collect(), $method)) {
+            return $collect->{$method}(...$arguments);
         }
 
-        throw new TelegramSDKException("Method [$name] not found");
+        throw new \BadMethodCallException("Method [$method] does not exist.");
     }
 }
