@@ -5,12 +5,12 @@ namespace Telegram\Bot\Objects\Payments;
 /**
  * @link https://core.telegram.org/bots/api#shippingaddress
  *
- * @property string $countryCode                   ISO 3166-1 alpha-2 country code
- * @property string $state                         State, if applicable
- * @property string $city                          City
- * @property string $streetLine1                   First line for the address.
- * @property string $streetLine2                   Second line for the address.
- * @property string $postCode                      Address post code
+ * @property string $country_code                    ISO 3166-1 alpha-2 country code
+ * @property string $state                           State, if applicable
+ * @property string $city                            City
+ * @property string $street_line_1                   First line for the address.
+ * @property string $street_line_2                   Second line for the address.
+ * @property string $post_code                       Address post code
  */
 class ShippingAddress
 {
