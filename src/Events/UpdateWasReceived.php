@@ -4,43 +4,26 @@ namespace Telegram\Bot\Events;
 
 use Telegram\Bot\Api;
 use Telegram\Bot\Objects\Update;
+use Telegram\Bot\Traits\HasApi;
+use Telegram\Bot\Traits\HasUpdate;
 
 /**
  * Class UpdateWasReceived.
  */
 class UpdateWasReceived
 {
-    /** @var Update */
-    private $update;
-
-    /** @var Api */
-    private $telegram;
+    use HasApi;
+    use HasUpdate;
 
     /**
      * UpdateWasReceived constructor.
      *
      * @param Update $update
-     * @param Api    $telegram
+     * @param Api    $api
      */
-    public function __construct(Update $update, Api $telegram)
+    public function __construct(Update $update, Api $api)
     {
-        $this->update = $update;
-        $this->telegram = $telegram;
-    }
-
-    /**
-     * @return Update
-     */
-    public function getUpdate(): Update
-    {
-        return $this->update;
-    }
-
-    /**
-     * @return Api
-     */
-    public function getTelegram(): Api
-    {
-        return $this->telegram;
+        $this->setUpdate($update);
+        $this->setApi($api);
     }
 }

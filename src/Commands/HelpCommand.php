@@ -2,7 +2,6 @@
 
 namespace Telegram\Bot\Commands;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Throwable;
 
@@ -15,25 +14,24 @@ class HelpCommand extends Command
     protected string $description = 'Help command, Get a list of commands';
 
     /**
-     * @throws BindingResolutionException
      * @throws TelegramSDKException
      */
-    public function handle()
+    public function handle(): void
     {
-        $commands = $this->telegram->getCommands();
+        $commands = $this->api->getCommands();
 
         $text = '';
         foreach ($commands as $name => $handler) {
             /* @var Command $handler */
-            $handler = $this->getTelegram()->getCommandBus()->resolveCommand($handler);
+            $handler = $this->getApi()->getCommandBus()->resolveCommand($handler);
             $text .= sprintf('/%s - %s' . PHP_EOL, $name, $handler->getDescription());
         }
 
         $this->replyWithMessage(compact('text'));
     }
 
-    public function failed(array $arguments, Throwable $exception)
+    public function failed(array $arguments, Throwable $exception): void
     {
-        $this->replyWithMessage(['text' => "Sorry. Currently it is not possible to list all the commands."]);
+        $this->replyWithMessage(['text' => 'Sorry. Currently it is not possible to list all the commands.']);
     }
 }

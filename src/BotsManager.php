@@ -24,7 +24,7 @@ class BotsManager
     protected array $bots = [];
 
     /**
-     * TelegramManager constructor.
+     * Bots Manager constructor.
      *
      * @param array $config
      */
@@ -34,7 +34,7 @@ class BotsManager
     }
 
     /**
-     * Get the specified configuration value for Telegram.
+     * Get or set configuration value for the Api.
      *
      * @param array|string|null $key
      * @param mixed             $default
@@ -84,7 +84,8 @@ class BotsManager
      * @param string $name
      *
      * @throws TelegramSDKException
-     * @return BotsManager
+     *
+     * @return static
      */
     public function setDefaultBotName(string $name): self
     {
@@ -101,6 +102,7 @@ class BotsManager
      * @param string $name
      *
      * @throws TelegramSDKException
+     *
      * @return Api
      */
     public function bot(string $name = null): Api
@@ -116,6 +118,7 @@ class BotsManager
      * @param string $name
      *
      * @throws TelegramSDKException
+     *
      * @return Api
      */
     public function reconnect(string $name = null): Api
@@ -130,7 +133,7 @@ class BotsManager
      *
      * @param string $name
      *
-     * @return BotsManager
+     * @return static
      */
     public function disconnect(string $name = null): self
     {
@@ -170,6 +173,7 @@ class BotsManager
      * @param string $name
      *
      * @throws TelegramSDKException
+     *
      * @return Api
      */
     protected function makeBot(string $name): Api
@@ -227,7 +231,8 @@ class BotsManager
      * @param array $commands
      *
      * @throws TelegramSDKException
-     * @return array An array of commands which includes global and bot specific commands.
+     *
+     * @return array An array of commands which includes global, shared and bot specific commands.
      */
     protected function buildCommandsList(array $commands): array
     {
@@ -278,6 +283,7 @@ class BotsManager
      * @param array  $parameters
      *
      * @throws TelegramSDKException
+     *
      * @return mixed
      */
     public function __call($method, $parameters)

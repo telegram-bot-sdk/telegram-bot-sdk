@@ -113,9 +113,7 @@ class Update extends BaseObject
      */
     public function getChat()
     {
-        $message = $this->getMessage();
-
-        return $message->chat ?? collect();
+        return collect($this->getMessage())->get('chat');
     }
 
     /**

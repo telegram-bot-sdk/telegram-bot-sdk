@@ -5,6 +5,7 @@ namespace Telegram\Bot\Commands;
 use Telegram\Bot\Answers\Answerable;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 /**
  * Class Command.
@@ -39,13 +40,25 @@ abstract class Command implements CommandInterface
      *
      * @param $description
      *
-     * @return Command
+     * @return static
      */
     public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
+    }
+
+    /**
+     * Determine if given argument is provided.
+     *
+     * @param string $argument
+     *
+     * @return bool
+     */
+    public function hasArgument(string $argument): bool
+    {
+        return array_key_exists($argument, $this->arguments);
     }
 
     /**
@@ -65,25 +78,11 @@ abstract class Command implements CommandInterface
      *
      * @param array $arguments
      *
-     * @return Command
+     * @return static
      */
     public function setArguments(array $arguments): self
     {
         $this->arguments = $arguments;
-
-        return $this;
-    }
-
-    /**
-     * Set arguments that have not been provided.
-     *
-     * @param array $arguments
-     *
-     * @return $this
-     */
-    public function setArgumentsNotProvided(array $arguments): self
-    {
-        $this->argumentsNotProvided = $arguments;
 
         return $this;
     }
@@ -99,16 +98,28 @@ abstract class Command implements CommandInterface
     }
 
     /**
-     * Determine if given argument is provided.
+     * Set arguments that have not been provided.
      *
-     * @param string $argument
+     * @param array $arguments
      *
-     * @return bool
+     * @return static
      */
-    public function hasArgument(string $argument): bool
+    public function setArgumentsNotProvided(array $arguments): self
     {
-        return array_key_exists($argument, $this->arguments);
+        $this->argumentsNotProvided = $arguments;
+
+        return $this;
     }
+
+    /**
+     * Triggered on failure to find params in command.
+     *
+     * @param array     $arguments
+     * @param Throwable $exception
+     *
+     * @return mixed
+     */
+    abstract public function failed(array $arguments, Throwable $exception);
 
     /**
      * Helper to Trigger other Commands.
@@ -118,10 +129,9 @@ abstract class Command implements CommandInterface
      *
      * @throws TelegramCommandException
      * @throws TelegramSDKException
-     * @return void
      */
     protected function triggerCommand($command, array $params = []): void
     {
-        $this->telegram->getCommandBus()->execute($command, $this->update, $params, true);
+        $this->api->getCommandBus()->execute($command, $this->update, $params, true);
     }
 }

@@ -18,7 +18,7 @@ trait CommandsHandler
      *
      * @param CommandBus $commandBus
      *
-     * @return $this
+     * @return static
      */
     public function setCommandBus(CommandBus $commandBus): self
     {
@@ -109,7 +109,7 @@ trait CommandsHandler
         $params['offset'] = $highestId + 1;
         $params['limit'] = 1;
 
-        return $this->getUpdates($params, false);
+        return $this->getUpdates($params);
     }
 
     /**
@@ -122,18 +122,5 @@ trait CommandsHandler
     public function processCommand(Update $update): Update
     {
         return $this->getCommandBus()->handler($update);
-    }
-
-    /**
-     * Helper to Trigger Commands.
-     *
-     * @param string $name   Command Name
-     * @param Update $update Update Object
-     *
-     * @return mixed
-     */
-    public function triggerCommand(string $name, Update $update)
-    {
-        return $this->getCommandBus()->execute($name, $update, []);
     }
 }

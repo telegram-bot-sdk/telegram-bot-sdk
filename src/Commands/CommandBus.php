@@ -24,11 +24,11 @@ class CommandBus extends AnswerBus
     /**
      * Instantiate Command Bus.
      *
-     * @param Api|null $telegram
+     * @param Api|null $api
      */
-    public function __construct(Api $telegram = null)
+    public function __construct(Api $api = null)
     {
-        $this->telegram = $telegram;
+        $this->api = $api;
     }
 
     /**
@@ -111,7 +111,7 @@ class CommandBus extends AnswerBus
      */
     public function parseCommand($text, $offset, $length): string
     {
-        if (trim($text) === '') {
+        if (blank($text)) {
             throw new InvalidArgumentException('Message is empty, Cannot parse for command');
         }
 
@@ -143,9 +143,9 @@ class CommandBus extends AnswerBus
      *
      * @return Collection
      */
-    protected function parseCommandsIn(Collection $message): Collection
+    protected function parseCommandsIn($message): Collection
     {
-        return collect($message->get('entities'))
+        return collect($message->entities)
             ->filter(fn ($entity) => $entity['type'] === 'bot_command');
     }
 
@@ -178,7 +178,6 @@ class CommandBus extends AnswerBus
      *
      * @throws TelegramCommandException
      * @throws TelegramSDKException
-     * @return void
      */
     public function execute($command, Update $update, array $entity, bool $isTriggered = false): void
     {
@@ -193,7 +192,7 @@ class CommandBus extends AnswerBus
             $arguments = $parser->arguments();
         }
 
-        $command->setTelegram($this->telegram)->setUpdate($update)->setArguments($arguments);
+        $command->setApi($this->api)->setUpdate($update)->setArguments($arguments);
 
         $requiredParamsNotProvided = $parser->requiredParamsNotProvided(array_keys($arguments));
 
@@ -202,7 +201,7 @@ class CommandBus extends AnswerBus
                 throw TelegramCommandException::requiredParamsNotProvided($requiredParamsNotProvided);
             }
 
-            $this->telegram->getContainer()->call([$command, 'handle'], $arguments);
+            $this->api->getContainer()->call([$command, 'handle'], $arguments);
         } catch (BindingResolutionException|TelegramCommandException $e) {
             if (method_exists($command, 'failed')) {
                 $params = $requiredParamsNotProvided->all();
@@ -218,6 +217,7 @@ class CommandBus extends AnswerBus
      * @param CommandInterface|string|object $command
      *
      * @throws TelegramCommandException
+     *
      * @return CommandInterface
      */
     protected function resolveCommand($command): CommandInterface
@@ -233,7 +233,7 @@ class CommandBus extends AnswerBus
         }
 
         try {
-            $command = $this->telegram->getContainer()->make($command);
+            $command = $this->api->getContainer()->make($command);
         } catch (BindingResolutionException $e) {
             throw TelegramCommandException::commandNotInstantiable($command, $e);
         }
@@ -247,6 +247,7 @@ class CommandBus extends AnswerBus
      * @param object $command
      *
      * @throws TelegramCommandException
+     *
      * @return CommandInterface
      */
     protected function validateCommandClassInstance(object $command): CommandInterface

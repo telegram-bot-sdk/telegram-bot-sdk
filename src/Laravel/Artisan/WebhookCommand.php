@@ -8,7 +8,6 @@ use Symfony\Component\Console\Helper\TableCell;
 use Telegram\Bot\Api;
 use Telegram\Bot\BotsManager;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Objects\WebhookInfo;
 
 class WebhookCommand extends Command
 {
@@ -23,7 +22,7 @@ class WebhookCommand extends Command
     protected $description = 'Ease the Process of setting up and removing webhooks for Telegram Bots.';
 
     /** @var Api */
-    protected Api $telegram;
+    protected Api $api;
 
     /** @var BotsManager */
     protected BotsManager $botsManager;
@@ -51,7 +50,7 @@ class WebhookCommand extends Command
     public function handle()
     {
         $bot = $this->argument('bot');
-        $this->telegram = $this->botsManager->bot($bot);
+        $this->api = $this->botsManager->bot($bot);
         $this->config = $this->botsManager->getBotConfig($bot);
 
         if ($this->option('setup')) {
@@ -81,7 +80,7 @@ class WebhookCommand extends Command
             $params['certificate'] = $certificatePath;
         }
 
-        if ($this->telegram->setWebhook($params)) {
+        if ($this->api->setWebhook($params)) {
             $this->info('Success: Your webhook has been set!');
 
             return;
@@ -100,7 +99,7 @@ class WebhookCommand extends Command
         if ($this->confirm("Are you sure you want to remove the webhook for {$this->config['bot']}?")) {
             $this->info('Removing webhook...');
 
-            if ($this->telegram->removeWebhook()) {
+            if ($this->api->removeWebhook()) {
                 $this->info('Webhook removed successfully!');
 
                 return;
@@ -118,39 +117,35 @@ class WebhookCommand extends Command
         $this->alert('Webhook Info');
 
         if ($this->hasArgument('bot') && !$this->option('all')) {
-            $response = $this->telegram->getWebhookInfo();
+            $response = $this->api->getWebhookInfo();
             $this->makeWebhookInfoResponse($response, $this->config['username']);
 
             return;
         }
 
         if ($this->option('all')) {
-            $bots = $this->botsManager->getConfig('bots');
-            collect($bots)->each(
-                function ($bot, $key) {
-                    $response = $this->botsManager->bot($key)->getWebhookInfo();
-                    $this->makeWebhookInfoResponse($response, $bot['username']);
-                }
-            );
+            $bots = $this->botsManager->config('bots');
+            collect($bots)->each(function ($bot, $key) {
+                $response = $this->botsManager->bot($key)->getWebhookInfo();
+                $this->makeWebhookInfoResponse($response, $bot['username']);
+            });
         }
     }
 
     /**
      * Make WebhookInfo Response for console.
      *
-     * @param WebhookInfo $response
-     * @param string      $bot
+     * @param        $response
+     * @param string $bot
      */
-    protected function makeWebhookInfoResponse(WebhookInfo $response, string $bot): void
+    protected function makeWebhookInfoResponse($response, string $bot): void
     {
-        $rows = $response->map(
-            function ($value, $key) {
-                $key = Str::title(str_replace('_', ' ', $key));
-                $value = is_bool($value) ? $this->mapBool($value) : $value;
+        $rows = collect($response)->map(function ($value, $key) {
+            $key = Str::title(str_replace('_', ' ', $key));
+            $value = is_bool($value) ? $this->mapBool($value) : $value;
 
-                return compact('key', 'value');
-            }
-        )->toArray();
+            return compact('key', 'value');
+        })->toArray();
 
         $this->table(
             [
