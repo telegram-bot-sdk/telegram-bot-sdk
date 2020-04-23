@@ -10,7 +10,7 @@ namespace Telegram\Bot\Objects\Payments;
  * @property string          $email                 (Optional). User email
  * @property ShippingAddress $shipping_address      (Optional). User shipping address
  */
-class OrderInfo
+class OrderInfo extends BaseObject
 {
     public function relations(): array
     {

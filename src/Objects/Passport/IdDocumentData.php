@@ -8,6 +8,6 @@ namespace Telegram\Bot\Objects\Passport;
  * @property string $document_no    Document number
  * @property string $expiry_date    (Optional). Date of expiry, in DD.MM.YYYY format
  */
-class IdDocumentData
+class IdDocumentData extends BaseObject
 {
 }

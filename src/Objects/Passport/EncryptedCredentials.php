@@ -9,6 +9,6 @@ namespace Telegram\Bot\Objects\Passport;
  *
  * @link https://core.telegram.org/bots/api#encryptedcredentials
  */
-class EncryptedCredentials
+class EncryptedCredentials extends BaseObject
 {
 }

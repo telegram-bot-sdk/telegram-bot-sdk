@@ -17,7 +17,7 @@ namespace Telegram\Bot\Objects\Passport;
  * @property SecureValue $passport_registration       (Optional). Credentials for encrypted registration from internal passport
  * @property SecureValue $temporary_registration      (Optional). Credentials for encrypted temporary registration
  */
-class SecureData
+class SecureData extends BaseObject
 {
     public function relations(): array
     {

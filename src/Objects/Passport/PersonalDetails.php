@@ -15,6 +15,6 @@ namespace Telegram\Bot\Objects\Passport;
  * @property string $last_name_native         Last Name in the language of the user's country of residence
  * @property string $middle_name_native       (Optional). Middle Name in the language of the user's country of residence
  */
-class PersonalDetails
+class PersonalDetails extends BaseObject
 {
 }

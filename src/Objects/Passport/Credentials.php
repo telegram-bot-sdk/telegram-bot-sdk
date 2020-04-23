@@ -8,7 +8,7 @@ namespace Telegram\Bot\Objects\Passport;
  * @property SecureData $secure_data   Credentials for encrypted data
  * @property string     $nonce         Bot-specified nonce
  */
-class Credentials
+class Credentials extends BaseObject
 {
     public function relations(): array
     {

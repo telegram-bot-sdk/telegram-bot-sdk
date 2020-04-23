@@ -15,7 +15,7 @@ use Telegram\Bot\Objects\User;
  * @property string    $shipping_option_id       (Optional). Identifier of the shipping option chosen by the user
  * @property OrderInfo $order_info               (Optional). Order info provided by the user
  */
-class PreCheckoutQuery
+class PreCheckoutQuery extends BaseObject
 {
     public function relations(): array
     {

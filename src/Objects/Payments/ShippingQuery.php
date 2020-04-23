@@ -12,7 +12,7 @@ use Telegram\Bot\Objects\User;
  * @property string          $invoice_payload       Bot specified invoice payload
  * @property ShippingAddress $shipping_address      User specified shipping address
  */
-class ShippingQuery
+class ShippingQuery extends BaseObject
 {
     public function relations(): array
     {

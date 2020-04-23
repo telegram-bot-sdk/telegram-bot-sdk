@@ -10,6 +10,6 @@ namespace Telegram\Bot\Objects\Passport;
  * @property int    $file_size             File size
  * @property int    $file_date             Unix time when the file was uploaded
  */
-class PassportFile
+class PassportFile extends BaseObject
 {
 }

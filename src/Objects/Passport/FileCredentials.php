@@ -8,6 +8,6 @@ namespace Telegram\Bot\Objects\Passport;
  * @property string $file_hash     Checksum of encrypted file
  * @property string $secret        Secret of encrypted file
  */
-class FileCredentials
+class FileCredentials extends BaseObject
 {
 }

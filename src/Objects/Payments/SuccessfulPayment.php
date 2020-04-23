@@ -13,7 +13,7 @@ namespace Telegram\Bot\Objects\Payments;
  * @property string    $telegram_payment_charge_id           Telegram payment identifier.
  * @property string    $provider_payment_charge_id           Provider payment identifier.
  */
-class SuccessfulPayment
+class SuccessfulPayment extends BaseObject
 {
     public function relations(): array
     {

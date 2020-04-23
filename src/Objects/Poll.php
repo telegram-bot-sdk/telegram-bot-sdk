@@ -17,7 +17,7 @@ namespace Telegram\Bot\Objects;
  * @property bool         $allow_multiple_answers   True, if the poll allows multiple answers.
  * @property int          $correct_option_id        (Optional). 0-based identifier of the correct answer option. Available only for polls in the quiz mode, which are closed, or was sent (not forwarded) by the bot or to the private chat with the bot.
  */
-class Poll
+class Poll extends BaseObject
 {
     public function relations(): array
     {

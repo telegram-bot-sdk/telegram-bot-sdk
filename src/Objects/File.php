@@ -12,6 +12,6 @@ namespace Telegram\Bot\Objects;
  * @property int    $file_size       (Optional). File size, if known.
  * @property string $file_path       (Optional). File path. Use 'https://api.telegram.org/file/bot<token>/<file_path>' to get the file.
  */
-class File
+class File extends BaseObject
 {
 }

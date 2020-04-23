@@ -9,7 +9,7 @@ namespace Telegram\Bot\Objects\Payments;
  * @property string         $title     Option title.
  * @property LabeledPrice[] $prices    List of price portions.
  */
-class ShippingOption
+class ShippingOption extends BaseObject
 {
     public function relations(): array
     {

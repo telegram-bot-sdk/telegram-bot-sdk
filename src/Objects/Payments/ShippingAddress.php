@@ -12,6 +12,6 @@ namespace Telegram\Bot\Objects\Payments;
  * @property string $street_line_2                   Second line for the address.
  * @property string $post_code                       Address post code
  */
-class ShippingAddress
+class ShippingAddress extends BaseObject
 {
 }

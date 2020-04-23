@@ -13,7 +13,7 @@ namespace Telegram\Bot\Objects;
  * @property string   $query     Text of the query.
  * @property string   $offset    Offset of the results to be returned.
  */
-class InlineQuery
+class InlineQuery extends BaseObject
 {
     public function relations(): array
     {
