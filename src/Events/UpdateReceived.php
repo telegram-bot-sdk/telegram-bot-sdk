@@ -8,15 +8,15 @@ use Telegram\Bot\Traits\HasApi;
 use Telegram\Bot\Traits\HasUpdate;
 
 /**
- * Class UpdateWasReceived.
+ * Class UpdateReceived.
  */
-class UpdateWasReceived
+class UpdateReceived
 {
     use HasApi;
     use HasUpdate;
 
     /**
-     * UpdateWasReceived constructor.
+     * UpdateReceived constructor.
      *
      * @param Update $update
      * @param Api    $api

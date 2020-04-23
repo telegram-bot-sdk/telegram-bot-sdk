@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Telegram\Bot\Api;
 use Telegram\Bot\Commands\CommandBus;
-use Telegram\Bot\Events\UpdateWasReceived;
+use Telegram\Bot\Events\UpdateReceived;
 use Telegram\Bot\Exceptions\CouldNotUploadInputFile;
 use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -544,7 +544,7 @@ class TelegramApiTest extends TestCase
         //We can't pass test data to the webhook because it relies on the read only stream php://input
         $this->assertEmpty($update);
         $this->assertInstanceOf(Update::class, $update);
-        $emitter->emit(Argument::type(UpdateWasReceived::class))->shouldHaveBeenCalled();
+        $emitter->emit(Argument::type(UpdateReceived::class))->shouldHaveBeenCalled();
     }
 
     /** @test */
