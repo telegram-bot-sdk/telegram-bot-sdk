@@ -17,4 +17,11 @@ use Telegram\Bot\Objects\User;
  */
 class PreCheckoutQuery
 {
+    public function relations(): array
+    {
+        return [
+            'from'       => User::class,
+            'order_info' => OrderInfo::class,
+        ];
+    }
 }

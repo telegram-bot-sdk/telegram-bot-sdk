@@ -19,4 +19,10 @@ namespace Telegram\Bot\Objects;
  */
 class Animation
 {
+    public function relations(): array
+    {
+        return [
+            'thumb' => PhotoSize::class,
+        ];
+    }
 }

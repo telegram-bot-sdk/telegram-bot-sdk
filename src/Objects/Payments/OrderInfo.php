@@ -12,4 +12,10 @@ namespace Telegram\Bot\Objects\Payments;
  */
 class OrderInfo
 {
+    public function relations(): array
+    {
+        return [
+            'shipping_address' => ShippingAddress::class,
+        ];
+    }
 }

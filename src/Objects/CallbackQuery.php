@@ -17,4 +17,11 @@ namespace Telegram\Bot\Objects;
  */
 class CallbackQuery
 {
+    public function relations(): array
+    {
+        return [
+            'from'    => User::class,
+            'message' => Message::class,
+        ];
+    }
 }

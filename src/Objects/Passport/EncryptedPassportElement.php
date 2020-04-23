@@ -18,4 +18,14 @@ namespace Telegram\Bot\Objects\Passport;
  */
 class EncryptedPassportElement
 {
+    public function relations(): array
+    {
+        return [
+            'files'        => PassportFile::class,
+            'front_side'   => PassportFile::class,
+            'reverse_side' => PassportFile::class,
+            'selfie'       => PassportFile::class,
+            'translation'  => PassportFile::class,
+        ];
+    }
 }

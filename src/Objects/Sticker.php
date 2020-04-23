@@ -20,4 +20,11 @@ namespace Telegram\Bot\Objects;
  */
 class Sticker
 {
+    public function relations(): array
+    {
+        return [
+            'thumb'         => PhotoSize::class,
+            'mask_position' => MaskPosition::class,
+        ];
+    }
 }

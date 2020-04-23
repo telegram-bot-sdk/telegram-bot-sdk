@@ -13,4 +13,10 @@ namespace Telegram\Bot\Objects;
  */
 class GameHighScore
 {
+    public function relations(): array
+    {
+        return [
+            'user' => User::class,
+        ];
+    }
 }

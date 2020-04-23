@@ -19,4 +19,10 @@ namespace Telegram\Bot\Objects;
  */
 class Poll
 {
+    public function relations(): array
+    {
+        return [
+            'options' => PollOption::class,
+        ];
+    }
 }

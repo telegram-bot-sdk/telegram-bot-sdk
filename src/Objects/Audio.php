@@ -18,4 +18,10 @@ namespace Telegram\Bot\Objects;
  */
 class Audio
 {
+    public function relations(): array
+    {
+        return [
+            'thumb' => PhotoSize::class,
+        ];
+    }
 }

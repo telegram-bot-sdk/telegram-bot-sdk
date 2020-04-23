@@ -18,4 +18,10 @@ namespace Telegram\Bot\Objects;
  */
 class Video
 {
+    public function relations(): array
+    {
+        return [
+            'thumb' => PhotoSize::class,
+        ];
+    }
 }

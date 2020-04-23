@@ -11,4 +11,10 @@ namespace Telegram\Bot\Objects\Payments;
  */
 class ShippingOption
 {
+    public function relations(): array
+    {
+        return [
+            'prices' => LabeledPrice::class,
+        ];
+    }
 }

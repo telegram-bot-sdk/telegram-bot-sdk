@@ -10,4 +10,10 @@ namespace Telegram\Bot\Objects\Passport;
  */
 class Credentials
 {
+    public function relations(): array
+    {
+        return [
+            'secure_data' => SecureData::class,
+        ];
+    }
 }

@@ -16,4 +16,11 @@ namespace Telegram\Bot\Objects;
  */
 class StickerSet
 {
+    public function relations(): array
+    {
+        return [
+            'stickers' => Sticker::class,
+            'thumb'    => PhotoSize::class,
+        ];
+    }
 }

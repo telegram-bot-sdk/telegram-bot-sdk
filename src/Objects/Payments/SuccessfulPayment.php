@@ -15,4 +15,10 @@ namespace Telegram\Bot\Objects\Payments;
  */
 class SuccessfulPayment
 {
+    public function relations(): array
+    {
+        return [
+            'order_info' => OrderInfo::class,
+        ];
+    }
 }

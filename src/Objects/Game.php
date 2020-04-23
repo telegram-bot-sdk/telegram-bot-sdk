@@ -16,4 +16,12 @@ namespace Telegram\Bot\Objects;
  */
 class Game
 {
+    public function relations(): array
+    {
+        return [
+            'photo'         => PhotoSize::class,
+            'text_entities' => MessageEntity::class,
+            'animation'     => Animation::class,
+        ];
+    }
 }

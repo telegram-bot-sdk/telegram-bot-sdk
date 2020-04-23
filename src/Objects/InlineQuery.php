@@ -15,4 +15,11 @@ namespace Telegram\Bot\Objects;
  */
 class InlineQuery
 {
+    public function relations(): array
+    {
+        return [
+            'from'     => User::class,
+            'location' => Location::class,
+        ];
+    }
 }

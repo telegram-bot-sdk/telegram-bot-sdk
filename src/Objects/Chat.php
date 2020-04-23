@@ -26,4 +26,12 @@ use Telegram\Bot\Objects\InputMedia\InputMedia;
  */
 class Chat extends BaseObject
 {
+    public function relations(): array
+    {
+        return [
+            'photo'          => InputMedia::class,
+            'pinned_message' => Message::class,
+            'permissions'    => ChatPermissions::class,
+        ];
+    }
 }

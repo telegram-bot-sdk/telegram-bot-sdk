@@ -12,4 +12,10 @@ namespace Telegram\Bot\Objects;
  */
 class UserProfilePhotos
 {
+    public function relations(): array
+    {
+        return [
+            'photos' => PhotoSize::class,
+        ];
+    }
 }

@@ -16,4 +16,10 @@ namespace Telegram\Bot\Objects;
  */
 class Document
 {
+    public function relations(): array
+    {
+        return [
+            'thumb' => PhotoSize::class,
+        ];
+    }
 }

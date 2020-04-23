@@ -14,4 +14,11 @@ use Telegram\Bot\Objects\User;
  */
 class ShippingQuery
 {
+    public function relations(): array
+    {
+        return [
+            'from'             => User::class,
+            'shipping_address' => ShippingAddress::class,
+        ];
+    }
 }

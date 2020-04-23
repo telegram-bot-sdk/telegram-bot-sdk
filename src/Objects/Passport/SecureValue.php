@@ -14,4 +14,15 @@ namespace Telegram\Bot\Objects\Passport;
  */
 class SecureValue
 {
+    public function relations(): array
+    {
+        return [
+            'data'         => DataCredentials::class,
+            'front_side'   => FileCredentials::class,
+            'reverse_side' => FileCredentials::class,
+            'selfie'       => FileCredentials::class,
+            'translation'  => FileCredentials::class,
+            'files'        => FileCredentials::class,
+        ];
+    }
 }

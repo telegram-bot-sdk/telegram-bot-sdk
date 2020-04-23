@@ -15,4 +15,10 @@ namespace Telegram\Bot\Objects;
  */
 class Venue
 {
+    public function relations(): array
+    {
+        return [
+            'location' => Location::class,
+        ];
+    }
 }
