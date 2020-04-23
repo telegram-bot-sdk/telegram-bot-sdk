@@ -115,10 +115,14 @@ abstract class BaseObject implements ArrayAccess, Countable
      *
      * @param mixed $key
      * @param mixed $value
+     *
+     * @return static
      */
-    public function set($key, $value): void
+    public function set($key, $value): self
     {
         $this->offsetSet($key, $value);
+
+        return $this;
     }
 
     /**
