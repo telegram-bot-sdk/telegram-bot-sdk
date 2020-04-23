@@ -15,4 +15,10 @@ namespace Telegram\Bot\Objects;
  */
 class MessageEntity extends BaseObject
 {
+    public function relations(): array
+    {
+        return [
+            'user' => User::class,
+        ];
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Objects\Payments;
 
+use Telegram\Bot\Objects\BaseObject;
 use Telegram\Bot\Objects\User;
 
 /**
@@ -12,6 +13,13 @@ use Telegram\Bot\Objects\User;
  * @property string          $invoice_payload       Bot specified invoice payload
  * @property ShippingAddress $shipping_address      User specified shipping address
  */
-class ShippingQuery
+class ShippingQuery extends BaseObject
 {
+    public function relations(): array
+    {
+        return [
+            'from'             => User::class,
+            'shipping_address' => ShippingAddress::class,
+        ];
+    }
 }

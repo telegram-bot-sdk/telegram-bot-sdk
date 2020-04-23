@@ -14,6 +14,12 @@ namespace Telegram\Bot\Objects;
  * @property string    $mime_type       (Optional). MIME type of the file as defined by sender.
  * @property int       $file_size       (Optional). File size.
  */
-class Document
+class Document extends BaseObject
 {
+    public function relations(): array
+    {
+        return [
+            'thumb' => PhotoSize::class,
+        ];
+    }
 }

@@ -18,6 +18,13 @@ namespace Telegram\Bot\Objects;
  * @property MaskPosition $mask_position   (Optional). For mask stickers, the position where the mask should be placed
  * @property int          $file_size       (Optional). File size.
  */
-class Sticker
+class Sticker extends BaseObject
 {
+    public function relations(): array
+    {
+        return [
+            'thumb'         => PhotoSize::class,
+            'mask_position' => MaskPosition::class,
+        ];
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace Telegram\Bot\Objects\Payments;
 
+use Telegram\Bot\Objects\BaseObject;
+
 /**
  * @link https://core.telegram.org/bots/api#orderinfo
  *
@@ -10,6 +12,12 @@ namespace Telegram\Bot\Objects\Payments;
  * @property string          $email                 (Optional). User email
  * @property ShippingAddress $shipping_address      (Optional). User shipping address
  */
-class OrderInfo
+class OrderInfo extends BaseObject
 {
+    public function relations(): array
+    {
+        return [
+            'shipping_address' => ShippingAddress::class,
+        ];
+    }
 }

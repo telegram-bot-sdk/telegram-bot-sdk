@@ -2,6 +2,8 @@
 
 namespace Telegram\Bot\Objects\Payments;
 
+use Telegram\Bot\Objects\BaseObject;
+
 /**
  * @link https://core.telegram.org/bots/api#shippingoption
  *
@@ -9,6 +11,12 @@ namespace Telegram\Bot\Objects\Payments;
  * @property string         $title     Option title.
  * @property LabeledPrice[] $prices    List of price portions.
  */
-class ShippingOption
+class ShippingOption extends BaseObject
 {
+    public function relations(): array
+    {
+        return [
+            'prices' => LabeledPrice::class,
+        ];
+    }
 }

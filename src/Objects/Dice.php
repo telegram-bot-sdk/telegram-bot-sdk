@@ -11,6 +11,6 @@ namespace Telegram\Bot\Objects;
  *
  * @property int $value  Value of the dice, 1-6
  */
-class Dice
+class Dice extends BaseObject
 {
 }

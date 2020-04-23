@@ -2,6 +2,8 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
+use Telegram\Bot\Objects\BaseObject;
+
 /**
  * @link https://core.telegram.org/bots/api#encryptedpassportelement
  *
@@ -16,6 +18,16 @@ namespace Telegram\Bot\Objects\Passport;
  * @property PassportFile[] $translation     (Optional). Array of encrypted files with translated versions of documents provided by the user. Available if requested for “passport”, “driver_license”, “identity_card”, “internal_passport”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration” and “temporary_registration” types. Files can be decrypted and verified using the accompanying EncryptedCredentials.
  * @property string         $hash            (Optional). Base64-encoded element hash for using in PassportElementErrorUnspecified
  */
-class EncryptedPassportElement
+class EncryptedPassportElement extends BaseObject
 {
+    public function relations(): array
+    {
+        return [
+            'files'        => PassportFile::class,
+            'front_side'   => PassportFile::class,
+            'reverse_side' => PassportFile::class,
+            'selfie'       => PassportFile::class,
+            'translation'  => PassportFile::class,
+        ];
+    }
 }

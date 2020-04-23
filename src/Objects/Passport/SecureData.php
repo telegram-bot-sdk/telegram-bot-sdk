@@ -2,6 +2,8 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
+use Telegram\Bot\Objects\BaseObject;
+
 /**
  * @link https://core.telegram.org/bots/api#securedata
  *
@@ -17,6 +19,22 @@ namespace Telegram\Bot\Objects\Passport;
  * @property SecureValue $passport_registration       (Optional). Credentials for encrypted registration from internal passport
  * @property SecureValue $temporary_registration      (Optional). Credentials for encrypted temporary registration
  */
-class SecureData
+class SecureData extends BaseObject
 {
+    public function relations(): array
+    {
+        return [
+            'personal_details'       => SecureValue::class,
+            'passport'               => SecureValue::class,
+            'internal_passport'      => SecureValue::class,
+            'driver_license'         => SecureValue::class,
+            'identity_card'          => SecureValue::class,
+            'address'                => SecureValue::class,
+            'utility_bill'           => SecureValue::class,
+            'bank_statement'         => SecureValue::class,
+            'rental_agreement'       => SecureValue::class,
+            'passport_registration'  => SecureValue::class,
+            'temporary_registration' => SecureValue::class,
+        ];
+    }
 }
