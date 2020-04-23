@@ -105,8 +105,7 @@ class Update extends BaseObject
                 return $this->poll_answer;
         }
 
-        return false;
-        //return collect();
+        return $this;
     }
 
     /**
