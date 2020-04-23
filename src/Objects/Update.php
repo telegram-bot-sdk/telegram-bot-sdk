@@ -2,7 +2,6 @@
 
 namespace Telegram\Bot\Objects;
 
-use Illuminate\Support\Str;
 use Telegram\Bot\Objects\Payments\PreCheckoutQuery;
 use Telegram\Bot\Objects\Payments\ShippingQuery;
 
@@ -46,7 +45,7 @@ class Update extends BaseObject
             'poll_answer'          => PollAnswer::class,
         ];
     }
-    
+
     /**
      * Determine if the update is of given type.
      *
@@ -56,9 +55,7 @@ class Update extends BaseObject
      */
     public function isType($type): bool
     {
-        $type = Str::lower($type);
-
-        if ($this->has($type)) {
+        if ($this->offsetExists($type)) {
             return true;
         }
 

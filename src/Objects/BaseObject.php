@@ -109,26 +109,31 @@ abstract class BaseObject implements ArrayAccess, Countable
     }
 
     /**
-     * Get a field.
+     * Get field from the object by key.
      *
      * @param mixed $key
+     * @param mixed $default
      *
      * @return mixed
      */
-    public function get($key)
+    public function get($key, $default = null)
     {
-        return $this->offsetGet($key);
+        if ($this->offsetExists($key)) {
+            return $this->offsetGet($key);
+        }
+
+        return value($default);
     }
 
     /**
-     * Set the field with given value.
+     * Put a field in the object by key.
      *
      * @param mixed $key
      * @param mixed $value
      *
      * @return static
      */
-    public function set($key, $value): self
+    public function put($key, $value): self
     {
         $this->offsetSet($key, $value);
 
@@ -136,13 +141,19 @@ abstract class BaseObject implements ArrayAccess, Countable
     }
 
     /**
-     * Forget a field.
+     * Remove a field from the object by key.
      *
-     * @param mixed $key
+     * @param string|array $keys
+     *
+     * @return $this
      */
-    public function forget($key): void
+    public function forget($keys): self
     {
-        $this->offsetUnset($key);
+        foreach ((array)$keys as $key) {
+            $this->offsetUnset($key);
+        }
+
+        return $this;
     }
 
     /**
@@ -164,7 +175,7 @@ abstract class BaseObject implements ArrayAccess, Countable
      */
     public function offsetExists($key): bool
     {
-        return isset($this->fields->{Str::snake($key)});
+        return isset($this->fields->{$key});
     }
 
     /**
@@ -176,7 +187,7 @@ abstract class BaseObject implements ArrayAccess, Countable
      */
     public function offsetGet($key)
     {
-        return data_get($this->fields, Str::snake($key));
+        return data_get($this->fields, $key);
     }
 
     /**
@@ -187,7 +198,7 @@ abstract class BaseObject implements ArrayAccess, Countable
      */
     public function offsetSet($key, $value): void
     {
-        data_set($this->fields, Str::snake($key), $value);
+        data_set($this->fields, $key, $value);
     }
 
     /**
@@ -197,7 +208,7 @@ abstract class BaseObject implements ArrayAccess, Countable
      */
     public function offsetUnset($key): void
     {
-        unset($this->fields->{Str::snake($key)});
+        unset($this->fields->{$key});
     }
 
     /**
@@ -241,11 +252,11 @@ abstract class BaseObject implements ArrayAccess, Countable
      */
     public function __get($field)
     {
-        if (!$this->has($field)) {
+        if (!$this->offsetExists($field)) {
             return null;
         }
 
-        $value = $this->get($field);
+        $value = $this->offsetGet($field);
 
         $relations = $this->relations();
         if (isset($relations[$field])) {
@@ -278,21 +289,21 @@ abstract class BaseObject implements ArrayAccess, Countable
      */
     public function __set($field, $value)
     {
-        if (!$this->has($field)) {
+        if (!$this->offsetExists($field)) {
             throw new TelegramSDKException("Property [{$field}] does not exist on this object instance.");
         }
 
-        $this->set($field, $value);
+        $this->offsetSet($field, $value);
     }
 
     public function __isset($field)
     {
-        return $this->has($field);
+        return $this->offsetExists($field);
     }
 
     public function __unset($field)
     {
-        $this->forget($field);
+        $this->offsetUnset($field);
     }
 
     /**
