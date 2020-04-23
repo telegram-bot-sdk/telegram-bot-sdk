@@ -5,6 +5,6 @@ namespace Telegram\Bot\Objects;
 /**
  * Class Object.
  */
-class TelegramObject
+class TelegramObject extends BaseObject
 {
 }

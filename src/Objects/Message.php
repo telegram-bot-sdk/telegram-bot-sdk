@@ -59,6 +59,41 @@ use Telegram\Bot\Objects\Payments\SuccessfulPayment;
  * @property PassportData      $passport_data             (Optional). Telegram Passport data
  * @property string            $reply_markup              (Optional). Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
  */
-class Message
+class Message extends BaseObject
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function relations(): array
+    {
+        return [
+            'from'               => User::class,
+            'chat'               => Chat::class,
+            'forward_from'       => User::class,
+            'forward_from_chat'  => Chat::class,
+            'reply_to_message'   => self::class,
+            'entities'           => MessageEntity::class,
+            'caption_entities'   => MessageEntity::class,
+            'audio'              => Audio::class,
+            'document'           => Document::class,
+            'animation'          => Animation::class,
+            'game'               => Game::class,
+            'photo'              => PhotoSize::class,
+            'sticker'            => Sticker::class,
+            'video'              => Video::class,
+            'voice'              => Voice::class,
+            'video_note'         => VideoNote::class,
+            'contact'            => Contact::class,
+            'location'           => Location::class,
+            'venue'              => Venue::class,
+            'poll'               => Poll::class,
+            'new_chat_members'   => User::class,
+            'left_chat_member'   => User::class,
+            'new_chat_photo'     => PhotoSize::class,
+            'pinned_message'     => self::class,
+            'invoice'            => Invoice::class,
+            'successful_payment' => SuccessfulPayment::class,
+            'passport'           => PassportData::class,
+        ];
+    }
 }

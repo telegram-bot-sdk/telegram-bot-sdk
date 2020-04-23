@@ -13,8 +13,8 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
  */
 abstract class BaseObject implements ArrayAccess, Countable
 {
-    /** @var object The fields contained in the object. */
-    protected object $fields;
+    /** @var object|array The fields contained in the object. */
+    protected $fields;
 
     /**
      * Create a new object.
@@ -45,6 +45,16 @@ abstract class BaseObject implements ArrayAccess, Countable
     }
 
     /**
+     * Field relations.
+     *
+     * @return array
+     */
+    public function relations(): array
+    {
+        return [];
+    }
+
+    /**
      * Make a collection out of the given data.
      *
      * @return Collection
@@ -57,9 +67,9 @@ abstract class BaseObject implements ArrayAccess, Countable
     /**
      * Get all fields.
      *
-     * @return object
+     * @return object|array
      */
-    public function all(): object
+    public function all()
     {
         return $this->fields;
     }
@@ -235,7 +245,29 @@ abstract class BaseObject implements ArrayAccess, Countable
             return null;
         }
 
-        return $this->get($field);
+        $value = $this->get($field);
+
+        $relations = $this->relations();
+        if (isset($relations[$field])) {
+            if (is_array($value)) {
+                return collect($value)->mapInto($relations[$field])->all();
+            }
+
+            return $relations[$field]::make($value);
+        }
+
+        /** @var BaseObject $class */
+        $class = 'Telegram\Bot\Objects\\' . Str::studly($field);
+
+        if (class_exists($class)) {
+            return $class::make($value);
+        }
+
+        if (is_array($value)) {
+            return TelegramObject::make($value);
+        }
+
+        return $value;
     }
 
     /**
@@ -269,7 +301,6 @@ abstract class BaseObject implements ArrayAccess, Countable
      * @param $method
      * @param $arguments
      *
-     * @throws $method
      * @return mixed
      */
     public function __call($method, $arguments)

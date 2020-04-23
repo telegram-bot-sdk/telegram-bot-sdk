@@ -28,6 +28,26 @@ use Telegram\Bot\Objects\Payments\ShippingQuery;
 class Update extends BaseObject
 {
     /**
+     * @inheritdoc
+     */
+    public function relations(): array
+    {
+        return [
+            'message'              => Message::class,
+            'edited_message'       => EditedMessage::class,
+            'channel_post'         => Message::class,
+            'edited_channel_post'  => EditedMessage::class,
+            'inline_query'         => InlineQuery::class,
+            'chosen_inline_result' => ChosenInlineResult::class,
+            'callback_query'       => CallbackQuery::class,
+            'shipping_query'       => ShippingQuery::class,
+            'pre_checkout_query'   => PreCheckoutQuery::class,
+            'poll'                 => Poll::class,
+            'poll_answer'          => PollAnswer::class,
+        ];
+    }
+    
+    /**
      * Determine if the update is of given type.
      *
      * @param string $type
