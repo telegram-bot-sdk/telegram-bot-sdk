@@ -9,7 +9,8 @@ namespace Telegram\Bot\Objects;
  *
  * @link https://core.telegram.org/bots/api#dice
  *
- * @property int $value  Value of the dice, 1-6
+ * @property string $emoji  Emoji on which the dice throw animation is based
+ * @property int    $value  Value of the dice, 1-6
  */
 class Dice extends BaseObject
 {
