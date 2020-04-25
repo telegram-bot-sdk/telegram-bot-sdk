@@ -145,8 +145,7 @@ class CommandBus extends AnswerBus
      */
     protected function parseCommandsIn($message): Collection
     {
-        return collect($message->entities)
-            ->filter(fn ($entity) => $entity['type'] === 'bot_command');
+        return collect($message->entities)->filter(fn ($entity) => $entity['type'] === 'bot_command');
     }
 
     /**
