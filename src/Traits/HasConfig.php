@@ -6,8 +6,7 @@ use Illuminate\Support\Arr;
 
 trait HasConfig
 {
-    /** @var array Config */
-    protected array $config;
+    private array $config;
 
     /**
      * Check if an option or options exist in config using "dot" notation.
