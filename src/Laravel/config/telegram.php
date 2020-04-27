@@ -58,10 +58,24 @@ return [
             ],
 
             'listen' => [
-                // Bind events to listeners
-                \Telegram\Bot\Events\UpdateReceived::class => [
-                    \Telegram\Bot\Commands\Listeners\ProcessCommand::class,
-                ]
+                'update.received'             => [
+                    \Telegram\Bot\Listeners\ProcessUpdate::class,
+                ],
+
+                // (Optional).
+                // If you would like to process specific types of updates you may
+                // define the processing class for each type here.
+                'update.message'              => [],
+                'update.edited_message'       => [],
+                'update.channel_post'         => [],
+                'update.edited_channel_post'  => [],
+                'update.inline_query'         => [],
+                'update.chosen_inline_result' => [],
+                'update.callback_query'       => [],
+                'update.shipping_query'       => [],
+                'update.pre_checkout_query'   => [],
+                'update.poll'                 => [],
+                'update.poll_answer'          => [],
             ],
         ],
 
