@@ -3,7 +3,7 @@
 namespace Telegram\Bot\Answers;
 
 use Illuminate\Support\Str;
-use Telegram\Bot\Traits\HasApi;
+use Telegram\Bot\Traits\HasBot;
 use Telegram\Bot\Traits\HasUpdate;
 
 /**
@@ -21,7 +21,7 @@ use Telegram\Bot\Traits\HasUpdate;
  */
 trait Answerable
 {
-    use HasApi;
+    use HasBot;
     use HasUpdate;
 
     /**
@@ -36,7 +36,7 @@ trait Answerable
     {
         $methodName = 'send' . Str::studly(substr($method, 9));
 
-        if (!Str::startsWith($method, 'replyWith') || !method_exists($this->api, $methodName)) {
+        if (!Str::startsWith($method, 'replyWith') || !method_exists($this->bot, $methodName)) {
             throw new \BadMethodCallException("Method [$method] does not exist.");
         }
 
@@ -46,6 +46,6 @@ trait Answerable
 
         $params = array_merge(['chat_id' => $this->update->getChat()->id], $arguments[0]);
 
-        return $this->api->{$methodName}($params);
+        return $this->bot->{$methodName}($params);
     }
 }

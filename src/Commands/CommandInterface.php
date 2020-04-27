@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Commands;
 
-use Telegram\Bot\Api;
+use Telegram\Bot\Bot;
 use Throwable;
 
 /**
@@ -22,9 +22,13 @@ interface CommandInterface
 
     public function setArgumentsNotProvided(array $arguments): self;
 
-    public function getApi(): Api;
+    public function getBot(): Bot;
 
-    public function setApi(Api $api);
+    public function setBot(Bot $bot): self;
+
+    public function getCommandBus(): CommandBus;
+
+    public function setCommandBus(CommandBus $commandBus): self;
 
     public function failed(array $arguments, Throwable $exception);
 }

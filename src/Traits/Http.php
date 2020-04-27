@@ -39,7 +39,7 @@ trait Http
      */
     protected function getClient(): TelegramClient
     {
-        return $this->client ??= new TelegramClient();
+        return $this->client ??= (new TelegramClient())->setAccessToken($this->getAccessToken());
     }
 
     /**

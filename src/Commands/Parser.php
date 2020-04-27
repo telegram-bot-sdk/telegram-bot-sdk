@@ -9,14 +9,15 @@ use ReflectionMethod;
 use ReflectionParameter;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\MessageEntity;
 use Telegram\Bot\Traits\HasUpdate;
 
 class Parser
 {
     use HasUpdate;
 
-    /** @var array|null Details of the current entity this command is responding to - offset, length, type etc */
-    protected ?array $entity;
+    /** @var MessageEntity|null Details of the current entity this command is responding to - offset, length, type etc */
+    protected ?MessageEntity $entity;
 
     /** @var CommandInterface|string */
     protected $command;
@@ -25,25 +26,13 @@ class Parser
     protected $params;
 
     /**
-     * @param $command
+     * @param CommandInterface|string $command
      *
      * @return Parser
      */
     public static function parse($command): self
     {
         return (new static())->setCommand($command);
-    }
-
-    /**
-     * @param $command
-     *
-     * @return $this
-     */
-    public function setCommand($command): self
-    {
-        $this->command = $command;
-
-        return $this;
     }
 
     /**
@@ -55,23 +44,27 @@ class Parser
     }
 
     /**
-     * @param array $entity
+     * @param CommandInterface|string $command
      *
      * @return $this
      */
-    public function setEntity(array $entity): self
+    public function setCommand($command): self
     {
-        $this->entity = $entity;
+        $this->command = $command;
 
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
-    public function getEntity(): ?array
+    public function getEntity(): ?MessageEntity
     {
         return $this->entity;
+    }
+
+    public function setEntity(MessageEntity $entity): self
+    {
+        $this->entity = $entity;
+
+        return $this;
     }
 
     /**
@@ -224,10 +217,8 @@ class Parser
      */
     private function allCommandOffsets(): Collection
     {
-        return $this->getUpdate()
-            ->getMessage()
-            ->entities
-            ->filter(fn ($entity) => $entity['type'] === 'bot_command')
+        return collect($this->getUpdate()->getMessage()->entities)
+            ->filter(fn (MessageEntity $entity) => $entity->type === 'bot_command')
             ->pluck('offset');
     }
 

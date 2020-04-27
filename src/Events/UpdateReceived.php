@@ -2,28 +2,19 @@
 
 namespace Telegram\Bot\Events;
 
-use Telegram\Bot\Api;
+use Telegram\Bot\Bot;
 use Telegram\Bot\Objects\Update;
-use Telegram\Bot\Traits\HasApi;
+use Telegram\Bot\Traits\HasBot;
 use Telegram\Bot\Traits\HasUpdate;
 
-/**
- * Class UpdateReceived.
- */
 class UpdateReceived
 {
-    use HasApi;
+    use HasBot;
     use HasUpdate;
 
-    /**
-     * UpdateReceived constructor.
-     *
-     * @param Update $update
-     * @param Api    $api
-     */
-    public function __construct(Update $update, Api $api)
+    public function __construct(Bot $bot, Update $update)
     {
-        $this->setUpdate($update);
-        $this->setApi($api);
+        $this->bot = $bot;
+        $this->update = $update;
     }
 }

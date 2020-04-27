@@ -6,9 +6,10 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use Telegram\Bot\Answers\AnswerBus;
-use Telegram\Bot\Api;
+use Telegram\Bot\Bot;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\MessageEntity;
 use Telegram\Bot\Objects\Update;
 
 /**
@@ -24,11 +25,11 @@ class CommandBus extends AnswerBus
     /**
      * Instantiate Command Bus.
      *
-     * @param Api|null $api
+     * @param Bot|null $bot
      */
-    public function __construct(Api $api = null)
+    public function __construct(Bot $bot = null)
     {
-        $this->api = $api;
+        $this->bot = $bot;
     }
 
     /**
@@ -125,12 +126,11 @@ class CommandBus extends AnswerBus
      *
      * @return Update
      */
-    protected function handler(Update $update): Update
+    public function handler(Update $update): Update
     {
-        $message = $update->getMessage();
-
-        if ($message->has('entities')) {
-            $this->parseCommandsIn($message)->each(fn (array $botCommand) => $this->process($botCommand, $update));
+        if ($update->hasCommand()) {
+            $this->parseCommandsIn($update->getMessage())->each(fn (MessageEntity $entity) => $this->process($entity,
+                $update));
         }
 
         return $update;
@@ -145,23 +145,23 @@ class CommandBus extends AnswerBus
      */
     protected function parseCommandsIn($message): Collection
     {
-        return collect($message->entities)->filter(fn ($entity) => $entity['type'] === 'bot_command');
+        return collect($message->entities)->filter(fn (MessageEntity $entity) => $entity->type === 'bot_command');
     }
 
     /**
      * Execute a bot command from the update text.
      *
-     * @param array  $entity
-     * @param Update $update
+     * @param MessageEntity $entity
+     * @param Update        $update
      *
      * @throws TelegramSDKException
      */
-    protected function process($entity, Update $update): void
+    protected function process(MessageEntity $entity, Update $update): void
     {
         $command = $this->parseCommand(
             $update->getMessage()->text,
-            $entity['offset'],
-            $entity['length']
+            $entity->offset,
+            $entity->length
         );
 
         $this->execute($command, $update, $entity);
@@ -172,13 +172,13 @@ class CommandBus extends AnswerBus
      *
      * @param CommandInterface|string $command
      * @param Update                  $update
-     * @param array                   $entity
+     * @param MessageEntity|array     $entity
      * @param bool                    $isTriggered
      *
      * @throws TelegramCommandException
      * @throws TelegramSDKException
      */
-    public function execute($command, Update $update, array $entity, bool $isTriggered = false): void
+    public function execute($command, Update $update, $entity, bool $isTriggered = false): void
     {
         $command = $this->resolveCommand($command);
 
@@ -191,7 +191,7 @@ class CommandBus extends AnswerBus
             $arguments = $parser->arguments();
         }
 
-        $command->setApi($this->api)->setUpdate($update)->setArguments($arguments);
+        $command->setCommandBus($this)->setBot($this->bot)->setUpdate($update)->setArguments($arguments);
 
         $requiredParamsNotProvided = $parser->requiredParamsNotProvided(array_keys($arguments));
 
@@ -200,7 +200,7 @@ class CommandBus extends AnswerBus
                 throw TelegramCommandException::requiredParamsNotProvided($requiredParamsNotProvided);
             }
 
-            $this->api->getContainer()->call([$command, 'handle'], $arguments);
+            $this->bot->getContainer()->call([$command, 'handle'], $arguments);
         } catch (BindingResolutionException|TelegramCommandException $e) {
             if (method_exists($command, 'failed')) {
                 $params = $requiredParamsNotProvided->all();
@@ -232,7 +232,7 @@ class CommandBus extends AnswerBus
         }
 
         try {
-            $command = $this->api->getContainer()->make($command);
+            $command = $this->bot->getContainer()->make($command);
         } catch (BindingResolutionException $e) {
             throw TelegramCommandException::commandNotInstantiable($command, $e);
         }

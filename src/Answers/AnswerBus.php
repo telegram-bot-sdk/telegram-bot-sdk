@@ -3,14 +3,14 @@
 namespace Telegram\Bot\Answers;
 
 use BadMethodCallException;
-use Telegram\Bot\Traits\HasApi;
+use Telegram\Bot\Traits\HasBot;
 
 /**
  * Class AnswerBus.
  */
 abstract class AnswerBus
 {
-    use HasApi;
+    use HasBot;
 
     /**
      * Handle calls to missing methods.

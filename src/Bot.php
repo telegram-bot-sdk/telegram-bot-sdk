@@ -1,0 +1,248 @@
+<?php
+
+namespace Telegram\Bot;
+
+use Closure;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Traits\Macroable;
+use Telegram\Bot\Events\EventFactory;
+use Telegram\Bot\Events\UpdateReceived;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Http\GuzzleHttpClient;
+use Telegram\Bot\Http\HttpClientInterface;
+use Telegram\Bot\Objects\Update;
+use Telegram\Bot\Traits\HasConfig;
+use Telegram\Bot\Traits\HasContainer;
+
+/**
+ * Class Bot
+ *
+ * @mixin Api
+ */
+class Bot
+{
+    use Macroable {
+        __call as macroCall;
+    }
+
+    use HasConfig;
+    use HasContainer;
+
+    protected Api $api;
+    protected EventFactory $eventFactory;
+    protected array $listeners;
+
+    /**
+     * Bot constructor.
+     *
+     * @param array $config
+     *
+     * @throws TelegramSDKException
+     */
+    public function __construct(array $config = [])
+    {
+        $this->config = $config;
+
+        $this->api = new Api($this->config('token'));
+        $this->api->setAsyncRequest($this->config('async_requests', false));
+        $this->setHttpClientHandler($this->config('http_client_handler', GuzzleHttpClient::class));
+
+        $this->eventFactory = new EventFactory();
+
+        if ($this->hasConfig('listen')) {
+            $this->eventFactory->setListeners($this->config('listen'));
+            $this->eventFactory->registerListeners();
+        }
+    }
+
+    /**
+     * Get Api Instance.
+     *
+     * @return Api
+     */
+    public function getApi(): Api
+    {
+        return $this->api;
+    }
+
+    /**
+     * Set Api Instance.
+     *
+     * @param Api $api
+     *
+     * @return static
+     */
+    public function setApi(Api $api): self
+    {
+        $this->api = $api;
+
+        return $this;
+    }
+
+    /**
+     * Get Event Factory.
+     *
+     * @return EventFactory
+     */
+    public function getEventFactory(): EventFactory
+    {
+        return $this->eventFactory;
+    }
+
+    /**
+     * Set Event Factory.
+     *
+     * @param EventFactory $eventFactory
+     *
+     * @return static
+     */
+    public function setEventFactory(EventFactory $eventFactory): self
+    {
+        $this->eventFactory = $eventFactory;
+
+        return $this;
+    }
+
+    /**
+     * Adds a listener to be notified when an update is received.
+     *
+     * @param Closure|string $listener
+     *
+     * @return static
+     */
+    public function onUpdate($listener): self
+    {
+        $this->eventFactory->listen(UpdateReceived::class, $listener);
+
+        return $this;
+    }
+
+    /**
+     * Register an event listener with the dispatcher.
+     *
+     * @param string|array   $events
+     * @param Closure|string $listener
+     *
+     * @return static
+     */
+    public function on($events, $listener): self
+    {
+        $this->eventFactory->listen($events, $listener);
+
+        return $this;
+    }
+
+    /**
+     * Listen for inbound updates using either webhook or polling method.
+     * Dispatches event when an inbound update is received.
+     *
+     * @param bool  $webhook
+     * @param array $params
+     *
+     * @throws TelegramSDKException
+     *
+     * @return Update|Update[]
+     */
+    public function listenForUpdate(bool $webhook = false, array $params = [])
+    {
+        return $webhook ? $this->useWebHook() : $this->useGetUpdates($params);
+    }
+
+    /**
+     * Process the update object for a command from your webhook.
+     *
+     * @throws TelegramSDKException
+     *
+     * @return Update
+     */
+    protected function useWebHook(): Update
+    {
+        $update = $this->api->getWebhookUpdate();
+
+        return $this->dispatchUpdateEvent($update);
+    }
+
+    /**
+     * Process the update object using the getUpdates method.
+     *
+     * @param array $params
+     *
+     * @throws TelegramSDKException
+     *
+     * @return Update[]
+     */
+    protected function useGetUpdates(array $params = []): array
+    {
+        $updates = $this->api->getUpdates($params);
+
+        $processedUpdates = [];
+        $highestId = -1;
+        foreach ($updates as $update) {
+            $highestId = $update->update_id;
+            $processedUpdates[] = $this->dispatchUpdateEvent($update);
+        }
+
+        // An update is considered confirmed as soon as getUpdates is called with an offset higher than it's update_id.
+        if ($highestId !== -1) {
+            $this->api->confirmUpdate($highestId);
+        }
+
+        return $processedUpdates;
+    }
+
+    /**
+     * Dispatch Update Event.
+     *
+     * @param Update $update
+     *
+     * @throws TelegramSDKException
+     *
+     * @return Update
+     */
+    public function dispatchUpdateEvent(Update $update): Update
+    {
+        $event = new UpdateReceived($this, $update);
+        $this->eventFactory->dispatch(UpdateReceived::class, $event);
+
+        return $event->getUpdate();
+    }
+
+    /**
+     * Set the HTTP Client Handler.
+     *
+     * @param string|HttpClientInterface $handler
+     *
+     * @throws TelegramSDKException
+     *
+     * @return static
+     */
+    public function setHttpClientHandler($handler): self
+    {
+        try {
+            $client = is_string($handler) ? $this->getContainer()->make($handler) : $handler;
+
+            $this->api->setHttpClientHandler($client);
+        } catch (BindingResolutionException $e) {
+            throw TelegramSDKException::httpClientNotInstantiable($handler, $e);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Magically pass methods to the api.
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $parameters);
+        }
+
+        return $this->api->{$method}(...$parameters);
+    }
+}

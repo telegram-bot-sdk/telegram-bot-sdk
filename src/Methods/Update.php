@@ -45,6 +45,23 @@ trait Update
     }
 
     /**
+     * Confirm update as received.
+     *
+     * @param int $highestId
+     *
+     * @throws TelegramSDKException
+     *
+     * @return array
+     */
+    public function confirmUpdate(int $highestId): array
+    {
+        return $this->getUpdates([
+            'offset' => $highestId + 1,
+            'limit'  => 1,
+        ]);
+    }
+
+    /**
      * Set a Webhook to receive incoming updates via an outgoing webhook.
      *
      * <code>

@@ -23,6 +23,8 @@ abstract class Command implements CommandInterface
     /** @var array Arguments that are required but have not been provided by the user */
     protected array $argumentsNotProvided = [];
 
+    protected CommandBus $commandBus;
+
     /**
      * Get Command Description.
      *
@@ -111,6 +113,18 @@ abstract class Command implements CommandInterface
         return $this;
     }
 
+    public function getCommandBus(): CommandBus
+    {
+        return $this->commandBus;
+    }
+
+    public function setCommandBus(CommandBus $commandBus): self
+    {
+        $this->commandBus = $commandBus;
+
+        return $this;
+    }
+
     /**
      * Triggered on failure to find params in command.
      *
@@ -132,6 +146,6 @@ abstract class Command implements CommandInterface
      */
     protected function triggerCommand($command, array $params = []): void
     {
-        $this->api->getCommandBus()->execute($command, $this->update, $params, true);
+        $this->commandBus->execute($command, $this->update, $params, true);
     }
 }

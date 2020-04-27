@@ -7,13 +7,14 @@ use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
 use Telegram\Bot\Api;
+use Telegram\Bot\Bot;
 use Telegram\Bot\BotsManager;
 use Telegram\Bot\Laravel\Artisan\WebhookCommand;
 
 /**
  * Class TelegramServiceProvider.
  */
-class TelegramServiceProvider extends ServiceProvider implements DeferrableProvider
+class TelegramServiceProvider extends ServiceProvider
 {
     /**
      * Boot the service provider.
@@ -46,7 +47,10 @@ class TelegramServiceProvider extends ServiceProvider implements DeferrableProvi
         );
         $this->app->alias(BotsManager::class, 'telegram');
 
-        $this->app->bind(Api::class, fn ($app) => $app[BotsManager::class]->bot());
+        $this->app->bind(Bot::class, fn ($app) => $app[BotsManager::class]->bot());
+        $this->app->alias(Bot::class, 'telegram.bot');
+
+        $this->app->bind(Api::class, fn ($app) => $app[Bot::class]->getApi());
         $this->app->alias(Api::class, 'telegram.api');
 
         $this->app->bind('command.telegram:webhook', WebhookCommand::class);
@@ -60,6 +64,6 @@ class TelegramServiceProvider extends ServiceProvider implements DeferrableProvi
      */
     public function provides(): array
     {
-        return [BotsManager::class, Api::class, 'telegram', 'telegram.api'];
+        return [BotsManager::class, Bot::class, Api::class, 'telegram', 'telegram.bot', 'telegram.api'];
     }
 }

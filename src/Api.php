@@ -7,8 +7,6 @@ use Illuminate\Support\Traits\Macroable;
 
 /**
  * Class Api.
- *
- * @mixin Commands\CommandBus
  */
 class Api
 {
@@ -17,9 +15,7 @@ class Api
     }
 
     use Traits\Http;
-    use Traits\CommandsHandler;
-    use Traits\HasContainer;
-    use Traits\HasUpdate;
+    use Traits\HasAccessToken;
 
     use Methods\Chat;
     use Methods\Commands;
@@ -44,7 +40,7 @@ class Api
      */
     public function __construct(string $token = null)
     {
-        $this->setAccessToken($token);
+        $this->accessToken = $token;
     }
 
     /**
@@ -77,11 +73,6 @@ class Api
 
         if (method_exists($this->getClient(), $method)) {
             return $this->getClient()->{$method}(...$arguments);
-        }
-
-        // If the method does not exist on the API, try the commandBus.
-        if (preg_match('/^\w+Commands?/', $method, $matches)) {
-            return $this->getCommandBus()->{$matches[0]}(...$arguments);
         }
 
         throw new BadMethodCallException("Method [$method] does not exist.");

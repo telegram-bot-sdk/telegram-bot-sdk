@@ -14,7 +14,7 @@ trait HasUpdate
     protected ?Update $update = null;
 
     /**
-     * Determine if Telegram Update is set.
+     * Determine if Telegram Update is available.
      *
      * @return bool
      */
@@ -27,6 +27,7 @@ trait HasUpdate
      * Get the Telegram Update.
      *
      * @throws TelegramSDKException
+     *
      * @return Update
      */
     public function getUpdate(): Update
@@ -39,11 +40,11 @@ trait HasUpdate
     }
 
     /**
-     * Set the Telegram Update.
+     * Set the Last Telegram Update.
      *
      * @param Update $update Telegram Update.
      *
-     * @return $this
+     * @return static
      */
     public function setUpdate(Update $update): self
     {

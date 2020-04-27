@@ -11,15 +11,15 @@ class EventFactory
 {
     use InteractsWithEvents;
 
-    protected array $listens;
-    protected array $subscribers;
+    protected array $listens = [];
+    protected array $subscribers = [];
 
     /**
      * EventFactory constructor.
      *
      * @param array $listens
      */
-    public function __construct(array $listens)
+    public function __construct(array $listens = [])
     {
         $this->listens = $listens;
     }
@@ -49,6 +49,8 @@ class EventFactory
     }
 
     /**
+     * Get subscribers.
+     *
      * @return array
      */
     public function subscribers(): array
@@ -57,6 +59,8 @@ class EventFactory
     }
 
     /**
+     * Add a subscriber.
+     *
      * @param array $subscribe
      *
      * @return static
@@ -69,9 +73,9 @@ class EventFactory
     }
 
     /**
-     * Register listerners for events.
+     * Register listeners for events.
      */
-    public function registerListerners(): void
+    public function registerListeners(): void
     {
         $events = $this->listens();
 
@@ -91,10 +95,14 @@ class EventFactory
      *
      * @param string|array   $events
      * @param Closure|string $listener
+     *
+     * @return static
      */
-    public function listen($events, $listener): void
+    public function listen($events, $listener): self
     {
         $this->getDispatcher()->listen($events, $listener);
+
+        return $this;
     }
 
     /**
@@ -121,6 +129,12 @@ class EventFactory
         return $this->getDispatcher()->dispatch($event, $payload, $halt);
     }
 
+    /**
+     * @param $method
+     * @param $params
+     *
+     * @return mixed
+     */
     public function __call($method, $params)
     {
         return $this->getDispatcher()->{$method}(...$params);

@@ -130,7 +130,7 @@ class Update extends BaseObject
      */
     public function getChat()
     {
-        return collect($this->getMessage())->get('chat');
+        return $this->getMessage()->get('chat');
     }
 
     /**
@@ -140,8 +140,6 @@ class Update extends BaseObject
      */
     public function hasCommand(): bool
     {
-        $message = collect($this->getMessage());
-
-        return (bool)collect($message->get('entities'))->contains('type', 'bot_command');
+        return (bool)collect($this->getMessage()->get('entities'))->contains('type', 'bot_command');
     }
 }

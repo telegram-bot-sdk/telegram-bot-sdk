@@ -244,7 +244,7 @@ abstract class BaseObject implements ArrayAccess, Countable
     }
 
     /**
-     * Magically access collection data.
+     * Magically access object data.
      *
      * @param $field
      *
@@ -282,6 +282,8 @@ abstract class BaseObject implements ArrayAccess, Countable
     }
 
     /**
+     * Set value of a field.
+     *
      * @param $field
      * @param $value
      *
@@ -296,11 +298,23 @@ abstract class BaseObject implements ArrayAccess, Countable
         $this->offsetSet($field, $value);
     }
 
+    /**
+     * Determine if the field exists.
+     *
+     * @param $field
+     *
+     * @return bool
+     */
     public function __isset($field)
     {
         return $this->offsetExists($field);
     }
 
+    /**
+     * Unset field.
+     *
+     * @param $field
+     */
     public function __unset($field)
     {
         $this->offsetUnset($field);

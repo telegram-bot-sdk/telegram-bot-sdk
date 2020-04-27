@@ -159,6 +159,6 @@ class Message extends BaseObject
      */
     public function hasCommand(): bool
     {
-        return (bool)collect($this->get('entities', collect()))->contains('type', 'bot_command');
+        return (bool)collect($this->get('entities'))->contains('type', 'bot_command');
     }
 }
