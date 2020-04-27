@@ -129,8 +129,8 @@ class CommandBus extends AnswerBus
     public function handler(Update $update): Update
     {
         if ($update->hasCommand()) {
-            $this->parseCommandsIn($update->getMessage())->each(fn (MessageEntity $entity) => $this->process($entity,
-                $update));
+            $this->parseCommandsIn($update->getMessage())
+                ->each(fn (MessageEntity $entity) => $this->process($entity, $update));
         }
 
         return $update;
