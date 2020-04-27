@@ -2,7 +2,6 @@
 
 namespace Telegram\Bot\Laravel;
 
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
@@ -53,8 +52,11 @@ class TelegramServiceProvider extends ServiceProvider
         $this->app->bind(Api::class, fn ($app) => $app[Bot::class]->getApi());
         $this->app->alias(Api::class, 'telegram.api');
 
-        $this->app->bind('command.telegram:webhook', WebhookCommand::class);
-        $this->commands('command.telegram:webhook');
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                WebhookCommand::class,
+            ]);
+        }
     }
 
     /**

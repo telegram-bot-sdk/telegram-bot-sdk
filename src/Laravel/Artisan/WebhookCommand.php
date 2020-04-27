@@ -5,9 +5,10 @@ namespace Telegram\Bot\Laravel\Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Helper\TableCell;
-use Telegram\Bot\Api;
+use Telegram\Bot\Bot;
 use Telegram\Bot\BotsManager;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\WebhookInfo;
 
 class WebhookCommand extends Command
 {
@@ -21,37 +22,22 @@ class WebhookCommand extends Command
     /** @var string The console command description. */
     protected $description = 'Ease the Process of setting up and removing webhooks for Telegram Bots.';
 
-    /** @var Api */
-    protected Api $api;
-
-    /** @var BotsManager */
+    protected Bot $bot;
     protected BotsManager $botsManager;
-
-    /** @var array Bot Config */
-    protected array $config = [];
-
-    /**
-     * WebhookCommand constructor.
-     *
-     * @param BotsManager $botsManager
-     */
-    public function __construct(BotsManager $botsManager)
-    {
-        parent::__construct();
-
-        $this->botsManager = $botsManager;
-    }
 
     /**
      * Execute the console command.
      *
+     * @param BotsManager $botsManager
+     *
      * @throws TelegramSDKException
      */
-    public function handle()
+    public function handle(BotsManager $botsManager)
     {
+        $this->botsManager = $botsManager;
+
         $bot = $this->argument('bot');
-        $this->api = $this->botsManager->bot($bot);
-        $this->config = $this->botsManager->getBotConfig($bot);
+        $this->bot = $this->botsManager->bot($bot);
 
         if ($this->option('setup')) {
             $this->setupWebhook();
@@ -73,14 +59,15 @@ class WebhookCommand extends Command
      */
     protected function setupWebhook(): void
     {
-        $params = ['url' => data_get($this->config, 'webhook_url')];
-        $certificatePath = data_get($this->config, 'certificate_path', false);
+        $params = [
+            'url' => $this->bot->config('webhook_url'),
+        ];
 
-        if ($certificatePath) {
-            $params['certificate'] = $certificatePath;
+        if ($this->bot->hasConfig('certificate_path')) {
+            $params['certificate'] = $this->bot->config('certificate_path');
         }
 
-        if ($this->api->setWebhook($params)) {
+        if ($this->bot->setWebhook($params)) {
             $this->info('Success: Your webhook has been set!');
 
             return;
@@ -96,10 +83,10 @@ class WebhookCommand extends Command
      */
     protected function removeWebhook(): void
     {
-        if ($this->confirm("Are you sure you want to remove the webhook for {$this->config['bot']}?")) {
+        if ($this->confirm("Are you sure you want to remove the webhook for {$this->bot->config('bot')}?")) {
             $this->info('Removing webhook...');
 
-            if ($this->api->removeWebhook()) {
+            if ($this->bot->removeWebhook()) {
                 $this->info('Webhook removed successfully!');
 
                 return;
@@ -117,8 +104,8 @@ class WebhookCommand extends Command
         $this->alert('Webhook Info');
 
         if ($this->hasArgument('bot') && !$this->option('all')) {
-            $response = $this->api->getWebhookInfo();
-            $this->makeWebhookInfoResponse($response, $this->config['username']);
+            $response = $this->bot->getWebhookInfo();
+            $this->makeWebhookInfoResponse($response, $this->bot->config('username'));
 
             return;
         }
@@ -135,12 +122,12 @@ class WebhookCommand extends Command
     /**
      * Make WebhookInfo Response for console.
      *
-     * @param        $response
-     * @param string $bot
+     * @param WebhookInfo $info
+     * @param string      $bot
      */
-    protected function makeWebhookInfoResponse($response, string $bot): void
+    protected function makeWebhookInfoResponse(WebhookInfo $info, string $bot): void
     {
-        $rows = collect($response)->map(function ($value, $key) {
+        $rows = collect($info)->map(function ($value, $key) {
             $key = Str::title(str_replace('_', ' ', $key));
             $value = is_bool($value) ? $this->mapBool($value) : $value;
 

@@ -3,15 +3,18 @@
 namespace Telegram\Bot\Objects;
 
 use ArrayAccess;
+use ArrayIterator;
 use Countable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use IteratorAggregate;
+use JsonSerializable;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
 /**
  * Class BaseObject.
  */
-abstract class BaseObject implements ArrayAccess, Countable
+abstract class BaseObject implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
 {
     /** @var object|array The fields contained in the object. */
     protected $fields;
@@ -231,6 +234,26 @@ abstract class BaseObject implements ArrayAccess, Countable
     public function toJson($options = 0): string
     {
         return json_encode($this->all(), $options);
+    }
+
+    /**
+     * Convert the object into something JSON serializable.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * Get an iterator for the items.
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator($this->fields);
     }
 
     /**
