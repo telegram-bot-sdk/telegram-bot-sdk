@@ -77,8 +77,8 @@ class TelegramSDKException extends Exception
      *
      * @return static
      */
-    public static function updateObjectIndeterminable(): self
+    public static function updateTypeIndeterminable(): self
     {
-        return new static('The type of Update Object was not determinable.');
+        return new static('The update type was not determinable.');
     }
 }

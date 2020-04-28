@@ -79,7 +79,7 @@ class Update extends BaseObject
             ->keys()
             ->intersect($this->allUpdateTypes())
             ->whenEmpty(function () {
-                throw TelegramSDKException::updateObjectIndeterminable();
+                throw TelegramSDKException::updateTypeIndeterminable();
             })
             ->pop();
     }
