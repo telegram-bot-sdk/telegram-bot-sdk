@@ -78,7 +78,7 @@ class Update extends BaseObject
             ->whenEmpty(static function () {
                 throw TelegramSDKException::updateTypeIndeterminable();
             })
-            ->pop();
+            ->first();
     }
 
     /**
