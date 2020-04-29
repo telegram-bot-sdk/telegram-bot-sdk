@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Objects;
 
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Payments\PreCheckoutQuery;
 use Telegram\Bot\Objects\Payments\ShippingQuery;
 
@@ -26,7 +27,7 @@ use Telegram\Bot\Objects\Payments\ShippingQuery;
  */
 class Update extends BaseObject
 {
-    protected ?string $updateType;
+    protected string $updateType;
 
     /**
      * @inheritdoc
@@ -74,6 +75,9 @@ class Update extends BaseObject
         return $this->updateType ??= $this->collect()
             ->except('update_id')
             ->keys()
+            ->whenEmpty(static function () {
+                throw TelegramSDKException::updateTypeIndeterminable();
+            })
             ->pop();
     }
 
