@@ -98,14 +98,20 @@ class CommandHandler
     protected function buildCommandsList(): array
     {
         $commands = $this->bot->config('commands', []);
-        $unique = collect($this->bot->config('global.commands', []))->merge($this->parseCommands($commands))->unique();
+        $merged = collect($this->bot->config('global.commands', []))->merge($this->parseCommands($commands));
+        $unique = $merged->unique();
 
         // Any command without a name associated with it will force the unique list to have an index key of 0.
         if ($unique->has(0)) {
             throw TelegramSDKException::commandNameNotSet($unique->get(0));
         }
 
-        return $unique->all();
+        // We cannot allow blank command names.
+        if ($unique->keys()->contains('')) {
+            throw TelegramSDKException::commandNameNotSet($unique->get(''));
+        }
+
+        return $merged->all();
     }
 
     /**
