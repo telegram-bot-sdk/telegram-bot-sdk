@@ -9,7 +9,7 @@ use Telegram\Bot\Traits\HasContainer;
 /**
  * Class BotsManager.
  *
- * @mixin Api
+ * @mixin Bot
  */
 class BotsManager
 {
