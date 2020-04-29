@@ -58,9 +58,7 @@ return [
             ],
 
             'listen' => [
-                'update.received'             => [
-                    \Telegram\Bot\Listeners\ProcessUpdate::class,
-                ],
+                'update.received'             => [],
 
                 // (Optional).
                 // If you would like to process specific types of updates you may
