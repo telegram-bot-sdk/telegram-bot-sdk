@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Objects;
 
+use Illuminate\Support\Str;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Payments\PreCheckoutQuery;
 use Telegram\Bot\Objects\Payments\ShippingQuery;
@@ -111,6 +112,10 @@ class Update extends BaseObject
      */
     public function hasCommand(): bool
     {
-        return (bool)collect($this->getMessage()->get('entities'))->contains('type', 'bot_command');
+        return (bool)$this->getMessage()
+            ->collect()
+            ->filter(fn ($val, $field) => Str::endsWith($field, 'entities'))
+            ->flatten()
+            ->contains('type', 'bot_command');
     }
 }
