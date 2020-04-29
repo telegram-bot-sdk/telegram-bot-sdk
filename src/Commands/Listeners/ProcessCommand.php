@@ -13,7 +13,7 @@ class ProcessCommand
     {
         $this->handler = $handler;
     }
-    
+
     public function handle(UpdateReceived $event): void
     {
         $this->handler->processCommand($event->update);

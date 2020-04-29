@@ -2,7 +2,6 @@
 
 namespace Telegram\Bot\Objects;
 
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Payments\PreCheckoutQuery;
 use Telegram\Bot\Objects\Payments\ShippingQuery;
 
@@ -27,10 +26,7 @@ use Telegram\Bot\Objects\Payments\ShippingQuery;
  */
 class Update extends BaseObject
 {
-    /**
-     * @var mixed|null
-     */
-    protected $updateType;
+    protected ?string $updateType;
 
     /**
      * @inheritdoc
@@ -65,40 +61,20 @@ class Update extends BaseObject
             return true;
         }
 
-        return $this->detectType() === $type;
+        return $this->updateType() === $type;
     }
 
     /**
-     * Detect type based on properties.
+     * Update type.
      *
      * @return string
      */
-    public function detectType(): string
+    public function updateType(): string
     {
         return $this->updateType ??= $this->collect()
+            ->except('update_id')
             ->keys()
-            ->intersect($this->allUpdateTypes())
-            ->whenEmpty(function () {
-                throw TelegramSDKException::updateTypeIndeterminable();
-            })
             ->pop();
-    }
-
-    protected function allUpdateTypes()
-    {
-        return [
-            'message',
-            'edited_message',
-            'channel_post',
-            'edited_channel_post',
-            'inline_query',
-            'chosen_inline_result',
-            'callback_query',
-            'shipping_query',
-            'pre_checkout_query',
-            'poll',
-            'poll_answer',
-        ];
     }
 
     /**
@@ -108,12 +84,12 @@ class Update extends BaseObject
      */
     public function getMessage()
     {
-        return $this->{$this->detectType()};
+        return $this->{$this->updateType()};
     }
 
-    public function getEventName()
+    public function getEventName(): string
     {
-        return 'update.' . $this->detectType();
+        return 'update.' . $this->updateType();
     }
 
     /**
