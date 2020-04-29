@@ -71,4 +71,14 @@ class TelegramSDKException extends Exception
     {
         return new static('Http Client class [' . $httpClient . '] is not instantiable.', $code, $e);
     }
+
+    /**
+     * Thrown when type of update object is not determinable.
+     *
+     * @return static
+     */
+    public static function updateTypeIndeterminable(): self
+    {
+        return new static('The update type was not determinable.');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Objects;
 
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Payments\PreCheckoutQuery;
 use Telegram\Bot\Objects\Payments\ShippingQuery;
 
@@ -26,6 +27,11 @@ use Telegram\Bot\Objects\Payments\ShippingQuery;
  */
 class Update extends BaseObject
 {
+    /**
+     * @var mixed|null
+     */
+    protected $updateType;
+
     /**
      * @inheritdoc
      */
@@ -65,11 +71,22 @@ class Update extends BaseObject
     /**
      * Detect type based on properties.
      *
-     * @return string|null
+     * @return string
      */
-    public function detectType(): ?string
+    public function detectType(): string
     {
-        $types = [
+        return $this->updateType ??= $this->collect()
+            ->keys()
+            ->intersect($this->allUpdateTypes())
+            ->whenEmpty(function () {
+                throw TelegramSDKException::updateTypeIndeterminable();
+            })
+            ->pop();
+    }
+
+    protected function allUpdateTypes()
+    {
+        return [
             'message',
             'edited_message',
             'channel_post',
@@ -82,47 +99,21 @@ class Update extends BaseObject
             'poll',
             'poll_answer',
         ];
-
-        return $this->collect()
-            ->keys()
-            ->intersect($types)
-            ->pop();
     }
 
     /**
      * Get the message contained in the Update.
+     *
+     * @return Message|EditedMessage|InlineQuery|ChosenInlineResult|CallbackQuery|ShippingQuery|PreCheckoutQuery|Poll|PollAnswer
      */
     public function getMessage()
     {
-        switch ($this->detectType()) {
-            case 'message':
-                return $this->message;
-            case 'edited_message':
-                return $this->edited_message;
-            case 'channel_post':
-                return $this->channel_post;
-            case 'edited_channel_post':
-                return $this->edited_channel_post;
-            case 'inline_query':
-                return $this->inline_query;
-            case 'chosen_inline_result':
-                return $this->chosen_inline_result;
-            case 'callback_query':
-                if (isset($this->callback_query->message)) {
-                    return $this->callback_query->message;
-                }
-                break;
-            case 'shipping_query':
-                return $this->shipping_query;
-            case 'pre_checkout_query':
-                return $this->pre_checkout_query;
-            case 'poll':
-                return $this->poll;
-            case 'poll_answer':
-                return $this->poll_answer;
-        }
+        return $this->{$this->detectType()};
+    }
 
-        return $this;
+    public function getEventName()
+    {
+        return 'update.' . $this->detectType();
     }
 
     /**

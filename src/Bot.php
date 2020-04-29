@@ -202,7 +202,7 @@ class Bot
     public function dispatchUpdateEvent(Update $update): Update
     {
         $event = new UpdateReceived($this, $update);
-        $this->eventFactory->dispatch(UpdateReceived::class, $event);
+        $this->eventFactory->dispatch('update.received', $event);
 
         return $event->getUpdate();
     }
