@@ -4,7 +4,6 @@ namespace Telegram\Bot\Commands\Listeners;
 
 use Telegram\Bot\Commands\CommandHandler;
 use Telegram\Bot\Events\UpdateReceived;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 
 class ProcessCommand
 {
@@ -14,14 +13,9 @@ class ProcessCommand
     {
         $this->handler = $handler;
     }
-
-    /**
-     * @param UpdateReceived $event
-     *
-     * @throws TelegramSDKException
-     */
-    public function handle(UpdateReceived $event)
+    
+    public function handle(UpdateReceived $event): void
     {
-        $this->handler->processCommand($event->getUpdate());
+        $this->handler->processCommand($event->update);
     }
 }
