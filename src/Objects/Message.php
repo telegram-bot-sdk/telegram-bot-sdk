@@ -87,13 +87,14 @@ class Message extends BaseObject
             'location'           => Location::class,
             'venue'              => Venue::class,
             'poll'               => Poll::class,
+            'dice'               => Dice::class,
             'new_chat_members'   => User::class,
             'left_chat_member'   => User::class,
             'new_chat_photo'     => PhotoSize::class,
             'pinned_message'     => self::class,
             'invoice'            => Invoice::class,
             'successful_payment' => SuccessfulPayment::class,
-            'passport'           => PassportData::class,
+            'passport_data'      => PassportData::class,
         ];
     }
 
