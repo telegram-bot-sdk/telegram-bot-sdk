@@ -112,7 +112,7 @@ class Bot
      */
     public function onUpdate($listener): self
     {
-        $this->eventFactory->listen(UpdateReceived::class, $listener);
+        $this->eventFactory->listen(UpdateReceived::NAME, $listener);
 
         return $this;
     }
@@ -150,8 +150,6 @@ class Bot
 
     /**
      * Process the update object for a command from your webhook.
-     *
-     * @throws TelegramSDKException
      *
      * @return Update
      */
@@ -195,16 +193,14 @@ class Bot
      *
      * @param Update $update
      *
-     * @throws TelegramSDKException
-     *
      * @return Update
      */
     public function dispatchUpdateEvent(Update $update): Update
     {
         $event = new UpdateReceived($this, $update);
-        $this->eventFactory->dispatch('update.received', $event);
+        $this->eventFactory->dispatch(UpdateReceived::NAME, $event);
 
-        return $event->getUpdate();
+        return $event->update;
     }
 
     /**
