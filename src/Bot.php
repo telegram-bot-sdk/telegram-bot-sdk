@@ -143,7 +143,7 @@ class Bot
      *
      * @return Update|Update[]
      */
-    public function listenForUpdate(bool $webhook = false, array $params = [])
+    public function listen(bool $webhook = false, array $params = [])
     {
         return $webhook ? $this->useWebHook() : $this->useGetUpdates($params);
     }
