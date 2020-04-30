@@ -3,7 +3,6 @@
 namespace Telegram\Bot\Commands;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use Telegram\Bot\Answers\AnswerBus;
 use Telegram\Bot\Bot;
@@ -145,7 +144,7 @@ class CommandBus extends AnswerBus
      */
     protected function process(MessageEntity $entity, Update $update): void
     {
-    //TODO I think the above method signature should be changed to $update, $entity. Thoughts?
+        //TODO I think the above method signature should be changed to $update, $entity. Thoughts?
         $command = $this->parseCommand(
             $update->getEntitiesFullText(),
             $entity->offset,
