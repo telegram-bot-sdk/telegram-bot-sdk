@@ -5,6 +5,7 @@ namespace Telegram\Bot;
 use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
+use Telegram\Bot\Commands\Listeners\ProcessCommand;
 use Telegram\Bot\Events\EventFactory;
 use Telegram\Bot\Events\UpdateReceived;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -51,6 +52,7 @@ class Bot
 
         if ($this->hasConfig('listen')) {
             $this->eventFactory->setListeners($this->config('listen'));
+            $this->eventFactory->listen('update.received', ProcessCommand::class);
             $this->eventFactory->registerListeners();
         }
     }
