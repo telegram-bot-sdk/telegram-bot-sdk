@@ -129,23 +129,10 @@ class CommandBus extends AnswerBus
     public function handler(Update $update): Update
     {
         if ($update->hasCommand()) {
-            $this->parseCommandsIn($update->getMessage())
-                ->each(fn (MessageEntity $entity) => $this->process($entity, $update));
+            $update->getCommandEntities()->each(fn (MessageEntity $entity) => $this->process($entity, $update));
         }
 
         return $update;
-    }
-
-    /**
-     * Returns all bot_commands detected in the update.
-     *
-     * @param $message
-     *
-     * @return Collection
-     */
-    protected function parseCommandsIn($message): Collection
-    {
-        return collect($message->entities)->filter(fn (MessageEntity $entity) => $entity->type === 'bot_command');
     }
 
     /**
@@ -156,10 +143,11 @@ class CommandBus extends AnswerBus
      *
      * @throws TelegramSDKException
      */
+    //TODO I think this method signature should be changed to $update, $entity
     protected function process(MessageEntity $entity, Update $update): void
     {
         $command = $this->parseCommand(
-            $update->getMessage()->text,
+            $update->getEntitiesReferenceText(),
             $entity->offset,
             $entity->length
         );

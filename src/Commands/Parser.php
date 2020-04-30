@@ -198,8 +198,10 @@ class Parser
 
     private function cutTextBetween(Collection $splice): string
     {
+        //TODO Should we not pass the text into the function
+        // rather than fetching it multiple times from the update?
         return mb_substr(
-            $this->getUpdate()->getMessage()->text,
+            $this->getUpdate()->getEntitiesReferenceText(),
             $splice->first(),
             $splice->last() - $splice->first(),
             'UTF-8'
@@ -208,7 +210,8 @@ class Parser
 
     private function cutTextFrom(Collection $splice): string
     {
-        return mb_substr($this->getUpdate()->getMessage()->text, $splice->first(), null, 'UTF-8');
+        //TODO  As previous method.
+        return mb_substr($this->getUpdate()->getEntitiesReferenceText(), $splice->first(), null, 'UTF-8');
     }
 
     /**
@@ -217,9 +220,7 @@ class Parser
      */
     private function allCommandOffsets(): Collection
     {
-        return collect($this->getUpdate()->getMessage()->entities)
-            ->filter(fn (MessageEntity $entity) => $entity->type === 'bot_command')
-            ->pluck('offset');
+        return $this->getUpdate()->getCommandEntities()->pluck('offset');
     }
 
     /**
