@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Commands;
 
+use Illuminate\Support\Collection;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Update;
@@ -98,20 +99,34 @@ class CommandHandler
     protected function buildCommandsList(): array
     {
         $commands = $this->bot->config('commands', []);
-        $merged = collect($this->bot->config('global.commands', []))->merge($this->parseCommands($commands));
-        $unique = $merged->unique();
+        $allCommands = collect($this->bot->config('global.commands', []))->merge($this->parseCommands($commands));
+
+        return $this->validate($allCommands);
+    }
+
+    /**
+     * Validate that all commands are configured correctly in the config file
+     *
+     * @param $allCommands
+     *
+     * @throws TelegramSDKException
+     * @return array
+     */
+    protected function validate(Collection $allCommands): array
+    {
+        $uniqueCommands = $allCommands->unique();
 
         // Any command without a name associated with it will force the unique list to have an index key of 0.
-        if ($unique->has(0)) {
-            throw TelegramSDKException::commandNameNotSet($unique->get(0));
+        if ($uniqueCommands->has(0)) {
+            throw TelegramSDKException::commandNameNotSet($uniqueCommands->get(0));
         }
 
         // We cannot allow blank command names.
-        if ($unique->keys()->contains('')) {
-            throw TelegramSDKException::commandNameNotSet($unique->get(''));
+        if ($uniqueCommands->keys()->contains('')) {
+            throw TelegramSDKException::commandNameNotSet($uniqueCommands->get(''));
         }
 
-        return $merged->all();
+        return $allCommands->all();
     }
 
     /**

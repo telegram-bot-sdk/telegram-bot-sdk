@@ -143,11 +143,11 @@ class CommandBus extends AnswerBus
      *
      * @throws TelegramSDKException
      */
-    //TODO I think this method signature should be changed to $update, $entity
     protected function process(MessageEntity $entity, Update $update): void
     {
+    //TODO I think the above method signature should be changed to $update, $entity. Thoughts?
         $command = $this->parseCommand(
-            $update->getEntitiesReferenceText(),
+            $update->getEntitiesFullText(),
             $entity->offset,
             $entity->length
         );

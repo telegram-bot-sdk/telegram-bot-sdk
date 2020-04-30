@@ -75,7 +75,11 @@ class Parser
      */
     public function arguments(): array
     {
-        preg_match($this->argumentsPattern(), $this->relevantMessageSubString(), $matches);
+        preg_match(
+            $this->argumentsPattern(),
+            $this->relevantSubString($this->getUpdate()->getEntitiesFullText()),
+            $matches
+        );
 
         return $this->nullifiedRegexParams()
             // Discard non-named key-value pairs and merge with nullified regex params.
@@ -179,39 +183,39 @@ class Parser
     }
 
     /**
+     * @param string $fullString
+     *
      * @throws TelegramSDKException
      * @return bool|string
      */
-    private function relevantMessageSubString()
+    private function relevantSubString(string $fullString): string
     {
-        //Get all the bot_command offsets in the Update object
         $commandOffsets = $this->allCommandOffsets();
 
-        //Extract the current offset for this command and, if it exists, the offset of the NEXT bot_command entity
-        $splice = $commandOffsets->splice(
-            $commandOffsets->search($this->entity['offset']),
+        //Find the start point for this command and, if it exists, the start point (offset) of the NEXT bot_command entity
+        $splicePoints = $commandOffsets->splice(
+            $commandOffsets->search($this->getEntity()['offset']),
             2
         );
 
-        return $splice->count() === 2 ? $this->cutTextBetween($splice) : $this->cutTextFrom($splice);
+        return $splicePoints->count() === 2
+            ? $this->cutTextBetween($splicePoints, $fullString)
+            : $this->cutTextFrom($splicePoints, $fullString);
     }
 
-    private function cutTextBetween(Collection $splice): string
+    private function cutTextBetween(Collection $splicePoints, string $fullString): string
     {
-        //TODO Should we not pass the text into the function
-        // rather than fetching it multiple times from the update?
         return mb_substr(
-            $this->getUpdate()->getEntitiesReferenceText(),
-            $splice->first(),
-            $splice->last() - $splice->first(),
+            $fullString,
+            $splicePoints->first(),
+            $splicePoints->last() - $splicePoints->first(),
             'UTF-8'
         );
     }
 
-    private function cutTextFrom(Collection $splice): string
+    private function cutTextFrom(Collection $splicePoints, string $fullString): string
     {
-        //TODO  As previous method.
-        return mb_substr($this->getUpdate()->getEntitiesReferenceText(), $splice->first(), null, 'UTF-8');
+        return mb_substr($fullString, $splicePoints->first(), null, 'UTF-8');
     }
 
     /**

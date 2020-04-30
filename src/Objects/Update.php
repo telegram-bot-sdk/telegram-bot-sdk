@@ -131,7 +131,12 @@ class Update extends BaseObject
         return collect($this->getAllEntities())->filter(fn (MessageEntity $entity) => $entity->type === 'bot_command');
     }
 
-    public function getEntitiesReferenceText(): ?string
+    /**
+     * Return the relevant text/string that the entities in the update are referencing.
+     *
+     * @return string|null
+     */
+    public function getEntitiesFullText(): ?string
     {
         if (!$this->getEntitiesKey()) {
             return null;
