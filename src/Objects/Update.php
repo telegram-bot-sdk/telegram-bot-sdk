@@ -151,6 +151,4 @@ class Update extends BaseObject
             ->keys()
             ->first(fn ($key) => Str::contains($key, 'entities'));
     }
-
-
 }
