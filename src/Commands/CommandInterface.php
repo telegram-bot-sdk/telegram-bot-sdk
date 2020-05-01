@@ -3,6 +3,7 @@
 namespace Telegram\Bot\Commands;
 
 use Telegram\Bot\Bot;
+use Telegram\Bot\Objects\Update;
 use Throwable;
 
 /**
@@ -31,4 +32,8 @@ interface CommandInterface
     public function setCommandBus(CommandBus $commandBus): self;
 
     public function failed(array $arguments, Throwable $exception);
+
+    public function getUpdate(): Update;
+
+    public function setUpdate(Update $update);
 }
