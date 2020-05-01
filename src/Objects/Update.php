@@ -30,7 +30,6 @@ use Telegram\Bot\Objects\Payments\ShippingQuery;
 class Update extends BaseObject
 {
     protected string $updateType;
-    protected string $entitiesKey;
 
     /**
      * @inheritdoc
@@ -105,55 +104,5 @@ class Update extends BaseObject
     public function getChat()
     {
         return $this->getMessage()->get('chat');
-    }
-
-    /**
-     * Is there a command entity in this update object.
-     *
-     * @return bool
-     */
-    public function hasCommand(): bool
-    {
-        return (bool)$this->getMessage()
-            ->collect()
-            ->filter(fn ($val, $field) => Str::endsWith($field, 'entities'))
-            ->flatten()
-            ->contains('type', 'bot_command');
-    }
-
-    public function getAllEntities(): ?array
-    {
-        return $this->getMessage()->{$this->getEntitiesKey()};
-    }
-
-    public function getCommandEntities(): ?Collection
-    {
-        return collect($this->getAllEntities())->filter(fn (MessageEntity $entity) => $entity->type === 'bot_command');
-    }
-
-    /**
-     * Return the relevant text/string that the entities in the update are referencing.
-     *
-     * @return string|null
-     */
-    public function getEntitiesFullText(): ?string
-    {
-        if (!$this->getEntitiesKey()) {
-            return null;
-        }
-
-        if ($this->getEntitiesKey() === 'entities') {
-            return $this->getMessage()->text;
-        }
-
-        return $this->getMessage()->{Str::before($this->getEntitiesKey(), '_')};
-    }
-
-    protected function getEntitiesKey(): ?string
-    {
-        return $this->entitiesKey ??= $this->getMessage()
-            ->collect()
-            ->keys()
-            ->first(fn ($key) => Str::contains($key, 'entities'));
     }
 }

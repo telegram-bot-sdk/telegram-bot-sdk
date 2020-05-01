@@ -125,8 +125,9 @@ class CommandBus extends AnswerBus
      */
     public function handler(Update $update): Update
     {
-        if ($update->hasCommand()) {
-            $update->getCommandEntities()->each(fn (MessageEntity $entity) => $this->process($update, $entity));
+        if (Entity::hasCommand($update)) {
+            Entity::from($update)->commandEntities()
+                ->each(fn (MessageEntity $entity) => $this->process($update, $entity));
         }
 
         return $update;
@@ -143,7 +144,7 @@ class CommandBus extends AnswerBus
     protected function process(Update $update, MessageEntity $entity): void
     {
         $command = $this->parseCommand(
-            $update->getEntitiesFullText(),
+            Entity::from($update)->text(),
             $entity->offset,
             $entity->length
         );

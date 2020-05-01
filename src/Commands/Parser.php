@@ -77,7 +77,7 @@ class Parser
     {
         preg_match(
             $this->argumentsPattern(),
-            $this->relevantSubString($this->getUpdate()->getEntitiesFullText()),
+            $this->relevantSubString(Entity::from($this->getUpdate())->text()),
             $matches
         );
 
@@ -105,7 +105,7 @@ class Parser
             throw TelegramCommandException::commandMethodDoesNotExist($e);
         }
 
-        return $this->params = Collection::make($handle->getParameters())
+        return $this->params = collect($handle->getParameters())
             ->reject(fn (ReflectionParameter $param) => $param->getClass());
     }
 
@@ -224,7 +224,7 @@ class Parser
      */
     private function allCommandOffsets(): Collection
     {
-        return $this->getUpdate()->getCommandEntities()->pluck('offset');
+        return Entity::from($this->getUpdate())->commandEntities()->pluck('offset');
     }
 
     /**
