@@ -3,7 +3,6 @@
 namespace Telegram\Bot\Commands;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use Telegram\Bot\Answers\AnswerBus;
 use Telegram\Bot\Bot;
@@ -129,23 +128,10 @@ class CommandBus extends AnswerBus
     public function handler(Update $update): Update
     {
         if ($update->hasCommand()) {
-            $this->parseCommandsIn($update->getMessage())
-                ->each(fn (MessageEntity $entity) => $this->process($entity, $update));
+            $update->getCommandEntities()->each(fn (MessageEntity $entity) => $this->process($entity, $update));
         }
 
         return $update;
-    }
-
-    /**
-     * Returns all bot_commands detected in the update.
-     *
-     * @param $message
-     *
-     * @return Collection
-     */
-    protected function parseCommandsIn($message): Collection
-    {
-        return collect($message->entities)->filter(fn (MessageEntity $entity) => $entity->type === 'bot_command');
     }
 
     /**
@@ -158,8 +144,9 @@ class CommandBus extends AnswerBus
      */
     protected function process(MessageEntity $entity, Update $update): void
     {
+        //TODO I think the above method signature should be changed to $update, $entity. Thoughts?
         $command = $this->parseCommand(
-            $update->getMessage()->text,
+            $update->getEntitiesFullText(),
             $entity->offset,
             $entity->length
         );
