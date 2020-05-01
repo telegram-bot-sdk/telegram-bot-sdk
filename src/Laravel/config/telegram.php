@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => 'common',
+    'use' => 'default',
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ return [
     */
 
     'bots' => [
-        'common' => [
+        'default' => [
             'username'         => 'TelegramBot',
             'token'            => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
             'certificate_path' => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
