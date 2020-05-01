@@ -16,9 +16,7 @@ use Telegram\Bot\Objects\Update;
  */
 class CommandBus extends AnswerBus
 {
-    /**
-     * @var Command[] Holds all commands.
-     */
+    /** @var Command[] Holds all commands. */
     protected array $commands = [];
 
     /**
@@ -128,7 +126,7 @@ class CommandBus extends AnswerBus
     public function handler(Update $update): Update
     {
         if ($update->hasCommand()) {
-            $update->getCommandEntities()->each(fn (MessageEntity $entity) => $this->process($entity, $update));
+            $update->getCommandEntities()->each(fn (MessageEntity $entity) => $this->process($update, $entity));
         }
 
         return $update;
@@ -137,14 +135,13 @@ class CommandBus extends AnswerBus
     /**
      * Execute a bot command from the update text.
      *
-     * @param MessageEntity $entity
      * @param Update        $update
+     * @param MessageEntity $entity
      *
      * @throws TelegramSDKException
      */
-    protected function process(MessageEntity $entity, Update $update): void
+    protected function process(Update $update, MessageEntity $entity): void
     {
-        //TODO I think the above method signature should be changed to $update, $entity. Thoughts?
         $command = $this->parseCommand(
             $update->getEntitiesFullText(),
             $entity->offset,
