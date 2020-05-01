@@ -52,7 +52,7 @@ class Bot
 
         if ($this->hasConfig('listen')) {
             $this->eventFactory->setListeners($this->config('listen'));
-            $this->eventFactory->listen('update.received', ProcessCommand::class);
+            $this->onUpdate(ProcessCommand::class);
             $this->eventFactory->registerListeners();
         }
     }
