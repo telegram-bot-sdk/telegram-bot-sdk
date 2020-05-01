@@ -121,31 +121,19 @@ class Message extends BaseObject
      */
     public function detectType(): ?string
     {
-        $types = [
-            'text',
-            'audio',
-            'document',
-            'game',
-            'photo',
-            'sticker',
-            'video',
-            'voice',
-            'contact',
-            'location',
-            'venue',
-            'poll',
-            'new_chat_member',
-            'left_chat_member',
-            'new_chat_title',
-            'new_chat_photo',
-            'delete_chat_photo',
-            'group_chat_created',
-            'supergroup_chat_created',
-            'channel_chat_created',
-            'migrate_to_chat_id',
-            'migrate_from_chat_id',
-            'pinned_message',
-        ];
+         $types = array_merge(
+            array_keys($this->relations()),
+            [
+                "text",
+                "new_chat_title",
+                "delete_chat_photo",
+                "group_chat_created",
+                "supergroup_chat_created",
+                "channel_chat_created",
+                "migrate_to_chat_id",
+                "migrate_from_chat_id",
+            ]
+        );
 
         return $this->collect()
             ->keys()
