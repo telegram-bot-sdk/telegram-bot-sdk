@@ -119,7 +119,7 @@ trait Stickers
      */
     public function createNewStickerSet(array $params): bool
     {
-        return $this->uploadFile('createNewStickerSet', $params, 'png_sticker')->getResult();
+        return $this->uploadFile('createNewStickerSet', $params, 'png_sticker', ['mask_position'])->getResult();
     }
 
     /**
@@ -146,7 +146,7 @@ trait Stickers
      */
     public function addStickerToSet(array $params): bool
     {
-        return $this->uploadFile('addStickerToSet', $params, 'png_sticker')->getResult();
+        return $this->uploadFile('addStickerToSet', $params, 'png_sticker', ['mask_position'])->getResult();
     }
 
     /**

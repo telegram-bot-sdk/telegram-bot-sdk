@@ -63,14 +63,14 @@ trait Http
      * @param string $endpoint
      * @param array  $params
      * @param bool   $fileUpload Set true if a file is being uploaded.
+     * @param array  $jsonEncode
      *
      * @throws TelegramSDKException
-     *
      * @return TelegramResponse
      */
-    public function post(string $endpoint, array $params = [], bool $fileUpload = false): TelegramResponse
+    public function post(string $endpoint, array $params = [], bool $fileUpload = false, array $jsonEncode = []): TelegramResponse
     {
-        return $this->getClient()->post($endpoint, $params, $fileUpload);
+        return $this->getClient()->post($endpoint, $params, $fileUpload, $jsonEncode);
     }
 
     /**
@@ -80,14 +80,14 @@ trait Http
      * @param string $endpoint
      * @param array  $params
      * @param string $inputFileField
+     * @param array  $jsonEncode
      *
-     * @throws TelegramSDKException
      * @throws CouldNotUploadInputFile
-     *
+     * @throws TelegramSDKException
      * @return TelegramResponse
      */
-    public function uploadFile(string $endpoint, array $params, string $inputFileField): TelegramResponse
+    public function uploadFile(string $endpoint, array $params, string $inputFileField, array $jsonEncode = []): TelegramResponse
     {
-        return $this->getClient()->uploadFile($endpoint, $params, $inputFileField);
+        return $this->getClient()->uploadFile($endpoint, $params, $inputFileField, $jsonEncode);
     }
 }

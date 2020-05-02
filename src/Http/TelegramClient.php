@@ -172,14 +172,14 @@ class TelegramClient
      *
      * @param string $endpoint
      * @param array  $params
+     * @param array  $jsonEncoded
      *
      * @throws TelegramSDKException
-     *
      * @return TelegramResponse
      */
-    public function get(string $endpoint, array $params = []): TelegramResponse
+    public function get(string $endpoint, array $params = [], array $jsonEncoded = []): TelegramResponse
     {
-        $params = $this->replyMarkupToString($params);
+        $params = $this->jsonEncodeSpecified($params, $jsonEncoded);
 
         return $this->sendRequest('GET', $endpoint, $params);
     }
@@ -190,14 +190,18 @@ class TelegramClient
      * @param string $endpoint
      * @param array  $params
      * @param bool   $fileUpload Set true if a file is being uploaded.
+     * @param array  $jsonEncode
      *
      * @throws TelegramSDKException
-     *
      * @return TelegramResponse
      */
-    public function post(string $endpoint, array $params = [], bool $fileUpload = false): TelegramResponse
-    {
-        $params = $this->normalizeParams($params, $fileUpload);
+    public function post(
+        string $endpoint,
+        array $params = [],
+        bool $fileUpload = false,
+        $jsonEncode = []
+    ): TelegramResponse {
+        $params = $this->normalizeParams($params, $fileUpload, $jsonEncode);
 
         return $this->sendRequest('POST', $endpoint, $params);
     }
@@ -209,13 +213,13 @@ class TelegramClient
      * @param string $endpoint
      * @param array  $params
      * @param string $inputFileField
+     * @param array  $jsonEncode
      *
-     * @throws TelegramSDKException
      * @throws CouldNotUploadInputFile
-     *
+     * @throws TelegramSDKException
      * @return TelegramResponse
      */
-    public function uploadFile(string $endpoint, array $params, string $inputFileField): TelegramResponse
+    public function uploadFile(string $endpoint, array $params, string $inputFileField, array $jsonEncode = []): TelegramResponse
     {
         //Check if the field in the $params array (that is being used to send the relative file), is a file id.
         if (!isset($params[$inputFileField])) {
@@ -223,25 +227,31 @@ class TelegramClient
         }
 
         if (Validator::hasFileId($inputFileField, $params)) {
-            return $this->post($endpoint, $params);
+            return $this->post($endpoint, $params, false, $jsonEncode);
         }
 
         // Sending an actual file requires it to be sent using multipart/form-data
-        return $this->post($endpoint, $this->prepareMultipartParams($params, $inputFileField), true);
+        return $this->post($endpoint, $this->prepareMultipartParams($params, $inputFileField), true, $jsonEncode);
     }
 
     /**
-     * Converts a reply_markup field in the $params to a string.
+     * Json Encodes specific parameters in the $params array when needed.
      *
      * @param array $params
+     * @param array $jsonEncodeList
      *
      * @return array
      */
-    protected function replyMarkupToString(array $params): array
+    protected function jsonEncodeSpecified(array $params, array $jsonEncodeList): array
     {
-        if (isset($params['reply_markup'])) {
-            $params['reply_markup'] = (string)$params['reply_markup'];
-        }
+        collect($jsonEncodeList)
+            ->push('reply_markup') //Add this as default as it is always required if set.
+            ->unique()
+            ->each(function ($keyToEncode) use (&$params) {
+                if (isset($params[$keyToEncode]) && !is_string($params[$keyToEncode])) {
+                    $params[$keyToEncode] = json_encode($params[$keyToEncode]);
+                }
+            });
 
         return $params;
     }
@@ -313,16 +323,15 @@ class TelegramClient
     /**
      * @param array $params
      * @param bool  $fileUpload
+     * @param array $jsonEncode
      *
      * @return array
      */
-    protected function normalizeParams(array $params, bool $fileUpload = false): array
+    protected function normalizeParams(array $params, bool $fileUpload = false, array $jsonEncode = []): array
     {
-        if ($fileUpload) {
-            return ['multipart' => $params];
-        }
+        $encodedParams = $this->jsonEncodeSpecified($params, $jsonEncode);
 
-        return ['form_params' => $this->replyMarkupToString($params)];
+        return $fileUpload ? ['multipart' => $encodedParams] : ['form_params' => $encodedParams];
     }
 
     /**

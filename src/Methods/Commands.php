@@ -46,8 +46,6 @@ trait Commands
      */
     public function setMyCommands(array $params): bool
     {
-        $params['commands'] = json_encode($params['commands']);
-
-        return $this->post('setMyCommands', $params)->getResult();
+        return $this->post('setMyCommands', $params, false, ['commands'])->getResult();
     }
 }

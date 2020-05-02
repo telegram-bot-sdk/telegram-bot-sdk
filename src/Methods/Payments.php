@@ -54,8 +54,7 @@ trait Payments
      */
     public function sendInvoice(array $params): Message
     {
-        $params['prices'] = json_encode(array_wrap($params['prices']));
-        $response = $this->post('sendInvoice', $params);
+        $response = $this->post('sendInvoice', $params, false, ['prices']);
 
         return new Message($response->getDecodedBody());
     }
@@ -82,7 +81,7 @@ trait Payments
      */
     public function answerShippingQuery(array $params): bool
     {
-        return $this->post('answerShippingQuery', $params)->getResult();
+        return $this->post('answerShippingQuery', $params, false, ['shipping_options'])->getResult();
     }
 
     /**

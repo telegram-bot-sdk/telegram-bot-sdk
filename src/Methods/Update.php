@@ -88,10 +88,10 @@ trait Update
         if (isset($params['certificate'])) {
             $params['certificate'] = $this->formatCertificate($params['certificate']);
 
-            return $this->uploadFile('setWebhook', $params, 'certificate')->getResult();
+            return $this->uploadFile('setWebhook', $params, 'certificate', ['allowed_updates'])->getResult();
         }
 
-        return $this->post('setWebhook', $params)->getResult();
+        return $this->post('setWebhook', $params, false, ['allowed_updates'])->getResult();
     }
 
     /**
