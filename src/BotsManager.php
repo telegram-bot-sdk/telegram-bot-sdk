@@ -46,7 +46,7 @@ class BotsManager
      */
     public function getDefaultBotName(): ?string
     {
-        return $this->config('default');
+        return $this->config('use');
     }
 
     /**
@@ -60,7 +60,7 @@ class BotsManager
      */
     public function setDefaultBotName(string $name): self
     {
-        $this->config(['default' => $name]);
+        $this->config(['use' => $name]);
 
         $this->reconnect($name);
 
