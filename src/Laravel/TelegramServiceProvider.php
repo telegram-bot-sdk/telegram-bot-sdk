@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Telegram\Bot\Api;
 use Telegram\Bot\Bot;
-use Telegram\Bot\BotsManager;
+use Telegram\Bot\BotManager;
 use Telegram\Bot\Laravel\Http\Middleware\ValidateWebhook;
 
 /**
@@ -77,12 +77,12 @@ class TelegramServiceProvider extends ServiceProvider
     protected function registerBindings(): void
     {
         $this->app->bind(
-            BotsManager::class,
-            fn ($app) => (new BotsManager(config('telegram')))->setContainer($app)
+            BotManager::class,
+            fn ($app) => (new BotManager(config('telegram')))->setContainer($app)
         );
-        $this->app->alias(BotsManager::class, 'telegram');
+        $this->app->alias(BotManager::class, 'telegram');
 
-        $this->app->bind(Bot::class, fn ($app) => $app[BotsManager::class]->bot());
+        $this->app->bind(Bot::class, fn ($app) => $app[BotManager::class]->bot());
         $this->app->alias(Bot::class, 'telegram.bot');
 
         $this->app->bind(Api::class, fn ($app) => $app[Bot::class]->getApi());
@@ -111,6 +111,6 @@ class TelegramServiceProvider extends ServiceProvider
      */
     public function provides(): array
     {
-        return [BotsManager::class, Bot::class, Api::class, 'telegram', 'telegram.bot', 'telegram.api'];
+        return [BotManager::class, Bot::class, Api::class, 'telegram', 'telegram.bot', 'telegram.api'];
     }
 }

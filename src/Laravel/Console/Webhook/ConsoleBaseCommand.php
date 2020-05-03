@@ -5,18 +5,18 @@ namespace Telegram\Bot\Laravel\Console\Webhook;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Telegram\Bot\Bot;
-use Telegram\Bot\BotsManager;
+use Telegram\Bot\BotManager;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
 class ConsoleBaseCommand extends Command
 {
-    protected BotsManager $botsManager;
+    protected BotManager $manager;
 
-    public function __construct(BotsManager $botsManager)
+    public function __construct(BotManager $manager)
     {
         parent::__construct();
 
-        $this->botsManager = $botsManager;
+        $this->manager = $manager;
     }
 
     /**
@@ -24,7 +24,7 @@ class ConsoleBaseCommand extends Command
      */
     public function bot(): Bot
     {
-        return $this->botsManager->bot($this->argument('bot'));
+        return $this->manager->bot($this->argument('bot'));
     }
 
     /**

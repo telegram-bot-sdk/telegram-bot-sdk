@@ -4,19 +4,19 @@ namespace Telegram\Bot\Tests\Integration;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Telegram\Bot\BotsManager;
+use Telegram\Bot\BotManager;
 
-class BotsManagerTest extends TestCase
+class BotManagerTest extends TestCase
 {
     /**
-     * @var BotsManager
+     * @var BotManager
      */
     protected $manager;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->manager = new BotsManager(
+        $this->manager = new BotManager(
             [
                 'default'                      => 'bot1',
                 'bots'                         => [
@@ -47,9 +47,9 @@ class BotsManagerTest extends TestCase
     /** @test a bots manager can be created */
     public function a_bots_manager_can_be_created_with_no_config()
     {
-        $manager = new BotsManager([]);
+        $manager = new BotManager([]);
 
-        $this->assertInstanceOf(BotsManager::class, $manager);
+        $this->assertInstanceOf(BotManager::class, $manager);
     }
 
     /**
@@ -59,14 +59,14 @@ class BotsManagerTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $manager = new BotsManager([]);
+        $manager = new BotManager([]);
         $manager->bot('demo');
     }
 
     /** @test an invalid config paramters returns null */
     public function an_invalid_or_missing_config_parameter_returns_null()
     {
-        $manager = new BotsManager([]);
+        $manager = new BotManager([]);
 
         $name = $manager->getDefaultBotName();
 
@@ -105,7 +105,7 @@ class BotsManagerTest extends TestCase
     /** @test Duplicated commands dont cause a problem */
     public function duplicated_commands_dont_cause_a_problem()
     {
-        $manager = new BotsManager(
+        $manager = new BotManager(
             [
                 'commands'        => [
                     'Acme\Project\Commands\Command1',

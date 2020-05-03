@@ -3,12 +3,12 @@
 namespace Telegram\Bot\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Telegram\Bot\BotsManager;
+use Telegram\Bot\BotManager;
 
 /**
  * Class Telegram.
  *
- * @mixin BotsManager
+ * @mixin BotManager
  */
 class Telegram extends Facade
 {
@@ -19,6 +19,6 @@ class Telegram extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return BotsManager::class;
+        return BotManager::class;
     }
 }

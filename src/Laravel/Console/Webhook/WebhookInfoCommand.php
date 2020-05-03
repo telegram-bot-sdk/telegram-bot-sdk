@@ -80,7 +80,7 @@ class WebhookInfoCommand extends ConsoleBaseCommand
      */
     protected function getWebhooks(): array
     {
-        $bots = collect($this->botsManager->config('bots'));
+        $bots = collect($this->manager->config('bots'));
 
         if (null !== $bot = $this->argument('bot')) {
             $bots = $bots->only($bot);
@@ -112,7 +112,7 @@ class WebhookInfoCommand extends ConsoleBaseCommand
      */
     protected function getWebhookInfo(string $name): ?array
     {
-        $bot = $this->botsManager->bot($name);
+        $bot = $this->manager->bot($name);
         $webhook = $bot->getWebhookInfo();
 
         return [

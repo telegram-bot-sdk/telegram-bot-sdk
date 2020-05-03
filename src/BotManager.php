@@ -7,11 +7,11 @@ use Telegram\Bot\Traits\HasConfig;
 use Telegram\Bot\Traits\HasContainer;
 
 /**
- * Class BotsManager.
+ * Class BotManager.
  *
  * @mixin Bot
  */
-class BotsManager
+class BotManager
 {
     use HasContainer;
     use HasConfig;
