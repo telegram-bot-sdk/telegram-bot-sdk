@@ -48,7 +48,6 @@ class WebhookSetupCommand extends ConsoleBaseCommand
         $params = $bot->config('webhook', []);
 
         $this->webhookUrl($bot, $params);
-        $this->allowedUpdates($bot, $params);
 
         if ($bot->setWebhook($params)) {
             $this->info('Success: Your webhook has been set!');
@@ -68,13 +67,6 @@ class WebhookSetupCommand extends ConsoleBaseCommand
             ]);
 
             $params['url'] = Str::replaceFirst('http:', 'https:', $url);
-        }
-    }
-
-    protected function allowedUpdates(Bot $bot, array &$params): void
-    {
-        if ($bot->hasConfig('webhook.allowed_updates')) {
-            $params['allowed_updates'] = json_encode($bot->config('webhook.allowed_updates', []));
         }
     }
 }
