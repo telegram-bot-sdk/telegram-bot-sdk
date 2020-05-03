@@ -13,11 +13,7 @@
     "telegram-bot-sdk",
     "telegram bot php sdk",
     "telegram bot api php sdk",
-    "telegram bot sdk laravel",
-    "php telegram bot",
-    "lumen telegram bot",
-    "laravel telegram",
-    "laravel telegram bot"
+    "php telegram bot"
   ],
   "homepage": "https://github.com/telegram-bot-sdk/telegram-bot-sdk",
   "license": "BSD-3-Clause",
@@ -55,14 +51,6 @@
   "extra": {
     "branch-alias": {
       "dev-master": "4.0-dev"
-    },
-    "laravel": {
-      "providers": [
-        "Telegram\\Bot\\Laravel\\TelegramServiceProvider"
-      ],
-      "aliases": {
-        "Telegram": "Telegram\\Bot\\Laravel\\Facades\\Telegram"
-      }
     }
   },
   "autoload": {
