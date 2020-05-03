@@ -31,6 +31,10 @@ Any issues, feedback, suggestions or questions please use issue tracker [here][l
 
 Thank you for considering contributing to the project. Please review the [CONTRIBUTING][link-contributing] guidelines before submitting any pull requests.
 
+## Security
+
+If you discover a security vulnerability within this package, please email Syed at `syed at lukonet.com`. All security vulnerabilities will be promptly addressed. You may view our full security policy [here][link-security-policy].
+
 ## Credits
 
 - [Syed Irfaq R.][link-author]
@@ -53,3 +57,4 @@ This project is released under the [BSD 3-Clause][link-license] License.
 [link-license]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/blob/master/LICENSE.md
 [link-contributing]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/blob/master/.github/CONTRIBUTING.md
 [link-telegram-bot-api]: https://core.telegram.org/bots
+[link-security-policy]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/security/policy
