@@ -11,8 +11,6 @@ class {{ class }} extends Command
 
     /**
      * Execute the bot command.
-     *
-     * @return mixed
      */
     public function handle()
     {
