@@ -46,13 +46,12 @@ class WebhookSetupCommand extends ConsoleBaseCommand
         $this->comment("Setting webhook for [{$bot->config('bot')}] bot!");
 
         // Bot webhook config.
-        $config = array_filter($bot->config('webhook', []));
+        $config = $bot->config('webhook', []);
 
         // Global webhook config merged with bot config with the latter taking precedence.
         $params = collect($bot->config('global.webhook'))->except(['domain', 'path', 'controller', 'url'])
-            ->filter()
-            ->put('url', $this->webhookUrl($bot))
             ->merge($config)
+            ->put('url', $this->webhookUrl($bot))
             ->all();
 
         if ($bot->setWebhook($params)) {
@@ -64,10 +63,10 @@ class WebhookSetupCommand extends ConsoleBaseCommand
         $this->error('Your webhook could not be set!');
     }
 
-    protected function webhookUrl(Bot $bot): ?string
+    protected function webhookUrl(Bot $bot): string
     {
         if (filled($bot->config('webhook.url'))) {
-            return null;
+            return $bot->config('webhook.url');
         }
 
         return Str::replaceFirst('http:', 'https:', route('telegram.bot.webhook', [
