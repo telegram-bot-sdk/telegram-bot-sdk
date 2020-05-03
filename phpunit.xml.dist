@@ -17,9 +17,6 @@
     <filter>
         <whitelist>
             <directory suffix=".php">src/</directory>
-            <exclude>
-                <directory suffix=".php">src/Laravel/config/</directory>
-            </exclude>
         </whitelist>
     </filter>
     <logging>
