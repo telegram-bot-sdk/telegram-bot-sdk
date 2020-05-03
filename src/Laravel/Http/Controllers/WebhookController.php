@@ -23,6 +23,6 @@ class WebhookController extends Controller
     {
         $manager->bot($bot)->listen(true);
 
-        return response('Accepted');
+        return response()->noContent();
     }
 }
