@@ -204,7 +204,7 @@ class CommandBus extends AnswerBus
      *
      * @return CommandInterface
      */
-    protected function resolveCommand($command): CommandInterface
+    public function resolveCommand($command): CommandInterface
     {
         if (is_object($command)) {
             return $this->validateCommandClassInstance($command);

@@ -1,0 +1,32 @@
+<?php
+
+namespace {{ namespace }};
+
+use Telegram\Bot\Commands\Command;
+use Throwable;
+
+class {{ class }} extends Command
+{
+    protected string $description = 'Command Description';
+
+    /**
+     * Execute the bot command.
+     *
+     * @return mixed
+     */
+    public function handle()
+    {
+        //
+    }
+
+   /**
+    * Triggered on failure.
+    *
+    * @param array     $arguments
+    * @param Throwable $exception
+    */
+    public function failed(array $arguments, Throwable $exception)
+    {
+        //
+    }
+}

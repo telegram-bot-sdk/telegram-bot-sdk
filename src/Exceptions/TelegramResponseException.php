@@ -12,8 +12,8 @@ class TelegramResponseException extends TelegramSDKException
     /** @var TelegramResponse The response that threw the exception. */
     protected TelegramResponse $response;
 
-    /** @var array Decoded response. */
-    protected array $responseData;
+    /** @var object Decoded response. */
+    protected object $responseData;
 
     /**
      * Creates a TelegramResponseException.
@@ -42,7 +42,7 @@ class TelegramResponseException extends TelegramSDKException
      */
     protected function get(string $key, $default = null)
     {
-        return $this->responseData[$key] ?? $default;
+        return data_get($this->responseData, $key, $default);
     }
 
     /**
@@ -58,9 +58,9 @@ class TelegramResponseException extends TelegramSDKException
 
         $code = null;
         $message = null;
-        if (isset($data['ok'], $data['error_code']) && $data['ok'] === false) {
-            $code = $data['error_code'];
-            $message = $data['description'] ?? 'Unknown error from API.';
+        if (isset($data->ok, $data->error_code) && $data->ok === false) {
+            $code = $data->error_code;
+            $message = $data->description ?? 'Unknown error from API.';
         }
 
         // Others
@@ -100,9 +100,9 @@ class TelegramResponseException extends TelegramSDKException
     /**
      * Returns the decoded response used to create the exception.
      *
-     * @return array
+     * @return object
      */
-    public function getResponseData(): array
+    public function getResponseData(): object
     {
         return $this->responseData;
     }

@@ -36,7 +36,7 @@ trait Answerable
     {
         $methodName = 'send' . Str::studly(substr($method, 9));
 
-        if (!Str::startsWith($method, 'replyWith') || !method_exists($this->bot, $methodName)) {
+        if (!Str::startsWith($method, 'replyWith') || !method_exists($this->bot->getApi(), $methodName)) {
             throw new \BadMethodCallException("Method [$method] does not exist.");
         }
 

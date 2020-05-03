@@ -49,11 +49,10 @@ return [
 
     'bots' => [
         'default' => [
-            'username'         => 'TelegramBot',
-            'token'            => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
-            'certificate_path' => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
-            'webhook_url'      => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
-            'commands'         => [
+            'username' => 'TelegramBot',
+            'token'    => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
+
+            'commands' => [
 //                'start' => Acme\Bots\TelegramBot\Commands\Start::class,
             ],
 
@@ -80,11 +79,35 @@ return [
         'second' => [
             'username' => 'MySecondBot',
             'token'    => '123456:abc',
-            'commands' => [
-//                'register' => Acme\Bots\MySecondBot\Commands\Register::class,
+
+            // Custom config used with the "telegram:webhook-setup" artisan command.
+            'webhook'  => [
+                'url'             => null,
+                'certificate'     => null,
+                'max_connections' => 40,
+                'allowed_updates' => [],
             ],
+
+            'commands' => [],
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Webhook [Optional]
+    |--------------------------------------------------------------------------
+    |
+    | Domain: If you want to set a custom domain for your webhook.
+    | Prefix: Prefix is used to construct a webhook route.
+    |
+    | Example Prefix: telegram
+    | Webhook Path Generated: /telegram/{token}/{bot}
+    |
+    */
+
+    'domain' => env('TELEGRAM_WEBHOOK_DOMAIN', null),
+
+    'prefix' => env('TELEGRAM_WEBHOOK_PREFIX', 'telegram'),
 
     /*
     |--------------------------------------------------------------------------

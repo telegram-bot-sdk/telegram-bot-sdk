@@ -133,7 +133,9 @@ abstract class Command implements CommandInterface
      *
      * @return mixed
      */
-    abstract public function failed(array $arguments, Throwable $exception);
+    public function failed(array $arguments, Throwable $exception)
+    {
+    }
 
     /**
      * Helper to Trigger other Commands.
