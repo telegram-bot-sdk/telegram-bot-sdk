@@ -98,16 +98,20 @@ return [
     |--------------------------------------------------------------------------
     |
     | Domain: If you want to set a custom domain for your webhook.
-    | Prefix: Prefix is used to construct a webhook route.
+    | Path: Path is used to construct a webhook route. Default: /telegram
+    | Controller: Responsible to listen to updates and acknowledge to Telegram.
     |
-    | Example Prefix: telegram
-    | Webhook Path Generated: /telegram/{token}/{bot}
+    | Example path: telegram
+    | Webhook path: /telegram/{token}/{bot}
     |
     */
 
-    'domain' => env('TELEGRAM_WEBHOOK_DOMAIN', null),
+    'webhook' => [
+        'domain'     => env('TELEGRAM_WEBHOOK_DOMAIN', null),
+        'path'       => env('TELEGRAM_WEBHOOK_PATH', 'telegram'),
+        'controller' => \Telegram\Bot\Laravel\Http\Controllers\WebhookController::class,
+    ],
 
-    'prefix' => env('TELEGRAM_WEBHOOK_PREFIX', 'telegram'),
 
     /*
     |--------------------------------------------------------------------------

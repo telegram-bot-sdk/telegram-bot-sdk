@@ -30,9 +30,8 @@ class TelegramServiceProvider extends ServiceProvider
     protected function registerRoutes(): void
     {
         Route::group([
-            'domain'     => config('telegram.domain', null),
-            'prefix'     => config('telegram.prefix'),
-            'namespace'  => 'Telegram\Bot\Laravel\Http\Controllers',
+            'domain'     => config('telegram.webhook.domain', null),
+            'prefix'     => config('telegram.webhook.path'),
             'middleware' => ValidateWebhook::class,
         ], function () {
             $this->loadRoutesFrom(__DIR__ . '/routes/telegram.php');
