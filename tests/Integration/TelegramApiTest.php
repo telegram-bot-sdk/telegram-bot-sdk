@@ -5,20 +5,19 @@ namespace Telegram\Bot\Tests\Integration;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Stream;
 use function GuzzleHttp\Psr7\stream_for;
-use League\Event\Emitter;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Telegram\Bot\Api;
 use Telegram\Bot\Commands\CommandBus;
-use Telegram\Bot\Events\UpdateReceived;
+use Telegram\Bot\Events\UpdateEvent;
 use Telegram\Bot\Exceptions\CouldNotUploadInputFile;
 use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\FileUpload\InputFile;
-use Telegram\Bot\HttpClients\GuzzleHttpClient;
+use Telegram\Bot\Http\GuzzleHttpClient;
 use Telegram\Bot\Objects\Message;
 use Telegram\Bot\Objects\Update;
-use Telegram\Bot\TelegramResponse;
+use Telegram\Bot\Http\TelegramResponse;
 use Telegram\Bot\Tests\Traits\CommandGenerator;
 use Telegram\Bot\Tests\Traits\GuzzleMock;
 
@@ -537,14 +536,12 @@ class TelegramApiTest extends TestCase
         $emitter = $this->prophesize(Emitter::class);
 
         $api = $this->getApi();
-        $api->setEventEmitter($emitter->reveal());
 
-        $update = $api->getWebhookUpdate(true);
+        $update = $api->getWebhookUpdate();
 
         //We can't pass test data to the webhook because it relies on the read only stream php://input
         $this->assertEmpty($update);
-        $this->assertInstanceOf(Update::class, $update);
-        $emitter->emit(Argument::type(UpdateReceived::class))->shouldHaveBeenCalled();
+        $emitter->emit(Argument::type(UpdateEvent::class))->shouldHaveBeenCalled();
     }
 
     /** @test */

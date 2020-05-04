@@ -5,9 +5,9 @@ namespace Telegram\Bot\Events;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Objects\Update;
 
-class UpdateReceived
+class UpdateEvent
 {
-    public const NAME = 'update.received';
+    public const NAME = 'update';
 
     public Bot $bot;
     public Update $update;

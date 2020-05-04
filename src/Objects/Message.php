@@ -111,7 +111,7 @@ class Message extends BaseObject
             return true;
         }
 
-        return $this->detectType() === $type;
+        return $this->messageType() === $type;
     }
 
     /**
@@ -119,7 +119,7 @@ class Message extends BaseObject
      *
      * @return string|null
      */
-    public function detectType(): ?string
+    public function messageType(): ?string
     {
         $types = [
             'text',

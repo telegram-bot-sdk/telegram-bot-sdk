@@ -7,7 +7,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Commands\Listeners\ProcessCommand;
 use Telegram\Bot\Events\EventFactory;
-use Telegram\Bot\Events\UpdateReceived;
+use Telegram\Bot\Events\UpdateEvent;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Http\GuzzleHttpClient;
 use Telegram\Bot\Http\HttpClientInterface;
@@ -114,7 +114,7 @@ class Bot
      */
     public function onUpdate($listener): self
     {
-        $this->eventFactory->listen(UpdateReceived::NAME, $listener);
+        $this->eventFactory->listen(UpdateEvent::NAME, $listener);
 
         return $this;
     }
@@ -199,10 +199,14 @@ class Bot
      */
     public function dispatchUpdateEvent(Update $update): Update
     {
-        $event = new UpdateReceived($this, $update);
+        $event = new UpdateEvent($this, $update);
 
-        $this->eventFactory->dispatch(UpdateReceived::NAME, $event);
+        $this->eventFactory->dispatch(UpdateEvent::NAME, $event);
         $this->eventFactory->dispatch($update->getEventName(), $event);
+
+        if (method_exists($message = $update->getMessage(), 'messageType')) {
+            $this->eventFactory->dispatch($update->getEventName().'.'.$message->messageType(), $event);
+        }
 
         return $event->update;
     }

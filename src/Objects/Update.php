@@ -95,7 +95,7 @@ class Update extends BaseObject
 
     public function getEventName(): string
     {
-        return 'update.' . $this->updateType();
+        return $this->updateType();
     }
 
     /**
