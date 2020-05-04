@@ -15,7 +15,7 @@ use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Http\GuzzleHttpClient;
-use Telegram\Bot\Objects\Message;
+use Telegram\Bot\Objects\Updates\Message;
 use Telegram\Bot\Objects\Update;
 use Telegram\Bot\Http\TelegramResponse;
 use Telegram\Bot\Tests\Traits\CommandGenerator;

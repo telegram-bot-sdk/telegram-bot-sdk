@@ -4,7 +4,7 @@ namespace Telegram\Bot\Methods;
 
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\File;
-use Telegram\Bot\Objects\Message as MessageObject;
+use Telegram\Bot\Objects\Updates\Message as MessageObject;
 use Telegram\Bot\Objects\StickerSet;
 use Telegram\Bot\Traits\Http;
 
