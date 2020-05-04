@@ -26,4 +26,9 @@ class ChosenInlineResult extends BaseObject
             'location' => Location::class,
         ];
     }
+
+    public function objectType(): ?string
+    {
+        return $this->findType(['location', 'inline_message_id']);
+    }
 }
