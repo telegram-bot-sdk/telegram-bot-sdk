@@ -2,9 +2,6 @@
 
 namespace Telegram\Bot\Objects;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Payments\PreCheckoutQuery;
 use Telegram\Bot\Objects\Payments\ShippingQuery;
 
@@ -77,9 +74,6 @@ class Update extends BaseObject
         return $this->updateType ??= $this->collect()
             ->except('update_id')
             ->keys()
-            ->whenEmpty(static function () {
-                throw TelegramSDKException::updateTypeIndeterminable();
-            })
             ->first();
     }
 
