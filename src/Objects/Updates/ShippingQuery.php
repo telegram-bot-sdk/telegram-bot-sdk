@@ -1,11 +1,14 @@
 <?php
 
-namespace Telegram\Bot\Objects\Payments;
+namespace Telegram\Bot\Objects\Updates;
 
 use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\Payments\ShippingAddress;
 use Telegram\Bot\Objects\User;
 
 /**
+ * Class ShippingQuery
+ *
  * @link https://core.telegram.org/bots/api#shippingquery
  *
  * @property string          $id                    Unique query identifier

@@ -2,8 +2,14 @@
 
 namespace Telegram\Bot\Objects;
 
-use Telegram\Bot\Objects\Payments\PreCheckoutQuery;
-use Telegram\Bot\Objects\Payments\ShippingQuery;
+use Telegram\Bot\Objects\Updates\CallbackQuery;
+use Telegram\Bot\Objects\Updates\ChosenInlineResult;
+use Telegram\Bot\Objects\Updates\InlineQuery;
+use Telegram\Bot\Objects\Updates\Message;
+use Telegram\Bot\Objects\Updates\Poll;
+use Telegram\Bot\Objects\Updates\PollAnswer;
+use Telegram\Bot\Objects\Updates\PreCheckoutQuery;
+use Telegram\Bot\Objects\Updates\ShippingQuery;
 
 /**
  * Class Update.
@@ -12,9 +18,9 @@ use Telegram\Bot\Objects\Payments\ShippingQuery;
  *
  * @property int                $update_id             The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially.
  * @property Message            $message               (Optional). New incoming message of any kind - text, photo, sticker, etc.
- * @property EditedMessage      $edited_message        (Optional). New version of a message that is known to the bot and was edited.
+ * @property Message            $edited_message        (Optional). New version of a message that is known to the bot and was edited.
  * @property Message            $channel_post          (Optional).(Optional). New incoming channel post of any kind — text, photo, sticker, etc.
- * @property EditedMessage      $edited_channel_post   (Optional). New version of a channel post that is known to the bot and was edited sticker, etc.
+ * @property Message            $edited_channel_post   (Optional). New version of a channel post that is known to the bot and was edited sticker, etc.
  * @property InlineQuery        $inline_query          (Optional). New incoming inline query.
  * @property ChosenInlineResult $chosen_inline_result  (Optional). A result of an inline query that was chosen by the user and sent to their chat partner.
  * @property CallbackQuery      $callback_query        (Optional). Incoming callback query.
@@ -35,9 +41,9 @@ class Update extends BaseObject
     {
         return [
             'message'              => Message::class,
-            'edited_message'       => EditedMessage::class,
+            'edited_message'       => Message::class,
             'channel_post'         => Message::class,
-            'edited_channel_post'  => EditedMessage::class,
+            'edited_channel_post'  => Message::class,
             'inline_query'         => InlineQuery::class,
             'chosen_inline_result' => ChosenInlineResult::class,
             'callback_query'       => CallbackQuery::class,
@@ -64,7 +70,7 @@ class Update extends BaseObject
     /**
      * Get the message contained in the Update.
      *
-     * @return Message|EditedMessage|InlineQuery|ChosenInlineResult|CallbackQuery|ShippingQuery|PreCheckoutQuery|Poll|PollAnswer
+     * @return Message|InlineQuery|ChosenInlineResult|CallbackQuery|ShippingQuery|PreCheckoutQuery|Poll|PollAnswer
      */
     public function getMessage()
     {
