@@ -202,10 +202,10 @@ class Bot
         $event = new UpdateEvent($this, $update);
 
         $this->eventFactory->dispatch(UpdateEvent::NAME, $event);
-        $this->eventFactory->dispatch($update->getEventName(), $event);
+        $this->eventFactory->dispatch($update->objectType(), $event);
 
-        if (method_exists($message = $update->getMessage(), 'messageType')) {
-            $this->eventFactory->dispatch($update->getEventName() . '.' . $message->messageType(), $event);
+        if (null !== $update->getMessage()->objectType()) {
+            $this->eventFactory->dispatch($update->objectType() . '.' . $update->getMessage()->objectType(), $event);
         }
 
         return $event->update;
