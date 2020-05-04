@@ -170,6 +170,47 @@ abstract class BaseObject implements ArrayAccess, Countable, IteratorAggregate, 
     }
 
     /**
+     * Detect type based on fields.
+     *
+     * @return string|null
+     */
+    public function objectType(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * Determine if the object is of given type.
+     *
+     * @param string $type
+     *
+     * @return bool
+     */
+    public function isType($type): bool
+    {
+        if ($this->offsetExists($type)) {
+            return true;
+        }
+
+        return $this->objectType() === $type;
+    }
+
+    /**
+     * Determine the type by given types.
+     *
+     * @param $types
+     *
+     * @return string|null
+     */
+    protected function findType($types): ?string
+    {
+        return $this->collect()
+            ->keys()
+            ->intersect($types)
+            ->pop();
+    }
+
+    /**
      * Determine if a field exists at an offset.
      *
      * @param mixed $key

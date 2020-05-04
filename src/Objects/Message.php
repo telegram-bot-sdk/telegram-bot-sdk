@@ -99,27 +99,11 @@ class Message extends BaseObject
     }
 
     /**
-     * Determine if the message is of given type.
-     *
-     * @param string $type
-     *
-     * @return bool
-     */
-    public function isType($type): bool
-    {
-        if ($this->offsetExists($type)) {
-            return true;
-        }
-
-        return $this->messageType() === $type;
-    }
-
-    /**
      * Detect type based on properties.
      *
      * @return string|null
      */
-    public function messageType(): ?string
+    public function objectType(): ?string
     {
         $types = [
             'text',
@@ -153,9 +137,6 @@ class Message extends BaseObject
             'passport_data',
         ];
 
-        return $this->collect()
-            ->keys()
-            ->intersect($types)
-            ->pop();
+        return $this->findType($types);
     }
 }

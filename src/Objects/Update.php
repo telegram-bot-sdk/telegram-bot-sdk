@@ -49,27 +49,11 @@ class Update extends BaseObject
     }
 
     /**
-     * Determine if the update is of given type.
-     *
-     * @param string $type
-     *
-     * @return bool
-     */
-    public function isType($type): bool
-    {
-        if ($this->offsetExists($type)) {
-            return true;
-        }
-
-        return $this->updateType() === $type;
-    }
-
-    /**
      * Update type.
      *
      * @return string
      */
-    public function updateType(): string
+    public function objectType(): string
     {
         return $this->updateType ??= $this->collect()
             ->except('update_id')
@@ -84,12 +68,12 @@ class Update extends BaseObject
      */
     public function getMessage()
     {
-        return $this->{$this->updateType()};
+        return $this->{$this->objectType()};
     }
 
     public function getEventName(): string
     {
-        return $this->updateType();
+        return $this->objectType();
     }
 
     /**
