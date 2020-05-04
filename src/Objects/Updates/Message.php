@@ -1,10 +1,27 @@
 <?php
 
-namespace Telegram\Bot\Objects;
+namespace Telegram\Bot\Objects\Updates;
 
+use Telegram\Bot\Objects\Animation;
+use Telegram\Bot\Objects\Audio;
+use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\Chat;
+use Telegram\Bot\Objects\Contact;
+use Telegram\Bot\Objects\Dice;
+use Telegram\Bot\Objects\Document;
+use Telegram\Bot\Objects\Game;
+use Telegram\Bot\Objects\Location;
+use Telegram\Bot\Objects\MessageEntity;
 use Telegram\Bot\Objects\Passport\PassportData;
 use Telegram\Bot\Objects\Payments\Invoice;
 use Telegram\Bot\Objects\Payments\SuccessfulPayment;
+use Telegram\Bot\Objects\PhotoSize;
+use Telegram\Bot\Objects\Sticker;
+use Telegram\Bot\Objects\User;
+use Telegram\Bot\Objects\Venue;
+use Telegram\Bot\Objects\Video;
+use Telegram\Bot\Objects\VideoNote;
+use Telegram\Bot\Objects\Voice;
 
 /**
  * Class Message.

@@ -1,6 +1,10 @@
 <?php
 
-namespace Telegram\Bot\Objects;
+namespace Telegram\Bot\Objects\Updates;
+
+use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\Location;
+use Telegram\Bot\Objects\User;
 
 /**
  * Class InlineQuery.
