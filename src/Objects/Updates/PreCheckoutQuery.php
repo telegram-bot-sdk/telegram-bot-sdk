@@ -28,4 +28,9 @@ class PreCheckoutQuery extends BaseObject
             'order_info' => OrderInfo::class,
         ];
     }
+
+    public function objectType(): ?string
+    {
+        return $this->findType(['shipping_option_id', 'order_info']);
+    }
 }

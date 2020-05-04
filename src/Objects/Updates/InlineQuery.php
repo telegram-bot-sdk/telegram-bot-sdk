@@ -26,4 +26,9 @@ class InlineQuery extends BaseObject
             'location' => Location::class,
         ];
     }
+
+    public function objectType(): ?string
+    {
+        return $this->findType(['location']);
+    }
 }

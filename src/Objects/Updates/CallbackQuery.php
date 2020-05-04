@@ -27,4 +27,10 @@ class CallbackQuery extends BaseObject
             'message' => Message::class,
         ];
     }
+
+    public function objectType(): ?string
+    {
+        //TODO - Check if message and inline_message_id are exclusive to each other
+        return $this->findType(['data', 'game_short_name']);
+    }
 }
