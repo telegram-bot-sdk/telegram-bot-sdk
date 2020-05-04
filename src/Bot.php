@@ -205,7 +205,7 @@ class Bot
         $this->eventFactory->dispatch($update->getEventName(), $event);
 
         if (method_exists($message = $update->getMessage(), 'messageType')) {
-            $this->eventFactory->dispatch($update->getEventName().'.'.$message->messageType(), $event);
+            $this->eventFactory->dispatch($update->getEventName() . '.' . $message->messageType(), $event);
         }
 
         return $event->update;
