@@ -71,11 +71,6 @@ class Update extends BaseObject
         return $this->{$this->objectType()};
     }
 
-    public function getEventName(): string
-    {
-        return $this->objectType();
-    }
-
     /**
      * Get chat object (if exists).
      */
