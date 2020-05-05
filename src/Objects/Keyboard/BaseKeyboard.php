@@ -8,6 +8,7 @@ use JsonSerializable;
 abstract class BaseKeyboard implements JsonSerializable
 {
     protected $items;
+    protected string $type;
 
     /**
      * Create a new object.
@@ -17,6 +18,7 @@ abstract class BaseKeyboard implements JsonSerializable
     public function __construct($items = [])
     {
         $this->items = $items;
+        $this->type = (static::class === ReplyKeyboardMarkup::class) ? 'keyboard' : 'inline_keyboard';
     }
 
     abstract public static function create();
@@ -30,7 +32,7 @@ abstract class BaseKeyboard implements JsonSerializable
      */
     public function row(...$buttons): self
     {
-        $this->items['keyboard'][] = $buttons;
+        $this->items[$this->type][] = $buttons;
 
         return $this;
     }
