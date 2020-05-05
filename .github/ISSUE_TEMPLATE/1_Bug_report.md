@@ -14,6 +14,20 @@ about: Report errors and problems
 **How to reproduce**  
 <!-- Code and/or config needed to reproduce the problem. -->
 
+<details>
+<summary>Config file data</summary>
+<!-- PLEASE PASTE YOUR CONFIG FILE DATA HERE -->
+<!-- MAKE SURE TO REDACT TOKEN & OTHER SENSITIVE INFO -->
+
+</details>
+
+<details>
+<summary>Log file data</summary>
+<!-- PLEASE PASTE YOUR LOG FILE DATA HERE -->
+<!-- MAKE SURE TO REDACT TOKEN & OTHER SENSITIVE INFO -->
+
+</details>
+
 **Possible Solution**  
 <!--- Optional: only if you have suggestions on a fix/reason for the bug -->
 
