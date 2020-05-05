@@ -11,6 +11,8 @@ namespace Telegram\Bot\Objects\Keyboard;
  */
 class ReplyKeyboardMarkup extends BaseKeyboard
 {
+    protected string $type = 'keyboard';
+
     /**
      * Begin to create the keyboard.
      *
