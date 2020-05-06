@@ -21,5 +21,4 @@ use Telegram\Bot\Objects\BaseCreateObject;
  */
 class KeyboardButton extends BaseCreateObject
 {
-
 }
