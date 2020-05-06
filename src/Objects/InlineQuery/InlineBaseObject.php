@@ -17,5 +17,4 @@ abstract class InlineBaseObject extends BaseCreateObject
     {
         return new static(array_merge($data, ['type' => static::$type]));
     }
-
 }
