@@ -5,11 +5,15 @@ namespace Telegram\Bot\Objects\InlineQuery;
 /**
  * Class InlineQueryResultAudio.
  *
+ * Represents a link to an MP3 audio file. By default, this audio file will be sent by the user.
+ * Alternatively, you can use input_message_content to send a message with the specified content
+ * instead of the audio.
+ *
  * <code>
  * [
- *   'id'                     => '',  //  string                 - Unique identifier for this result, 1-64 bytes
- *   'audio_url'              => '',  //  string                 - A valid URL for the audio file
- *   'title'                  => '',  //  string                 - Title
+ *   'id'                     => '',  //  string                 - Required. Unique identifier for this result, 1-64 bytes
+ *   'audio_url'              => '',  //  string                 - Required. A valid URL for the audio file
+ *   'title'                  => '',  //  string                 - Required. Title
  *   'caption'                => '',  //  string                 - (Optional). Caption, 0-200 characters
  *   'parse_mode'             => '',  //  string                 - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
  *   'performer'              => '',  //  string                 - (Optional). Performer
@@ -21,17 +25,17 @@ namespace Telegram\Bot\Objects\InlineQuery;
  *
  * @link https://core.telegram.org/bots/api#inlinequeryresultaudio
  *
- * @method $this setId($string)                     Unique identifier for this result, 1-64 bytes
- * @method $this setAudioUrl($string)               A valid URL for the audio file
- * @method $this setTitle($string)                  Title
- * @method $this setCaption($string)                (Optional). Caption, 0-200 characters
- * @method $this setParseMode($string)              (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
- * @method $this setPerformer($string)              (Optional). Performer
- * @method $this setAudioDuration($int)             (Optional). Audio duration in seconds
- * @method $this setReplyMarkup($object)            (Optional). Inline keyboard attached to the message
- * @method $this setInputMessageContent($object)    (Optional). Content of the message to be sent instead of the photo
+ * @method $this id($string)                     Required. Unique identifier for this result, 1-64 bytes
+ * @method $this audioUrl($string)               Required. A valid URL for the audio file
+ * @method $this title($string)                  Required. Title
+ * @method $this caption($string)                (Optional). Caption, 0-200 characters
+ * @method $this parseMode($string)              (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+ * @method $this performer($string)              (Optional). Performer
+ * @method $this audioDuration($int)             (Optional). Audio duration in seconds
+ * @method $this replyMarkup($object)            (Optional). Inline keyboard attached to the message
+ * @method $this inputMessageContent($object)    (Optional). Content of the message to be sent instead of the photo
  */
 class InlineQueryResultAudio extends InlineBaseObject
 {
-    protected string $type = 'audio';
+    protected static string $type = 'audio';
 }
