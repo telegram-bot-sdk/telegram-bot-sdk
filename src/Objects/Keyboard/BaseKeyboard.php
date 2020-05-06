@@ -2,25 +2,11 @@
 
 namespace Telegram\Bot\Objects\Keyboard;
 
-use Illuminate\Support\Str;
-use JsonSerializable;
+use Telegram\Bot\Objects\BaseCreateObject;
 
-abstract class BaseKeyboard implements JsonSerializable
+abstract class BaseKeyboard extends BaseCreateObject
 {
-    protected $items;
     protected string $type = 'inline_keyboard';
-
-    /**
-     * Create a new object.
-     *
-     * @param mixed $items
-     */
-    public function __construct($items = [])
-    {
-        $this->items = $items;
-    }
-
-    abstract public static function create();
 
     /**
      * Create a new row in keyboard to add buttons.
@@ -31,29 +17,8 @@ abstract class BaseKeyboard implements JsonSerializable
      */
     public function row(...$buttons): self
     {
-        $this->items[$this->type][] = $buttons;
+        $this->fields[$this->type][] = $buttons;
 
         return $this;
-    }
-
-    /**
-     * Dynamically build params.
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return $this
-     */
-    public function __call($method, $args)
-    {
-        $property = Str::snake(substr($method, 3));
-        $this->items[$property] = $args[0];
-
-        return $this;
-    }
-
-    public function jsonSerialize()
-    {
-        return $this->items;
     }
 }
