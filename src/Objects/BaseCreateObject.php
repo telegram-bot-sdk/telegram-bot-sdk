@@ -20,7 +20,7 @@ abstract class BaseCreateObject implements JsonSerializable
      *
      * @param array $fields
      */
-    public function __construct($fields = [])
+    public function __construct(array $fields = [])
     {
         $this->fields = $fields;
     }
