@@ -48,5 +48,5 @@ namespace Telegram\Bot\Objects\InlineQuery;
  */
 class InlineQueryResultVideo extends InlineBaseObject
 {
-    protected static string $type = 'video';
+    protected string $type = 'video';
 }

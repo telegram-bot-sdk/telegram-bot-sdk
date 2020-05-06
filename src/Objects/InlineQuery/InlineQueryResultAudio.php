@@ -37,5 +37,5 @@ namespace Telegram\Bot\Objects\InlineQuery;
  */
 class InlineQueryResultAudio extends InlineBaseObject
 {
-    protected static string $type = 'audio';
+    protected string $type = 'audio';
 }

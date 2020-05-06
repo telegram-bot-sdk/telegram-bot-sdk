@@ -11,10 +11,10 @@ use Telegram\Bot\Objects\BaseCreateObject;
  */
 abstract class InputMedia extends BaseCreateObject
 {
-    protected static string $type;
+    protected string $type;
 
-    public static function make($data = []): self
+    protected function toArray(): array
     {
-        return new static(array_merge($data, ['type' => static::$type]));
+        return array_merge($this->fields, ['type' => $this->type]);
     }
 }

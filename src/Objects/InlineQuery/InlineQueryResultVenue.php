@@ -42,5 +42,5 @@ namespace Telegram\Bot\Objects\InlineQuery;
  */
 class InlineQueryResultVenue extends InlineBaseObject
 {
-    protected static string $type = 'venue';
+    protected string $type = 'venue';
 }

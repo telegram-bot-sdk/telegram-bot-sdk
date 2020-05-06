@@ -25,5 +25,5 @@ namespace Telegram\Bot\Objects\InlineQuery;
  */
 class InlineQueryResultCachedSticker extends InlineBaseObject
 {
-    protected static string $type = 'sticker';
+    protected string $type = 'sticker';
 }

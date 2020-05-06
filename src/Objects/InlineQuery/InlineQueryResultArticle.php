@@ -37,5 +37,5 @@ namespace Telegram\Bot\Objects\InlineQuery;
  */
 class InlineQueryResultArticle extends InlineBaseObject
 {
-    protected static string $type = 'article';
+    protected string $type = 'article';
 }

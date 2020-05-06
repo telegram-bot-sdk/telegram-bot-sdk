@@ -41,5 +41,5 @@ namespace Telegram\Bot\Objects\InlineQuery;
  */
 class InlineQueryResultGif extends InlineBaseObject
 {
-    protected static string $type = 'gif';
+    protected string $type = 'gif';
 }

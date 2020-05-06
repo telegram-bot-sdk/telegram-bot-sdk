@@ -23,5 +23,5 @@ namespace Telegram\Bot\Objects\InlineQuery;
  */
 class InlineQueryResultGame extends InlineBaseObject
 {
-    protected static string $type = 'game';
+    protected string $type = 'game';
 }

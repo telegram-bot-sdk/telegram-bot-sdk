@@ -33,5 +33,5 @@ namespace Telegram\Bot\Objects\InlineQuery;
  */
 class InlineQueryResultCachedVoice extends InlineBaseObject
 {
-    protected static string $type = 'voice';
+    protected string $type = 'voice';
 }

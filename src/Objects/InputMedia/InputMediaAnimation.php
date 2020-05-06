@@ -17,5 +17,5 @@ namespace Telegram\Bot\Objects\InputMedia;
  */
 class InputMediaAnimation extends InputMedia
 {
-    protected static string $type = 'animation';
+    protected string $type = 'animation';
 }
