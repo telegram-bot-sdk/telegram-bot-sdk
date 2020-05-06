@@ -5,11 +5,16 @@ namespace Telegram\Bot\Objects\InlineQuery;
 /**
  * Class InlineQueryResultVoice.
  *
+ * Represents a link to a voice recording in an .OGG container encoded with OPUS.
+ * By default, this voice recording will be sent by the user. Alternatively, you can
+ * use input_message_content to send a message with the specified content instead of the
+ * voice message.
+ *
  * <code>
  * [
- *   'id'                      => '',  //  string                - Unique identifier for this result, 1-64 bytes
- *   'voice_url'               => '',  //  string                - A valid URL for the voice recording
- *   'title'                   => '',  //  string                - Recording title
+ *   'id'                      => '',  //  string                - Required. Unique identifier for this result, 1-64 bytes
+ *   'voice_url'               => '',  //  string                - Required. A valid URL for the voice recording
+ *   'title'                   => '',  //  string                - Required. Recording title
  *   'caption'                 => '',  //  string                - (Optional). Caption, 0-200 characters
  *   'parse_mode'              => '',  //  string                - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
  *   'voice_duration'          => '',  //  int                   - (Optional). Recording duration in seconds
@@ -20,16 +25,16 @@ namespace Telegram\Bot\Objects\InlineQuery;
  *
  * @link https://core.telegram.org/bots/api#inlinequeryresultvoice
  *
- * @method $this setId($string)                     Unique identifier for this result, 1-64 bytes
- * @method $this setVoiceUrl($string)               A valid URL for the voice recording
- * @method $this setTitle($string)                  Recording title
- * @method $this setCaption($string)                (Optional). Caption, 0-200 characters
- * @method $this setParseMode($string)              (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
- * @method $this setVoiceDuration($int)             (Optional). Recording duration in seconds
- * @method $this setReplyMarkup($object)            (Optional). Inline keyboard attached to the message
- * @method $this setInputMessageContent($object)    (Optional). Content of the message to be sent instead of the photo
+ * @method $this id($string)                     Required. Unique identifier for this result, 1-64 bytes
+ * @method $this voiceUrl($string)               Required. A valid URL for the voice recording
+ * @method $this title($string)                  Required. Recording title
+ * @method $this caption($string)                (Optional). Caption, 0-200 characters
+ * @method $this parseMode($string)              (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+ * @method $this voiceDuration($int)             (Optional). Recording duration in seconds
+ * @method $this replyMarkup($object)            (Optional). Inline keyboard attached to the message
+ * @method $this inputMessageContent($object)    (Optional). Content of the message to be sent instead of the photo
  */
 class InlineQueryResultVoice extends InlineBaseObject
 {
-    protected string $type = 'voice';
+    protected static string $type = 'voice';
 }

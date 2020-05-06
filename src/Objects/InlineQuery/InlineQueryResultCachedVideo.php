@@ -5,11 +5,15 @@ namespace Telegram\Bot\Objects\InlineQuery;
 /**
  * Class InlineQueryResultCachedVideo.
  *
+ * Represents a link to a video file stored on the Telegram servers. By default, this video file will be sent by the
+ * user with an optional caption. Alternatively, you can use input_message_content to send a message with the
+ * specified content instead of the video.
+ *
  * <code>
  * [
- *   'id'                     => '',  //  string                - Unique identifier for this result, 1-64 bytes
- *   'video_file_id           => '',  //  string                - A valid file identifier for the video file
- *   'title'                  => '',  //  string                - Title for the result
+ *   'id'                     => '',  //  string                - Required. Unique identifier for this result, 1-64 bytes
+ *   'video_file_id           => '',  //  string                - Required. A valid file identifier for the video file
+ *   'title'                  => '',  //  string                - Required. Title for the result
  *   'description'            => '',  //  string                - (Optional). Short description of the result
  *   'caption'                => '',  //  string                - (Optional). Caption of the video to be sent, 0-200 characters
  *   'parse_mode'             => '',  //  string                - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
@@ -20,16 +24,16 @@ namespace Telegram\Bot\Objects\InlineQuery;
  *
  * @link https://core.telegram.org/bots/api#inlinequeryresultcachedvideo
  *
- * @method $this setId($string)                     Unique identifier for this result, 1-64 bytes
- * @method $this setVideoFileId($string)            A valid file identifier for the video file
- * @method $this setTitle($string)                  Title for the result
- * @method $this setDescription($string)            (Optional). Short description of the result
- * @method $this setCaption($string)                (Optional). Caption of the video to be sent, 0-200 characters
- * @method $this setParseMode($string)              (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
- * @method $this setReplyMarkup($object)            (Optional). Inline keyboard attached to the message
- * @method $this setInputMessageContent($object)    (Optional). Content of the message to be sent instead of the photo
+ * @method $this id($string)                     Required. Unique identifier for this result, 1-64 bytes
+ * @method $this videoFileId($string)            Required. A valid file identifier for the video file
+ * @method $this title($string)                  Required. Title for the result
+ * @method $this description($string)            (Optional). Short description of the result
+ * @method $this caption($string)                (Optional). Caption of the video to be sent, 0-200 characters
+ * @method $this parseMode($string)              (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+ * @method $this replyMarkup($object)            (Optional). Inline keyboard attached to the message
+ * @method $this inputMessageContent($object)    (Optional). Content of the message to be sent instead of the photo
  */
 class InlineQueryResultCachedVideo extends InlineBaseObject
 {
-    protected string $type = 'video';
+    protected static string $type = 'video';
 }
