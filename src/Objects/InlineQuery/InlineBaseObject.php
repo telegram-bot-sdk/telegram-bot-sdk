@@ -17,4 +17,5 @@ abstract class InlineBaseObject extends BaseCreateObject
     {
         return array_merge($this->fields, ['type' => $this->type]);
     }
+
 }
