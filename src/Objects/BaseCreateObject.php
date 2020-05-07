@@ -25,19 +25,9 @@ abstract class BaseCreateObject implements JsonSerializable
         $this->fields = $fields;
     }
 
-    public static function make($data = []): self
+    public static function make(array $data = []): self
     {
         return new static($data);
-    }
-
-    /**
-     * Convert the object into something JSON serializable.
-     *
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->fields;
     }
 
     /**
@@ -54,5 +44,25 @@ abstract class BaseCreateObject implements JsonSerializable
         $this->fields[$property] = $arguments[0];
 
         return $this;
+    }
+
+    /**
+     * Convert the object into something JSON serializable.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+
+    /**
+     * Get the object of fields as an associative array.
+     *
+     * @return array
+     */
+    protected function toArray(): array
+    {
+        return $this->fields;
     }
 }

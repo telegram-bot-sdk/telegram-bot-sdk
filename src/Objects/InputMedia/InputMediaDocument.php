@@ -16,5 +16,5 @@ namespace Telegram\Bot\Objects\InputMedia;
  */
 class InputMediaDocument extends InputMedia
 {
-    protected static string $type = 'document';
+    protected string $type = 'document';
 }

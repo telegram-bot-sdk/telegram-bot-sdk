@@ -20,5 +20,5 @@ namespace Telegram\Bot\Objects\InputMedia;
  */
 class InputMediaVideo extends InputMedia
 {
-    protected static string $type = 'video';
+    protected string $type = 'video';
 }

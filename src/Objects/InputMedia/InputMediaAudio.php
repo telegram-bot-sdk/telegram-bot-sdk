@@ -21,5 +21,5 @@ use Telegram\Bot\FileUpload\InputFile;
  */
 class InputMediaAudio extends InputMedia
 {
-    protected static string $type = 'audio';
+    protected string $type = 'audio';
 }

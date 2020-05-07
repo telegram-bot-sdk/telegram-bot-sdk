@@ -36,5 +36,5 @@ namespace Telegram\Bot\Objects\InlineQuery;
  */
 class InlineQueryResultLocation extends InlineBaseObject
 {
-    protected static string $type = 'location';
+    protected string $type = 'location';
 }

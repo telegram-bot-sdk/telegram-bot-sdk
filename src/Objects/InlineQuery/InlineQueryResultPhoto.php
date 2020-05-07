@@ -40,5 +40,5 @@ namespace Telegram\Bot\Objects\InlineQuery;
  */
 class InlineQueryResultPhoto extends InlineBaseObject
 {
-    protected static string $type = 'photo';
+    protected string $type = 'photo';
 }
