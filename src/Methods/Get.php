@@ -40,11 +40,9 @@ trait Get
      *
      * <code>
      * $params = [
-     *
-     *       'user_id' => '',  // int~Required. Unique identifier of the target user
-     *       'offset' => '',  // int~(Optional). Sequential number of the first photo to be returned. By default, all photos are returned.
-     *       'limit' => '',  // int~(Optional). Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
-     *
+     *       'user_id' => '',  // int - Required. Unique identifier of the target user
+     *       'offset'  => '',  // int - (Optional). Sequential number of the first photo to be returned. By default, all photos are returned.
+     *       'limit'   => '',  // int - (Optional). Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
      * ]
      * </code>
      * @param array $params
@@ -72,9 +70,7 @@ trait Get
      *
      * <code>
      * $params = [
-     *
-     *       'file_id' => '',  // string~Required. File identifier to get info about
-     *
+     *       'file_id' => '',  // string - Required. File identifier to get info about
      * ]
      * </code>
      * @param array $params
