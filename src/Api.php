@@ -30,9 +30,6 @@ class Api
     use Methods\Stickers;
     use Methods\Update;
 
-    /** @var string Version number of the Telegram Bot PHP SDK. */
-    public const VERSION = '4.0.0';
-
     /**
      * Instantiates a new Telegram super-class object.
      *

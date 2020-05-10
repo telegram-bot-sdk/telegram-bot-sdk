@@ -150,7 +150,7 @@ class TelegramRequest
     public function getDefaultHeaders(): array
     {
         return [
-            'User-Agent' => 'Telegram Bot SDK/' . Api::VERSION . ' - (https://github.com/telegram-bot-sdk/telegram-bot-sdk)',
+            'User-Agent' => 'Telegram-Bot-SDK/Telegram-Bot-SDK',
         ];
     }
 
