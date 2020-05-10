@@ -27,7 +27,7 @@ jobs:
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
     env:
-      EXTENSIONS: dom, curl, bcmath, libxml, mbstring, fileinfo
+      EXTENSIONS: dom, curl, mbstring, fileinfo
       EXT_CACHE_KEY: ext-cache-v1
 
     steps:
@@ -54,7 +54,8 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
-          coverage: none #pcov
+          coverage: pcov
+          tools: prestissimo
 
       - name: Get composer cache directory
         id: composer-cache
