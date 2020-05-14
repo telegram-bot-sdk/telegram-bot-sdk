@@ -4,6 +4,7 @@ namespace Telegram\Bot;
 
 use BadMethodCallException;
 use Illuminate\Support\Traits\Macroable;
+use Telegram\Bot\Exceptions\TelegramLoginAuthException;
 
 /**
  * Class Api.
@@ -38,6 +39,43 @@ class Api
     public function __construct(string $token = null)
     {
         $this->accessToken = $token;
+    }
+
+    /**
+     * Determine given login auth data is valid.
+     *
+     * @param array $auth_data
+     *
+     * @throws TelegramLoginAuthException
+     *
+     * @return array
+     */
+    public function isLoginAuthDataValid(array $auth_data): array
+    {
+        if (!isset($auth_data['hash'])) {
+            throw TelegramLoginAuthException::hashNotFound();
+        }
+
+        $check_hash = $auth_data['hash'];
+
+        $data_check_string = collect($auth_data)
+            ->only(['username', 'auth_date', 'first_name', 'last_name', 'photo_url', 'id'])
+            ->map(fn ($value, $key) => $key . '=' . $value)
+            ->sort()
+            ->implode("\n");
+
+        $secret_key = hash('sha256', $this->accessToken, true);
+        $hash = hash_hmac('sha256', $data_check_string, $secret_key);
+
+        if (!hash_equals($hash, $check_hash)) {
+            throw TelegramLoginAuthException::dataNotFromTelegram();
+        }
+
+        if ((time() - $auth_data['auth_date']) > 86400) {
+            throw TelegramLoginAuthException::dataOutdated();
+        }
+
+        return $auth_data;
     }
 
     /**
