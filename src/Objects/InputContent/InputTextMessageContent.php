@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\InputContent;
 
-use Telegram\Bot\Objects\InlineQuery\InlineBaseObject;
+use Telegram\Bot\Objects\AbstractCreateObject;
 
 /**
  * Class InputTextMessageContent.
@@ -19,10 +19,10 @@ use Telegram\Bot\Objects\InlineQuery\InlineBaseObject;
  *
  * @link https://core.telegram.org/bots/api#inputtextmessagecontent
  *
- * @method $this messageText($string)           Required. Text of the message to be sent, 1-4096 characters.
- * @method $this parseMode($string)             (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
- * @method $this disableWebPagePreview($bool)   (Optional). Disables link previews for links in the sent message
+ * @method $this messageText(string $messageText)                   Required. Text of the message to be sent, 1-4096 characters.
+ * @method $this parseMode(string $parseMode)                       (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+ * @method $this disableWebPagePreview(bool $disableWebPagePreview) (Optional). Disables link previews for links in the sent message
  */
-class InputTextMessageContent extends InlineBaseObject
+class InputTextMessageContent extends AbstractCreateObject
 {
 }

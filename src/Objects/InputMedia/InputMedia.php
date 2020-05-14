@@ -2,19 +2,26 @@
 
 namespace Telegram\Bot\Objects\InputMedia;
 
-use Telegram\Bot\Objects\BaseCreateObject;
+use Telegram\Bot\Objects\AbstractCreateObject;
 
 /**
  * Class InputMedia.
  *
  * This object represents the content of a media message to be sent.
  */
-abstract class InputMedia extends BaseCreateObject
+abstract class InputMedia extends AbstractCreateObject
 {
     protected string $type;
 
-    protected function toArray(): array
+    /**
+     * Create a new object.
+     *
+     * @param array $fields
+     */
+    public function __construct(array $fields = [])
     {
-        return array_merge($this->fields, ['type' => $this->type]);
+        $fields['type'] = $this->type;
+
+        parent::__construct($fields);
     }
 }

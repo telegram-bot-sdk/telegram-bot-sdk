@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\InputContent;
 
-use Telegram\Bot\Objects\InlineQuery\InlineBaseObject;
+use Telegram\Bot\Objects\AbstractCreateObject;
 
 /**
  * Class InputVenueMessageContent.
@@ -22,13 +22,13 @@ use Telegram\Bot\Objects\InlineQuery\InlineBaseObject;
  *
  * @link https://core.telegram.org/bots/api#inputvenuemessagecontent
  *
- * @method $this latitude($float)             Required. Latitude of the location in degrees
- * @method $this longitude($float)            Required. Longitude of the location in degrees
- * @method $this title($string)               Required. Name of the venue
- * @method $this address($string)             Required. Address of the venue
- * @method $this foursquareIdTitle($string)   (Optional). Foursquare identifier of the venue, if known
- * @method $this foursquareType($string)      (Optional). Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
+ * @method $this latitude(float $latitude)              Required. Latitude of the location in degrees
+ * @method $this longitude(float $longitude)            Required. Longitude of the location in degrees
+ * @method $this title(string $title)                   Required. Name of the venue
+ * @method $this address(string $address)               Required. Address of the venue
+ * @method $this foursquareId(string $foursquareId)     (Optional). Foursquare identifier of the venue, if known
+ * @method $this foursquareType(string $foursquareType) (Optional). Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
  */
-class InputVenueMessageContent extends InlineBaseObject
+class InputVenueMessageContent extends AbstractCreateObject
 {
 }

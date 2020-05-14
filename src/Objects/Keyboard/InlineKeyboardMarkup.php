@@ -10,6 +10,6 @@ namespace Telegram\Bot\Objects\Keyboard;
  *
  * @link https://core.telegram.org/bots/api#inlinekeyboardmarkup
  */
-class InlineKeyboardMarkup extends BaseKeyboard
+class InlineKeyboardMarkup extends AbstractKeyboard
 {
 }

@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\InputContent;
 
-use Telegram\Bot\Objects\InlineQuery\InlineBaseObject;
+use Telegram\Bot\Objects\AbstractCreateObject;
 
 /**
  * Class InputLocationMessageContent.
@@ -18,10 +18,10 @@ use Telegram\Bot\Objects\InlineQuery\InlineBaseObject;
  *
  * @link https://core.telegram.org/bots/api#inputlocationmessagecontent
  *
- * @method $this latitude($float)    Required. Latitude of the location in degrees
- * @method $this longitude($float)   Required. Longitude of the location in degrees
- * @method $this livePeriod($int)    (Optional). Period in seconds for which the location can be updated, should be between 60 and 86400.
+ * @method $this latitude(float $latitude)      Required. Latitude of the location in degrees
+ * @method $this longitude(float $longitude)    Required. Longitude of the location in degrees
+ * @method $this livePeriod(int $livePeriod)    (Optional). Period in seconds for which the location can be updated, should be between 60 and 86400.
  */
-class InputLocationMessageContent extends InlineBaseObject
+class InputLocationMessageContent extends AbstractCreateObject
 {
 }

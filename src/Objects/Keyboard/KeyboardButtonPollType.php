@@ -7,11 +7,11 @@ class KeyboardButtonPollType
     /**
      * Represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
      *
-     * @link https://core.telegram.org/bots/apikeyboardbuttonpolltype
+     * @link https://core.telegram.org/bots/api#keyboardbuttonpolltype
      *
      * @return array
      */
-    public static function setAsQuiz()
+    public static function quiz(): array
     {
         return ['type' => 'quiz'];
     }
@@ -19,11 +19,11 @@ class KeyboardButtonPollType
     /**
      * Represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
      *
-     * @link https://core.telegram.org/bots/apikeyboardbuttonpolltype
+     * @link https://core.telegram.org/bots/api#keyboardbuttonpolltype
      *
      * @return array
      */
-    public static function setAsRegular()
+    public static function regular(): array
     {
         return ['type' => 'regular'];
     }
@@ -31,11 +31,11 @@ class KeyboardButtonPollType
     /**
      * Represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
      *
-     * @link https://core.telegram.org/bots/apikeyboardbuttonpolltype
+     * @link https://core.telegram.org/bots/api#keyboardbuttonpolltype
      *
      * @return array
      */
-    public static function setAsAny()
+    public static function any(): array
     {
         return ['type' => ''];
     }
