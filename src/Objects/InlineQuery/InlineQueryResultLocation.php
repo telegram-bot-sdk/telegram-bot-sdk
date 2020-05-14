@@ -34,7 +34,7 @@ namespace Telegram\Bot\Objects\InlineQuery;
  * @method $this thumbWidth($int)                (Optional). Thumbnail width
  * @method $this thumbHeight($int)               (Optional). Thumbnail height
  */
-class InlineQueryResultLocation extends InlineBaseObject
+class InlineQueryResultLocation extends AbstractInlineObject
 {
     protected string $type = 'location';
 }

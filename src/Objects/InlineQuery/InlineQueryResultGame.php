@@ -21,7 +21,7 @@ namespace Telegram\Bot\Objects\InlineQuery;
  * @method $this gameShortName($string) Required. Short name of the game.
  * @method $this replyMarkup($object)   (Optional). Inline keyboard attached to the message
  */
-class InlineQueryResultGame extends InlineBaseObject
+class InlineQueryResultGame extends AbstractInlineObject
 {
     protected string $type = 'game';
 }

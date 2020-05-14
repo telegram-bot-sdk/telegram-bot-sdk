@@ -40,7 +40,7 @@ namespace Telegram\Bot\Objects\InlineQuery;
  * @method $this thumbWidth($int)                (Optional). Thumbnail width
  * @method $this thumbHeight($int)               (Optional). Thumbnail height
  */
-class InlineQueryResultVenue extends InlineBaseObject
+class InlineQueryResultVenue extends AbstractInlineObject
 {
     protected string $type = 'venue';
 }

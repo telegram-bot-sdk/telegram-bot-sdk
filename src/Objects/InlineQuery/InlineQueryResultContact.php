@@ -36,7 +36,7 @@ namespace Telegram\Bot\Objects\InlineQuery;
  * @method $this thumbWidth($int)                (Optional). Thumbnail width
  * @method $this thumbHeight($int)               (Optional). Thumbnail height
  */
-class InlineQueryResultContact extends InlineBaseObject
+class InlineQueryResultContact extends AbstractInlineObject
 {
     protected string $type = 'contact';
 }

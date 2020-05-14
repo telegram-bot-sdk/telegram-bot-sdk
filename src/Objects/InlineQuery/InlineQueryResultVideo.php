@@ -46,7 +46,7 @@ namespace Telegram\Bot\Objects\InlineQuery;
  * @method $this replyMarkup($object)            (Optional). Inline keyboard attached to the message
  * @method $this inputMessageContent($object)    (Optional). Content of the message to be sent instead of the photo
  */
-class InlineQueryResultVideo extends InlineBaseObject
+class InlineQueryResultVideo extends AbstractInlineObject
 {
     protected string $type = 'video';
 }
