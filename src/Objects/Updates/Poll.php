@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Updates;
 
-use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\AbstractObject;
 use Telegram\Bot\Objects\MessageEntity;
 use Telegram\Bot\Objects\PollOption;
 
@@ -25,7 +25,7 @@ use Telegram\Bot\Objects\PollOption;
  * @property int             $open_period               (Optional). Amount of time in seconds the poll will be active after creation
  * @property int             $close_date                (Optional). Point in time (Unix timestamp) when the poll will be automatically closed
  */
-class Poll extends BaseObject
+class Poll extends AbstractObject
 {
     public function relations(): array
     {

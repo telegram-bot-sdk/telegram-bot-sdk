@@ -16,7 +16,7 @@ namespace Telegram\Bot\Objects;
  * @property int       $file_size      (Optional). File size.
  * @property PhotoSize $thumb          (Optional). Thumbnail of the album cover to which the music file belongs
  */
-class Audio extends BaseObject
+class Audio extends AbstractObject
 {
     public function relations(): array
     {

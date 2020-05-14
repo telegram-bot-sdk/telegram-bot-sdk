@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\AbstractObject;
 
 /**
  * @link https://core.telegram.org/bots/api#filecredentials
@@ -10,6 +10,6 @@ use Telegram\Bot\Objects\BaseObject;
  * @property string $file_hash     Checksum of encrypted file
  * @property string $secret        Secret of encrypted file
  */
-class FileCredentials extends BaseObject
+class FileCredentials extends AbstractObject
 {
 }

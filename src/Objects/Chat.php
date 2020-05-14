@@ -24,7 +24,7 @@ use Telegram\Bot\Objects\InputMedia\InputMedia;
  * @property string          $sticker_set_name     (Optional). For supergroups, name of group sticker set. Returned only in getChat.
  * @property bool            $can_set_sticker_set  (Optional). True, if the bot can change the group sticker set. Returned only in getChat.
  */
-class Chat extends BaseObject
+class Chat extends AbstractObject
 {
     public function relations(): array
     {

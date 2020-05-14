@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Updates;
 
-use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\AbstractObject;
 use Telegram\Bot\Objects\Payments\OrderInfo;
 use Telegram\Bot\Objects\User;
 
@@ -19,7 +19,7 @@ use Telegram\Bot\Objects\User;
  * @property string    $shipping_option_id       (Optional). Identifier of the shipping option chosen by the user
  * @property OrderInfo $order_info               (Optional). Order info provided by the user
  */
-class PreCheckoutQuery extends BaseObject
+class PreCheckoutQuery extends AbstractObject
 {
     public function relations(): array
     {

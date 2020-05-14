@@ -17,7 +17,7 @@ namespace Telegram\Bot\Objects;
  * @property string    $mime_type      (Optional). MIME type of the file as defined by sender.
  * @property int       $file_size      (Optional). File size.
  */
-class Animation extends BaseObject
+class Animation extends AbstractObject
 {
     public function relations(): array
     {

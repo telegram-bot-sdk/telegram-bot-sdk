@@ -17,6 +17,6 @@ namespace Telegram\Bot\Objects;
  * @property int    $max_connections         (Optional). Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
  * @property array  $allowed_updates         (Optional). A list of update types the bot is subscribed to. Defaults to all update types
  */
-class WebhookInfo extends BaseObject
+class WebhookInfo extends AbstractObject
 {
 }

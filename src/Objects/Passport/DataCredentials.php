@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\AbstractObject;
 
 /**
  * @link https://core.telegram.org/bots/api#datacredentials
@@ -10,6 +10,6 @@ use Telegram\Bot\Objects\BaseObject;
  * @property string $data_hash     Checksum of encrypted data
  * @property string $secret        Secret of encrypted data
  */
-class DataCredentials extends BaseObject
+class DataCredentials extends AbstractObject
 {
 }

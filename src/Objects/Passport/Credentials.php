@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\AbstractObject;
 
 /**
  * @link https://core.telegram.org/bots/api#credentials
@@ -10,7 +10,7 @@ use Telegram\Bot\Objects\BaseObject;
  * @property SecureData $secure_data   Credentials for encrypted data
  * @property string     $nonce         Bot-specified nonce
  */
-class Credentials extends BaseObject
+class Credentials extends AbstractObject
 {
     public function relations(): array
     {

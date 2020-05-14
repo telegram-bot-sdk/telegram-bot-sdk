@@ -10,6 +10,6 @@ namespace Telegram\Bot\Objects;
  * @property float $longitude  Longitude as defined by sender.
  * @property float $latitude   Latitude as defined by sender.
  */
-class Location extends BaseObject
+class Location extends AbstractObject
 {
 }

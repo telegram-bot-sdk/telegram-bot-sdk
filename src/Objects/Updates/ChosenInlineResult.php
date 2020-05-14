@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Updates;
 
-use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\AbstractObject;
 use Telegram\Bot\Objects\Location;
 use Telegram\Bot\Objects\User;
 
@@ -17,7 +17,7 @@ use Telegram\Bot\Objects\User;
  * @property string   $inline_message_id  (Optional). Identifier of the sent inline message. Available only if there is an inline keyboard attached to the message. Will be also received in callback queries and can be used to edit the message.
  * @property string   $query              The query that was used to obtain the result.
  */
-class ChosenInlineResult extends BaseObject
+class ChosenInlineResult extends AbstractObject
 {
     public function relations(): array
     {

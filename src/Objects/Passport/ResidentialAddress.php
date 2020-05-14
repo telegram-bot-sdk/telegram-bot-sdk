@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\AbstractObject;
 
 /**
  * @link https://core.telegram.org/bots/api#residentialaddress
@@ -14,6 +14,6 @@ use Telegram\Bot\Objects\BaseObject;
  * @property string $country_code     ISO 3166-1 alpha-2 country code
  * @property string $post_code        Address post code
  */
-class ResidentialAddress extends BaseObject
+class ResidentialAddress extends AbstractObject
 {
 }

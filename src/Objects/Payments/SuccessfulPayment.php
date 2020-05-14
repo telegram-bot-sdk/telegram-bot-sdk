@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Payments;
 
-use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\AbstractObject;
 
 /**
  * @link https://core.telegram.org/bots/api#invoice
@@ -15,7 +15,7 @@ use Telegram\Bot\Objects\BaseObject;
  * @property string    $telegram_payment_charge_id           Telegram payment identifier.
  * @property string    $provider_payment_charge_id           Provider payment identifier.
  */
-class SuccessfulPayment extends BaseObject
+class SuccessfulPayment extends AbstractObject
 {
     public function relations(): array
     {

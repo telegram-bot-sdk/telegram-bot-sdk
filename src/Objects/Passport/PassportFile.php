@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\BaseObject;
+use Telegram\Bot\Objects\AbstractObject;
 
 /**
  * @link https://core.telegram.org/bots/api#passportfile
@@ -12,6 +12,6 @@ use Telegram\Bot\Objects\BaseObject;
  * @property int    $file_size             File size
  * @property int    $file_date             Unix time when the file was uploaded
  */
-class PassportFile extends BaseObject
+class PassportFile extends AbstractObject
 {
 }
