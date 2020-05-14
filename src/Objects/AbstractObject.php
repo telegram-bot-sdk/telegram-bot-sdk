@@ -12,9 +12,9 @@ use JsonSerializable;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
 /**
- * Class BaseObject.
+ * Class AbstractObject.
  */
-abstract class BaseObject implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
+abstract class AbstractObject implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
 {
     /** @var object|array The fields contained in the object. */
     protected $fields;
@@ -331,7 +331,7 @@ abstract class BaseObject implements ArrayAccess, Countable, IteratorAggregate, 
             return $relations[$field]::make($value);
         }
 
-        /** @var BaseObject $class */
+        /** @var AbstractObject $class */
         $class = 'Telegram\Bot\Objects\\' . Str::studly($field);
 
         if (class_exists($class)) {

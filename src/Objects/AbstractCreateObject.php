@@ -6,12 +6,12 @@ use Illuminate\Support\Str;
 use JsonSerializable;
 
 /**
- * Class BaseCreateObject
+ * Class AbstractCreateObject
  *
  * This base class is used for when the user needs to create
  * an object to be sent TO telegram..
  */
-abstract class BaseCreateObject implements JsonSerializable
+abstract class AbstractCreateObject implements JsonSerializable
 {
     protected array $fields;
 
@@ -25,6 +25,13 @@ abstract class BaseCreateObject implements JsonSerializable
         $this->fields = $fields;
     }
 
+    /**
+     * Make object with given data.
+     *
+     * @param mixed $data
+     *
+     * @return static
+     */
     public static function make(array $data = []): self
     {
         return new static($data);
@@ -47,22 +54,44 @@ abstract class BaseCreateObject implements JsonSerializable
     }
 
     /**
+     * Get the object of fields as an associative array.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->fields;
+    }
+
+    /**
      * Convert the object into something JSON serializable.
      *
      * @return array
      */
     public function jsonSerialize()
     {
-        return $this->toArray();
+        return $this->fields;
     }
 
     /**
-     * Get the object of fields as an associative array.
+     * Get the fields as JSON.
      *
-     * @return array
+     * @param int $options
+     *
+     * @return string
      */
-    protected function toArray(): array
+    public function toJson($options = 0): string
     {
-        return $this->fields;
+        return json_encode($this->fields, $options);
+    }
+
+    /**
+     * Convert the collection to its string representation.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
     }
 }
