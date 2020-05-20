@@ -75,8 +75,8 @@ trait Chat
      *
      * <code>
      * $params = [
-     *      'chat_id'  => '',  // string|int - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *      'photo'    => '',  // InputFile  - Required. New chat photo, uploaded using multipart/form-data
+     *      'chat_id'  => '',                      // string|int - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *      'photo'    => InputFile::file($file), // InputFile  - Required. New chat photo, uploaded using multipart/form-data
      * ]
      * </code>
      *
