@@ -18,7 +18,7 @@ class TelegramClient
     use HasAccessToken;
 
     /** @var string Telegram Bot API URL. */
-    protected string $baseBotUrl = 'https://api.telegram.org/bot';
+    protected string $baseApiUrl = 'https://api.telegram.org/bot';
 
     /** @var HttpClientInterface|null HTTP Client. */
     protected ?HttpClientInterface $httpClientHandler = null;
@@ -27,10 +27,10 @@ class TelegramClient
     protected bool $isAsyncRequest = false;
 
     /** @var int Timeout of the request in seconds. */
-    protected int $timeOut = 60;
+    protected int $timeout = 60;
 
     /** @var int Connection timeout of the request in seconds. */
-    protected int $connectTimeOut = 10;
+    protected int $connectTimeout = 10;
 
     /** @var TelegramResponse|null Stores the last request made to Telegram Bot API. */
     protected ?TelegramResponse $lastResponse;
@@ -70,25 +70,25 @@ class TelegramClient
     }
 
     /**
-     * Get the Base Bot API URL.
+     * Get the Base API URL.
      *
      * @return string
      */
-    public function getBaseBotUrl(): string
+    public function getBaseApiUrl(): string
     {
-        return $this->baseBotUrl;
+        return $this->baseApiUrl;
     }
 
     /**
-     * Set the Base Bot API URL.
+     * Set the Base API URL.
      *
-     * @param string $baseBotUrl
+     * @param string $baseApiUrl
      *
      * @return $this
      */
-    public function setBaseBotApiUrl(string $baseBotUrl): self
+    public function setBaseApiUrl(string $baseApiUrl): self
     {
-        $this->baseBotUrl = $baseBotUrl;
+        $this->baseApiUrl = $baseApiUrl;
 
         return $this;
     }
@@ -120,19 +120,19 @@ class TelegramClient
     /**
      * @return int
      */
-    public function getTimeOut(): int
+    public function getTimeout(): int
     {
-        return $this->timeOut;
+        return $this->timeout;
     }
 
     /**
-     * @param int $timeOut
+     * @param int $timeout
      *
      * @return $this
      */
-    public function setTimeOut(int $timeOut): self
+    public function setTimeout(int $timeout): self
     {
-        $this->timeOut = $timeOut;
+        $this->timeout = $timeout;
 
         return $this;
     }
@@ -140,19 +140,19 @@ class TelegramClient
     /**
      * @return int
      */
-    public function getConnectTimeOut(): int
+    public function getConnectTimeout(): int
     {
-        return $this->connectTimeOut;
+        return $this->connectTimeout;
     }
 
     /**
-     * @param int $connectTimeOut
+     * @param int $connectTimeout
      *
      * @return $this
      */
-    public function setConnectTimeOut(int $connectTimeOut): self
+    public function setConnectTimeout(int $connectTimeout): self
     {
-        $this->connectTimeOut = $connectTimeOut;
+        $this->connectTimeout = $connectTimeout;
 
         return $this;
     }
@@ -353,8 +353,8 @@ class TelegramClient
             $params,
             $this->isAsyncRequest()
         ))
-            ->setTimeOut($this->getTimeOut())
-            ->setConnectTimeOut($this->getConnectTimeOut());
+            ->setTimeout($this->getTimeout())
+            ->setConnectTimeout($this->getConnectTimeout());
     }
 
     /**
@@ -373,8 +373,8 @@ class TelegramClient
         $request = $this->resolveTelegramRequest($method, $endpoint, $params);
 
         $rawResponse = $this->getHttpClientHandler()
-            ->setTimeOut($request->getTimeOut())
-            ->setConnectTimeOut($request->getConnectTimeOut())
+            ->setTimeout($request->getTimeout())
+            ->setConnectTimeout($request->getConnectTimeout())
             ->send(
                 $this->makeApiUrl($request),
                 $request->getMethod(),
@@ -402,7 +402,7 @@ class TelegramClient
      */
     protected function makeApiUrl(TelegramRequest $request): string
     {
-        return $this->getBaseBotUrl() . $request->getAccessToken() . '/' . $request->getEndpoint();
+        return $this->getBaseApiUrl() . $request->getAccessToken() . '/' . $request->getEndpoint();
     }
 
     /**

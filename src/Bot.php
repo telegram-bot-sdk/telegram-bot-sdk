@@ -45,8 +45,8 @@ class Bot
         $this->config = $config;
 
         $this->api = new Api($this->config('token'));
-        $this->api->setAsyncRequest($this->config('async_requests', false));
-        $this->setHttpClientHandler($this->config('http_client_handler', GuzzleHttpClient::class));
+        $this->api->setAsyncRequest($this->config('global.async_requests', false));
+        $this->setHttpClientHandler($this->config('global.http_client_handler', GuzzleHttpClient::class));
 
         $this->eventFactory = new EventFactory();
 

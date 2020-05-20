@@ -24,10 +24,10 @@ class GuzzleHttpClient implements HttpClientInterface
     protected ClientInterface $client;
 
     /** @var int Timeout of the request in seconds. */
-    protected int $timeOut = 30;
+    protected int $timeout = 30;
 
     /** @var int Connection timeout of the request in seconds. */
-    protected int $connectTimeOut = 10;
+    protected int $connectTimeout = 10;
 
     /**
      * GuzzleHttpClient constructor.
@@ -76,17 +76,17 @@ class GuzzleHttpClient implements HttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getTimeOut(): int
+    public function getTimeout(): int
     {
-        return $this->timeOut;
+        return $this->timeout;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setTimeOut($timeOut): self
+    public function setTimeout($timeout): self
     {
-        $this->timeOut = $timeOut;
+        $this->timeout = $timeout;
 
         return $this;
     }
@@ -94,17 +94,17 @@ class GuzzleHttpClient implements HttpClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getConnectTimeOut(): int
+    public function getConnectTimeout(): int
     {
-        return $this->connectTimeOut;
+        return $this->connectTimeout;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setConnectTimeOut($connectTimeOut): self
+    public function setConnectTimeout($connectTimeout): self
     {
-        $this->connectTimeOut = $connectTimeOut;
+        $this->connectTimeout = $connectTimeout;
 
         return $this;
     }
@@ -145,33 +145,21 @@ class GuzzleHttpClient implements HttpClientInterface
     /**
      * Prepares and returns request options.
      *
-     * @param array             $headers
-     * @param                   $body
-     * @param array             $options
-     * @param bool              $isAsyncRequest
-     * @param string|array|null $proxy
+     * @param array $headers
+     * @param mixed $body
+     * @param array $options
+     * @param bool  $isAsyncRequest
      *
      * @return array
      */
-    private function getOptions(
-        array $headers,
-        $body,
-        $options,
-        bool $isAsyncRequest = false,
-        $proxy = null
-    ): array {
-        $default_options = [
+    private function getOptions(array $headers, $body, array $options, bool $isAsyncRequest = false): array
+    {
+        return array_merge([
             RequestOptions::HEADERS         => $headers,
             RequestOptions::BODY            => $body,
-            RequestOptions::TIMEOUT         => $this->getTimeOut(),
-            RequestOptions::CONNECT_TIMEOUT => $this->getConnectTimeOut(),
+            RequestOptions::TIMEOUT         => $this->timeout,
+            RequestOptions::CONNECT_TIMEOUT => $this->connectTimeout,
             RequestOptions::SYNCHRONOUS     => !$isAsyncRequest,
-        ];
-
-        if ($proxy !== null) {
-            $default_options[RequestOptions::PROXY] = $proxy;
-        }
-
-        return array_merge($default_options, $options);
+        ], $options);
     }
 }

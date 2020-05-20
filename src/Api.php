@@ -96,11 +96,11 @@ class Api
             return $this->{$method}(...$arguments);
         }
 
-        if (in_array($method, ['getConnectTimeOut', 'getTimeOut', 'isAsyncRequest'])) {
+        if (in_array($method, ['getConnectTimeout', 'getTimeout', 'isAsyncRequest'])) {
             return $this->getClient()->{$method}();
         }
 
-        if (in_array($method, ['setConnectTimeOut', 'setTimeOut', 'setAsyncRequest'])) {
+        if (in_array($method, ['setConnectTimeout', 'setTimeout', 'setAsyncRequest'])) {
             $this->getClient()->{$method}(...$arguments);
 
             return $this;
