@@ -231,127 +231,16 @@ class TelegramClient
             throw CouldNotUploadInputFile::missingParam($inputFileField);
         }
 
-/**
-When we get here from a normal method like sendPhoto, we take parameters like this:
-
-        [
-            'chat_id' => 12443287,
-            'photo'   => InputFile::create('file1.png'),
-            'caption' => 'My caption',
-        ];
-
-And turn it into
-
-        [
-            'multipart' => [
-                [
-                    'name'     => 'chat_id',
-                    'contents' => '12443287',
-                ],
-                [
-                    'name'     => 'photo',
-                    'contents' => 'Allthefilecontentshere',
-                    'filename' => 'file1.png'
-                ],
-                [
-                    'name'     => 'caption',
-                    'contents' => 'My caption',
-                ],
-        ];
- Each key of the params array becomes the value for the name key in the multipart array.
-
-
- However when we use sendMediaGroup, this is NOT how it works. Instead we must provide a params array like this:
-
-
-        [
-            'chat_id' => 12443287,
-            'media'   => [
-                [
-                    'type' => 'photo',
-                    'media' => 'attach://ahsgdnagsah',
-                    'caption' => 'My Caption 1'
-                ],
-                [
-                    'type' => 'photo',
-                    'media' => 'attach://jhhxvbvjhsj',
-                    'caption' => 'My Caption 2'
-                ],
-                [
-                    'type' => 'photo',
-                    'media' => 'attach://twhsjahjsjj',
-                    'caption' => 'My Caption 3'
-                ]
-            ],
-        ];
-
- Notice how there are TWO levels of media keys.
- The second level MEDIA key does NOT contain the file contents. It only contains a reference to what key must be included
- in the final multipart array when it is send via guzzle.
-
- In this case we must have 3 arrays in the final multipart array that have a name of   ahsgdnagsah, jhhxvbvjhsj, and twhsjahjsjj.
-  I can find no reference in docs as to what these names should be or how they should be created so I have just made a random
- string when generating them. Seems to work
-
-The FIRST level media key containing all this description must be json encoded. So our final multipart array will look like this:
-
-        [
-            'multipart' => [
-                [
-                    'name'     => 'chat_id',
-                    'contents' => '12443287',
-                ],
-                [
-                    'name'     => 'media',
-                    'contents' => '[{"media":"attach:\/\/ahsgdnagsah","caption":"My caption 1","type":"photo"},{"media":"attach:\/\/jhhxvbvjhsj","caption":"My caption 2","type":"photo"},{"media":"attach:\/\/twhsjahjsjj","caption":"My caption 3","type":"photo"}]',
-                ],
-                [
-                    'name'     => 'ahsgdnagsah',
-                    'contents' => 'Actual File Contents...use a stream here',
-                    'filename' => 'file1.png'
-                ],
-                [
-                    'name'     => '91dbb935df',
-                    'contents' => 'Actual File Contents...use a stream here',
-                    'filename' => 'file2.png'
-                ],
-                [
-                    'name'     => '99ca7d9191',
-                    'contents' => 'Actual File Contents...use a stream here',
-                    'filename' => 'file3.png'
-                ],
-            ],
-        ]
-
-
-So this is where I'm struggling with the implementation.
-
-Using sendMediaGroup as example, we receive the params and the media key is an array of say InputMediaPhoto
-When this gets json_encoded, I have got it to return the correct string to provide the description as mentioned above.
-Then, I can go through each param and convert it into a a multipart array equivilent.
-
-BUT when it comes to the media key, THAT is an array. And it is an array describing how to add MORE keys to the multipart array
-ie. I'm not mapping the media key directly...I'm trying to read what the media key HAS and use that to generate another item to
-add to the multipart array. That part I am finding very tricky.
-
- Trying to break the code down below to be easy to follow....but it's not!
- **/
-
-        //Generate the multipart array normally for the params like usual.
-        //This covers most methods with a single file upload in ONE parameter.
         $encodedMultipartParams = collect(
             $this->convertParamsToMultipart($this->jsonEncodeSpecified($params, $jsonEncode), $inputFileField)
         );
 
-        //If there are an array of files that need to be uploaded we need to generate the multipart data for each of
-        //those now by using the name we gave/generated in the original media key.
         $extraMultiParts = $this->generateMultipartDataForArrayOfFiles($params[$inputFileField]);
 
         $multipart = [
             'multipart' => $encodedMultipartParams->merge($extraMultiParts)->all(),
         ];
 
-        // Sending an actual file requires it to be sent using multipart/form-data
         return $this->sendRequest('POST', $endpoint, $multipart);
     }
 
@@ -427,14 +316,8 @@ add to the multipart array. That part I am finding very tricky.
         }
 
         return collect($multipleFiles)
-            //Get the InputFile from every InputMedia Object in this array.
             ->map(fn (InputMedia $item) => $item->getInputFile())
-
-            // If the user only supplied a URL or file_id as a string and not a InputFile, then we can
-            // ignore it, we only need to do this for uploaded files.
             ->filter(fn ($item) => $item instanceof InputFile)
-
-            //Generate a new multipart array for each New Input File.
             ->map(function (InputFile $inputFile) {
                 return $this->generateMultipartData($inputFile, $inputFile->getMultiPartName());
             })
