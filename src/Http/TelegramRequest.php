@@ -34,10 +34,10 @@ class TelegramRequest
     protected bool $isAsyncRequest = false;
 
     /** @var int Timeout of the request in seconds. */
-    protected int $timeOut;
+    protected int $timeout;
 
     /** @var int Connection timeout of the request in seconds. */
-    protected int $connectTimeOut;
+    protected int $connectTimeout;
 
     /**
      * Creates a new Request entity.
@@ -227,21 +227,21 @@ class TelegramRequest
      *
      * @return int
      */
-    public function getTimeOut(): int
+    public function getTimeout(): int
     {
-        return $this->timeOut;
+        return $this->timeout;
     }
 
     /**
      * Set Timeout.
      *
-     * @param int $timeOut
+     * @param int $timeout
      *
      * @return TelegramRequest
      */
-    public function setTimeOut(int $timeOut): self
+    public function setTimeout(int $timeout): self
     {
-        $this->timeOut = $timeOut;
+        $this->timeout = $timeout;
 
         return $this;
     }
@@ -251,21 +251,21 @@ class TelegramRequest
      *
      * @return int
      */
-    public function getConnectTimeOut(): int
+    public function getConnectTimeout(): int
     {
-        return $this->connectTimeOut;
+        return $this->connectTimeout;
     }
 
     /**
      * Set Connection Timeout.
      *
-     * @param int $connectTimeOut
+     * @param int $connectTimeout
      *
      * @return TelegramRequest
      */
-    public function setConnectTimeOut(int $connectTimeOut): self
+    public function setConnectTimeout(int $connectTimeout): self
     {
-        $this->connectTimeOut = $connectTimeOut;
+        $this->connectTimeout = $connectTimeout;
 
         return $this;
     }

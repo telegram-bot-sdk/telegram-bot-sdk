@@ -136,11 +136,7 @@ class BotManager
         $config['bot'] = $name;
         $config['global'] = $this->config();
 
-        // Merge global config with bot config.
-        return array_merge([
-            'http_client_handler' => $this->config('http_client_handler'),
-            'async_requests'      => $this->config('async_requests'),
-        ], $config);
+        return $config;
     }
 
     /**
@@ -154,12 +150,7 @@ class BotManager
      */
     protected function makeBot(string $name): Bot
     {
-        $config = $this->getBotConfig($name);
-
-        $bot = new Bot($config);
-        $bot->setContainer($this->getContainer());
-
-        return $bot;
+        return (new Bot($this->getBotConfig($name)))->setContainer($this->getContainer());
     }
 
     /**

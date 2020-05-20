@@ -31,7 +31,7 @@ interface HttpClientInterface
      *
      * @return int
      */
-    public function getTimeOut(): int;
+    public function getTimeout(): int;
 
     /**
      * Set Timeout.
@@ -40,14 +40,14 @@ interface HttpClientInterface
      *
      * @return $this
      */
-    public function setTimeOut(int $timeOut): self;
+    public function setTimeout(int $timeOut): self;
 
     /**
      * Get Connection Timeout.
      *
      * @return int
      */
-    public function getConnectTimeOut(): int;
+    public function getConnectTimeout(): int;
 
     /**
      * Set Connection Timeout.
@@ -56,5 +56,5 @@ interface HttpClientInterface
      *
      * @return $this
      */
-    public function setConnectTimeOut(int $connectTimeOut): self;
+    public function setConnectTimeout(int $connectTimeOut): self;
 }

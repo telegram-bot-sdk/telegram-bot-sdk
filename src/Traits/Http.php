@@ -16,11 +16,11 @@ use Telegram\Bot\Http\TelegramResponse;
  * @method string getAccessToken() getAccessToken() Get the bot access token.
  * @method self setAccessToken() setAccessToken(string $accessToken) Set the bot access token.
  *
- * @method int getConnectTimeOut() getConnectTimeOut() Connection timeout of the request in seconds.
- * @method self setConnectTimeOut() setConnectTimeOut(int $connectTimeOut) Connection timeout of the request in seconds.
+ * @method int getConnectTimeout() getConnectTimeout() Connection timeout of the request in seconds.
+ * @method self setConnectTimeout() setConnectTimeout(int $connectTimeout) Connection timeout of the request in seconds.
  *
- * @method int getTimeOut() getTimeOut() Timeout of the request in seconds.
- * @method self setTimeOut() setTimeOut(int $timeOut) Timeout of the request in seconds.
+ * @method int getTimeout() getTimeout() Timeout of the request in seconds.
+ * @method self setTimeout() setTimeout(int $timeout) Timeout of the request in seconds.
  *
  * @method bool isAsyncRequest() isAsyncRequest() Check if this is an asynchronous request (non-blocking).
  * @method self setAsyncRequest() setAsyncRequest(bool $isAsyncRequest) Make this request asynchronous (non-blocking).

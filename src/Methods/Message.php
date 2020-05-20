@@ -75,13 +75,13 @@ trait Message
      *
      * <code>
      * $params = [
-     *       'chat_id'               => '',  // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'photo'                 => '',  // InputFile|string - Required. Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data.
-     *       'caption'               => '',  // string           - (Optional). Photo caption (may also be used when resending photos by file_id), 0-200 characters
-     *       'parse_mode'            => '',  // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-     *       'disable_notification'  => '',  // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
-     *       'reply_to_message_id'   => '',  // int              - (Optional). If the message is a reply, ID of the original message
-     *       'reply_markup'          => '',  // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *       'chat_id'               => '',                      // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *       'photo'                 => InputFile::file($file),  // InputFile|string - Required. Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data.
+     *       'caption'               => '',                      // string           - (Optional). Photo caption (may also be used when resending photos by file_id), 0-200 characters
+     *       'parse_mode'            => '',                      // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+     *       'disable_notification'  => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'reply_to_message_id'   => '',                      // int              - (Optional). If the message is a reply, ID of the original message
+     *       'reply_markup'          => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      * ]
      * </code>
      *
@@ -105,17 +105,17 @@ trait Message
      *
      * <code>
      * $params = [
-     *       'chat_id'               => '',  // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'audio'                 => '',  // InputFile|string - Required. Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data.
-     *       'caption'               => '',  // string           - (Optional). Audio caption, 0-200 characters
-     *       'parse_mode'            => '',  // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-     *       'duration'              => '',  // int              - (Optional). Duration of the audio in seconds
-     *       'performer'             => '',  // string           - (Optional). Performer
-     *       'title'                 => '',  // string           - (Optional). Track name
-     *       'thumb'                 => '',  // InputFile|string - (Optional). Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>
-     *       'disable_notification'  => '',  // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
-     *       'reply_to_message_id'   => '',  // int              - (Optional). If the message is a reply, ID of the original message
-     *       'reply_markup'          => '',  // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *       'chat_id'               => '',                      // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *       'audio'                 => InputFile::file($file),  // InputFile|string - Required. Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data.
+     *       'caption'               => '',                      // string           - (Optional). Audio caption, 0-200 characters
+     *       'parse_mode'            => '',                      // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+     *       'duration'              => '',                      // int              - (Optional). Duration of the audio in seconds
+     *       'performer'             => '',                      // string           - (Optional). Performer
+     *       'title'                 => '',                      // string           - (Optional). Track name
+     *       'thumb'                 => InputFile::file($file),  // InputFile|string - (Optional). Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>
+     *       'disable_notification'  => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'reply_to_message_id'   => '',                      // int              - (Optional). If the message is a reply, ID of the original message
+     *       'reply_markup'          => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      * ]
      *
      * @link https://core.telegram.org/bots/api#sendaudio
@@ -139,13 +139,14 @@ trait Message
      *
      * <code>
      * $params = [
-     *       'chat_id'               => '',  // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'document'              => '',  // InputFile|string - Required. File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
-     *       'caption'               => '',  // string           - (Optional). Document caption (may also be used when resending documents by file_id), 0-200 characters
-     *       'parse_mode'            => '',  // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-     *       'disable_notification'  => '',  // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
-     *       'reply_to_message_id'   => '',  // int              - (Optional). If the message is a reply, ID of the original message
-     *       'reply_markup'          => '',  // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *       'chat_id'               => '',                      // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *       'document'              => InputFile::file($file),  // InputFile|string - Required. File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
+     *       'thumb'                 => InputFile::file($file),  // InputFile|string - (Optional). Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
+     *       'caption'               => '',                      // string           - (Optional). Document caption (may also be used when resending documents by file_id), 0-200 characters
+     *       'parse_mode'            => '',                      // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+     *       'disable_notification'  => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'reply_to_message_id'   => '',                      // int              - (Optional). If the message is a reply, ID of the original message
+     *       'reply_markup'          => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      * ]
      * </code>
      *
@@ -169,17 +170,18 @@ trait Message
      *
      * <code>
      * $params = [
-     *       'chat_id'               => '',  // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'video'                 => '',  // InputFile|string - Required. Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data.
-     *       'duration'              => '',  // int              - (Optional). Duration of sent video in seconds
-     *       'width'                 => '',  // int              - (Optional). Video width
-     *       'height'                => '',  // int              - (Optional). Video height
-     *       'caption'               => '',  // string           - Optional  Video caption (may also be used when resending videos by file_id), 0-200 characters.
-     *       'parse_mode'            => '',  // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-     *       'supports_streaming'    => '',  // bool             - (Optional). Pass True, if the uploaded video is suitable for streaming
-     *       'disable_notification'  => '',  // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
-     *       'reply_to_message_id'   => '',  // int              - (Optional). If the message is a reply, ID of the original message
-     *       'reply_markup'          => '',  // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *       'chat_id'               => '',                      // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *       'video'                 => InputFile::file($file),  // InputFile|string - Required. Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data.
+     *       'duration'              => '',                      // int              - (Optional). Duration of sent video in seconds
+     *       'width'                 => '',                      // int              - (Optional). Video width
+     *       'height'                => '',                      // int              - (Optional). Video height
+     *       'thumb'                 => InputFile::file($file),  // InputFile|string - (Optional). Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
+     *       'caption'               => '',                      // string           - (Optional). Video caption (may also be used when resending videos by file_id), 0-200 characters.
+     *       'parse_mode'            => '',                      // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+     *       'supports_streaming'    => '',                      // bool             - (Optional). Pass True, if the uploaded video is suitable for streaming
+     *       'disable_notification'  => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'reply_to_message_id'   => '',                      // int              - (Optional). If the message is a reply, ID of the original message
+     *       'reply_markup'          => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      * ]
      * </code>
      *
@@ -204,17 +206,17 @@ trait Message
      *
      * <code>
      * $params = [
-     *       'chat_id'               => '',  // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'animation'             => '',  // InputFile|string - Required. Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data.
-     *       'duration'              => '',  // int              - (Optional). Duration of sent animation in seconds
-     *       'width'                 => '',  // int              - (Optional). Animation width
-     *       'height'                => '',  // int              - (Optional). Animation height
-     *       'thumb'                 => '',  // InputFile|string - (Optional). Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>
-     *       'caption'               => '',  // string           - (Optional). Document caption (may also be used when resending documents by file_id), 0-200 characters
-     *       'parse_mode'            => '',  // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-     *       'disable_notification'  => '',  // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
-     *       'reply_to_message_id'   => '',  // int              - (Optional). If the message is a reply, ID of the original message
-     *       'reply_markup'          => '',  // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *       'chat_id'               => '',                      // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *       'animation'             => InputFile::file($file),  // InputFile|string - Required. Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data.
+     *       'duration'              => '',                      // int              - (Optional). Duration of sent animation in seconds
+     *       'width'                 => '',                      // int              - (Optional). Animation width
+     *       'height'                => '',                      // int              - (Optional). Animation height
+     *       'thumb'                 => InputFile::file($file),  // InputFile|string - (Optional). Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
+     *       'caption'               => '',                      // string           - (Optional). Document caption (may also be used when resending documents by file_id), 0-200 characters
+     *       'parse_mode'            => '',                      // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+     *       'disable_notification'  => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'reply_to_message_id'   => '',                      // int              - (Optional). If the message is a reply, ID of the original message
+     *       'reply_markup'          => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      * ]
      * </code>
      *
@@ -238,14 +240,14 @@ trait Message
      *
      * <code>
      * $params = [
-     *       'chat_id'               => '',  // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'voice'                 => '',  // InputFile|string - Required. Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
-     *       'caption'               => '',  // string           - (Optional). Voice message caption, 0-200 characters
-     *       'parse_mode'            => '',  // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-     *       'duration'              => '',  // int              - (Optional). Duration of the voice message in seconds
-     *       'disable_notification'  => '',  // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
-     *       'reply_to_message_id'   => '',  // int              - (Optional). If the message is a reply, ID of the original message
-     *       'reply_markup'          => '',  // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *       'chat_id'               => '',                       // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *       'voice'                 => InputFile::file($file),   // InputFile|string - Required. Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data.
+     *       'caption'               => '',                       // string           - (Optional). Voice message caption, 0-200 characters
+     *       'parse_mode'            => '',                       // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+     *       'duration'              => '',                       // int              - (Optional). Duration of the voice message in seconds
+     *       'disable_notification'  => '',                       // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'reply_to_message_id'   => '',                       // int              - (Optional). If the message is a reply, ID of the original message
+     *       'reply_markup'          => '',                       // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      * ]
      * </code>
      *
@@ -269,14 +271,14 @@ trait Message
      *
      * <code>
      * $params = [
-     *       'chat_id'               => '',  // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'video_note'            => '',  // InputFile|string - Required. Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data.
-     *       'duration'              => '',  // int              - (Optional). Duration of sent video in seconds
-     *       'length'                => '',  // int              - (Optional). Video width and height
-     *       'thumb'                 => '',  // InputFile|string - (Optional). Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 90. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>
-     *       'disable_notification'  => '',  // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
-     *       'reply_to_message_id'   => '',  // int              - (Optional). If the message is a reply, ID of the original message
-     *       'reply_markup'          => '',  // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *       'chat_id'               => '',                      // int|string       - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *       'video_note'            => InputFile::file($file),  // InputFile|string - Required. Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data.
+     *       'duration'              => '',                      // int              - (Optional). Duration of sent video in seconds
+     *       'length'                => '',                      // int              - (Optional). Video width and height
+     *       'thumb'                 => InputFile::file($file),  // InputFile|string - (Optional). Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
+     *       'disable_notification'  => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'reply_to_message_id'   => '',                      // int              - (Optional). If the message is a reply, ID of the original message
+     *       'reply_markup'          => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
      * ]
      * </code>
      *
