@@ -31,7 +31,7 @@ class InputFile implements JsonSerializable
     }
 
 
-    public static function local($file, $filename = null)
+    public static function file($file, $filename = null)
     {
         return new static(new LazyOpenStream($file, 'r+'), $filename);
     }
