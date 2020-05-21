@@ -321,7 +321,7 @@ trait Message
      */
     public function sendMediaGroup(array $params)
     {
-        $response = $this->post('sendMediaGroup', $params, false, ['media']);
+        $response = $this->uploadFile('sendMediaGroup', $params, 'media', ['media']);
 
         return new MessageObject($response->getDecodedBody());
     }

@@ -8,6 +8,7 @@ use Telegram\Bot\Exceptions\CouldNotUploadInputFile;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Helpers\Validator;
+use Telegram\Bot\Objects\InputMedia\InputMedia;
 use Telegram\Bot\Traits\HasAccessToken;
 
 /**
@@ -219,19 +220,28 @@ class TelegramClient
      * @throws TelegramSDKException
      * @return TelegramResponse
      */
-    public function uploadFile(string $endpoint, array $params, string $inputFileField, array $jsonEncode = []): TelegramResponse
-    {
-        //Check if the field in the $params array (that is being used to send the relative file), is a file id.
+    public function uploadFile(
+        string $endpoint,
+        array $params,
+        string $inputFileField,
+        array $jsonEncode = []
+    ): TelegramResponse {
+        //Check if the field in the $params array (that is being used to send the relative file) is actually set.
         if (!isset($params[$inputFileField])) {
             throw CouldNotUploadInputFile::missingParam($inputFileField);
         }
 
-        if (Validator::hasFileId($inputFileField, $params)) {
-            return $this->post($endpoint, $params, false, $jsonEncode);
-        }
+        $encodedMultipartParams = collect(
+            $this->convertParamsToMultipart($this->jsonEncodeSpecified($params, $jsonEncode), $inputFileField)
+        );
 
-        // Sending an actual file requires it to be sent using multipart/form-data
-        return $this->post($endpoint, $this->prepareMultipartParams($params, $inputFileField), true, $jsonEncode);
+        $extraMultiParts = $this->generateMultipartDataForArrayOfFiles($params[$inputFileField]);
+
+        $multipart = [
+            'multipart' => $encodedMultipartParams->merge($extraMultiParts)->all(),
+        ];
+
+        return $this->sendRequest('POST', $endpoint, $multipart);
     }
 
     /**
@@ -266,7 +276,7 @@ class TelegramClient
      *
      * @return array
      */
-    protected function prepareMultipartParams(array $params, string $inputFileField): array
+    protected function convertParamsToMultipart(array $params, string $inputFileField): array
     {
         $this->validateInputFileField($params, $inputFileField);
 
@@ -299,6 +309,21 @@ class TelegramClient
         ];
     }
 
+    protected function generateMultipartDataForArrayOfFiles($multipleFiles)
+    {
+        if (!is_array($multipleFiles)) {
+            return [];
+        }
+
+        return collect($multipleFiles)
+            ->map(fn (InputMedia $item) => $item->getInputFile())
+            ->filter(fn ($item) => $item instanceof InputFile)
+            ->map(function (InputFile $inputFile) {
+                return $this->generateMultipartData($inputFile, $inputFile->getMultiPartName());
+            })
+            ->values();
+    }
+
     /**
      * @param array  $params
      * @param string $inputFileField
@@ -311,13 +336,13 @@ class TelegramClient
             throw CouldNotUploadInputFile::missingParam($inputFileField);
         }
 
-        // All file-paths, urls, or file resources should be provided by using the InputFile object
-        if (
-            (!$params[$inputFileField] instanceof InputFile) ||
-            (is_string($params[$inputFileField]) && !Validator::isJson($params[$inputFileField]))
-        ) {
-            throw CouldNotUploadInputFile::inputFileParameterShouldBeInputFileEntity($inputFileField);
-        }
+//        // All file-paths, urls, or file resources should be provided by using the InputFile object
+//        if (
+//            (!$params[$inputFileField] instanceof InputFile) ||
+//            (is_string($params[$inputFileField]) && !Validator::isJson($params[$inputFileField]))
+//        ) {
+//            throw CouldNotUploadInputFile::inputFileParameterShouldBeInputFileEntity($inputFileField);
+//        }
     }
 
     /**

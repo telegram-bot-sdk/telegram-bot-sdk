@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Objects\InputMedia;
 
+use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Objects\AbstractCreateObject;
 
 /**
@@ -23,5 +24,13 @@ abstract class InputMedia extends AbstractCreateObject
         $fields['type'] = $this->type;
 
         parent::__construct($fields);
+    }
+
+    /**
+     * @return InputFile|string
+     */
+    public function getInputFile()
+    {
+        return $this->fields['media'];
     }
 }
