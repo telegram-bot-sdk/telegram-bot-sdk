@@ -19,7 +19,7 @@ class TelegramClient
     use HasAccessToken;
 
     /** @var string Telegram Bot API URL. */
-    protected string $baseApiUrl = 'https://api.telegram.org/bot';
+    protected string $baseApiUrl = 'https://api.telegram.org';
 
     /** @var HttpClientInterface|null HTTP Client. */
     protected ?HttpClientInterface $httpClientHandler = null;
@@ -89,7 +89,7 @@ class TelegramClient
      */
     public function setBaseApiUrl(string $baseApiUrl): self
     {
-        $this->baseApiUrl = $baseApiUrl;
+        $this->baseApiUrl = rtrim($baseApiUrl, '/');
 
         return $this;
     }
@@ -427,7 +427,20 @@ class TelegramClient
      */
     protected function makeApiUrl(TelegramRequest $request): string
     {
-        return $this->getBaseApiUrl() . $request->getAccessToken() . '/' . $request->getEndpoint();
+        return $this->getBaseApiUrl() . '/bot' . $request->getAccessToken() . '/' . $request->getEndpoint();
+    }
+
+    /**
+     * Get File URL.
+     *
+     * @param string|null $path
+     *
+     * @throws TelegramSDKException
+     * @return string
+     */
+    public function getFileUrl(string $path = null): string
+    {
+        return $this->getBaseApiUrl() . '/file/bot' . $this->getAccessToken() . '/' . $path;
     }
 
     /**
