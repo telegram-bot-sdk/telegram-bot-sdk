@@ -2,23 +2,20 @@
 
 namespace Telegram\Bot\Tests\Integration;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Telegram\Bot\BotManager;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 
 class BotManagerTest extends TestCase
 {
-    /**
-     * @var BotManager
-     */
-    protected $manager;
+    protected BotManager $manager;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->manager = new BotManager(
             [
-                'default'                      => 'bot1',
+                'use'                          => 'bot1',
                 'bots'                         => [
                     'bot1' => [
                         'username' => 'BotOne_Bot',
@@ -44,7 +41,7 @@ class BotManagerTest extends TestCase
         );
     }
 
-    /** @test a bots manager can be created */
+    /** @test */
     public function a_bots_manager_can_be_created_with_no_config()
     {
         $manager = new BotManager([]);
@@ -52,18 +49,26 @@ class BotManagerTest extends TestCase
         $this->assertInstanceOf(BotManager::class, $manager);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function a_bot_must_be_configured_before_it_can_be_used()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(TelegramSDKException::class);
 
-        $manager = new BotManager([]);
-        $manager->bot('demo');
+        $this->manager->bot('demo');
     }
 
-    /** @test an invalid config paramters returns null */
+    /**
+     * @test
+     * @throws TelegramSDKException
+     */
+    public function if_no_bot_name_is_passed_the_default_bot_is_used()
+    {
+        $bot = $this->manager->bot();
+
+        $this->assertEquals('bot1', $bot->getConfig()['bot']);
+    }
+
+    /** @test */
     public function an_invalid_or_missing_config_parameter_returns_null()
     {
         $manager = new BotManager([]);
@@ -73,12 +78,15 @@ class BotManagerTest extends TestCase
         $this->assertNull($name);
     }
 
-    /** @test */
-    public function it_is_possible_to_remove_a_bot_from_the_manager_but_leave_the_others()
+    /**
+     * @test
+     * @throws TelegramSDKException
+     */
+    public function a_bot_can_be_removed_from_the_manager()
     {
-        $bot1 = $this->manager->bot('bot1');
-        $bot2 = $this->manager->bot('bot2');
-        $bot3 = $this->manager->bot('bot3');
+        $this->manager->bot('bot1');
+        $this->manager->bot('bot2');
+        $this->manager->bot('bot3');
 
         $this->assertCount(3, $this->manager->getBots());
 
@@ -91,93 +99,40 @@ class BotManagerTest extends TestCase
         $this->assertArrayHasKey('bot3', $remainingBots);
     }
 
-    /** @test */
-    public function it_is_possible_to_reconnect_a_bot_that_was_disconnected_or_not_used_yet()
+    /**
+     * @test
+     * @throws TelegramSDKException
+     */
+    public function a_bot_can_be_reconnected_to_the_manager()
     {
         $this->assertCount(0, $this->manager->getBots());
-
         $this->manager->reconnect('bot1');
 
         $this->assertCount(1, $this->manager->getBots());
         $this->assertArrayHasKey('bot1', $this->manager->getBots());
     }
 
-    /** @test Duplicated commands dont cause a problem */
-    public function duplicated_commands_dont_cause_a_problem()
+    /**
+     * @test can change the default bot name
+     * @throws TelegramSDKException
+     */
+    public function can_change_the_default_bot_name()
     {
-        $manager = new BotManager(
-            [
-                'commands'        => [
-                    'Acme\Project\Commands\Command1',
-                ],
-                'shared_commands' => [
-                    'start'  => 'Acme\Project\Commands\StartCommand',
-                    'stop'   => 'Acme\Project\Commands\StopCommand',
-                    'status' => 'Acme\Project\Commands\StatusCommand',
-                ],
-                'command_groups'  => [
-                    'common'       => [
-                        'Acme\Project\Commands\TodoCommand',
-                        'Acme\Project\Commands\TaskCommand',
-                        'Acme\Project\Commands\Command2',
-                    ],
-                    'subscription' => [
-                        'start',
-                        'stop',
-                    ],
-                    'parentgroup'  => [
-                        'common',
-                        'subscription',
-                    ],
-                    'myBot'        => [
-                        'admin', // Command Group Name.
-                        'subscription', // Command Group Name.
-                        'status', // Shared Command Name.
-                        'Acme\Project\Commands\BotCommand', // Full Path to Command Class.
-                    ],
-                ],
-            ]
-        );
+        $this->assertEquals('bot1', $this->manager->getDefaultBotName());
 
-        $commands01 = $manager->parseBotCommands([
-            'Acme\Project\Commands\Command1',
-            'Acme\Project\Commands\Command2',
-            'Acme\Project\Commands\Command3',
-        ]);
+        $this->manager->setDefaultBotName('bot3');
+        $this->assertEquals('bot3', $this->manager->getDefaultBotName());
+    }
 
-        $commands02 = $manager->parseBotCommands([
-            'Acme\Project\Commands\Command2',
-            'Acme\Project\Commands\Command3',
-            'common',
-        ]);
+    /**
+     * @test returns the correct bot config settings
+     * @throws TelegramSDKException
+     */
+    public function returns_the_correct_bot_config_settings()
+    {
+        $config = $this->manager->getBotConfig('bot3');
 
-        $commands03 = $manager->parseBotCommands([
-            'Acme\Project\Commands\Command1',
-            'Acme\Project\Commands\Command2',
-            'Acme\Project\Commands\Command3',
-            'start',
-            'stop',
-            'subscription',
-        ]);
-
-        $commands04 = $manager->parseBotCommands([
-            'Acme\Project\Commands\Command1',
-            'Acme\Project\Commands\Command2',
-            'Acme\Project\Commands\Command3',
-            'parentgroup',
-        ]);
-
-        $commands05 = $manager->parseBotCommands([
-            'Acme\Project\Commands\Command1',
-            'Acme\Project\Commands\Command2',
-            'Acme\Project\Commands\Command3',
-            'myBot',
-        ]);
-
-        $this->assertCount(3, $commands01);
-        $this->assertCount(5, $commands02);
-        $this->assertCount(5, $commands03);
-        $this->assertCount(7, $commands04);
-        $this->assertCount(8, $commands05);
+        $this->assertArrayHasKey('bot', $config);
+        $this->assertEquals('bot3', $config['bot']);
     }
 }

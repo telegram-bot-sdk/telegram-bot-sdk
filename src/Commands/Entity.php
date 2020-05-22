@@ -40,7 +40,7 @@ class Entity
     public function text(): ?string
     {
         if (!$this->field()) {
-            return null;
+            return '';
         }
 
         if ($this->field() === 'entities') {

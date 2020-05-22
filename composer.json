@@ -40,7 +40,7 @@
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.3",
-    "phpunit/phpunit": ">=8.5"
+    "phpunit/phpunit": "^9.0"
   },
   "suggest": {
     "irazasyed/larasupport": "Allows you to use any Laravel Package in Lumen by adding support!"

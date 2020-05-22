@@ -33,25 +33,29 @@ class Bot
     protected Api $api;
     protected EventFactory $eventFactory;
     protected array $listeners;
+    protected AddonManager $addonManager;
 
     /**
      * Bot constructor.
      *
-     * @param array $config
+     * @param Api          $api
+     * @param EventFactory $eventFactory
+     * @param AddonManager $addonManager
+     * @param array        $config
      *
      * @throws TelegramSDKException
      */
-    public function __construct(array $config = [])
+    public function __construct(Api $api, EventFactory $eventFactory, AddonManager $addonManager, array $config = [])
     {
         $this->config = $config;
 
-        $this->api = new Api($this->config('token'));
+        $this->api = $api->setToken($this->config('token'));
         $this->setHttpClientHandler($this->config('global.http.client', GuzzleHttpClient::class));
         $this->api->setBaseApiUrl($this->config('global.http.api_url', 'https://api.telegram.org'));
         $this->api->setHttpClientConfig($this->config('global.http.config', []));
         $this->api->setAsyncRequest($this->config('global.http.async', false));
 
-        $this->eventFactory = new EventFactory();
+        $this->eventFactory = $eventFactory;
 
         if ($this->hasConfig('listen')) {
             $this->eventFactory->setListeners($this->config('listen'));
@@ -59,7 +63,8 @@ class Bot
             $this->eventFactory->registerListeners();
         }
 
-        AddonManager::loadAddons($this);
+        $this->addonManager = $addonManager;
+        $this->addonManager::loadAddons($this);
     }
 
     /**
@@ -204,6 +209,7 @@ class Bot
      */
     public function dispatchUpdateEvent(Update $update): Update
     {
+        //TODO Should the creation of this UpdateEvent be done IN the event Factory?
         $event = new UpdateEvent($this, $update);
 
         $this->eventFactory->dispatch(UpdateEvent::NAME, $event);
