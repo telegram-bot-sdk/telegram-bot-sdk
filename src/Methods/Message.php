@@ -302,11 +302,11 @@ trait Message
      *
      * <code>
      * $params = [
-     *       'chat_id'               => '',  // int|string - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'media'                 => '',  // array      - Required. A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
-     *       'duration'              => '',  // int        - (Optional). Duration of sent video in seconds
-     *       'disable_notification'  => '',  // bool       - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
-     *       'reply_to_message_id'   => '',  // int        - (Optional). If the message is a reply, ID of the original message
+     *       'chat_id'               => '',                               // int|string        - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *       'media'                 => ArrayOfInputMedia::make($array),  // ArrayOfInputMedia - Required. A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
+     *       'duration'              => '',                               // int               - (Optional). Duration of sent video in seconds
+     *       'disable_notification'  => '',                               // bool              - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'reply_to_message_id'   => '',                               // int               - (Optional). If the message is a reply, ID of the original message
      * ]
      * </code>
      *
