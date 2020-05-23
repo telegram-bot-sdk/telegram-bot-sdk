@@ -2,9 +2,10 @@
 
 namespace Telegram\Bot\Commands;
 
-use Telegram\Bot\Answers\Answerable;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Traits\HasBot;
+use Telegram\Bot\Traits\HasUpdate;
 use Throwable;
 
 /**
@@ -12,7 +13,8 @@ use Throwable;
  */
 abstract class Command implements CommandInterface
 {
-    use Answerable;
+    use HasBot;
+    use HasUpdate;
 
     /** @var string The Telegram command description. */
     protected string $description;
