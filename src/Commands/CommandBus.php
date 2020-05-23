@@ -2,20 +2,23 @@
 
 namespace Telegram\Bot\Commands;
 
+use BadMethodCallException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InvalidArgumentException;
-use Telegram\Bot\Answers\AnswerBus;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\MessageEntity;
 use Telegram\Bot\Objects\Update;
+use Telegram\Bot\Traits\HasBot;
 
 /**
  * Class CommandBus.
  */
-class CommandBus extends AnswerBus
+class CommandBus
 {
+    use HasBot;
+
     /** @var Command[] Holds all commands. */
     protected array $commands = [];
 
@@ -241,5 +244,24 @@ class CommandBus extends AnswerBus
         }
 
         throw TelegramCommandException::commandClassNotValid($command);
+    }
+
+    /**
+     * Handle calls to missing methods.
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @throws BadMethodCallException
+     *
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        if (method_exists($this, $method)) {
+            return $this->{$method}(...$parameters);
+        }
+
+        throw new BadMethodCallException("Method [$method] does not exist.");
     }
 }
