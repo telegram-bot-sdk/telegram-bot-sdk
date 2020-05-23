@@ -22,6 +22,6 @@ trait Passport
      */
     public function setPassportDataErrors(array $params): bool
     {
-        return $this->post('setPassportDataErrors', $params, false, ['errors'])->getResult();
+        return $this->post('setPassportDataErrors', $params)->getResult();
     }
 }

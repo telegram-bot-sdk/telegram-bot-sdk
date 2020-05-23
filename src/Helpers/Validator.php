@@ -2,6 +2,8 @@
 
 namespace Telegram\Bot\Helpers;
 
+use Telegram\Bot\Contracts\Jsonable;
+use Telegram\Bot\Contracts\Multipartable;
 use Telegram\Bot\FileUpload\InputFile;
 
 /**
@@ -23,15 +25,15 @@ class Validator
     }
 
     /**
-     * Determine if given contents are an instance of InputFile.
+     * Determine if given object is an instance of InputFile.
      *
-     * @param $contents
+     * @param mixed $object
      *
      * @return bool
      */
-    public static function isInputFile($contents): bool
+    public static function isInputFile($object): bool
     {
-        return $contents instanceof InputFile;
+        return $object instanceof InputFile;
     }
 
     /**
@@ -73,6 +75,30 @@ class Validator
     {
         json_decode($string);
 
-        return json_last_error() == JSON_ERROR_NONE;
+        return json_last_error() === JSON_ERROR_NONE;
+    }
+
+    /**
+     * Determine if given object is Jsonable.
+     *
+     * @param mixed $object
+     *
+     * @return bool
+     */
+    public static function isJsonable($object): bool
+    {
+        return $object instanceof Jsonable;
+    }
+
+    /**
+     * Determine if given object is Multipartable.
+     *
+     * @param mixed $object
+     *
+     * @return bool
+     */
+    public static function isMultipartable($object): bool
+    {
+        return $object instanceof Multipartable;
     }
 }

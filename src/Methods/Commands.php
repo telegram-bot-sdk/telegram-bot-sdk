@@ -46,6 +46,6 @@ trait Commands
      */
     public function setMyCommands(array $params): bool
     {
-        return $this->post('setMyCommands', $params, false, ['commands'])->getResult();
+        return $this->post('setMyCommands', $params)->getResult();
     }
 }

@@ -10,7 +10,7 @@ use Telegram\Bot\Events\EventFactory;
 use Telegram\Bot\Events\UpdateEvent;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Http\GuzzleHttpClient;
-use Telegram\Bot\Http\HttpClientInterface;
+use Telegram\Bot\Contracts\HttpClientInterface;
 use Telegram\Bot\Objects\Update;
 use Telegram\Bot\Traits\HasConfig;
 use Telegram\Bot\Traits\HasContainer;

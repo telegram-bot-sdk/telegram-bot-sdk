@@ -27,9 +27,6 @@ class TelegramResponse
     /** @var object The decoded body of the API response. */
     protected object $decodedBody;
 
-    /** @var string API Endpoint used to make the request. */
-    protected string $endPoint;
-
     /** @var TelegramRequest The original request that returned this response. */
     protected TelegramRequest $request;
 
@@ -59,7 +56,6 @@ class TelegramResponse
         }
 
         $this->request = $request;
-        $this->endPoint = $request->getEndpoint();
     }
 
     /**
@@ -124,7 +120,7 @@ class TelegramResponse
      */
     public function getEndpoint(): string
     {
-        return $this->endPoint;
+        return $this->request->getEndpoint();
     }
 
     /**

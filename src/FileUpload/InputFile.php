@@ -8,36 +8,47 @@ use GuzzleHttp\Psr7\Stream;
 use Iterator;
 use JsonSerializable;
 use Psr\Http\Message\StreamInterface;
+use Telegram\Bot\Contracts\Multipartable;
 
 use function GuzzleHttp\Psr7\stream_for;
 
-class InputFile implements JsonSerializable
+class InputFile implements Multipartable, JsonSerializable
 {
     protected $contents;
     protected ?string $filename = null;
-    protected string $multiPartName;
+    protected string $multipartName;
 
     /**
      * Creates a new InputFile object.
      *
-     * @param             $contents
+     * @param mixed       $contents
      * @param string|null $filename
      */
     public function __construct($contents, string $filename = null)
     {
         $this->contents = $contents;
         $this->filename = $filename;
-        $this->multiPartName = $this->generateRandomName();
+        $this->multipartName = $this->generateRandomName();
     }
 
-
-    public static function file($file, $filename = null)
+    /**
+     * @param string      $file
+     * @param string|null $filename
+     *
+     * @return static
+     */
+    public static function file(string $file, string $filename = null): self
     {
         return new static(new LazyOpenStream($file, 'r+'), $filename);
     }
 
-    //A filename for this method is COMPULSORY. Will fail if left out
-    public static function contents($contents, $filename)
+    /**
+     * @param mixed  $contents
+     * @param string $filename
+     *
+     * @return static
+     */
+    public static function contents($contents, string $filename): self
     {
         return new static(stream_for($contents), $filename);
     }
@@ -61,9 +72,21 @@ class InputFile implements JsonSerializable
     /**
      * @return string|null
      */
-    public function getMultiPartName(): ?string
+    public function getMultipartName(): ?string
     {
-        return $this->multiPartName;
+        return $this->multipartName;
+    }
+
+    /**
+     * @param string $multipartName
+     *
+     * @return $this
+     */
+    public function setMultipartName(string $multipartName): self
+    {
+        $this->multipartName = $multipartName;
+
+        return $this;
     }
 
     /**
@@ -71,7 +94,7 @@ class InputFile implements JsonSerializable
      */
     public function getAttachString(): string
     {
-        return "attach://" . $this->getMultiPartName();
+        return 'attach://' . $this->getMultipartName();
     }
 
     public function jsonSerialize()
@@ -79,7 +102,19 @@ class InputFile implements JsonSerializable
         return $this->getAttachString();
     }
 
-    protected function generateRandomName()
+    /**
+     * @return array
+     */
+    public function toMultipart(): array
+    {
+        return [
+            'name'     => $this->getMultipartName(),
+            'contents' => $this->getContents(),
+            'filename' => $this->getFilename(),
+        ];
+    }
+
+    protected function generateRandomName(): string
     {
         return substr(md5(uniqid(rand(), true)), 0, 10);
     }

@@ -38,7 +38,7 @@ trait Stickers
      */
     public function sendSticker(array $params): MessageObject
     {
-        $response = $this->uploadFile('sendSticker', $params, 'sticker');
+        $response = $this->uploadFile('sendSticker', $params);
 
         return new MessageObject($response->getDecodedBody());
     }
@@ -88,7 +88,7 @@ trait Stickers
      */
     public function uploadStickerFile(array $params): File
     {
-        $response = $this->uploadFile('uploadStickerFile', $params, 'png_sticker');
+        $response = $this->uploadFile('uploadStickerFile', $params);
 
         return new File($response->getDecodedBody());
     }
@@ -119,7 +119,7 @@ trait Stickers
      */
     public function createNewStickerSet(array $params): bool
     {
-        return $this->uploadFile('createNewStickerSet', $params, 'png_sticker', ['mask_position'])->getResult();
+        return $this->uploadFile('createNewStickerSet', $params)->getResult();
     }
 
     /**
@@ -146,7 +146,7 @@ trait Stickers
      */
     public function addStickerToSet(array $params): bool
     {
-        return $this->uploadFile('addStickerToSet', $params, 'png_sticker', ['mask_position'])->getResult();
+        return $this->uploadFile('addStickerToSet', $params)->getResult();
     }
 
     /**
@@ -215,6 +215,6 @@ trait Stickers
      */
     public function setStickerSetThumb(array $params): bool
     {
-        return $this->uploadFile('setStickerSetThumb', $params, 'thumb')->getResult();
+        return $this->uploadFile('setStickerSetThumb', $params)->getResult();
     }
 }

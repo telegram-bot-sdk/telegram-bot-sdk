@@ -2,8 +2,11 @@
 
 namespace Telegram\Bot\Objects;
 
+use ArrayIterator;
 use Illuminate\Support\Str;
 use JsonSerializable;
+use Telegram\Bot\Contracts\Jsonable;
+use IteratorAggregate;
 
 /**
  * Class AbstractCreateObject
@@ -11,7 +14,7 @@ use JsonSerializable;
  * This base class is used for when the user needs to create
  * an object to be sent TO telegram..
  */
-abstract class AbstractCreateObject implements JsonSerializable
+abstract class AbstractCreateObject implements IteratorAggregate, Jsonable, JsonSerializable
 {
     protected array $fields;
 
@@ -54,13 +57,23 @@ abstract class AbstractCreateObject implements JsonSerializable
     }
 
     /**
+     * Get an iterator for the items.
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator($this->fields);
+    }
+
+    /**
      * Get the object of fields as an associative array.
      *
      * @return array
      */
     public function toArray(): array
     {
-        return $this->fields;
+        return json_decode($this->toJson(), true);
     }
 
     /**
@@ -68,7 +81,7 @@ abstract class AbstractCreateObject implements JsonSerializable
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->fields;
     }
@@ -82,7 +95,7 @@ abstract class AbstractCreateObject implements JsonSerializable
      */
     public function toJson($options = 0): string
     {
-        return json_encode($this->fields, $options);
+        return json_encode($this->jsonSerialize(), $options);
     }
 
     /**

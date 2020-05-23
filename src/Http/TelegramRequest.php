@@ -2,8 +2,8 @@
 
 namespace Telegram\Bot\Http;
 
-use Telegram\Bot\Api;
-use Telegram\Bot\Exceptions\TelegramRequestException;
+use Telegram\Bot\Helpers\Validator;
+use Telegram\Bot\Objects\InputMedia\AbstractArrayObject;
 use Telegram\Bot\Traits\HasAccessToken;
 
 /**
@@ -27,17 +27,8 @@ class TelegramRequest
     /** @var array The parameters to send with this request. */
     protected array $params = [];
 
-    /** @var array The files to send with this request. */
-    protected array $files = [];
-
     /** @var bool Indicates if the request to Telegram will be asynchronous (non-blocking). */
     protected bool $isAsyncRequest = false;
-
-    /** @var int Timeout of the request in seconds. */
-    protected int $timeout;
-
-    /** @var int Connection timeout of the request in seconds. */
-    protected int $connectTimeout;
 
     /**
      * Creates a new Request entity.
@@ -60,118 +51,6 @@ class TelegramRequest
         $this->setEndpoint($endpoint);
         $this->setParams($params);
         $this->setAsyncRequest($isAsyncRequest);
-    }
-
-    /**
-     * Make this request asynchronous (non-blocking).
-     *
-     * @param $isAsyncRequest
-     *
-     * @return TelegramRequest
-     */
-    public function setAsyncRequest($isAsyncRequest): self
-    {
-        $this->isAsyncRequest = $isAsyncRequest;
-
-        return $this;
-    }
-
-    /**
-     * Validate that the HTTP method is set.
-     *
-     * @throws TelegramRequestException
-     */
-    public function validateMethod(): void
-    {
-        if (!$this->method) {
-            throw TelegramRequestException::httpMethodNotSpecified();
-        }
-
-        if (!in_array($this->method, ['GET', 'POST'])) {
-            throw TelegramRequestException::invalidHttpMethod();
-        }
-    }
-
-    /**
-     * Return the API Endpoint for this request.
-     *
-     * @return string
-     */
-    public function getEndpoint(): string
-    {
-        return $this->endpoint;
-    }
-
-    /**
-     * Set the endpoint for this request.
-     *
-     * @param string $endpoint
-     *
-     * @return TelegramRequest
-     */
-    public function setEndpoint(string $endpoint): self
-    {
-        $this->endpoint = $endpoint;
-
-        return $this;
-    }
-
-    /**
-     * Return the headers for this request.
-     *
-     * @return array
-     */
-    public function getHeaders(): array
-    {
-        $headers = $this->getDefaultHeaders();
-
-        return array_merge($this->headers, $headers);
-    }
-
-    /**
-     * Set the headers for this request.
-     *
-     * @param array $headers
-     *
-     * @return TelegramRequest
-     */
-    public function setHeaders(array $headers): self
-    {
-        $this->headers = array_merge($this->headers, $headers);
-
-        return $this;
-    }
-
-    /**
-     * The default headers used with every request.
-     *
-     * @return array
-     */
-    public function getDefaultHeaders(): array
-    {
-        return [
-            'User-Agent' => 'Telegram-Bot-SDK/Telegram-Bot-SDK',
-        ];
-    }
-
-    /**
-     * Check if this is an asynchronous request (non-blocking).
-     *
-     * @return bool
-     */
-    public function isAsyncRequest(): bool
-    {
-        return $this->isAsyncRequest;
-    }
-
-    /**
-     * Only return params on POST requests.
-     *
-     * @return array
-     */
-    public function getPostParams(): array
-    {
-        return ($this->getMethod() === 'POST') ? $this->getParams() : [];
     }
 
     /**
@@ -199,6 +78,30 @@ class TelegramRequest
     }
 
     /**
+     * Return the API Endpoint for this request.
+     *
+     * @return string
+     */
+    public function getEndpoint(): string
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * Set the endpoint for this request.
+     *
+     * @param string $endpoint
+     *
+     * @return TelegramRequest
+     */
+    public function setEndpoint(string $endpoint): self
+    {
+        $this->endpoint = $endpoint;
+
+        return $this;
+    }
+
+    /**
      * Return the params for this request.
      *
      * @return array
@@ -217,56 +120,112 @@ class TelegramRequest
      */
     public function setParams(array $params): self
     {
-        $this->params = array_merge($this->params, $params);
+        if (isset($params['multipart'])) {
+            $params['multipart'] = $this->makeMultipartPayload($params['multipart']);
+        }
+
+        $this->params = $params;
 
         return $this;
     }
 
     /**
-     * Get Timeout.
+     * Check if this is an asynchronous request (non-blocking).
      *
-     * @return int
+     * @return bool
      */
-    public function getTimeout(): int
+    public function isAsyncRequest(): bool
     {
-        return $this->timeout;
+        return $this->isAsyncRequest;
     }
 
     /**
-     * Set Timeout.
+     * Make this request asynchronous (non-blocking).
      *
-     * @param int $timeout
+     * @param $isAsyncRequest
      *
      * @return TelegramRequest
      */
-    public function setTimeout(int $timeout): self
+    public function setAsyncRequest($isAsyncRequest): self
     {
-        $this->timeout = $timeout;
+        $this->isAsyncRequest = $isAsyncRequest;
 
         return $this;
     }
 
     /**
-     * Get Connection Timeout.
+     * Return the headers for this request.
      *
-     * @return int
+     * @return array
      */
-    public function getConnectTimeout(): int
+    public function getHeaders(): array
     {
-        return $this->connectTimeout;
+        return array_merge($this->headers, $this->getDefaultHeaders());
     }
 
     /**
-     * Set Connection Timeout.
+     * Set the headers for this request.
      *
-     * @param int $connectTimeout
+     * @param array $headers
      *
      * @return TelegramRequest
      */
-    public function setConnectTimeout(int $connectTimeout): self
+    public function setHeaders(array $headers): self
     {
-        $this->connectTimeout = $connectTimeout;
+        $this->headers = $headers;
 
         return $this;
+    }
+
+    /**
+     * The default headers used with every request.
+     *
+     * @return array
+     */
+    public function getDefaultHeaders(): array
+    {
+        return [
+            'User-Agent' => 'Telegram-Bot-SDK/Telegram-Bot-SDK',
+        ];
+    }
+
+    protected function makeMultipartPayload($params): array
+    {
+        $params = collect($params);
+
+        $multipart = $params->filter(fn ($param) => $param instanceof AbstractArrayObject)
+            ->flatMap(fn ($param) => $param->toMultipart())
+            ->all();
+
+        return $params->map(fn ($contents, $name) => $this->generateMultipartData($contents, $name))
+            ->concat($multipart)
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Generates the multipart data required when sending files to telegram.
+     *
+     * @param mixed  $contents
+     * @param string $name
+     *
+     * @return array
+     */
+    protected function generateMultipartData($contents, string $name): array
+    {
+        if (Validator::isInputFile($contents)) {
+            return [
+                'name'     => $name,
+                'contents' => $contents->getContents(),
+                'filename' => $contents->getFilename(),
+            ];
+        }
+
+        // TODO: Remove after testing all methods, this might not be needed.
+        if (Validator::isJsonable($contents)) {
+            $contents = $contents->toJson();
+        }
+
+        return compact('name', 'contents');
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Telegram\Bot\Objects\InputMedia;
 
+use Telegram\Bot\Contracts\Multipartable;
 use Telegram\Bot\FileUpload\InputFile;
+use Telegram\Bot\Helpers\Validator;
 use Telegram\Bot\Objects\AbstractCreateObject;
 
 /**
@@ -10,7 +12,7 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  *
  * This object represents the content of a media message to be sent.
  */
-abstract class InputMedia extends AbstractCreateObject
+abstract class InputMedia extends AbstractCreateObject implements Multipartable
 {
     protected string $type;
 
@@ -26,11 +28,12 @@ abstract class InputMedia extends AbstractCreateObject
         parent::__construct($fields);
     }
 
-    /**
-     * @return InputFile|string
-     */
-    public function getInputFile()
+    public function toMultipart(): array
     {
-        return $this->fields['media'];
+        return collect($this->fields)
+            ->filter(fn ($field) => Validator::isMultipartable($field))
+            ->map(fn (InputFile $field) => $field->toMultipart())
+            ->values()
+            ->all();
     }
 }

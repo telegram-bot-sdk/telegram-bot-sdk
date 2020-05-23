@@ -96,16 +96,6 @@ class Api
             return $this->{$method}(...$arguments);
         }
 
-        if (in_array($method, ['getConnectTimeout', 'getTimeout', 'isAsyncRequest'])) {
-            return $this->getClient()->{$method}();
-        }
-
-        if (in_array($method, ['setConnectTimeout', 'setTimeout', 'setAsyncRequest'])) {
-            $this->getClient()->{$method}(...$arguments);
-
-            return $this;
-        }
-
         if (method_exists($this->getClient(), $method)) {
             return $this->getClient()->{$method}(...$arguments);
         }

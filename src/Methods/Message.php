@@ -38,7 +38,7 @@ trait Message
      */
     public function sendMessage(array $params): MessageObject
     {
-        $response = $this->post('sendMessage', $params, false);
+        $response = $this->post('sendMessage', $params);
 
         return new MessageObject($response->getDecodedBody());
     }
@@ -95,7 +95,7 @@ trait Message
      */
     public function sendPhoto(array $params): MessageObject
     {
-        $response = $this->uploadFile('sendPhoto', $params, 'photo');
+        $response = $this->uploadFile('sendPhoto', $params);
 
         return new MessageObject($response->getDecodedBody());
     }
@@ -129,7 +129,7 @@ trait Message
      */
     public function sendAudio(array $params): MessageObject
     {
-        $response = $this->uploadFile('sendAudio', $params, 'audio');
+        $response = $this->uploadFile('sendAudio', $params);
 
         return new MessageObject($response->getDecodedBody());
     }
@@ -160,7 +160,7 @@ trait Message
      */
     public function sendDocument(array $params): MessageObject
     {
-        $response = $this->uploadFile('sendDocument', $params, 'document');
+        $response = $this->uploadFile('sendDocument', $params);
 
         return new MessageObject($response->getDecodedBody());
     }
@@ -196,7 +196,7 @@ trait Message
      */
     public function sendVideo(array $params): MessageObject
     {
-        $response = $this->uploadFile('sendVideo', $params, 'video');
+        $response = $this->uploadFile('sendVideo', $params);
 
         return new MessageObject($response->getDecodedBody());
     }
@@ -230,7 +230,7 @@ trait Message
      */
     public function sendAnimation(array $params): MessageObject
     {
-        $response = $this->uploadFile('sendAnimation', $params, 'animation');
+        $response = $this->uploadFile('sendAnimation', $params);
 
         return new MessageObject($response->getDecodedBody());
     }
@@ -261,7 +261,7 @@ trait Message
      */
     public function sendVoice(array $params): MessageObject
     {
-        $response = $this->uploadFile('sendVoice', $params, 'voice');
+        $response = $this->uploadFile('sendVoice', $params);
 
         return new MessageObject($response->getDecodedBody());
     }
@@ -292,7 +292,7 @@ trait Message
      */
     public function sendVideoNote(array $params): MessageObject
     {
-        $response = $this->uploadFile('sendVideoNote', $params, 'video_note');
+        $response = $this->uploadFile('sendVideoNote', $params);
 
         return new MessageObject($response->getDecodedBody());
     }
@@ -316,14 +316,15 @@ trait Message
      *
      * @throws TelegramSDKException
      *
-     * //TODO Check this return type.
-     * @return MessageObject
+     * @return MessageObject[]
      */
-    public function sendMediaGroup(array $params)
+    public function sendMediaGroup(array $params): array
     {
-        $response = $this->uploadFile('sendMediaGroup', $params, 'media', ['media']);
+        $response = $this->uploadFile('sendMediaGroup', $params);
 
-        return new MessageObject($response->getDecodedBody());
+        return collect($response->getResult())
+            ->mapInto(MessageObject::class)
+            ->all();
     }
 
     /**
@@ -425,7 +426,7 @@ trait Message
      */
     public function sendPoll(array $params): MessageObject
     {
-        $response = $this->post('sendPoll', $params, false, ['options']);
+        $response = $this->post('sendPoll', $params);
 
         return new MessageObject($response->getDecodedBody());
     }
@@ -480,25 +481,6 @@ trait Message
      */
     public function sendChatAction(array $params): bool
     {
-        $validActions = [
-            'typing',
-            'upload_photo',
-            'record_video',
-            'upload_video',
-            'record_audio',
-            'upload_audio',
-            'upload_document',
-            'find_location',
-            'record_video_note',
-            'upload_video_note',
-        ];
-
-        if (isset($params['action']) && in_array($params['action'], $validActions, true)) {
-            $this->post('sendChatAction', $params);
-
-            return true;
-        }
-
-        throw new TelegramSDKException('Invalid Action! Accepted value: ' . implode(', ', $validActions));
+        return $this->post('sendChatAction', $params)->getResult();
     }
 }

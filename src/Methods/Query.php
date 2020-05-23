@@ -73,7 +73,7 @@ trait Query
      */
     public function answerInlineQuery(array $params): bool
     {
-        $this->post('answerInlineQuery', $params, false, ['results']);
+        $this->post('answerInlineQuery', $params);
 
         return true;
     }

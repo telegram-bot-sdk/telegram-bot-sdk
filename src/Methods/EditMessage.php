@@ -95,7 +95,7 @@ trait EditMessage
      */
     public function editMessageMedia(array $params)
     {
-        $response = $this->post('editMessageMedia', $params, false, ['media']);
+        $response = $this->post('editMessageMedia', $params);
 
         return new Message($response->getDecodedBody());
     }
