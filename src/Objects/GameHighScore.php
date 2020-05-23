@@ -11,7 +11,7 @@ namespace Telegram\Bot\Objects;
  * @property User $user      User
  * @property int  $score     Score
  */
-class GameHighScore extends AbstractObject
+class GameHighScore extends AbstractResponseObject
 {
     public function relations(): array
     {

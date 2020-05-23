@@ -12,6 +12,6 @@ namespace Telegram\Bot\Objects;
  * @property float  $y_shift  Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. For example, 1.0 will place the mask just below the default mask position.
  * @property float  $scale    Mask scaling coefficient. For example, 2.0 means double size.
  */
-class MaskPosition extends AbstractObject
+class MaskPosition extends AbstractResponseObject
 {
 }

@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Updates;
 
-use Telegram\Bot\Objects\AbstractObject;
+use Telegram\Bot\Objects\AbstractResponseObject;
 use Telegram\Bot\Objects\Location;
 use Telegram\Bot\Objects\User;
 
@@ -17,7 +17,7 @@ use Telegram\Bot\Objects\User;
  * @property string   $query     Text of the query.
  * @property string   $offset    Offset of the results to be returned.
  */
-class InlineQuery extends AbstractObject
+class InlineQuery extends AbstractResponseObject
 {
     public function relations(): array
     {

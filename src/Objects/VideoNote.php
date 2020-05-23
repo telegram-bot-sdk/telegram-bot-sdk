@@ -14,7 +14,7 @@ namespace Telegram\Bot\Objects;
  * @property int       $file_size        (Optional). File size.
  *
  */
-class VideoNote extends AbstractObject
+class VideoNote extends AbstractResponseObject
 {
     public function relations(): array
     {

@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Updates;
 
-use Telegram\Bot\Objects\AbstractObject;
+use Telegram\Bot\Objects\AbstractResponseObject;
 use Telegram\Bot\Objects\User;
 
 /**
@@ -14,6 +14,6 @@ use Telegram\Bot\Objects\User;
  * @property User   $user        The user, who changed the answer to the poll
  * @property array  $option_ids  Array of Integer. 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted their vote.
  */
-class PollAnswer extends AbstractObject
+class PollAnswer extends AbstractResponseObject
 {
 }

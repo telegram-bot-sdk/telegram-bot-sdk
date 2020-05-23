@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\AbstractObject;
+use Telegram\Bot\Objects\AbstractResponseObject;
 
 /**
  * @link https://core.telegram.org/bots/api#passportscope
@@ -10,6 +10,6 @@ use Telegram\Bot\Objects\AbstractObject;
  * @property PassportScopeElement[] $data            List of requested elements, each type may be used only once in the entire array of PassportScopeElement objects
  * @property int                    $v               Scope version, must be 1
  */
-class PassportScope extends AbstractObject
+class PassportScope extends AbstractResponseObject
 {
 }

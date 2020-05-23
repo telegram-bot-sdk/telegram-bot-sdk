@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\AbstractObject;
+use Telegram\Bot\Objects\AbstractResponseObject;
 
 /**
  * @link https://core.telegram.org/bots/api#securedata
@@ -19,7 +19,7 @@ use Telegram\Bot\Objects\AbstractObject;
  * @property SecureValue $passport_registration       (Optional). Credentials for encrypted registration from internal passport
  * @property SecureValue $temporary_registration      (Optional). Credentials for encrypted temporary registration
  */
-class SecureData extends AbstractObject
+class SecureData extends AbstractResponseObject
 {
     public function relations(): array
     {

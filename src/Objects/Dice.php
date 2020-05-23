@@ -12,6 +12,6 @@ namespace Telegram\Bot\Objects;
  * @property string $emoji  Emoji on which the dice throw animation is based
  * @property int    $value  Value of the dice, 1-6
  */
-class Dice extends AbstractObject
+class Dice extends AbstractResponseObject
 {
 }

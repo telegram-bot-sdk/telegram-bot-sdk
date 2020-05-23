@@ -30,7 +30,7 @@ use Telegram\Bot\Objects\Updates\ShippingQuery;
  * @property PollAnswer         $poll_answer           (Optional). A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself.
  *
  */
-class Update extends AbstractObject
+class Update extends AbstractResponseObject
 {
     protected string $updateType;
 

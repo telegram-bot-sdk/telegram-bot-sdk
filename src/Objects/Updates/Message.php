@@ -4,7 +4,7 @@ namespace Telegram\Bot\Objects\Updates;
 
 use Telegram\Bot\Objects\Animation;
 use Telegram\Bot\Objects\Audio;
-use Telegram\Bot\Objects\AbstractObject;
+use Telegram\Bot\Objects\AbstractResponseObject;
 use Telegram\Bot\Objects\Chat;
 use Telegram\Bot\Objects\Contact;
 use Telegram\Bot\Objects\Dice;
@@ -76,7 +76,7 @@ use Telegram\Bot\Objects\Voice;
  * @property PassportData      $passport_data             (Optional). Telegram Passport data
  * @property string            $reply_markup              (Optional). Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
  */
-class Message extends AbstractObject
+class Message extends AbstractResponseObject
 {
     /**
      * {@inheritdoc}

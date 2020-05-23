@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Passport;
 
-use Telegram\Bot\Objects\AbstractObject;
+use Telegram\Bot\Objects\AbstractResponseObject;
 
 /**
  * @link https://core.telegram.org/bots/api#iddocumentdata
@@ -10,6 +10,6 @@ use Telegram\Bot\Objects\AbstractObject;
  * @property string $document_no    Document number
  * @property string $expiry_date    (Optional). Date of expiry, in DD.MM.YYYY format
  */
-class IdDocumentData extends AbstractObject
+class IdDocumentData extends AbstractResponseObject
 {
 }

@@ -2,7 +2,7 @@
 
 namespace Telegram\Bot\Objects\Payments;
 
-use Telegram\Bot\Objects\AbstractObject;
+use Telegram\Bot\Objects\AbstractResponseObject;
 
 /**
  * @link https://core.telegram.org/bots/api#orderinfo
@@ -12,7 +12,7 @@ use Telegram\Bot\Objects\AbstractObject;
  * @property string          $email                 (Optional). User email
  * @property ShippingAddress $shipping_address      (Optional). User shipping address
  */
-class OrderInfo extends AbstractObject
+class OrderInfo extends AbstractResponseObject
 {
     public function relations(): array
     {

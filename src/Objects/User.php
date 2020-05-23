@@ -17,6 +17,6 @@ namespace Telegram\Bot\Objects;
  * @property bool   $can_read_all_group_messages  (Optional). True, if privacy mode is disabled for the bot. Returned only in getMe.
  * @property bool   $supports_inline_queries      (Optional). True, if the bot supports inline queries. Returned only in getMe.
  */
-class User extends AbstractObject
+class User extends AbstractResponseObject
 {
 }
