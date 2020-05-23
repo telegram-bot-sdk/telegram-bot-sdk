@@ -3,6 +3,7 @@
 namespace Telegram\Bot\Traits;
 
 use Telegram\Bot\Contracts\HttpClientInterface;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Http\TelegramClient;
 use Telegram\Bot\Http\TelegramResponse;
 
@@ -13,6 +14,11 @@ use Telegram\Bot\Http\TelegramResponse;
  *
  * @method string getAccessToken() Get the bot access token.
  * @method self setAccessToken(string $accessToken) Set the bot access token.
+ *
+ * @method string getBaseApiUrl() Get the Base API URL.
+ * @method self setBaseApiUrl(string $baseApiUrl) Set the Base API URL.
+ *
+ * @method string getFileUrl(string $path = null) Get File URL.
  *
  * @method bool isAsyncRequest() Check if this is an asynchronous request (non-blocking).
  * @method self setAsyncRequest(bool $isAsyncRequest) Make this request asynchronous (non-blocking).
@@ -39,6 +45,16 @@ trait Http
     }
 
     /**
+     * Get HTTP Client Config.
+     *
+     * @return array
+     */
+    public function getHttpClientConfig(): array
+    {
+        return $this->getClient()->getConfig();
+    }
+
+    /**
      * Set HTTP Client Config.
      *
      * @param array $config
@@ -50,5 +66,22 @@ trait Http
         $this->getClient()->setConfig($config);
 
         return $this;
+    }
+
+    /**
+     * Download a file from Telegram server by file ID.
+     *
+     * @param string $file_id  Telegram File ID.
+     * @param string $filename Filename to save (absolute path).
+     *
+     * @throws TelegramSDKException
+     *
+     * @return bool
+     */
+    public function downloadFile(string $file_id, string $filename): bool
+    {
+        $file = $this->getFile(compact('file_id'));
+
+        return $this->getClient()->download($file->file_path, $filename);
     }
 }

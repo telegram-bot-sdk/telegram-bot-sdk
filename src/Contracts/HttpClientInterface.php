@@ -2,6 +2,8 @@
 
 namespace Telegram\Bot\Contracts;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Interface HttpClientInterface.
  */
@@ -20,7 +22,7 @@ interface HttpClientInterface
      * @param array      $options
      * @param bool|false $isAsyncRequest
      *
-     * @return mixed
+     * @return mixed|ResponseInterface
      */
     public function send(
         string $url,

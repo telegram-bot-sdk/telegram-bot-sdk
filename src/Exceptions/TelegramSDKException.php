@@ -71,4 +71,17 @@ class TelegramSDKException extends Exception
     {
         return new static('Http Client class [' . $httpClient . '] is not instantiable.', $code, $e);
     }
+
+    /**
+     * Thrown when file download fails.
+     *
+     * @param string $reason
+     * @param string $url
+     *
+     * @return static
+     */
+    public static function fileDownloadFailed(string $reason, string $url = null): self
+    {
+        return new static($reason . ': Failed to Download File ' . $url);
+    }
 }

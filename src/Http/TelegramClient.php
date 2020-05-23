@@ -144,6 +144,19 @@ class TelegramClient
     }
 
     /**
+     * Get File URL.
+     *
+     * @param string|null $path
+     *
+     * @throws TelegramSDKException
+     * @return string
+     */
+    public function getFileUrl(string $path = null): string
+    {
+        return sprintf('%s/file/bot%s/%s', $this->getBaseApiUrl(), $this->getAccessToken(), $path);
+    }
+
+    /**
      * Sends a GET request to Telegram Bot API and returns the result.
      *
      * @param string $endpoint
@@ -184,6 +197,39 @@ class TelegramClient
     public function uploadFile(string $endpoint, array $multipart): TelegramResponse
     {
         return $this->sendRequest('POST', $endpoint, compact('multipart'));
+    }
+
+    /**
+     * Download file from Telegram server for given file path.
+     *
+     * @param string $filepath       File path on Telegram server.
+     * @param string $filenameToSave Filename to save (absolute path).
+     *
+     * @throws TelegramSDKException
+     *
+     * @return bool
+     */
+    public function download(string $filepath, string $filenameToSave): bool
+    {
+        if (!is_writable($filenameToSave)) {
+            throw TelegramSDKException::fileDownloadFailed('File path not writable', $filenameToSave);
+        }
+
+        $request = $this->resolveTelegramRequest('GET', '');
+
+        $response = $this->getHttpClientHandler()->send(
+            $url = $this->getFileUrl($filepath),
+            $request->getMethod(),
+            $request->getHeaders(),
+            ['sink' => $filenameToSave],
+            $request->isAsyncRequest(),
+        );
+
+        if ($response->getStatusCode() !== 200) {
+            throw TelegramSDKException::fileDownloadFailed($response->getReasonPhrase(), $url);
+        }
+
+        return true;
     }
 
     /**
@@ -256,19 +302,6 @@ class TelegramClient
     protected function makeApiUrl(TelegramRequest $request): string
     {
         return sprintf('%s/bot%s/%s', $this->getBaseApiUrl(), $request->getAccessToken(), $request->getEndpoint());
-    }
-
-    /**
-     * Get File URL.
-     *
-     * @param string|null $path
-     *
-     * @throws TelegramSDKException
-     * @return string
-     */
-    public function getFileUrl(string $path = null): string
-    {
-        return sprintf('%s/file/bot%s/%s', $this->getBaseApiUrl(), $this->getAccessToken(), $path);
     }
 
     /**
