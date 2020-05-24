@@ -202,26 +202,31 @@ class TelegramClient
     /**
      * Download file from Telegram server for given file path.
      *
-     * @param string $filepath       File path on Telegram server.
-     * @param string $filenameToSave Filename to save (absolute path).
+     * @param string $filePath     File path on Telegram server.
+     * @param string $downloadPath Download path to save file.
      *
      * @throws TelegramSDKException
      *
      * @return bool
      */
-    public function download(string $filepath, string $filenameToSave): bool
+    public function download(string $filePath, string $downloadPath): bool
     {
-        if (!is_writable($filenameToSave)) {
-            throw TelegramSDKException::fileDownloadFailed('File path not writable', $filenameToSave);
+        $filename = $downloadPath . DIRECTORY_SEPARATOR . $filePath;
+
+        $fileDir = dirname($filename);
+
+        // Ensure dir is created.
+        if (!@mkdir($fileDir, 0755, true) && !is_dir($fileDir)) {
+            throw TelegramSDKException::fileDownloadFailed('Directory ' . $fileDir . ' can\'t be created');
         }
 
         $request = $this->resolveTelegramRequest('GET', '');
 
         $response = $this->getHttpClientHandler()->send(
-            $url = $this->getFileUrl($filepath),
+            $url = $this->getFileUrl($filePath),
             $request->getMethod(),
             $request->getHeaders(),
-            ['sink' => $filenameToSave],
+            ['sink' => $filename],
             $request->isAsyncRequest(),
         );
 

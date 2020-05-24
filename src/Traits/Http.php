@@ -6,6 +6,7 @@ use Telegram\Bot\Contracts\HttpClientInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Http\TelegramClient;
 use Telegram\Bot\Http\TelegramResponse;
+use Telegram\Bot\Objects\File;
 
 /**
  * Http.
@@ -71,17 +72,19 @@ trait Http
     /**
      * Download a file from Telegram server by file ID.
      *
-     * @param string $file_id  Telegram File ID.
-     * @param string $filename Filename to save (absolute path).
+     * @param File|string $file         Telegram File Instance or File ID.
+     * @param string      $downloadPath Download path to save file.
      *
      * @throws TelegramSDKException
      *
      * @return bool
      */
-    public function downloadFile(string $file_id, string $filename): bool
+    public function downloadFile($file, string $downloadPath): bool
     {
-        $file = $this->getFile(compact('file_id'));
+        if (!$file instanceof File) {
+            $file = $this->getFile(['file_id' => $file]);
+        }
 
-        return $this->getClient()->download($file->file_path, $filename);
+        return $this->getClient()->download($file->file_path, $downloadPath);
     }
 }
