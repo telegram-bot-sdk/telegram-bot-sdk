@@ -197,6 +197,10 @@ class TelegramRequest
             ->flatMap(fn ($param) => $param->toMultipart())
             ->all();
 
+        if ($params->has('thumb') && Validator::isInputFile($thumb = $params->get('thumb'))) {
+            $multipart[] = $thumb->toMultipart();
+        }
+
         return $params->map(fn ($contents, $name) => $this->generateMultipartData($contents, $name))
             ->concat($multipart)
             ->values()
@@ -216,7 +220,7 @@ class TelegramRequest
         if (Validator::isInputFile($contents)) {
             return [
                 'name'     => $name,
-                'contents' => $contents->getContents(),
+                'contents' => $name === 'thumb' ? json_encode($contents) : $contents->getContents(),
                 'filename' => $contents->getFilename(),
             ];
         }
