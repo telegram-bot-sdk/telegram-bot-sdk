@@ -39,7 +39,7 @@ class InputFile implements Multipartable, JsonSerializable
      */
     public static function file(string $file, string $filename = null): self
     {
-        return new static(new LazyOpenStream($file, 'r'), $filename);
+        return new static(new LazyOpenStream($file, 'rb'), $filename);
     }
 
     /**
