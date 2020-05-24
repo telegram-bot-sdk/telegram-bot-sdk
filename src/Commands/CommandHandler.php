@@ -165,7 +165,7 @@ class CommandHandler
      * @param $method
      * @param $parameters
      *
-     * @return mixed
+     * @return mixed|void
      */
     public function __call($method, $parameters)
     {

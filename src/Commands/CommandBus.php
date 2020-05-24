@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Helpers\Validator;
 use Telegram\Bot\Objects\MessageEntity;
 use Telegram\Bot\Objects\Update;
 use Telegram\Bot\Traits\HasBot;
@@ -128,7 +129,7 @@ class CommandBus
      */
     public function handler(Update $update): Update
     {
-        if (Entity::hasCommand($update)) {
+        if (Validator::hasCommand($update)) {
             Entity::from($update)->commandEntities()
                 ->each(fn (MessageEntity $entity) => $this->process($update, $entity));
         }

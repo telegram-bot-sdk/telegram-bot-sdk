@@ -22,22 +22,6 @@ class Entity
         $this->update = $update;
     }
 
-    /**
-     * Determine given update object has command entity.
-     *
-     * @param Update $update
-     *
-     * @return bool
-     */
-    public static function hasCommand(Update $update): bool
-    {
-        return (bool)$update->getMessage()
-            ->collect()
-            ->filter(fn ($val, $field) => Str::endsWith($field, 'entities'))
-            ->flatten()
-            ->contains('type', 'bot_command');
-    }
-
     public function entities(): ?array
     {
         return $this->update->getMessage()->{$this->field()};

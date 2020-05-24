@@ -2,9 +2,11 @@
 
 namespace Telegram\Bot\Helpers;
 
+use Illuminate\Support\Str;
 use Telegram\Bot\Contracts\Jsonable;
 use Telegram\Bot\Contracts\Multipartable;
 use Telegram\Bot\FileUpload\InputFile;
+use Telegram\Bot\Objects\Update;
 
 /**
  * Validator.
@@ -100,5 +102,21 @@ class Validator
     public static function isMultipartable($object): bool
     {
         return $object instanceof Multipartable;
+    }
+
+    /**
+     * Determine given update object has command entity.
+     *
+     * @param Update $update
+     *
+     * @return bool
+     */
+    public static function hasCommand(Update $update): bool
+    {
+        return (bool)$update->getMessage()
+            ->collect()
+            ->filter(fn ($val, $field) => Str::endsWith($field, 'entities'))
+            ->flatten()
+            ->contains('type', 'bot_command');
     }
 }
