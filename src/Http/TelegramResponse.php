@@ -161,7 +161,7 @@ class TelegramResponse
      */
     public function getDecodedBody(): object
     {
-        return $this->decodedBody;
+        return $this->decodedBody ?? new \stdClass();
     }
 
     /**
@@ -171,7 +171,7 @@ class TelegramResponse
      */
     public function getResult()
     {
-        return $this->decodedBody->result;
+        return $this->decodedBody->result ?? new \stdClass();
     }
 
     /**

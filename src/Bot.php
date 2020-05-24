@@ -6,11 +6,11 @@ use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Commands\Listeners\ProcessCommand;
+use Telegram\Bot\Contracts\HttpClientInterface;
 use Telegram\Bot\Events\EventFactory;
 use Telegram\Bot\Events\UpdateEvent;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Http\GuzzleHttpClient;
-use Telegram\Bot\Contracts\HttpClientInterface;
 use Telegram\Bot\Objects\Update;
 use Telegram\Bot\Traits\HasConfig;
 use Telegram\Bot\Traits\HasContainer;
@@ -45,8 +45,10 @@ class Bot
         $this->config = $config;
 
         $this->api = new Api($this->config('token'));
-        $this->api->setAsyncRequest($this->config('global.async_requests', false));
-        $this->setHttpClientHandler($this->config('global.http_client_handler', GuzzleHttpClient::class));
+        $this->setHttpClientHandler($this->config('global.http.client', GuzzleHttpClient::class));
+        $this->api->setBaseApiUrl($this->config('global.http.api_url', 'https://api.telegram.org'));
+        $this->api->setHttpClientConfig($this->config('global.http.config', []));
+        $this->api->setAsyncRequest($this->config('global.http.async', false));
 
         $this->eventFactory = new EventFactory();
 
