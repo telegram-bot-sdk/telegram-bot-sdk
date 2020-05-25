@@ -5,6 +5,7 @@ namespace Telegram\Bot;
 use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
+use Telegram\Bot\Addon\AddonManager;
 use Telegram\Bot\Commands\Listeners\ProcessCommand;
 use Telegram\Bot\Contracts\HttpClientInterface;
 use Telegram\Bot\Events\EventFactory;
@@ -57,6 +58,8 @@ class Bot
             $this->onUpdate(ProcessCommand::class);
             $this->eventFactory->registerListeners();
         }
+
+        AddonManager::loadAddons($this);
     }
 
     /**

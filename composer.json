@@ -35,7 +35,8 @@
     "guzzlehttp/psr7": "^1.3",
     "illuminate/container": "^6.0 || ^7.0",
     "illuminate/events": "^6.0 || ^7.0",
-    "illuminate/support": "^6.0 || ^7.0"
+    "illuminate/support": "^6.0 || ^7.0",
+    "telegram-bot-sdk/addon-manager": "^1.0@dev"
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.3",
