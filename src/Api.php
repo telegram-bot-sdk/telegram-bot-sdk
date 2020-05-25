@@ -16,7 +16,7 @@ class Api
     }
 
     use Traits\Http;
-    use Traits\HasAccessToken;
+    use Traits\HasToken;
 
     use Methods\Chat;
     use Methods\Commands;
@@ -34,11 +34,11 @@ class Api
     /**
      * Instantiates a new Telegram super-class object.
      *
-     * @param string $token The Telegram Bot API Access Token.
+     * @param string $token The Telegram Bot Token.
      */
     public function __construct(string $token = null)
     {
-        $this->accessToken = $token;
+        $this->token = $token;
     }
 
     /**
@@ -64,7 +64,7 @@ class Api
             ->sort()
             ->implode("\n");
 
-        $secret_key = hash('sha256', $this->accessToken, true);
+        $secret_key = hash('sha256', $this->token, true);
         $hash = hash_hmac('sha256', $data_check_string, $secret_key);
 
         if (!hash_equals($hash, $check_hash)) {

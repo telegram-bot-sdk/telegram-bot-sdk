@@ -124,14 +124,14 @@ class TelegramResponse
     }
 
     /**
-     * Return the bot access token that was used for this request.
+     * Return the bot token that was used for this request.
      *
      * @throws TelegramSDKException
      * @return string|null
      */
-    public function getAccessToken(): ?string
+    public function getToken(): ?string
     {
-        return $this->request->getAccessToken();
+        return $this->request->getToken();
     }
 
     /**

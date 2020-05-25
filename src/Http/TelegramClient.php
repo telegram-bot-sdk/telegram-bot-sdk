@@ -6,14 +6,14 @@ use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Telegram\Bot\Contracts\HttpClientInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Traits\HasAccessToken;
+use Telegram\Bot\Traits\HasToken;
 
 /**
  * Class TelegramClient.
  */
 class TelegramClient
 {
-    use HasAccessToken;
+    use HasToken;
 
     /** @var string Telegram Bot API URL. */
     protected string $baseApiUrl = 'https://api.telegram.org';
@@ -153,7 +153,7 @@ class TelegramClient
      */
     public function getFileUrl(string $path = null): string
     {
-        return sprintf('%s/file/bot%s/%s', $this->getBaseApiUrl(), $this->getAccessToken(), $path);
+        return sprintf('%s/file/bot%s/%s', $this->getBaseApiUrl(), $this->getToken(), $path);
     }
 
     /**
@@ -253,7 +253,7 @@ class TelegramClient
         array $params = []
     ): TelegramRequest {
         return new TelegramRequest(
-            $this->getAccessToken(),
+            $this->getToken(),
             $method,
             $endpoint,
             $params,
@@ -306,7 +306,7 @@ class TelegramClient
      */
     protected function makeApiUrl(TelegramRequest $request): string
     {
-        return sprintf('%s/bot%s/%s', $this->getBaseApiUrl(), $request->getAccessToken(), $request->getEndpoint());
+        return sprintf('%s/bot%s/%s', $this->getBaseApiUrl(), $request->getToken(), $request->getEndpoint());
     }
 
     /**

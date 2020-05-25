@@ -1,0 +1,53 @@
+<?php
+
+namespace Telegram\Bot\Traits;
+
+use Telegram\Bot\Exceptions\TelegramSDKException;
+
+/**
+ * HasToken.
+ */
+trait HasToken
+{
+    /** @var string|null Telegram Bot Token. */
+    protected ?string $token = null;
+
+    /**
+     * Determine if bot token is set.
+     *
+     * @return bool
+     */
+    public function hasToken(): bool
+    {
+        return $this->token !== null;
+    }
+
+    /**
+     * Get the bot token.
+     *
+     * @throws TelegramSDKException
+     * @return string
+     */
+    public function getToken(): string
+    {
+        if (!$this->hasToken()) {
+            throw TelegramSDKException::tokenNotProvided();
+        }
+
+        return $this->token;
+    }
+
+    /**
+     * Set the bot token.
+     *
+     * @param string $token The bot token.
+     *
+     * @return $this
+     */
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+}

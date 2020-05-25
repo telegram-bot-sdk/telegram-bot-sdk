@@ -13,8 +13,8 @@ use Telegram\Bot\Objects\File;
  *
  * @method self setHttpClientHandler(HttpClientInterface $httpClientHandler) Set Http Client Handler.
  *
- * @method string getAccessToken() Get the bot access token.
- * @method self setAccessToken(string $accessToken) Set the bot access token.
+ * @method string getToken() Get the bot token.
+ * @method self setToken(string $token) Set the bot token.
  *
  * @method string getBaseApiUrl() Get the Base API URL.
  * @method self setBaseApiUrl(string $baseApiUrl) Set the Base API URL.
@@ -42,7 +42,7 @@ trait Http
      */
     public function getClient(): TelegramClient
     {
-        return $this->client ??= (new TelegramClient())->setAccessToken($this->getAccessToken());
+        return $this->client ??= (new TelegramClient())->setToken($this->getToken());
     }
 
     /**

@@ -4,7 +4,7 @@ namespace Telegram\Bot\Http;
 
 use Telegram\Bot\Helpers\Validator;
 use Telegram\Bot\Objects\InputMedia\AbstractArrayObject;
-use Telegram\Bot\Traits\HasAccessToken;
+use Telegram\Bot\Traits\HasToken;
 
 /**
  * Class TelegramRequest.
@@ -13,7 +13,7 @@ use Telegram\Bot\Traits\HasAccessToken;
  */
 class TelegramRequest
 {
-    use HasAccessToken;
+    use HasToken;
 
     /** @var string The HTTP method for this request. */
     protected string $method;
@@ -33,20 +33,20 @@ class TelegramRequest
     /**
      * Creates a new Request entity.
      *
-     * @param string|null $accessToken
+     * @param string|null $token
      * @param string|null $method
      * @param string|null $endpoint
      * @param array|null  $params
      * @param bool        $isAsyncRequest
      */
     public function __construct(
-        string $accessToken = null,
+        string $token = null,
         string $method = null,
         string $endpoint = null,
         array $params = [],
         bool $isAsyncRequest = false
     ) {
-        $this->setAccessToken($accessToken);
+        $this->setToken($token);
         $this->setMethod($method);
         $this->setEndpoint($endpoint);
         $this->setParams($params);
