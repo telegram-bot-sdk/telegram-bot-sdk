@@ -325,7 +325,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         $this->api = Mocker::createApiResponse($requiredFields);
 
         /** @var Message $response */
-        $method = 'send'.ucfirst($fileType);
+        $method = 'send' . ucfirst($fileType);
         $response = $this->api->$method(['chat_id' => $chatId, $fileType => $fileId]);
 
         $this->assertInstanceOf(Message::class, $response);
