@@ -39,7 +39,6 @@
     "telegram-bot-sdk/addon-manager": "^1.0@dev"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.3",
     "phpunit/phpunit": ">=8.5"
   },
   "suggest": {
@@ -51,7 +50,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "4.0-dev"
+      "dev-master": "4.x-dev"
     }
   },
   "autoload": {
