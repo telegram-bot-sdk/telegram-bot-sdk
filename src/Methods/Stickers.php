@@ -280,5 +280,4 @@ trait Stickers
 
         return $response->getResult();
     }
-
 }
