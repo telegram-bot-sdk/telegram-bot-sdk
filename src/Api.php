@@ -90,7 +90,7 @@ class Api
     {
         $this->accessToken = isset($token) ? $token : getenv(static::BOT_TOKEN_ENV_NAME);
         if (!$this->accessToken) {
-            throw new TelegramSDKException('Required "token" not supplied in config and could not find fallback environment variable "'.static::BOT_TOKEN_ENV_NAME.'"');
+            throw new TelegramSDKException('Required "token" not supplied in config and could not find fallback environment variable "' . static::BOT_TOKEN_ENV_NAME . '"');
         }
 
         $httpClientHandler = null;
@@ -593,7 +593,7 @@ class Api
             return $this->post('sendChatAction', $params);
         }
 
-        throw new TelegramSDKException('Invalid Action! Accepted value: '.implode(', ', $validActions));
+        throw new TelegramSDKException('Invalid Action! Accepted value: ' . implode(', ', $validActions));
     }
 
     /**
@@ -1054,7 +1054,7 @@ class Api
         if ($action === 'get') {
             /* @noinspection PhpUndefinedFunctionInspection */
             $class_name = Str::studly(substr($method, 3));
-            $class = 'Telegram\Bot\Objects\\'.$class_name;
+            $class = 'Telegram\Bot\Objects\\' . $class_name;
             $response = $this->post($method, $arguments[0] ?: []);
 
             if (class_exists($class)) {

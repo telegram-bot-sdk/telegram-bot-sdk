@@ -34,7 +34,7 @@ class TelegramServiceProvider extends ServiceProvider
     {
         $this->setupConfig($this->app);
     }
-    
+
     /**
      * Setup the config.
      *
@@ -44,7 +44,7 @@ class TelegramServiceProvider extends ServiceProvider
      */
     protected function setupConfig(Application $app)
     {
-        $source = __DIR__.'/config/telegram.php';
+        $source = __DIR__ . '/config/telegram.php';
 
         if ($app instanceof LaravelApplication && $app->runningInConsole()) {
             $this->publishes([$source => config_path('telegram.php')]);
@@ -54,7 +54,7 @@ class TelegramServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom($source, 'telegram');
     }
-    
+
     /**
      * Register the service provider.
      */

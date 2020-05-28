@@ -6,7 +6,6 @@ use Telegram\Bot\Commands\Command;
 
 class MockCommand extends Command
 {
-
     public function __construct()
     {
     }
