@@ -28,7 +28,7 @@ use Telegram\Bot\Objects\File;
  * @method TelegramResponse post(string $endpoint, array $params = []) Sends a POST request to Telegram Bot API and returns the result.
  * @method TelegramResponse uploadFile(string $endpoint, array $params, array $jsonEncode = []) Sends a multipart/form-data request to Telegram Bot API and returns the result.
  *
- * @method TelegramResponse|null getLastResponse() getLastResponse() Returns the last response returned from API request.
+ * @method TelegramResponse|null getLastResponse() Returns the last response returned from API request.
  */
 trait Http
 {

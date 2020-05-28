@@ -3,6 +3,7 @@
 namespace Telegram\Bot;
 
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Traits\ForwardsCalls;
 use Telegram\Bot\Traits\HasConfig;
 use Telegram\Bot\Traits\HasContainer;
 
@@ -13,6 +14,7 @@ use Telegram\Bot\Traits\HasContainer;
  */
 class BotManager
 {
+    use ForwardsCalls;
     use HasContainer;
     use HasConfig;
 
@@ -165,6 +167,6 @@ class BotManager
      */
     public function __call($method, $parameters)
     {
-        return $this->bot()->{$method}(...$parameters);
+        return $this->forwardCallTo($this->bot(), $method, $parameters);
     }
 }

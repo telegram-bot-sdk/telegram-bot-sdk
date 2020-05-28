@@ -2,15 +2,16 @@
 
 namespace Telegram\Bot;
 
-use BadMethodCallException;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Exceptions\TelegramLoginAuthException;
+use Telegram\Bot\Traits\ForwardsCalls;
 
 /**
  * Class Api.
  */
 class Api
 {
+    use ForwardsCalls;
     use Macroable {
         __call as macroCall;
     }
@@ -82,24 +83,16 @@ class Api
      * Magic method to process any dynamic method calls.
      *
      * @param $method
-     * @param $arguments
+     * @param $parameters
      *
      * @return mixed
      */
-    public function __call($method, $arguments)
+    public function __call($method, $parameters)
     {
         if (static::hasMacro($method)) {
-            return $this->macroCall($method, $arguments);
+            return $this->macroCall($method, $parameters);
         }
 
-        if (method_exists($this, $method)) {
-            return $this->{$method}(...$arguments);
-        }
-
-        if (method_exists($this->getClient(), $method)) {
-            return $this->getClient()->{$method}(...$arguments);
-        }
-
-        throw new BadMethodCallException("Method [$method] does not exist.");
+        return $this->forwardCallTo($this->getClient(), $method, $parameters);
     }
 }
