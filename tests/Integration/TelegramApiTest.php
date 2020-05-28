@@ -24,7 +24,8 @@ use Telegram\Bot\Tests\Traits\GuzzleMock;
 
 class TelegramApiTest extends TestCase
 {
-    use GuzzleMock, CommandGenerator;
+    use GuzzleMock;
+    use CommandGenerator;
 
     protected function tearDown(): void
     {
