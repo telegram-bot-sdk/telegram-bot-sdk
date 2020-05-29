@@ -8,10 +8,9 @@
 <a href="https://packagist.org/packages/telegram-bot-sdk/telegram-bot-sdk"><img src="https://img.shields.io/packagist/dt/telegram-bot-sdk/telegram-bot-sdk.svg?style=for-the-badge" alt="Total Downloads"/></a>
 </p>
 
-Telegram Bot API - PHP SDK
-==========================
+# Telegram Bot API - PHP SDK
 
-> Telegram Bot API PHP SDK lets you develop Telegram Bots in PHP easily! Supports Laravel out of the box.
+> Telegram Bot PHP SDK lets you develop Telegram Bots in PHP easily! Supports Laravel out of the box.
 >
 > [Telegram Bot API][link-telegram-bot-api] is an HTTP-based interface created for developers keen on building bots for Telegram.
 > 
@@ -19,42 +18,50 @@ Telegram Bot API - PHP SDK
 >
 > To get started writing your bots using this SDK, Please refer the [documentation][link-docs].
 
-## Documentation
+## Usage
 
 Documentation for the SDK can be found on the [website][link-docs].
 
-## Additional information
+## Are You Using Telegram Bot SDK?
 
-Any issues, feedback, suggestions or questions please use issue tracker [here][link-issues].
+If you're using this SDK to build your Telegram Bots or have a project that's relevant to this SDK, We'd love to know and share it with the world.
+
+Head over to [Awesome Telegram Bots][link-awesome-telegram-bots] to share, discover, and learn more.
 
 ## Contributing
 
-Thank you for considering contributing to the project. Please review the [CONTRIBUTING][link-contributing] guidelines before submitting any pull requests.
+Thank you for considering contributing to the project. Please read [the contributing guide][link-contributing] before creating an issue or sending in a pull request.
+
+## Code of Conduct
+
+Please read our [Code of Conduct][link-code-of-conduct] before contributing or engaging in discussions.
 
 ## Security
 
-If you discover a security vulnerability within this package, please email Syed at `syed at lukonet.com`. All security vulnerabilities will be promptly addressed. You may view our full security policy [here][link-security-policy].
+If you discover a security vulnerability within this project, please email Syed at `syed at lukonet.com`. All security vulnerabilities will be promptly addressed. You may view our full security policy [here][link-security-policy].
 
 ## Credits
 
-- [Syed Irfaq R.][link-author]
+- [Irfaq Syed][link-author]
+- [SDK Team][link-team]
 - [All Contributors][link-contributors]
 
 ## Disclaimer
 
-This project and its author is neither associated, nor affiliated with [Telegram](https://telegram.org/) in anyway.
-See License section for more details.
+This project, its author, and contributors are neither associated nor affiliated with [Telegram](https://telegram.org/) in any way.
 
 ## License
 
-This project is released under the [BSD 3-Clause][link-license] License.
+This project is open-sourced software licensed under the [BSD 3-Clause][link-license] license.
 
 [link-author]: https://github.com/irazasyed
-[link-repo]: https://github.com/telegram-bot-sdk/telegram-bot-sdk
-[link-issues]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/issues
-[link-contributors]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/contributors
 [link-docs]: https://telegram-bot-sdk.readme.io/docs
+[link-repo]: https://github.com/telegram-bot-sdk/telegram-bot-sdk
+[link-team]: https://github.com/orgs/telegram-bot-sdk/people
+[link-contributors]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/contributors
 [link-license]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/blob/master/LICENSE.md
 [link-contributing]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/blob/master/.github/CONTRIBUTING.md
-[link-telegram-bot-api]: https://core.telegram.org/bots
+[link-code-of-conduct]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/blob/master/.github/CODE_OF_CONDUCT.md
 [link-security-policy]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/security/policy
+[link-awesome-telegram-bots]: https://github.com/telegram-bot-sdk/awesome-telegram-bots
+[link-telegram-bot-api]: https://core.telegram.org/bots

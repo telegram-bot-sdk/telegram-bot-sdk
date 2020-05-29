@@ -22,10 +22,9 @@ jobs:
       fail-fast: true
       matrix:
         php: [7.4]
-        laravel: [6.*, 7.*]
-        dependency-version: [prefer-lowest, prefer-stable]
+        stability: [prefer-lowest, prefer-stable]
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+    name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
     env:
       EXTENSIONS: dom, curl, mbstring, fileinfo
       EXT_CACHE_KEY: ext-cache-v1
@@ -54,7 +53,8 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
-          coverage: pcov
+          coverage: xdebug
+          ini-values: xdebug.overload_var_dump=1
           tools: prestissimo
 
       - name: Get composer cache directory
@@ -65,13 +65,11 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-
+          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
       - name: Install dependencies
-        run: |
-          composer require "illuminate/support:${{ matrix.laravel }}" --no-interaction --no-update --no-progress --no-suggest
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+        run: composer install --${{ matrix.stability }} --prefer-dist -n --no-suggest --no-progress
 
 #      - name: Execute tests
-#        run: vendor/bin/phpunit
+#        run: vendor/bin/phpunit --verbose
