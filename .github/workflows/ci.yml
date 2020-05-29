@@ -21,8 +21,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [7.2, 7.3, 7.4]
-        laravel: [5.5, 6, 7]
+        php: [7.4, 7.3, 7.2]
+        laravel: [7, 6, 5.5]
         stability: [prefer-lowest, prefer-stable]
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
