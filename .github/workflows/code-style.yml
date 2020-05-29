@@ -1,6 +1,6 @@
 name: Code Style
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   php-cs-fixer:
