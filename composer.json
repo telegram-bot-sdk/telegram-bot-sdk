@@ -67,6 +67,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
+    "format": "php-cs-fixer fix",
     "test": "phpunit"
   }
 }
