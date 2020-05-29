@@ -35,6 +35,7 @@
     "illuminate/support": "^5.0 || ^6.0 || ^7.0"
   },
   "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.16",
     "phpspec/prophecy": "^1.5",
     "phpunit/phpunit": "^4.8 || ^5.0"
   },
@@ -64,6 +65,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
+    "format": "php-cs-fixer fix",
     "test": "phpunit"
   }
 }
