@@ -2,50 +2,52 @@
 
 namespace Telegram\Bot\Tests;
 
-use Telegram\Bot\Api;
-use Prophecy\Argument;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Telegram\Bot\Api;
+use Telegram\Bot\Commands\CommandBus;
+use Telegram\Bot\Exceptions\TelegramResponseException;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\HttpClients\GuzzleHttpClient;
 use Telegram\Bot\Objects\File;
+use Telegram\Bot\Objects\Message;
+use Telegram\Bot\Objects\Update;
 use Telegram\Bot\Objects\User;
 use Telegram\Bot\TelegramClient;
-use Telegram\Bot\Objects\Update;
-use Telegram\Bot\Objects\Message;
 use Telegram\Bot\TelegramResponse;
 use Telegram\Bot\Tests\Mocks\Mocker;
-use Telegram\Bot\Commands\CommandBus;
-use Telegram\Bot\HttpClients\GuzzleHttpClient;
 
-class ApiTest extends \PHPUnit_Framework_TestCase
+class ApiTest extends TestCase
 {
     /**
      * @var Api
      */
     protected $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->api = new Api('token');
     }
 
     /**
      * @test
-     * @expectedException \Telegram\Bot\Exceptions\TelegramSDKException
      */
     public function it_throws_exception_when_no_token_is_provided()
     {
+        $this->expectException(TelegramSDKException::class);
         new Api();
     }
 
     /**
      * @test
      * @dataProvider badTypes
-     * @expectedException InvalidArgumentException
-     * @link         https://phpunit.de/manual/3.7/en/appendixes.annotations.html#appendixes.annotations.dataProvider
      *
      * @param mixed $type The item under test
      */
     public function it_only_allows_a_string_as_the_api_token($type)
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->api->setAccessToken($type);
     }
 
@@ -68,10 +70,10 @@ class ApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test
-     * @expectedException InvalidArgumentException
      */
     public function it_throws_exception_if_httpClient_is_not_specified_correctly()
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->api = new Api('token', false, 'test');
     }
 
@@ -93,21 +95,6 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         $this->api = Mocker::createMessageResponse('/start');
         $updates = $this->api->commandsHandler();
         $this->assertInstanceOf(Update::class, $updates[0]);
-    }
-
-    /** @test */
-    public function it_checks_the_correct_command_is_handled()
-    {
-        $this->api = Mocker::createMessageResponse('/mycommand');
-        $command = Mocker::createMockCommand('mycommand');
-        $command2 = Mocker::createMockCommand('mycommand2');
-
-        $this->api->addCommands([$command->reveal(), $command2->reveal()]);
-
-        $this->api->commandsHandler();
-
-        $command->make(Argument::any(), Argument::any(), Argument::any())->shouldHaveBeenCalled();
-        $command2->make(Argument::any(), Argument::any(), Argument::any())->shouldNotHaveBeenCalled();
     }
 
     /** @test */
@@ -133,15 +120,15 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         $isAsync = $this->api->isAsyncRequest();
 
         $this->assertTrue($isAsync);
-        $this->assertInternalType('bool', $isAsync);
+        $this->assertIsBool($isAsync);
     }
 
     /**
      * @test
-     * @expectedException \Telegram\Bot\Exceptions\TelegramResponseException
      */
     public function it_throws_an_exception_if_the_api_response_is_not_ok()
     {
+        $this->expectException(TelegramResponseException::class);
         $this->api = Mocker::createApiResponse([], false);
 
         $this->api->getMe();
@@ -158,7 +145,6 @@ class ApiTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        /** @var User $response */
         $response = $this->api->getMe();
 
         $this->assertInstanceOf(User::class, $response);
@@ -181,7 +167,6 @@ class ApiTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        /** @var Message $response */
         $response = $this->api->sendMessage(['chat_id' => $chatId, 'text' => $text]);
 
         $this->assertInstanceOf(Message::class, $response);
@@ -206,7 +191,6 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         $this->api->setTimeOut(1);
         $this->api->setConnectTimeOut(1);
 
-        /** @var Message $response */
         $response = $this->api->sendMessage(['chat_id' => $chatId, 'text' => $text]);
 
         /** @var GuzzleHttpClient $clientHandler */
@@ -237,7 +221,6 @@ class ApiTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        /** @var Message $response */
         $response = $this->api->forwardMessage([
             'chat_id'      => $chatId,
             'from_chat_id' => $fromId,
@@ -276,7 +259,6 @@ class ApiTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        /** @var Message $response */
         $response = $this->api->sendPhoto(['chat_id' => $chatId, 'photo' => $photo]);
 
         $this->assertInstanceOf(Message::class, $response);
@@ -366,10 +348,10 @@ class ApiTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \Telegram\Bot\Exceptions\TelegramSDKException
      */
     public function it_throws_exception_if_invalid_chatAction_is_sent()
     {
+        $this->expectException(TelegramSDKException::class);
         $this->api->sendChatAction(['action' => 'zzz']);
     }
 
@@ -419,19 +401,19 @@ class ApiTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \Telegram\Bot\Exceptions\TelegramSDKException
      */
     public function it_throws_an_exception_if_setWebhook_url_is_not_a_url()
     {
+        $this->expectException(TelegramSDKException::class);
         $this->api->setWebhook(['url' => 'string']);
     }
 
     /**
      * @test
-     * @expectedException \Telegram\Bot\Exceptions\TelegramSDKException
      */
     public function it_throws_an_exception_if_webhook_url_is_not_a_https_url()
     {
+        $this->expectException(TelegramSDKException::class);
         $this->api->setWebhook(['url' => 'http://example.com']);
     }
 

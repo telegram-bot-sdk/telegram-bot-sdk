@@ -30,14 +30,14 @@
     }
   ],
   "require": {
-    "php": "^7.2.5",
+    "php": "^7.2",
     "guzzlehttp/guzzle": "^6.0 || ^7.0",
-    "illuminate/support": "^5.0 || ^6.0 || ^7.0"
+    "illuminate/support": "^6.0 || ^7.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.16",
     "phpspec/prophecy": "^1.5",
-    "phpunit/phpunit": "^4.8 || ^5.0"
+    "phpunit/phpunit": "^8.5 || ^9.0"
   },
   "suggest": {
     "illuminate/container": "Hold dependencies to be injected in commands constructors",

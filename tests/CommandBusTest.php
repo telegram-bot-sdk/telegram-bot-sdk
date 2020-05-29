@@ -2,21 +2,22 @@
 
 namespace Telegram\Bot\Tests;
 
-use Prophecy\Argument;
-use Telegram\Bot\Objects\Update;
-use Telegram\Bot\Tests\Mocks\Mocker;
+use PHPUnit\Framework\TestCase;
 use Telegram\Bot\Commands\CommandBus;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\Update;
 use Telegram\Bot\Tests\Mocks\MockCommand;
 use Telegram\Bot\Tests\Mocks\MockCommandTwo;
+use Telegram\Bot\Tests\Mocks\Mocker;
 
-class CommandBusTest extends \PHPUnit_Framework_TestCase
+class CommandBusTest extends TestCase
 {
     /**
      * @var CommandBus
      */
     protected $commandBus;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->commandBus = new CommandBus(Mocker::createApi()->reveal());
     }
@@ -68,29 +69,31 @@ class CommandBusTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \Telegram\Bot\Exceptions\TelegramSDKException
+     * @throws TelegramSDKException
      */
     public function it_checks_a_supplied_command_object_is_of_the_correct_type()
     {
+        $this->expectException(TelegramSDKException::class);
         $this->commandBus->addCommand(new \stdClass());
     }
 
     /**
      * @test
-     * @expectedException \Telegram\Bot\Exceptions\TelegramSDKException
+     * @throws TelegramSDKException
      */
     public function it_throws_exception_if_supplied_command_class_does_not_exist()
     {
+        $this->expectException(TelegramSDKException::class);
         $this->commandBus->addCommand('nonexistclass');
     }
 
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function it_throws_exception_if_message_is_only_blank_text()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $this->commandBus->parseCommand('');
     }
 
