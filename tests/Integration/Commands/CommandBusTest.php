@@ -2,10 +2,13 @@
 
 namespace Telegram\Bot\Tests\Integration\Commands;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Telegram\Bot\Bot;
+use stdClass;
+use Telegram\Bot\BotManager;
 use Telegram\Bot\Commands\Command;
 use Telegram\Bot\Commands\CommandBus;
 use Telegram\Bot\Commands\CommandInterface;
@@ -17,11 +20,15 @@ class CommandBusTest extends TestCase
 {
 
     protected CommandBus $bus;
+    protected Container $container;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->bus = new CommandBus(new Bot(['token' => '123']));
+        $this->container = Container::getInstance();
+        $bot = (new BotManager(['bots' => ['testBot' => ['token' => '123']]]))->bot('testBot');
+
+        $this->bus = $this->container->make(CommandBus::class, compact('bot'));
     }
 
     /** @test */
@@ -113,7 +120,7 @@ class CommandBusTest extends TestCase
     /** @test */
     public function it_throws_an_exception_if_parsing_for_a_command_in_a_message_with_no_text()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $message = '';
 
         $this->bus->parseCommand($message, 5, 5);
@@ -138,7 +145,7 @@ class CommandBusTest extends TestCase
     {
         $this->expectException(TelegramSDKException::class);
 
-        $this->bus->addCommand('command', \stdClass::class);
+        $this->bus->addCommand('command', stdClass::class);
         $this->bus->resolveCommand('command');
     }
 
@@ -150,7 +157,7 @@ class CommandBusTest extends TestCase
     public function it_can_resolve_a_valid_command()
     {
         $this->bus->addCommand('command', 'fakeCommand');
-        $this->bus->getBot()->getContainer()->instance('fakeCommand', $this->getMockCommand());
+        $this->container->instance('fakeCommand', $this->getMockCommand());
 
         $command = $this->bus->resolveCommand('command');
 
@@ -178,7 +185,7 @@ class CommandBusTest extends TestCase
         $command->expects($this->once())->method('handle');
 
         $this->bus->addCommand('command', 'fakeCommand');
-        $this->bus->getBot()->getContainer()->instance('fakeCommand', $command);
+        $this->container->instance('fakeCommand', $command);
 
         $returnedUpdate = $this->bus->handler($update);
 
@@ -194,7 +201,7 @@ class CommandBusTest extends TestCase
         $command->expects($this->once())->method('handle');
 
         $this->bus->addCommand('command', 'fakeCommand');
-        $this->bus->getBot()->getContainer()->instance('fakeCommand', $command);
+        $this->container->instance('fakeCommand', $command);
 
         $this->bus->handler($update);
     }
@@ -213,7 +220,7 @@ class CommandBusTest extends TestCase
             );
 
         $this->bus->addCommand('command', CommandParametersAllRequired::class);
-        $this->bus->getBot()->getContainer()->instance(CommandParametersAllRequired::class, $command);
+        $this->container->instance(CommandParametersAllRequired::class, $command);
 
         $this->bus->handler($update);
     }
@@ -231,7 +238,7 @@ class CommandBusTest extends TestCase
             );
 
         $this->bus->addCommand('command', CommandParametersHasOptional::class);
-        $this->bus->getBot()->getContainer()->instance(CommandParametersHasOptional::class, $command);
+        $this->container->instance(CommandParametersHasOptional::class, $command);
 
         $this->bus->handler($update);
     }
@@ -250,7 +257,7 @@ class CommandBusTest extends TestCase
             );
 
         $this->bus->addCommand('command', CommandParametersHasRegex::class);
-        $this->bus->getBot()->getContainer()->instance(CommandParametersHasRegex::class, $command);
+        $this->container->instance(CommandParametersHasRegex::class, $command);
 
         $this->bus->handler($update);
     }
@@ -269,7 +276,7 @@ class CommandBusTest extends TestCase
             );
 
         $this->bus->addCommand('command', CommandParametersHasRegex::class);
-        $this->bus->getBot()->getContainer()->instance(CommandParametersHasRegex::class, $command);
+        $this->container->instance(CommandParametersHasRegex::class, $command);
 
         $this->bus->handler($update);
     }
@@ -292,7 +299,7 @@ class CommandBusTest extends TestCase
             );
 
         $this->bus->addCommand('command', CommandParametersAllRequired::class);
-        $this->bus->getBot()->getContainer()->instance(CommandParametersAllRequired::class, $command);
+        $this->container->instance(CommandParametersAllRequired::class, $command);
 
         $this->bus->handler($update);
     }
