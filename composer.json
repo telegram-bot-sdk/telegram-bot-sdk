@@ -40,7 +40,7 @@
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.16",
-    "phpunit/phpunit": ">=8.5"
+    "phpunit/phpunit": "^8.5 || ^9.0"
   },
   "suggest": {
     "telegram-bot-sdk/laravel": "Laravel Support for Telegram Bot SDK"
