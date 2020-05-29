@@ -87,7 +87,6 @@ class CommandBusTest extends TestCase
         $this->commandBus->addCommand('nonexistclass');
     }
 
-
     /**
      * @test
      */

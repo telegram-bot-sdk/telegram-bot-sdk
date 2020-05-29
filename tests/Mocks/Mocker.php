@@ -2,15 +2,15 @@
 
 namespace Telegram\Bot\Tests\Mocks;
 
-use Telegram\Bot\Api;
-use Prophecy\Prophet;
-use Prophecy\Argument;
 use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Telegram\Bot\Objects\Update;
-use GuzzleHttp\Handler\MockHandler;
+use Prophecy\Argument;
+use Prophecy\Prophet;
+use Telegram\Bot\Api;
 use Telegram\Bot\HttpClients\GuzzleHttpClient;
+use Telegram\Bot\Objects\Update;
 
 class Mocker
 {
@@ -108,7 +108,6 @@ class Mocker
     {
         return self::createUpdateResponse(['text' => $message]);
     }
-
 
     /**
      * This creates a raw api response to simulate what Telegram replies

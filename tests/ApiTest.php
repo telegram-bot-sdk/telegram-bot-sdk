@@ -4,7 +4,6 @@ namespace Telegram\Bot\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Telegram\Bot\Api;
 use Telegram\Bot\Commands\CommandBus;
 use Telegram\Bot\Exceptions\TelegramResponseException;
@@ -234,7 +233,6 @@ class ApiTest extends TestCase
         $this->assertEquals($forwardFromId, $response->getForwardFrom()->getId());
     }
 
-
     /** @test */
     public function it_checks_a_message_object_is_returned_with_photo_information_when_sendPhoto_is_sent()
     {
@@ -333,7 +331,6 @@ class ApiTest extends TestCase
                 'latitude'  => 99.9,
             ],
         ];
-
 
         $this->api = Mocker::createApiResponse($requiredFields);
 

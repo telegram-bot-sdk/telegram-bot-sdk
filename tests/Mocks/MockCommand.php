@@ -10,7 +10,6 @@ class MockCommand extends Command
     {
     }
 
-
     protected $name = 'mycommand';
 
     protected $description = 'a mock command';
