@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Traits\HasConfig;
 use Telegram\Bot\Traits\HasContainer;
@@ -55,6 +56,7 @@ class BotManager
      * @param string $name
      *
      * @throws TelegramSDKException
+     * @throws BindingResolutionException
      *
      * @return static
      */
@@ -73,6 +75,7 @@ class BotManager
      * @param string $name
      *
      * @throws TelegramSDKException
+     * @throws BindingResolutionException
      *
      * @return Bot
      */
@@ -84,11 +87,27 @@ class BotManager
     }
 
     /**
+     * Set a bot instance.
+     *
+     * @param Bot $bot
+     *
+     * @return static
+     */
+    public function setBot(Bot $bot): self
+    {
+        $name = $bot->getConfig()['bot'];
+        $this->bots[$name] = $bot;
+
+        return $this;
+    }
+
+    /**
      * Reconnect to the given bot.
      *
      * @param string $name
      *
      * @throws TelegramSDKException
+     * @throws BindingResolutionException
      *
      * @return Bot
      */
@@ -145,12 +164,14 @@ class BotManager
      * @param string $name
      *
      * @throws TelegramSDKException
-     *
+     * @throws BindingResolutionException
      * @return Bot
      */
     protected function makeBot(string $name): Bot
     {
-        return (new Bot($this->getBotConfig($name)))->setContainer($this->getContainer());
+        return $this->getContainer()
+            ->make(Bot::class, ['config' => $this->getBotConfig($name)])
+            ->setContainer($this->getContainer());
     }
 
     /**
@@ -160,6 +181,7 @@ class BotManager
      * @param array  $parameters
      *
      * @throws TelegramSDKException
+     * @throws BindingResolutionException
      *
      * @return mixed
      */
