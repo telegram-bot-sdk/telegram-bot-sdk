@@ -69,7 +69,7 @@ jobs:
           restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
       - name: Install dependencies
-        run: composer install --${{ matrix.stability }} --prefer-dist -n --no-suggest --no-progress
+        run: composer update --${{ matrix.stability }} --prefer-dist -n --no-suggest --no-progress
 
 #      - name: Execute tests
 #        run: vendor/bin/phpunit --verbose
