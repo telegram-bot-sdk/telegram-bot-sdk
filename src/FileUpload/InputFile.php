@@ -55,7 +55,7 @@ class InputFile
             return $this->path;
         }
 
-        if (!$this->isRemoteFile() && !is_readable($this->path)) {
+        if (! $this->isRemoteFile() && ! is_readable($this->path)) {
             throw new TelegramSDKException('Failed to create InputFile entity. Unable to read resource: ' . $this->path . '.');
         }
 

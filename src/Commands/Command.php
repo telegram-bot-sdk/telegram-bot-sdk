@@ -2,9 +2,9 @@
 
 namespace Telegram\Bot\Commands;
 
+use Illuminate\Support\Str;
 use Telegram\Bot\Api;
 use Telegram\Bot\Objects\Update;
-use Illuminate\Support\Str;
 
 /**
  * Class Command.
@@ -183,7 +183,7 @@ abstract class Command implements CommandInterface
             $reply_name = Str::studly(substr($method, 9));
             $methodName = 'send' . $reply_name;
 
-            if (!method_exists($this->telegram, $methodName)) {
+            if (! method_exists($this->telegram, $methodName)) {
                 return 'Method Not Found';
             }
 

@@ -196,7 +196,7 @@ class TelegramResponse
             parse_str($this->body, $this->decodedBody);
         }
 
-        if (!is_array($this->decodedBody)) {
+        if (! is_array($this->decodedBody)) {
             $this->decodedBody = [];
         }
 

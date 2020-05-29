@@ -3,6 +3,7 @@
 namespace Telegram\Bot;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Str;
 use Telegram\Bot\Commands\CommandBus;
 use Telegram\Bot\Commands\CommandInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -14,7 +15,6 @@ use Telegram\Bot\Objects\Message;
 use Telegram\Bot\Objects\Update;
 use Telegram\Bot\Objects\User;
 use Telegram\Bot\Objects\UserProfilePhotos;
-use Illuminate\Support\Str;
 
 /**
  * Class Api.
@@ -89,7 +89,7 @@ class Api
     public function __construct($token = null, $async = false, $http_client_handler = null)
     {
         $this->accessToken = isset($token) ? $token : getenv(static::BOT_TOKEN_ENV_NAME);
-        if (!$this->accessToken) {
+        if (! $this->accessToken) {
             throw new TelegramSDKException('Required "token" not supplied in config and could not find fallback environment variable "' . static::BOT_TOKEN_ENV_NAME . '"');
         }
 
@@ -979,7 +979,7 @@ class Api
                 continue;
             }
 
-            if (!is_resource($contents) && $name !== 'url') {
+            if (! is_resource($contents) && $name !== 'url') {
                 $validUrl = filter_var($contents, FILTER_VALIDATE_URL);
                 $contents = (is_file($contents) || $validUrl) ? (new InputFile($contents))->open() : (string)$contents;
             }

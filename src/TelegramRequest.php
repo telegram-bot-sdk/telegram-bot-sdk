@@ -159,11 +159,11 @@ class TelegramRequest
      */
     public function validateMethod()
     {
-        if (!$this->method) {
+        if (! $this->method) {
             throw new TelegramSDKException('HTTP method not specified.');
         }
 
-        if (!in_array($this->method, ['GET', 'POST'])) {
+        if (! in_array($this->method, ['GET', 'POST'])) {
             throw new TelegramSDKException('Invalid HTTP method specified.');
         }
     }

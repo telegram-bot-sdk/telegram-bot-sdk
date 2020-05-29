@@ -70,8 +70,8 @@ class CommandBus
      */
     public function addCommand($command)
     {
-        if (!is_object($command)) {
-            if (!class_exists($command)) {
+        if (! is_object($command)) {
+            if (! class_exists($command)) {
                 throw new TelegramSDKException(
                     sprintf(
                         'Command class "%s" not found! Please make sure the class exists.',
@@ -88,7 +88,6 @@ class CommandBus
         }
 
         if ($command instanceof CommandInterface) {
-
             /*
              * At this stage we definitely have a proper command to use.
              *
@@ -150,7 +149,7 @@ class CommandBus
     public function handler($message, Update $update)
     {
         $match = $this->parseCommand($message);
-        if (!empty($match)) {
+        if (! empty($match)) {
             $command = $match[1];
 //            $bot = (!empty($match[2])) ? $match[2] : '';
             $arguments = $match[3];
@@ -209,9 +208,8 @@ class CommandBus
      */
     private function buildDependencyInjectedCommand($commandClass)
     {
-
         // check if the command has a constructor
-        if (!method_exists($commandClass, '__construct')) {
+        if (! method_exists($commandClass, '__construct')) {
             return new $commandClass();
         }
 

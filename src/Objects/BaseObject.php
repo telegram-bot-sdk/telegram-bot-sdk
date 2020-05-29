@@ -2,8 +2,8 @@
 
 namespace Telegram\Bot\Objects;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
@@ -56,14 +56,14 @@ abstract class BaseObject extends Collection
     {
         $relations = $this->relations();
 
-        if (empty($relations) || !is_array($relations)) {
+        if (empty($relations) || ! is_array($relations)) {
             return false;
         }
 
         $results = $this->all();
         foreach ($results as $key => $data) {
             foreach ($relations as $property => $class) {
-                if (!is_object($data) && isset($results[$key][$property])) {
+                if (! is_object($data) && isset($results[$key][$property])) {
                     $results[$key][$property] = new $class($results[$key][$property]);
                     continue;
                 }
