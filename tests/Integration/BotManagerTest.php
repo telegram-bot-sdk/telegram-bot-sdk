@@ -2,7 +2,9 @@
 
 namespace Telegram\Bot\Tests\Integration;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use PHPUnit\Framework\TestCase;
+use Telegram\Bot\Bot;
 use Telegram\Bot\BotManager;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
@@ -60,12 +62,13 @@ class BotManagerTest extends TestCase
     /**
      * @test
      * @throws TelegramSDKException
+     * @throws BindingResolutionException
      */
     public function if_no_bot_name_is_passed_the_default_bot_is_used()
     {
         $bot = $this->manager->bot();
 
-        $this->assertEquals('bot1', $bot->getConfig()['bot']);
+        $this->assertSame('bot1', $bot->getConfig()['bot']);
     }
 
     /** @test */
@@ -81,47 +84,51 @@ class BotManagerTest extends TestCase
     /**
      * @test
      * @throws TelegramSDKException
+     * @throws BindingResolutionException
      */
     public function a_bot_can_be_removed_from_the_manager()
     {
         $this->manager->bot('bot1');
         $this->manager->bot('bot2');
         $this->manager->bot('bot3');
-
-        $this->assertCount(3, $this->manager->getBots());
-
+        $allBots = $this->manager->getBots();
         $this->manager->disconnect('bot2');
         $remainingBots = $this->manager->getBots();
 
+        $this->assertCount(3, $allBots);
         $this->assertCount(2, $remainingBots);
         $this->assertArrayNotHasKey('bot2', $remainingBots);
-        $this->assertArrayHasKey('bot1', $remainingBots);
-        $this->assertArrayHasKey('bot3', $remainingBots);
     }
 
     /**
      * @test
      * @throws TelegramSDKException
+     * @throws BindingResolutionException
      */
     public function a_bot_can_be_reconnected_to_the_manager()
     {
-        $this->assertCount(0, $this->manager->getBots());
+        $initialBots = $this->manager->getBots();
         $this->manager->reconnect('bot1');
+        $connected = $this->manager->getBots();
 
-        $this->assertCount(1, $this->manager->getBots());
-        $this->assertArrayHasKey('bot1', $this->manager->getBots());
+        $this->assertCount(0, $initialBots);
+        $this->assertCount(1, $connected);
+        $this->assertArrayHasKey('bot1', $connected);
     }
 
     /**
      * @test can change the default bot name
      * @throws TelegramSDKException
+     * @throws BindingResolutionException
      */
     public function can_change_the_default_bot_name()
     {
-        $this->assertEquals('bot1', $this->manager->getDefaultBotName());
-
+        $initialName = $this->manager->getDefaultBotName();
         $this->manager->setDefaultBotName('bot3');
-        $this->assertEquals('bot3', $this->manager->getDefaultBotName());
+        $newDefaultName = $this->manager->getDefaultBotName();
+
+        $this->assertSame('bot1', $initialName);
+        $this->assertSame('bot3', $newDefaultName);
     }
 
     /**
@@ -133,6 +140,18 @@ class BotManagerTest extends TestCase
         $config = $this->manager->getBotConfig('bot3');
 
         $this->assertArrayHasKey('bot', $config);
-        $this->assertEquals('bot3', $config['bot']);
+        $this->assertSame('bot3', $config['bot']);
+    }
+
+    /** @test it calls methods on the bot */
+    public function it_calls_methods_on_the_bot()
+    {
+        $fakeBot = $this->getMockBuilder(Bot::class)->disableOriginalConstructor()->getMock();
+        $fakeBot->expects($this->once())->method('getConfig')->willReturn(['bot' => 'fakeBot']);
+        $fakeBot->expects($this->once())->method('__call')->with($this->equalTo('sendMessage'), $this->equalTo([[]]));
+
+        $this->manager->setBot($fakeBot);
+
+        $this->manager->bot('fakeBot')->sendMessage([]);
     }
 }
