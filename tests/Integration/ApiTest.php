@@ -4,6 +4,7 @@ namespace Telegram\Bot\Tests\Integration;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Stream;
+use function GuzzleHttp\Psr7\stream_for;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Telegram\Bot\Api;
@@ -18,11 +19,8 @@ use Telegram\Bot\Objects\Update;
 use Telegram\Bot\Objects\Updates\Message;
 use Telegram\Bot\Tests\Traits\GuzzleMock;
 
-use function GuzzleHttp\Psr7\stream_for;
-
 class ApiTest extends TestCase
 {
-
     /**
      * @var Api
      */
@@ -406,8 +404,10 @@ class ApiTest extends TestCase
 
         $this->assertInstanceOf(Message::class, $result);
         $this->assertStringContainsString('This is some text', $body);
-        $this->assertStringContainsString('Content-Disposition: form-data; name="document"; filename="myFile.txt"',
-                                          $body);
+        $this->assertStringContainsString(
+            'Content-Disposition: form-data; name="document"; filename="myFile.txt"',
+            $body
+        );
     }
 
     /**
@@ -441,8 +441,10 @@ class ApiTest extends TestCase
         $body = (string)$request->getBody();
 
         $this->assertStringContainsString('Content-Disposition: form-data; name="chat_id"', $body);
-        $this->assertStringContainsString('Content-Disposition: form-data; name="document"; filename="testing.txt"',
-                                          $body);
+        $this->assertStringContainsString(
+            'Content-Disposition: form-data; name="document"; filename="testing.txt"',
+            $body
+        );
         $this->assertEquals('POST', $request->getMethod());
         $this->assertStringContainsString('multipart/form-data;', $request->getHeaderLine('Content-Type'));
     }
@@ -499,11 +501,15 @@ class ApiTest extends TestCase
         $response1 = (string)$this->getHistory()->pluck('request')->get(0)->getBody();
         $response2 = (string)$this->getHistory()->pluck('request')->get(1)->getBody();
 
-        $this->assertStringContainsString('Content-Disposition: form-data; name="certificate"; filename="public.key"',
-                                          $response1);
+        $this->assertStringContainsString(
+            'Content-Disposition: form-data; name="certificate"; filename="public.key"',
+            $response1
+        );
         $this->assertStringContainsString('THISISSOMERANDOMKEYDATA', $response1);
-        $this->assertStringContainsString('Content-Disposition: form-data; name="certificate"; filename="certificate.pem"',
-                                          $response2);
+        $this->assertStringContainsString(
+            'Content-Disposition: form-data; name="certificate"; filename="certificate.pem"',
+            $response2
+        );
         $this->assertStringContainsString('THISISSOMERANDOMKEYDATA', $response1);
     }
 

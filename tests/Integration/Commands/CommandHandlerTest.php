@@ -1,4 +1,5 @@
 <?php
+
 //
 //namespace Telegram\Bot\Tests\Integration\Commands;
 //
