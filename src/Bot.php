@@ -13,6 +13,7 @@ use Telegram\Bot\Events\UpdateEvent;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Http\GuzzleHttpClient;
 use Telegram\Bot\Objects\Update;
+use Telegram\Bot\Traits\ForwardsCalls;
 use Telegram\Bot\Traits\HasConfig;
 use Telegram\Bot\Traits\HasContainer;
 
@@ -23,6 +24,7 @@ use Telegram\Bot\Traits\HasContainer;
  */
 class Bot
 {
+    use ForwardsCalls;
     use Macroable {
         __call as macroCall;
     }
@@ -258,6 +260,6 @@ class Bot
             return $this->macroCall($method, $parameters);
         }
 
-        return $this->api->{$method}(...$parameters);
+        return $this->forwardCallTo($this->api, $method, $parameters);
     }
 }

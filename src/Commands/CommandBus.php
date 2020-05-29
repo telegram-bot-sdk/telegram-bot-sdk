@@ -220,7 +220,7 @@ class CommandBus
 
         $command = array_change_key_case($this->commands)[strtolower($command)] ?? $command;
 
-        if (!class_exists($command)) {
+        if (! class_exists($command)) {
             throw TelegramCommandException::commandClassDoesNotExist($command);
         }
 

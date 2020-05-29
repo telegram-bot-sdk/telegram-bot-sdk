@@ -101,7 +101,7 @@ class GuzzleHttpClient implements HttpClientInterface
         bool $isAsyncRequest = false
     ) {
         $options[RequestOptions::HEADERS] = $headers;
-        $options[RequestOptions::SYNCHRONOUS] = !$isAsyncRequest;
+        $options[RequestOptions::SYNCHRONOUS] = ! $isAsyncRequest;
 
         try {
             $response = $this->getClient()->requestAsync($method, $url, $options);
@@ -114,7 +114,7 @@ class GuzzleHttpClient implements HttpClientInterface
         } catch (RequestException $e) {
             $response = $e->getResponse();
 
-            if (!$response instanceof ResponseInterface) {
+            if (! $response instanceof ResponseInterface) {
                 throw new TelegramSDKException($e->getMessage(), $e->getCode());
             }
         }

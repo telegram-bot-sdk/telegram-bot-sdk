@@ -30,7 +30,7 @@ trait HasToken
      */
     public function getToken(): string
     {
-        if (!$this->hasToken()) {
+        if (! $this->hasToken()) {
             throw TelegramSDKException::tokenNotProvided();
         }
 

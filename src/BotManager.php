@@ -4,6 +4,7 @@ namespace Telegram\Bot;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Traits\ForwardsCalls;
 use Telegram\Bot\Traits\HasConfig;
 use Telegram\Bot\Traits\HasContainer;
 
@@ -14,6 +15,7 @@ use Telegram\Bot\Traits\HasContainer;
  */
 class BotManager
 {
+    use ForwardsCalls;
     use HasContainer;
     use HasConfig;
 
@@ -148,7 +150,7 @@ class BotManager
 
         $config = $this->config("bots.{$name}");
 
-        if (!$config) {
+        if (! $config) {
             throw TelegramSDKException::botNotConfigured($name);
         }
 
@@ -187,6 +189,6 @@ class BotManager
      */
     public function __call($method, $parameters)
     {
-        return $this->bot()->{$method}(...$parameters);
+        return $this->forwardCallTo($this->bot(), $method, $parameters);
     }
 }

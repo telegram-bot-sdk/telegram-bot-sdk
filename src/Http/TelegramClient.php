@@ -216,7 +216,7 @@ class TelegramClient
         $fileDir = dirname($filename);
 
         // Ensure dir is created.
-        if (!@mkdir($fileDir, 0755, true) && !is_dir($fileDir)) {
+        if (! @mkdir($fileDir, 0755, true) && ! is_dir($fileDir)) {
             throw TelegramSDKException::fileDownloadFailed('Directory ' . $fileDir . ' can\'t be created');
         }
 

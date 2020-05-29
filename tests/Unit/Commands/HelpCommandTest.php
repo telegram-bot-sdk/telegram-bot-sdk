@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Telegram\Bot\Api;
 use Telegram\Bot\Commands\HelpCommand;
-use Telegram\Bot\Objects\Updates\Message;
 use Telegram\Bot\Objects\Update;
+use Telegram\Bot\Objects\Updates\Message;
 
 class HelpCommandTest extends TestCase
 {

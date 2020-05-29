@@ -65,7 +65,7 @@ class TelegramResponse
     {
         $this->decodedBody = json_decode($this->body);
 
-        if (!is_object($this->decodedBody)) {
+        if (! is_object($this->decodedBody)) {
             $this->decodedBody = new \stdClass();
         }
 

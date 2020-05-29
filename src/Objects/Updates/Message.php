@@ -2,9 +2,9 @@
 
 namespace Telegram\Bot\Objects\Updates;
 
+use Telegram\Bot\Objects\AbstractResponseObject;
 use Telegram\Bot\Objects\Animation;
 use Telegram\Bot\Objects\Audio;
-use Telegram\Bot\Objects\AbstractResponseObject;
 use Telegram\Bot\Objects\Chat;
 use Telegram\Bot\Objects\Contact;
 use Telegram\Bot\Objects\Dice;

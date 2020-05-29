@@ -32,11 +32,18 @@ class HelpCommand extends Command
             $text .= sprintf('/%s - %s' . PHP_EOL, $name, $command->getDescription());
         }
 
-        $this->replyWithMessage(compact('text'));
+        $this->reply($text);
     }
 
     public function failed(array $arguments, Throwable $exception): void
     {
-        $this->replyWithMessage(['text' => 'Sorry. Currently it is not possible to list all the commands.']);
+        $this->reply('Sorry. Currently it is not possible to list all the commands.');
+    }
+
+    protected function reply($text)
+    {
+        $chat_id = $this->getUpdate()->getMessage()->chat->id;
+
+        $this->bot->sendMessage(compact('chat_id', 'text'));
     }
 }

@@ -2,15 +2,16 @@
 
 namespace Telegram\Bot;
 
-use BadMethodCallException;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Exceptions\TelegramLoginAuthException;
+use Telegram\Bot\Traits\ForwardsCalls;
 
 /**
  * Class Api.
  */
 class Api
 {
+    use ForwardsCalls;
     use Macroable {
         __call as macroCall;
     }
@@ -52,7 +53,7 @@ class Api
      */
     public function isLoginAuthDataValid(array $auth_data): array
     {
-        if (!isset($auth_data['hash'])) {
+        if (! isset($auth_data['hash'])) {
             throw TelegramLoginAuthException::hashNotFound();
         }
 
@@ -67,7 +68,7 @@ class Api
         $secret_key = hash('sha256', $this->token, true);
         $hash = hash_hmac('sha256', $data_check_string, $secret_key);
 
-        if (!hash_equals($hash, $check_hash)) {
+        if (! hash_equals($hash, $check_hash)) {
             throw TelegramLoginAuthException::dataNotFromTelegram();
         }
 
@@ -82,24 +83,16 @@ class Api
      * Magic method to process any dynamic method calls.
      *
      * @param $method
-     * @param $arguments
+     * @param $parameters
      *
      * @return mixed
      */
-    public function __call($method, $arguments)
+    public function __call($method, $parameters)
     {
         if (static::hasMacro($method)) {
-            return $this->macroCall($method, $arguments);
+            return $this->macroCall($method, $parameters);
         }
 
-        if (method_exists($this, $method)) {
-            return $this->{$method}(...$arguments);
-        }
-
-        if (method_exists($this->getClient(), $method)) {
-            return $this->getClient()->{$method}(...$arguments);
-        }
-
-        throw new BadMethodCallException("Method [$method] does not exist.");
+        return $this->forwardCallTo($this->getClient(), $method, $parameters);
     }
 }
