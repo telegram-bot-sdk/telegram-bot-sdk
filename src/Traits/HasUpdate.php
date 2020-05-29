@@ -32,7 +32,7 @@ trait HasUpdate
      */
     public function getUpdate(): Update
     {
-        if (!$this->hasUpdate()) {
+        if (! $this->hasUpdate()) {
             throw TelegramSDKException::updateObjectNotFound();
         }
 

@@ -53,7 +53,7 @@ class Api
      */
     public function isLoginAuthDataValid(array $auth_data): array
     {
-        if (!isset($auth_data['hash'])) {
+        if (! isset($auth_data['hash'])) {
             throw TelegramLoginAuthException::hashNotFound();
         }
 
@@ -68,7 +68,7 @@ class Api
         $secret_key = hash('sha256', $this->token, true);
         $hash = hash_hmac('sha256', $data_check_string, $secret_key);
 
-        if (!hash_equals($hash, $check_hash)) {
+        if (! hash_equals($hash, $check_hash)) {
             throw TelegramLoginAuthException::dataNotFromTelegram();
         }
 

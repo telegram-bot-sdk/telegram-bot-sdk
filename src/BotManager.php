@@ -131,7 +131,7 @@ class BotManager
 
         $config = $this->config("bots.{$name}");
 
-        if (!$config) {
+        if (! $config) {
             throw TelegramSDKException::botNotConfigured($name);
         }
 

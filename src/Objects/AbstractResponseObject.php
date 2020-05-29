@@ -243,7 +243,7 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
      */
     public function __get($field)
     {
-        if (!$this->offsetExists($field)) {
+        if (! $this->offsetExists($field)) {
             return null;
         }
 
@@ -282,7 +282,7 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
      */
     public function __set($field, $value)
     {
-        if (!$this->offsetExists($field)) {
+        if (! $this->offsetExists($field)) {
             throw new TelegramSDKException("Property [{$field}] does not exist on this object instance.");
         }
 

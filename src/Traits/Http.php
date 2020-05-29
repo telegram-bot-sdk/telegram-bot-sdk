@@ -81,7 +81,7 @@ trait Http
      */
     public function downloadFile($file, string $downloadPath): bool
     {
-        if (!$file instanceof File) {
+        if (! $file instanceof File) {
             $file = $this->getFile(['file_id' => $file]);
         }
 
