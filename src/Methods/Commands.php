@@ -2,9 +2,9 @@
 
 namespace Telegram\Bot\Methods;
 
-use Telegram\Bot\Traits\Http;
-use Telegram\Bot\Objects\BotCommand;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\BotCommand;
+use Telegram\Bot\Traits\Http;
 
 /**
  * Class Commands.
@@ -12,7 +12,6 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
  */
 trait Commands
 {
-
     /**
      * Get the current list of the bot's commands.
      *
