@@ -39,10 +39,11 @@
     "telegram-bot-sdk/addon-manager": "^1.0@dev"
   },
   "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.16",
     "phpunit/phpunit": ">=8.5"
   },
   "suggest": {
-    "irazasyed/larasupport": "Allows you to use any Laravel Package in Lumen by adding support!"
+    "telegram-bot-sdk/laravel": "Laravel Support for Telegram Bot SDK"
   },
   "config": {
     "preferred-install": "dist",
