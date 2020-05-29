@@ -36,6 +36,7 @@
     "league/event": "^2.1"
   },
   "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.16",
     "phpunit/phpunit": ">=8.5"
   },
   "suggest": {
@@ -72,6 +73,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
+    "format": "php-cs-fixer fix",
     "test": "phpunit"
   }
 }
