@@ -22,12 +22,12 @@ jobs:
       fail-fast: true
       matrix:
         php: [7.2, 7.3, 7.4]
-        laravel: [5.5.*, 6.*, 7.*]
-        dependency-version: [prefer-lowest, prefer-stable]
+        laravel: [5.5, 6, 7]
+        stability: [prefer-lowest, prefer-stable]
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
     env:
-      EXTENSIONS: dom, curl, bcmath, libxml, mbstring, fileinfo
+      EXTENSIONS: dom, curl, mbstring, fileinfo
       EXT_CACHE_KEY: ext-cache-v1
 
     steps:
@@ -54,7 +54,9 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
-          coverage: none #pcov
+          coverage: xdebug
+          ini-values: xdebug.overload_var_dump=1
+          tools: prestissimo
 
       - name: Get composer cache directory
         id: composer-cache
@@ -69,8 +71,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "illuminate/support:${{ matrix.laravel }}" --no-interaction --no-update --no-progress --no-suggest
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+          composer require "illuminate/support:${{ matrix.laravel }}.*" -n --no-update --no-progress --no-suggest
+          composer update --${{ matrix.stability }} --prefer-dist -n --no-suggest --no-progress
 
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --verbose

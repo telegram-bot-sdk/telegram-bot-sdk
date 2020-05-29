@@ -30,7 +30,11 @@ Head over to [Awesome Telegram Bots][link-awesome-telegram-bots] to share, disco
 
 ## Contributing
 
-Thank you for considering contributing to the project. Please review the [CONTRIBUTING][link-contributing] guidelines & [CODE_OF_CONDUCT][link-code-of-conduct] for details.
+Thank you for considering contributing to the project. Please read [the contributing guide][link-contributing] before creating an issue or sending in a pull request.
+
+## Code of Conduct
+
+Please read our [Code of Conduct][link-code-of-conduct] before contributing or engaging in discussions.
 
 ## Security
 
