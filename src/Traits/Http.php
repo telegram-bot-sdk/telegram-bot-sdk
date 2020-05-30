@@ -2,10 +2,12 @@
 
 namespace Telegram\Bot\Traits;
 
+use InvalidArgumentException;
 use Telegram\Bot\Contracts\HttpClientInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Http\TelegramClient;
 use Telegram\Bot\Http\TelegramResponse;
+use Telegram\Bot\Objects\AbstractResponseObject;
 use Telegram\Bot\Objects\File;
 
 /**
@@ -72,19 +74,39 @@ trait Http
     /**
      * Download a file from Telegram server by file ID.
      *
-     * @param File|string $file         Telegram File Instance or File ID.
-     * @param string      $downloadPath Download path to save file.
+     * @param File|AbstractResponseObject|string $file     Telegram File Instance / File Response Object or File ID.
+     * @param string                             $filename Absolute path to dir or filename to save as.
      *
      * @throws TelegramSDKException
      *
-     * @return bool
+     * @return string
      */
-    public function downloadFile($file, string $downloadPath): bool
+    public function downloadFile($file, string $filename): string
     {
+        $originalFilename = null;
         if (! $file instanceof File) {
+            if ($file instanceof AbstractResponseObject) {
+                $originalFilename = $file->get('file_name');
+
+                // Try to get file_id from the object or default to the original param.
+                $file = $file->get('file_id');
+            }
+
+            if (! is_string($file)) {
+                throw new InvalidArgumentException(
+                    'Invalid $file param provided. Please provide one of file_id, File or Response object containing file_id'
+                );
+            }
+
             $file = $this->getFile(['file_id' => $file]);
         }
 
-        return $this->getClient()->download($file->file_path, $downloadPath);
+        // No filename provided.
+        if (pathinfo($filename, PATHINFO_EXTENSION) === '') {
+            // Attempt to use the original file name if there is one or fallback to the file_path filename.
+            $filename .= DIRECTORY_SEPARATOR . ($originalFilename ?: basename($file->file_path));
+        }
+
+        return $this->getClient()->download($file->file_path, $filename);
     }
 }
