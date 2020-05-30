@@ -202,17 +202,15 @@ class TelegramClient
     /**
      * Download file from Telegram server for given file path.
      *
-     * @param string $filePath     File path on Telegram server.
-     * @param string $downloadPath Download path to save file.
+     * @param string $filePath File path on Telegram server.
+     * @param string $filename Download path to save file.
      *
      * @throws TelegramSDKException
      *
-     * @return bool
+     * @return string
      */
-    public function download(string $filePath, string $downloadPath): bool
+    public function download(string $filePath, string $filename): string
     {
-        $filename = $downloadPath . DIRECTORY_SEPARATOR . $filePath;
-
         $fileDir = dirname($filename);
 
         // Ensure dir is created.
@@ -234,7 +232,7 @@ class TelegramClient
             throw TelegramSDKException::fileDownloadFailed($response->getReasonPhrase(), $url);
         }
 
-        return true;
+        return $filename;
     }
 
     /**
