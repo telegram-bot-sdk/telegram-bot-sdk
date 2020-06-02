@@ -1,4 +1,4 @@
-[![Telegram Bot API PHP SDK][img-hero]][link-repo]
+[![Telegram Bot SDK][img-hero]][link-repo]
 
 <p align="center">
 <a href="https://phpchat.co"><img src="https://img.shields.io/badge/Slack-PHP%20Chat-5c6aaa.svg?logo=slack&labelColor=4A154B&style=for-the-badge" alt="Join PHP Chat"/></a>
@@ -10,17 +10,46 @@
 
 # Telegram Bot API - PHP SDK
 
-> Telegram Bot PHP SDK lets you develop Telegram Bots in PHP easily! Supports Laravel out of the box.
+> [Telegram Bot SDK][link-site] lets you develop Telegram Bots in PHP easily! Supports [Laravel][link-laravel-package] framework and comes with addons to enhance your bot development experience.
 >
 > [Telegram Bot API][link-telegram-bot-api] is an HTTP-based interface created for developers keen on building bots for Telegram.
 > 
-> To learn more about the Telegram Bot API, please consult the [Introduction to Bots][link-telegram-bot-api] and [Bot FAQ](https://core.telegram.org/bots/faq) on official Telegram site.
+> To learn more about the Telegram Bot API, please consult the [Introduction to Bots][link-telegram-bot-api] and [Bot FAQ](https://core.telegram.org/bots/faq) on Telegram's official site.
 >
-> To get started writing your bots using this SDK, Please refer the [documentation][link-docs].
+> To get started writing your bots using **[Telegram Bot SDK][link-site]**, please refer the [SDK Documentation][link-docs].
+>
+> **NOTE:** SDK has been migrated from the original repo [irazasyed/telegram-bot-sdk][link-old-repo] since **4.x**.
 
 ## Usage
 
 Documentation for the SDK can be found on the [website][link-docs].
+
+## Upgrade from version <4.x
+
+Starting from version 4.x, the project has been renamed from `irazasyed/telegram-bot-sdk` to `telegram-bot-sdk/telegram-bot-sdk`.
+
+In order to receive the new version and future updates, **you need to rename it in your composer.json**:
+
+```diff
+"require": {
+-    "irazasyed/telegram-bot-sdk": "(version you use)",
++    "telegram-bot-sdk/telegram-bot-sdk": "(version you use)",
+}
+```
+
+### Laravel
+
+Laravel service provider in addition to various other Laravel specific features have been moved to its own package.
+
+```diff
+"require": {
+-    "irazasyed/telegram-bot-sdk": "(version you use)",
++    "telegram-bot-sdk/telegram-bot-sdk": "(version you use)",
++    "telegram-bot-sdk/laravel": "^4.0",
+}
+```
+
+and run `composer update`.
 
 ## Are You Using Telegram Bot SDK?
 
@@ -57,8 +86,11 @@ This project is open-sourced software licensed under the [BSD 3-Clause][link-lic
 [img-hero]: https://user-images.githubusercontent.com/1915268/75023827-7879f780-54be-11ea-98c1-436a14e7e633.png
 
 [link-author]: https://github.com/irazasyed
-[link-docs]: https://telegram-bot-sdk.readme.io/docs
+[link-site]: https://telegrambotsdk.com
+[link-docs]: https://telegrambotsdk.com
 [link-repo]: https://github.com/telegram-bot-sdk/telegram-bot-sdk
+[link-old-repo]: https://github.com/irazasyed/telegram-bot-sdk
+[link-laravel-package]: https://github.com/telegram-bot-sdk/laravel
 [link-team]: https://github.com/orgs/telegram-bot-sdk/people
 [link-contributors]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/contributors
 [link-license]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/blob/master/LICENSE.md
