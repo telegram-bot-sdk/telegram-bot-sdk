@@ -39,7 +39,7 @@ class Entity
      */
     public function text(): ?string
     {
-        if (!$this->field()) {
+        if (! $this->field()) {
             return '';
         }
 

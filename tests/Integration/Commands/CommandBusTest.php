@@ -18,7 +18,6 @@ use Telegram\Bot\Objects\Update;
 
 class CommandBusTest extends TestCase
 {
-
     protected CommandBus $bus;
     protected Container $container;
 
@@ -164,7 +163,6 @@ class CommandBusTest extends TestCase
         $this->assertInstanceOf(CommandInterface::class, $command);
     }
 
-
     /**
      * @test
      * @throws TelegramCommandException
@@ -281,7 +279,6 @@ class CommandBusTest extends TestCase
         $this->bus->handler($update);
     }
 
-
     /** @test */
     public function it_checks_the_failed_method_gets_called_with_the_correct_parameters()
     {
@@ -340,7 +337,8 @@ class CommandBusTest extends TestCase
                         ],
                     ],
                 ],
-            ]);
+            ]
+        );
     }
 }
 
