@@ -32,7 +32,8 @@ namespace Telegram\Bot\Objects\InlineQuery;
  * @method $this mpeg4Width($int)             (Optional). Video width
  * @method $this mpeg4Height($int)            (Optional). Video height
  * @method $this mpeg4Duration($int)          (Optional). Video duration
- * @method $this thumbUrl($string)            Required. URL of the static thumbnail (jpeg or gif) for the result
+ * @method $this thumbUrl($string)            Required. URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
+ * @method $this thumb_mime_type($string)     (Optional). MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”
  * @method $this title($string)               (Optional). Title for the result
  * @method $this caption($string)             (Optional). Caption of the MPEG-4 file to be sent, 0-200 characters
  * @method $this parseMode($string)           (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.

@@ -39,6 +39,7 @@ use Telegram\Bot\Objects\Voice;
  * @property string            $forward_sender_name       (Optional). Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages
  * @property int               $forward_date              (Optional). For forwarded messages, date the original message was sent in Unix time.
  * @property Message           $reply_to_message          (Optional). For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
+ * @property User              $via_bot                   (Optional). Bot through which the message was sent
  * @property int               $edit_date                 (Optional). Date the message was last edited in Unix time.
  * @property string            $media_group_id            (Optional). The unique identifier of a media message group this message belongs to
  * @property string            $author_signature          (Optional). Signature of the post author for messages in channels
@@ -89,6 +90,7 @@ class Message extends AbstractResponseObject
             'forward_from'       => User::class,
             'forward_from_chat'  => Chat::class,
             'reply_to_message'   => self::class,
+            'via_bot'            => User::class,
             'entities'           => MessageEntity::class,
             'caption_entities'   => MessageEntity::class,
             'audio'              => Audio::class,
