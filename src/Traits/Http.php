@@ -48,6 +48,20 @@ trait Http
     }
 
     /**
+     * Set the TelegramClient
+     *
+     * @param TelegramClient $client
+     *
+     * @return Http
+     */
+    public function setClient(TelegramClient $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
      * Get HTTP Client Config.
      *
      * @return array
