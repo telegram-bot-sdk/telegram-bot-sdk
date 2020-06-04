@@ -25,9 +25,9 @@ trait GuzzleMock
      *
      * @return GuzzleHttpClient
      */
-    public function getGuzzleHttpClient(array $responsesToQueue = [])
+    public function getClient(array $responsesToQueue = [])
     {
-        $client = $this->createClientWithQueuedResponse($responsesToQueue);
+        $client = $this->queuedResponseClient($responsesToQueue);
 
         return (new GuzzleHttpClient())->setClient($client);
     }
@@ -37,7 +37,7 @@ trait GuzzleMock
      *
      * @return Client
      */
-    protected function createClientWithQueuedResponse(array $responsesToQueue)
+    protected function queuedResponseClient(array $responsesToQueue)
     {
         $this->history = [];
         $handler = HandlerStack::create(new MockHandler($responsesToQueue));
@@ -53,7 +53,7 @@ trait GuzzleMock
      *
      * @return Response
      */
-    public function makeFakeServerResponse($data, $status_code = 200, $headers = [])
+    public function createResponse($data = [], $status_code = 200, $headers = [])
     {
         return new Response(
             $status_code,
@@ -65,13 +65,9 @@ trait GuzzleMock
         );
     }
 
-    public function makeFakeInboundUpdate(array $data, $status_code = 200, $headers = [])
+    public function fakeUpdate(array $data, $status_code = 200, $headers = [])
     {
-        return new Response(
-            $status_code,
-            $headers,
-            json_encode($data)
-        );
+        return new Response($status_code, $headers, json_encode($data));
     }
 
     /**

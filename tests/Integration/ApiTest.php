@@ -2,23 +2,21 @@
 
 namespace Telegram\Bot\Tests\Integration;
 
+use BadMethodCallException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use RuntimeException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Events\UpdateEvent;
-use Telegram\Bot\Exceptions\CouldNotUploadInputFile;
-use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Http\GuzzleHttpClient;
+use Telegram\Bot\Http\TelegramClient;
 use Telegram\Bot\Http\TelegramResponse;
 use Telegram\Bot\Objects\Update;
-use Telegram\Bot\Objects\Updates\Message;
 use Telegram\Bot\Tests\Traits\GuzzleMock;
-
-use function GuzzleHttp\Psr7\stream_for;
 
 class ApiTest extends TestCase
 {
@@ -37,7 +35,19 @@ class ApiTest extends TestCase
     use GuzzleMock;
 
     /** @test */
-    public function it_checks_the_default_http_client_is_guzzle_if_not_specified()
+    public function it_returns_the_correct_token()
+    {
+        $this->assertSame('token', $this->api->getToken());
+    }
+
+    /** @test */
+    public function it_uses_a_telegram_client()
+    {
+        $this->assertInstanceOf(TelegramClient::class, $this->api->getClient());
+    }
+
+    /** @test */
+    public function it_uses_guzzle_as_the_default_http_client_if_not_specified()
     {
         $client = $this->api->getClient()->getHttpClientHandler();
 
@@ -45,46 +55,59 @@ class ApiTest extends TestCase
     }
 
     /** @test */
+    public function it_forwards_calls_to_the_telegram_client()
+    {
+        $fakeTelegramClient = $this->getMockBuilder(TelegramClient::class)->getMock();
+        $fakeTelegramClient->expects($this->once())->method('post')->with('endpoint', []);
+        $this->api->setClient($fakeTelegramClient);
+
+        $this->api->post('endpoint', []);
+    }
+
+
+    /**
+     * @test
+     * @throws TelegramSDKException
+     */
     public function it_returns_an_empty_array_if_there_are_no_updates()
     {
-        $data = [];
-        $fakeResponse = $this->makeFakeServerResponse($data);
+        $fakeResponse = $this->createResponse([]);
+        $this->setupQueuedResponses([$fakeResponse]);
 
-        $this->api->setHttpClientHandler($this->getGuzzleHttpClient([$fakeResponse]));
         $result = $this->api->getUpdates();
 
         $this->assertCount(0, $result);
-        $this->assertIsArray($result);
+        $this->assertSame([], $result);
     }
 
     /** @test
      * @throws TelegramSDKException
      */
-    public function the_correct_bot_url_is_used_when_a_request_is_made()
+    public function the_correctly_formatted_bot_url_is_used_when_a_request_is_made()
     {
-        $data = [];
-        $fakeResponse = $this->makeFakeServerResponse($data);
+        $fakeResponse = $this->createResponse([]);
+        $this->setupQueuedResponses([$fakeResponse]);
 
-        $this->api->setHttpClientHandler($this->getGuzzleHttpClient([$fakeResponse]));
         $this->api->getMe();
 
         /** @var Request $request */
         $request = $this->getHistory()->pluck('request')->first();
 
-        $this->assertEquals('https', $request->getUri()->getScheme());
-        $this->assertEquals('api.telegram.org', $request->getUri()->getHost());
-        $this->assertEquals('/bottoken/getMe', $request->getUri()->getPath());
+        $this->assertSame('https', $request->getUri()->getScheme());
+        $this->assertSame('api.telegram.org', $request->getUri()->getHost());
+        $this->assertSame('/bottoken/getMe', $request->getUri()->getPath());
     }
 
-    /** @test
+    /**
+     * @test
      * @throws TelegramSDKException
      */
     public function the_correct_request_query_string_is_created_when_a_get_method_has_parameters()
     {
-        $data = [];
-        $fakeResponse = $this->makeFakeServerResponse($data);
+        $fakeResponse = $this->createResponse([]);
+        $this->setupQueuedResponses([$fakeResponse]);
 
-        $this->api->setHttpClientHandler($this->getGuzzleHttpClient([$fakeResponse]));
+        $this->api->setHttpClientHandler($this->getClient([$fakeResponse]));
         $this->api->getChatMember([
                                       'chat_id' => 123456789,
                                       'user_id' => 888888888,
@@ -93,20 +116,20 @@ class ApiTest extends TestCase
         /** @var Request $request */
         $request = $this->getHistory()->pluck('request')->first();
 
-        $this->assertEquals('', $request->getBody(), 'The get request had a body when it should be blank.');
-        $this->assertEquals('https', $request->getUri()->getScheme());
-        $this->assertEquals('api.telegram.org', $request->getUri()->getHost());
-        $this->assertEquals('/bottoken/getChatMember', $request->getUri()->getPath());
-        $this->assertEquals('chat_id=123456789&user_id=888888888', $request->getUri()->getQuery());
+        $this->assertSame('', (string)$request->getBody(), 'The get request had a body when it should be blank.');
+        $this->assertSame('https', $request->getUri()->getScheme());
+        $this->assertSame('api.telegram.org', $request->getUri()->getHost());
+        $this->assertSame('/bottoken/getChatMember', $request->getUri()->getPath());
+        $this->assertSame('chat_id=123456789&user_id=888888888', $request->getUri()->getQuery());
     }
 
-    /** @test
+    /**
+     * @test
      * @throws TelegramSDKException
      */
     public function the_correct_request_body_data_is_created_when_a_post_method_has_parameters()
     {
-        $data = [];
-        $fakeResponse = $this->makeFakeServerResponse($data);
+        $fakeResponse = $this->createResponse([]);
         $params = [
             'chat_id'                  => 12345678,
             'text'                     => 'lorem ipsum',
@@ -115,21 +138,22 @@ class ApiTest extends TestCase
             'reply_to_message_id'      => 99999999,
         ];
 
-        $this->api->setHttpClientHandler($this->getGuzzleHttpClient([$fakeResponse]));
+        $this->api->setHttpClientHandler($this->getClient([$fakeResponse]));
         $this->api->sendMessage($params);
 
         /** @var Request $request */
         $request = $this->getHistory()->pluck('request')->first();
 
         $this->assertInstanceOf(Stream::class, $request->getBody());
-        $this->assertEquals(json_encode($params), (string)$request->getBody());
-        $this->assertEquals('https', $request->getUri()->getScheme());
-        $this->assertEquals('api.telegram.org', $request->getUri()->getHost());
-        $this->assertEquals('/bottoken/sendMessage', $request->getUri()->getPath());
-        $this->assertEquals('', $request->getUri()->getQuery());
+        $this->assertSame(json_encode($params), (string)$request->getBody());
+        $this->assertSame('https', $request->getUri()->getScheme());
+        $this->assertSame('api.telegram.org', $request->getUri()->getHost());
+        $this->assertSame('/bottoken/sendMessage', $request->getUri()->getPath());
+        $this->assertSame('', $request->getUri()->getQuery());
     }
 
-    /** @test
+    /**
+     * @test
      * @throws TelegramSDKException
      */
     public function it_returns_decoded_update_objects_when_updates_are_available()
@@ -222,10 +246,10 @@ class ApiTest extends TestCase
                 ],
             ],
         ];
-        $replyFromTelegram1 = $this->makeFakeServerResponse($data1);
-        $replyFromTelegram2 = $this->makeFakeServerResponse($data2);
+        $replyFromTelegram1 = $this->createResponse($data1);
+        $replyFromTelegram2 = $this->createResponse($data2);
 
-        $this->api->setHttpClientHandler($this->getGuzzleHttpClient([$replyFromTelegram1, $replyFromTelegram2]));
+        $this->api->setHttpClientHandler($this->getClient([$replyFromTelegram1, $replyFromTelegram2]));
 
         $firstUpdates = $this->api->getUpdates();
         $secondUpdates = $this->api->getUpdates();
@@ -243,35 +267,21 @@ class ApiTest extends TestCase
         $this->assertSame('Test4', $secondUpdates[1]->message->text);
     }
 
-//    /** @test */
-//    public function it_can_call_a_valid_method_on_the_api()
-//    {
-//        $mock = $this->prophesize(\Telegram\Bot\Api::class);
-//        $mock->getConnectTimeOut()->willReturn(30);
-//        $mock->getCommands()->willReturn([]);
-//
-//        $api = $mock->reveal();
-//        $api->getConnectTimeOut();
-//        $api->getCommands();
-//
-//        $mock->getConnectTimeOut()->shouldHaveBeenCalled();
-//        $mock->getCommands()->shouldNotHaveBeenCalled();
-//
-//    }
-
     /**
      * @test
      */
     public function it_throws_an_exception_if_a_method_called_does_not_exist()
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
         $badMethod = 'getBadMethod'; //To stop errors in ide!
 
-        $api = $this->getApi();
-        $api->$badMethod();
+        $this->api->$badMethod();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @throws TelegramSDKException
+     */
     public function it_checks_the_lastResponse_property_gets_populated_after_a_request()
     {
         $data = [
@@ -279,35 +289,35 @@ class ApiTest extends TestCase
                 'update_id' => 377695760,
             ],
         ];
-        $replyFromTelegram = $this->makeFakeServerResponse($data);
-        $api = $this->getApi($this->getGuzzleHttpClient([$replyFromTelegram]));
+        $this->setupQueuedResponses([$this->createResponse($data)]);
 
-        $this->assertEmpty($api->getLastResponse());
+        $this->api->getUpdates();
+        $lastResponse = $this->api->getLastResponse();
 
-        $api->getUpdates();
-
-        $lastResponse = $api->getLastResponse();
         $this->assertNotEmpty($lastResponse);
-        $this->assertEquals('377695760', $lastResponse->getDecodedBody()['result'][0]['update_id']);
+        $this->assertSame(377695760, $lastResponse->getDecodedBody()->result[0]->update_id);
         $this->assertInstanceOf(TelegramResponse::class, $lastResponse);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @throws
+     */
     public function it_throws_an_exception_if_the_api_response_is_not_ok()
     {
         $badUpdateReply = $this->makeFakeServerErrorResponse(123, 'BadResponse Test');
-        $api = $this->getApi($this->getGuzzleHttpClient([$badUpdateReply]));
+        $this->setupQueuedResponses([$badUpdateReply]);
 
         try {
-            $api->getUpdates();
-        } catch (TelegramResponseException $exception) {
+            $this->api->getUpdates();
+        } catch (TelegramSDKException $exception) {
             $this->assertEquals(123, $exception->getCode());
             $this->assertEquals('BadResponse Test', $exception->getMessage());
 
             return;
         }
 
-        $this->fail('Should have caught an exception because the update waiting for us was not ok.');
+        $this->fail('Should have caught a TelegramSDKException exception. The update was a bad response.');
     }
 
     /**
@@ -316,195 +326,126 @@ class ApiTest extends TestCase
     public function it_throws_exception_if_invalid_chatAction_is_sent()
     {
         $this->expectException(TelegramSDKException::class);
-        $this->getApi()->sendChatAction(['action' => 'zzz']);
+        $this->api->sendChatAction(['action' => 'Eating']);
     }
 
-    /** @test */
-    public function it_can_use_async_promises_to_send_requests()
-    {
-        $data = [
-            [
-                'update_id' => 377695763,
-            ],
-        ];
-        $replyFromTelegram = $this->makeFakeServerResponse($data);
-        $api = $this->getApi($this->getGuzzleHttpClient([$replyFromTelegram]), 'TOKEN', true);
-
-        //TODO. Add raw response object to telegram response and make assertions on it.
-        $user = $api->getMe();
-        $this->assertEmpty($user);
-    }
-
-    /** @test */
-    public function it_allows_a_file_id_to_be_used_when_using_a_method_that_involves_a_file_upload()
-    {
-        $data = [];
-        $api = $this->getApi($this->getGuzzleHttpClient([$this->makeFakeInboundUpdate($data)]));
-
-        $result = $api->sendDocument([
-                                         'chat_id'  => 123456789,
-                                         'document' => 'AwADBAADYwADO1wlBuF1ogMa7HnMAg',
-                                     ]);
-
-        /** @var Request $request */
-        $request = $this->getHistory()->pluck('request')->first();
-
-        $this->assertInstanceOf(Message::class, $result);
-        $this->assertStringContainsString('document=AwADBAADYwADO1wlBuF1ogMa7HnMAg', (string)$request->getBody());
-    }
-
-    /**
-     * @test
-     *
-     * @param $type
-     *
-     * @dataProvider fileTypes
+    /** @test
      * @throws TelegramSDKException
      */
-    public function it_requires_all_file_uploads_except_file_id_to_be_created_with_fileInput_object($type)
-    {
-        $this->expectException(TelegramSDKException::class);
-
-        $api = $this->getApi();
-
-        $api->sendDocument([
-                               'chat_id'  => 123456789,
-                               'document' => $type,
-                           ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_throws_an_exception_if_the_param_key_used_to_upload_file_does_not_match_the_method_being_used()
-    {
-        $this->expectException(CouldNotUploadInputFile::class);
-        $api = $this->getApi();
-
-        //We want to send a document but the params have a voice key instead.
-        $api->sendDocument([
-                               'chat_id' => 123456789,
-                               'voice'   => InputFile::create(fopen('php://input', 'r'), 'Myvoice.ogg'),
-                           ]);
-    }
-
-    /** @test */
-    public function a_stream_not_created_from_an_actual_file_can_be_used_as_a_file_upload()
-    {
-        $stream = stream_for('This is some text');
-        $data = [];
-        $api = $this->getApi($this->getGuzzleHttpClient([$this->makeFakeInboundUpdate($data)]));
-
-        $result = $api->sendDocument([
-                                         'chat_id'  => '123456789',
-                                         'document' => InputFile::create($stream, 'myFile.txt'),
-                                     ]);
-
-        /** @var Request $request */
-        $request = $this->getHistory()->pluck('request')->first();
-        $body = (string)$request->getBody();
-
-        $this->assertInstanceOf(Message::class, $result);
-        $this->assertStringContainsString('This is some text', $body);
-        $this->assertStringContainsString('Content-Disposition: form-data; name="document"; filename="myFile.txt"',
-                                          $body);
-    }
+//    public function it_can_use_async_promises_to_send_requests()
+//    {
+//        $data = '{"ok":true,"result":{"id":132883169,"is_bot":true,"first_name":"sdktesting","username":"sdktesting_bot","can_join_groups":true,"can_read_all_group_messages":true,"supports_inline_queries":true}}';
+//
+//        $replyFromTelegram = $this->makeFakeServerResponse(json_decode($data));
+//        $this->api->setHttpClientHandler($this->getGuzzleHttpClient([$replyFromTelegram]));
+//        $this->api->setAsyncRequest(true);
+//
+//        $user = $this->api->getMe();
+//        $this->assertEmpty($user);
+//    }
 
     /**
      * @test
      */
-    public function a_file_that_does_not_exist_should_throw_an_error_when_being_uploaded()
+    public function when_a_method_uses_uploadFile_it_sends_the_request_using_multipart_format()
     {
-        $this->expectException(CouldNotUploadInputFile::class);
-        $api = $this->getApi();
+        $this->setupQueuedResponses([$this->createResponse()]);
 
-        $api->sendDocument([
-                               'chat_id'  => '123456789',
-                               'document' => InputFile::create('/path/to/nonexisting/file/test.pdf'),
-                           ]);
-    }
-
-    /** @test */
-    public function it_can_upload_a_file_properly_using_the_correct_multipart_data()
-    {
-        $data = [];
-        $api = $this->getApi($this->getGuzzleHttpClient([$this->makeFakeInboundUpdate($data)]));
-
-        //We can use any file input here, for testing a stream is quick and easy.
-        $api->sendDocument([
-                               'chat_id'  => 123456789,
-                               'document' => InputFile::create(stream_for('Some text'), 'testing.txt'),
-                           ]);
+        $this->api->uploadFile(
+            'randomMethod',
+            [
+                'chat_id'  => 123456789,
+                'document' => 'AwADBAADYwADO1wlBuF1ogMa7HnMAg',
+            ]);
 
         /** @var Request $request */
         $request = $this->getHistory()->pluck('request')->first();
-        $body = (string)$request->getBody();
 
-        $this->assertStringContainsString('Content-Disposition: form-data; name="chat_id"', $body);
-        $this->assertStringContainsString('Content-Disposition: form-data; name="document"; filename="testing.txt"',
-                                          $body);
-        $this->assertEquals('POST', $request->getMethod());
+        $this->assertStringContainsString('Content-Disposition: form-data; name="chat_id"', $request->getBody());
+        $this->assertStringContainsString('Content-Disposition: form-data; name="document"', $request->getBody());
+        $this->assertStringContainsString('AwADBAADYwADO1wlBuF1ogMa7HnMAg', $request->getBody());
+        $this->assertSame('POST', $request->getMethod());
         $this->assertStringContainsString('multipart/form-data;', $request->getHeaderLine('Content-Type'));
     }
 
+//    /** @test
+//     * @throws TelegramSDKException
+//     */
+//    public function a_stream_can_be_used_as_a_file_upload()
+//    {
+//        $stream = stream_for('This is some text');
+//        $this->setupQueuedResponses(['update_id' => 123]);
+//
+//        $result = $this->api->sendDocument(
+//            [
+//                'chat_id'  => '123456789',
+//                'document' => InputFile::contents($stream, 'myFile.txt'),
+//            ]);
+//
+//        /** @var Request $request */
+//        $request = $this->getHistory()->pluck('request')->first();
+//        $body = (string)$request->getBody();
+//
+//        $this->assertInstanceOf(Message::class, $result);
+//        $this->assertStringContainsString('This is some text', $body);
+//        $this->assertStringContainsString('Content-Disposition: form-data; name="document"; filename="myFile.txt"',
+//                                          $body);
+//    }
+
     /**
-     * A list of files/attachments types that should be tested.
-     *
-     * @return array
+     * @test
+     * @throws TelegramSDKException
      */
-    public function fileTypes()
+    public function a_file_that_does_not_exist_should_throw_an_error_when_being_uploaded()
     {
-        return [
-            ['/local/path/to/file.pdf'],
-            ['https://example.com/file.pdf'],
-            [fopen('php://input', 'r')],
-            [stream_for('testData')],
-        ];
+        try {
+            $this->api->sendDocument(
+                [
+                    'chat_id'  => '123456789',
+                    'document' => InputFile::file('/path/to/nonexisting/file/test.pdf'),
+                ]);
+        } catch (RuntimeException $exception) {
+            $this->assertStringContainsString(
+                'Unable to open /path/to/nonexisting/file/test.pdf',
+                $exception->getMessage()
+            );
+            return;
+        }
+
+        $this->fail('Should have caught a RuntimeException due to file not existing');
     }
 
-    /** @test */
+    /** @test
+     * @throws TelegramSDKException
+     */
     public function it_can_set_a_webhook_with_its_own_certificate_succcessfully()
     {
-        $pubKey = '
-        -----BEGIN PUBLIC KEY-----
-        THISISSOMERANDOMKEYDATA
-        -----END PUBLIC KEY-----';
+        $pubKey = "-----BEGIN PUBLIC KEY-----\nTHISISSOMERANDOMKEYDATA\n-----END PUBLIC KEY-----";
+        $this->setupQueuedResponses([$this->createResponse(true), $this->createResponse(true)]);
 
-        //Probably not the best way to attempt to create a file on a server.
-        //Help appreciated.
-        $fakeFile = fopen('php://temp', 'w+');
-        fwrite($fakeFile, $pubKey);
-        fseek($fakeFile, 0);
+        // If the user uses the INPUTFILE class to send the webhook cert, the filename provided will override
+        // the default name of certificate.pem
+        $this->api->setWebhook(
+            [
+                'url'         => 'https://example.com',
+                'certificate' => InputFile::contents($pubKey, 'customKeyName.key'),
+            ]);
 
-        //Setup the responses the fake telegram server should reply with.
-        $api = $this->getApi($this->getGuzzleHttpClient([
-                                                            $this->makeFakeServerResponse(true),
-                                                            $this->makeFakeServerResponse(true),
-                                                        ]));
-
-        // If the user uses the INPUTFILE class to send the webhook cert, the filename will override our default
-        // setting of certificate.pem
-        $api->setWebhook([
-                             'url'         => 'https://example.com',
-                             'certificate' => InputFile::create(stream_for($pubKey), 'public.key'),
-                         ]);
-
-        //If the user uses just a string to the path/filename of the webhook cert.
-        $api->setWebhook([
-                             'url'         => 'https://example.com',
-                             'certificate' => $fakeFile,
-                         ]);
+        $this->api->setWebhook(
+            [
+                'url'         => 'https://example.com',
+                'certificate' => 'php://temp',
+            ]);
 
         /** @var Request $request */
-        $response1 = (string)$this->getHistory()->pluck('request')->get(0)->getBody();
-        $response2 = (string)$this->getHistory()->pluck('request')->get(1)->getBody();
+        $response1 = (string)$this->getHistory()->pluck('request')->first()->getBody();
+        $response2 = (string)$this->getHistory()->pluck('request')->last()->getBody();
 
-        $this->assertStringContainsString('Content-Disposition: form-data; name="certificate"; filename="public.key"',
+        $this->assertStringContainsString('Content-Disposition: form-data; name="certificate"; filename="customKeyName.key"',
                                           $response1);
         $this->assertStringContainsString('THISISSOMERANDOMKEYDATA', $response1);
         $this->assertStringContainsString('Content-Disposition: form-data; name="certificate"; filename="certificate.pem"',
                                           $response2);
-        $this->assertStringContainsString('THISISSOMERANDOMKEYDATA', $response1);
     }
 
     /** @test check the webhook works */
@@ -535,31 +476,31 @@ class ApiTest extends TestCase
     /** @test */
     public function the_command_handler_can_use_getUpdates_to_process_updates_and_mark_updates_read()
     {
-        $updateData = $this->makeFakeServerResponse([
-                                                        [
-                                                            'update_id' => 377695760,
-                                                            'message'   => [
-                                                                'message_id' => 749,
-                                                                'from'       => [
-                                                                    'id'         => 123456789,
-                                                                    'first_name' => 'John',
-                                                                    'last_name'  => 'Doe',
-                                                                    'username'   => 'jdoe',
-                                                                ],
-                                                                'chat'       => [
-                                                                    'id'         => 123456789,
-                                                                    'first_name' => 'John',
-                                                                    'last_name'  => 'Doe',
-                                                                    'username'   => 'jdoe',
-                                                                    'type'       => 'private',
-                                                                ],
-                                                                'date'       => 1494623093,
-                                                                'text'       => 'Just some text',
-                                                            ],
-                                                        ],
-                                                    ]);
-        $markAsReadData = $this->makeFakeServerResponse([]);
-        $api = $this->getApi($this->getGuzzleHttpClient([$updateData, $markAsReadData]));
+        $updateData = $this->createResponse([
+                                              [
+                                                  'update_id' => 377695760,
+                                                  'message'   => [
+                                                      'message_id' => 749,
+                                                      'from'       => [
+                                                          'id'         => 123456789,
+                                                          'first_name' => 'John',
+                                                          'last_name'  => 'Doe',
+                                                          'username'   => 'jdoe',
+                                                      ],
+                                                      'chat'       => [
+                                                          'id'         => 123456789,
+                                                          'first_name' => 'John',
+                                                          'last_name'  => 'Doe',
+                                                          'username'   => 'jdoe',
+                                                          'type'       => 'private',
+                                                      ],
+                                                      'date'       => 1494623093,
+                                                      'text'       => 'Just some text',
+                                                  ],
+                                              ],
+                                          ]);
+        $markAsReadData = $this->createResponse([]);
+        $api = $this->getApi($this->getClient([$updateData, $markAsReadData]));
 
         $updates = collect($api->commandsHandler());
         $markAsReadRequest = $this->getHistory()->pluck('request')->last();
@@ -575,13 +516,18 @@ class ApiTest extends TestCase
     /** @test */
     public function the_command_handler_when_using_webhook_to_process_updates_for_commands_will_return_the_update()
     {
-        $updateData = $this->makeFakeServerResponse([]);
-        $api = $this->getApi($this->getGuzzleHttpClient([$updateData]));
+        $updateData = $this->createResponse([]);
+        $api = $this->getApi($this->getClient([$updateData]));
 
         //We cannot mock out the php://input stream so we can't send any test data.
         // Instead, we can only just check it returns back an update object.
         $update = $api->commandsHandler(true);
 
         $this->assertInstanceOf(Update::class, $update);
+    }
+
+    protected function setupQueuedResponses(array $data): void
+    {
+        $this->api->setHttpClientHandler($this->getClient($data));
     }
 }
