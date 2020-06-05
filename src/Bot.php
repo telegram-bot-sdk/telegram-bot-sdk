@@ -66,7 +66,8 @@ class Bot
         }
 
         $this->addonManager = $addonManager;
-        $this->addonManager::loadAddons($this);
+        //TODO I have problems with the following when testing.
+        //$this->addonManager::loadAddons($this);
     }
 
     /**
