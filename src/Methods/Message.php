@@ -444,7 +444,7 @@ trait Message
      * <code>
      * $params = [
      *       'chat_id'               => '',  // int|string - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername"). A native poll can't be sent to a private chat.
-     *       'emoji'                 => '',  // string     - (Optional). Emoji on which the dice throw animation is based. Currently, must be one of "🎲" or "🎯". Defaults to "🎲"
+     *       'emoji'                 => '',  // string     - (Optional). Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”, or “🏀”. Dice can have values 1-6 for “🎲” and “🎯”, and values 1-5 for “🏀”. Defauts to “🎲”
      *       'disable_notification'  => '',  // bool       - (Optional). Sends the message silently. Users will receive a notification with no sound.
      *       'reply_to_message_id'   => '',  // int        - (Optional). If the message is a reply, ID of the original message
      *       'reply_markup'          => '',  // string     - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
