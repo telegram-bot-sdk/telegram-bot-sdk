@@ -57,7 +57,8 @@ class BotTest extends TestCase
             [
                 'update_id' => '12345',
                 'message'   => ['message_id' => 321, 'audio' => []],
-            ]);
+            ]
+        );
 
         $this->eventFactory
             ->expects($this->atLeastOnce())
@@ -85,5 +86,4 @@ class BotTest extends TestCase
                 ],
         ];
     }
-
 }

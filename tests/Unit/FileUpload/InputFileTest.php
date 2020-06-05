@@ -2,15 +2,13 @@
 
 namespace Telegram\Bot\Tests\Unit\FileUpload;
 
+use function GuzzleHttp\Psr7\stream_for;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 use Telegram\Bot\FileUpload\InputFile;
 
-use function GuzzleHttp\Psr7\stream_for;
-
 class InputFileTest extends TestCase
 {
-
     protected InputFile $fileOnDisk;
     protected InputFile $fileFromContents;
 

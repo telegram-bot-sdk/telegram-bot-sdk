@@ -8,7 +8,6 @@ use Telegram\Bot\Objects\Update;
 
 class ValidatorTest extends TestCase
 {
-
     /** @test it can detect a command in an update object */
     public function it_can_detect_a_command_in_an_update_object()
     {
@@ -47,7 +46,8 @@ class ValidatorTest extends TestCase
                         ],
                     ],
                 ],
-            ]);
+            ]
+        );
     }
 
     private function updateWithCommandMixedWithEntities()

@@ -18,7 +18,6 @@ use Telegram\Bot\Tests\Traits\GuzzleMock;
 
 class ApiTest extends TestCase
 {
-
     /**
      * @var Api
      */
@@ -62,7 +61,6 @@ class ApiTest extends TestCase
         $this->api->post('endpoint', []);
     }
 
-
     /**
      * @test
      * @throws TelegramSDKException
@@ -87,8 +85,10 @@ class ApiTest extends TestCase
                         ["update_id" => 1],
                         ["update_id" => 2],
                         ["update_id" => 3],
-                    ]),
-            ]);
+                    ]
+                ),
+            ]
+        );
 
         $updates = $this->api->getUpdates();
 
@@ -175,7 +175,8 @@ class ApiTest extends TestCase
             [
                 'chat_id'  => 123456789,
                 'document' => 'AwADBAADYwADO1wlBuF1ogMa7HnMAg',
-            ]);
+            ]
+        );
 
         /** @var Request $request */
         $request = $this->getHistory()->pluck('request')->first();
@@ -186,7 +187,6 @@ class ApiTest extends TestCase
         $this->assertSame('POST', $request->getMethod());
         $this->assertStringContainsString('multipart/form-data;', $request->getHeaderLine('Content-Type'));
     }
-
 
     /**
      * @test
@@ -373,7 +373,8 @@ class ApiTest extends TestCase
                 [
                     'chat_id'  => '123456789',
                     'document' => InputFile::file('/path/to/nonexisting/file/test.pdf'),
-                ]);
+                ]
+            );
         } catch (RuntimeException $exception) {
             $this->assertStringContainsString(
                 'Unable to open /path/to/nonexisting/file/test.pdf',
@@ -399,24 +400,30 @@ class ApiTest extends TestCase
             [
                 'url'         => 'https://example.com',
                 'certificate' => InputFile::contents($pubKey, 'customKeyName.key'),
-            ]);
+            ]
+        );
 
         //Default certificate name should be used.
         $this->api->setWebhook(
             [
                 'url'         => 'https://example.com',
                 'certificate' => 'php://temp',
-            ]);
+            ]
+        );
 
         /** @var Request $request */
         $response1 = (string)$this->getHistory()->pluck('request')->first()->getBody();
         $response2 = (string)$this->getHistory()->pluck('request')->last()->getBody();
 
-        $this->assertStringContainsString('Content-Disposition: form-data; name="certificate"; filename="customKeyName.key"',
-                                          $response1);
+        $this->assertStringContainsString(
+            'Content-Disposition: form-data; name="certificate"; filename="customKeyName.key"',
+            $response1
+        );
         $this->assertStringContainsString('THISISSOMERANDOMKEYDATA', $response1);
-        $this->assertStringContainsString('Content-Disposition: form-data; name="certificate"; filename="certificate.pem"',
-                                          $response2);
+        $this->assertStringContainsString(
+            'Content-Disposition: form-data; name="certificate"; filename="certificate.pem"',
+            $response2
+        );
     }
 
     protected function setupQueuedResponses(array $data): void

@@ -232,7 +232,8 @@ class CommandBusTest extends TestCase
                     'fruit'  => 'apple',
                     'animal' => 'horse',
                     'colour' => 'orange',
-                ]));
+                ]
+            ));
 
         $this->bus->addCommand('command', CommandParametersAllRequired::class);
         $this->container->instance(CommandParametersAllRequired::class, $command);
@@ -275,7 +276,6 @@ class CommandBusTest extends TestCase
 
         $this->bus->handler($update);
     }
-
 
     /** @test */
     public function it_checks_a_commands_handle_function_is_called_with_the_correct_arguments_when_they_are_optional()
