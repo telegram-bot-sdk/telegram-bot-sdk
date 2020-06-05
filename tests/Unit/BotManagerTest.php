@@ -1,6 +1,6 @@
 <?php
 
-namespace Telegram\Bot\Tests\Integration;
+namespace Telegram\Bot\Tests\Unit;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use PHPUnit\Framework\TestCase;
@@ -51,7 +51,10 @@ class BotManagerTest extends TestCase
         $this->assertInstanceOf(BotManager::class, $manager);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @throws BindingResolutionException
+     */
     public function a_bot_must_be_configured_before_it_can_be_used()
     {
         $this->expectException(TelegramSDKException::class);
@@ -76,9 +79,7 @@ class BotManagerTest extends TestCase
     {
         $manager = new BotManager([]);
 
-        $name = $manager->getDefaultBotName();
-
-        $this->assertNull($name);
+        $this->assertNull($manager->getDefaultBotName());
     }
 
     /**
@@ -147,8 +148,12 @@ class BotManagerTest extends TestCase
     public function it_calls_methods_on_the_bot()
     {
         $fakeBot = $this->getMockBuilder(Bot::class)->disableOriginalConstructor()->getMock();
-        $fakeBot->expects($this->once())->method('getConfig')->willReturn(['bot' => 'fakeBot']);
-        $fakeBot->expects($this->once())->method('__call')->with($this->equalTo('sendMessage'), $this->equalTo([[]]));
+        $fakeBot->expects($this->once())
+            ->method('getConfig')
+            ->willReturn(['bot' => 'fakeBot']);
+        $fakeBot->expects($this->once())
+            ->method('__call')
+            ->with($this->equalTo('sendMessage'), $this->equalTo([[]]));
 
         $this->manager->setBot($fakeBot);
 

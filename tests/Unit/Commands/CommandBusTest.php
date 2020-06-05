@@ -1,6 +1,6 @@
 <?php
 
-namespace Telegram\Bot\Tests\Integration\Commands;
+namespace Telegram\Bot\Tests\Unit\Commands;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
@@ -205,6 +205,59 @@ class CommandBusTest extends TestCase
     }
 
     /** @test */
+    public function it_checks_all_command_properties_are_set_when_executed()
+    {
+        $update = $this->getUpdate();
+        $command = $this->getMockBuilder(CommandParametersAllRequired::class)->getMock();
+
+        $command->expects($this->once())
+            ->method('setCommandBus')
+            ->with($this->equalTo($this->bus))
+            ->willReturn($command);
+
+        $command->expects($this->once())
+            ->method('setBot')
+            ->with($this->equalTo($this->bus->getBot()))
+            ->willReturn($command);
+
+        $command->expects($this->once())
+            ->method('setUpdate')
+            ->with($this->equalTo($update))
+            ->willReturn($command);
+
+        $command->expects($this->once())
+            ->method('setArguments')
+            ->with($this->equalTo(
+                [
+                    'fruit'  => 'apple',
+                    'animal' => 'horse',
+                    'colour' => 'orange',
+                ]));
+
+        $this->bus->addCommand('command', CommandParametersAllRequired::class);
+        $this->container->instance(CommandParametersAllRequired::class, $command);
+
+        $this->bus->handler($update);
+    }
+
+    /** @test */
+    public function it_sets_which_arguments_were_not_provided()
+    {
+        //Lets only provide 2 out of the 3 required arguments.
+        $update = $this->getUpdate('apple horse');
+        $command = $this->getMockBuilder(CommandParametersAllRequired::class)->getMock();
+
+        $command->expects($this->once())
+            ->method('setArgumentsNotProvided')
+            ->with($this->equalTo(['colour']));
+
+        $this->bus->addCommand('command', CommandParametersAllRequired::class);
+        $this->container->instance(CommandParametersAllRequired::class, $command);
+
+        $this->bus->handler($update);
+    }
+
+    /** @test */
     public function it_checks_a_commands_handle_function_is_called_with_the_correct_arguments()
     {
         $update = $this->getUpdate();
@@ -223,8 +276,9 @@ class CommandBusTest extends TestCase
         $this->bus->handler($update);
     }
 
+
     /** @test */
-    public function it_checks_a_commands_handle_function_is_called_with_the_correct_arguments2()
+    public function it_checks_a_commands_handle_function_is_called_with_the_correct_arguments_when_they_are_optional()
     {
         $update = $this->getUpdate('apple');
         $command = $this->getMockBuilder(CommandParametersHasOptional::class)->getMock();
@@ -242,7 +296,7 @@ class CommandBusTest extends TestCase
     }
 
     /** @test */
-    public function it_checks_a_command_with_regex_for_a_parameter_gets_processed_correctly()
+    public function it_checks_a_commands_handle_function_is_called_with_the_correct_arguments_when_they_have_regex()
     {
         $update = $this->getUpdate('apple 456AB purple');
         //This command will match the regex.

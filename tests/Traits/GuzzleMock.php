@@ -18,26 +18,16 @@ trait GuzzleMock
      *
      * @var array
      */
-    protected $history = [];
+    protected array $history = [];
 
-    /**
-     * @param array $responsesToQueue
-     *
-     * @return GuzzleHttpClient
-     */
-    public function getClient(array $responsesToQueue = [])
+    public function getClient(array $responsesToQueue = []): GuzzleHttpClient
     {
         $client = $this->queuedResponseClient($responsesToQueue);
 
         return (new GuzzleHttpClient())->setClient($client);
     }
 
-    /**
-     * @param array $responsesToQueue
-     *
-     * @return Client
-     */
-    protected function queuedResponseClient(array $responsesToQueue)
+    protected function queuedResponseClient(array $responsesToQueue): Client
     {
         $this->history = [];
         $handler = HandlerStack::create(new MockHandler($responsesToQueue));
@@ -46,14 +36,7 @@ trait GuzzleMock
         return new Client(['handler' => $handler]);
     }
 
-    /**
-     * @param array|bool $data
-     * @param int        $status_code
-     * @param array      $headers
-     *
-     * @return Response
-     */
-    public function createResponse($data = [], $status_code = 200, $headers = [])
+    public function createResponse($data = [], $status_code = 200, $headers = []): Response
     {
         return new Response(
             $status_code,
@@ -65,20 +48,12 @@ trait GuzzleMock
         );
     }
 
-    public function fakeUpdate(array $data, $status_code = 200, $headers = [])
+    public function createUpdate(array $data = [], $status_code = 200, $headers = []): Response
     {
         return new Response($status_code, $headers, json_encode($data));
     }
 
-    /**
-     * @return Collection
-     */
-    public function getHistory(): Collection
-    {
-        return collect($this->history);
-    }
-
-    protected function makeFakeServerErrorResponse($error_code, $description, $status_code = 200, $headers = [])
+    public function createErrorResponse($error_code, $description, $status_code = 200, $headers = []): Response
     {
         return new Response(
             $status_code,
@@ -91,8 +66,11 @@ trait GuzzleMock
         );
     }
 
-//    protected function makeFakeExceptionResponse($text, $uri)
-//    {
-//        return new RequestException($text, new Request('GET', $uri));
-//    }
+    /**
+     * @return Collection
+     */
+    public function getHistory(): Collection
+    {
+        return collect($this->history);
+    }
 }

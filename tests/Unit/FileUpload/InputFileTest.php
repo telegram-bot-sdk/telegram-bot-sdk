@@ -2,74 +2,59 @@
 
 namespace Telegram\Bot\Tests\Unit\FileUpload;
 
-use GuzzleHttp\Psr7\LazyOpenStream;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\StreamInterface;
 use Telegram\Bot\FileUpload\InputFile;
+
+use function GuzzleHttp\Psr7\stream_for;
 
 class InputFileTest extends TestCase
 {
-    protected $tempPath;
-    protected $tempFileResource;
-    protected $tempStream;
-    protected $tempFileName;
-    protected $url;
+
+    protected InputFile $fileOnDisk;
+    protected InputFile $fileFromContents;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->tempPath = sys_get_temp_dir();
-        $this->tempFileName = $this->tempPath . '/TestFile.tmp';
-        $this->tempFileResource = fopen($this->tempFileName, 'w+');
-        $this->tempStream = new LazyOpenStream($this->tempFileName, 'r');
-    }
-
-    protected function tearDown(): void
-    {
-        if (file_exists($this->tempFileName)) {
-            unlink($this->tempFileName);
-        }
+        $this->fileOnDisk = InputFile::file('php://tmp');
+        $this->fileFromContents = InputFile::contents('Some String', 'filename.txt');
     }
 
     /** @test */
-    public function it_detects_the_file_name_from_a_stream_or_resource_or_url_or_string()
+    public function it_creates_a_multipart_name_automatically()
     {
-        $inputFileString = InputFile::create($this->tempFileName);
-        $inputFileUrlWithExtension = InputFile::create('http://localhost/remoteFile.tmp');
-        $inputFileUrlNoExtension = InputFile::create('http://localhost/uo13nzxcl5014pnSX7DIty16k_H47F_GulRO');
-        $inputFileResource = InputFile::create($this->tempFileResource);
-        $inputFileStream = InputFile::create($this->tempStream);
-
-        $this->assertEquals('TestFile.tmp', $inputFileString->getFilename());
-        $this->assertEquals('remoteFile.tmp', $inputFileUrlWithExtension->getFilename());
-        $this->assertEquals('uo13nzxcl5014pnSX7DIty16k_H47F_GulRO', $inputFileUrlNoExtension->getFilename());
-        $this->assertEquals('TestFile.tmp', $inputFileResource->getFilename());
-        $this->assertEquals('TestFile.tmp', $inputFileStream->getFilename());
+        $this->assertNotNull($this->fileOnDisk->getMultipartName());
     }
 
     /** @test */
-    public function it_overrides_the_original_filename_if_another_filename_is_provided()
+    public function it_requires_a_filename_if_the_contents_of_a_file_are_only_used_to_create_the_object()
     {
-        $inputFileString = InputFile::create($this->tempFileName, 'newFileNameString.jpg');
-        $inputFileResource = InputFile::create($this->tempFileResource, 'newFileNameResource.jpg');
-        $inputFileStream = InputFile::create($this->tempStream, 'newFileNameStream.jpg');
-
-        $this->assertEquals('newFileNameString.jpg', $inputFileString->getFilename());
-        $this->assertEquals('newFileNameResource.jpg', $inputFileResource->getFilename());
-        $this->assertEquals('newFileNameStream.jpg', $inputFileStream->getFilename());
+        $this->assertNotNull($this->fileFromContents->getFilename());
+        $this->assertNull($this->fileOnDisk->getFilename());
     }
 
     /** @test */
-    public function it_ensures_the_open_method_return_resource()
+    public function the_attach_string_must_contain_the_multipart_name()
     {
-        $object = new InputFile('https://telegram.org/img/t_logo.png');
+        $this->assertStringContainsString($this->fileOnDisk->getMultipartName(), $this->fileOnDisk->getAttachString());
+    }
 
-        try {
-            $this->assertEquals(is_resource($object->getContents()), true);
-        } catch (\RuntimeException $e) {
-            /*
-             * skip this test, if run without internet connection
-             */
-            $this->assertInstanceOf(InputFile::class, $object);
-        }
+    /** @test */
+    public function the_contents_must_always_return_a_stream_no_matter_what_input_was_given()
+    {
+        $inputFile01 = InputFile::contents(stream_for('string'), 'filename01.txt');
+
+        $this->assertInstanceOf(StreamInterface::class, $this->fileOnDisk->getContents());
+        $this->assertInstanceOf(StreamInterface::class, $this->fileFromContents->getContents());
+        $this->assertInstanceOf(StreamInterface::class, $inputFile01->getContents());
+    }
+
+    /** @test */
+    public function it_provides_the_correct_format_for_multipart_data()
+    {
+        $this->assertSame($this->fileFromContents->getMultipartName(), $this->fileFromContents->toMultipart()['name']);
+        $this->assertSame($this->fileFromContents->getContents(), $this->fileFromContents->toMultipart()['contents']);
+        $this->assertSame($this->fileFromContents->getFilename(), $this->fileFromContents->toMultipart()['filename']);
     }
 }
