@@ -22,15 +22,18 @@ class CommandBus
 
     /** @var Command[] Holds all commands. */
     protected array $commands = [];
+    protected Parser $parser;
 
     /**
      * Instantiate Command Bus.
      *
      * @param Bot|null $bot
+     * @param Parser   $parser
      */
-    public function __construct(Bot $bot = null)
+    public function __construct(Bot $bot = null, Parser $parser = null)
     {
         $this->bot = $bot;
+        $this->parser = $parser ?? $this->getParser();
     }
 
     /**
@@ -52,7 +55,9 @@ class CommandBus
      */
     public function addCommands(array $commands): self
     {
-        $this->commands = $commands;
+        foreach ($commands as $command => $commandClass) {
+            $this->addCommand($command, $commandClass);
+        }
 
         return $this;
     }
@@ -171,7 +176,7 @@ class CommandBus
     {
         $command = $this->resolveCommand($command);
 
-        $parser = Parser::parse($command)->setUpdate($update);
+        $parser = $this->parser->setCommand($command)->setUpdate($update);
 
         if ($isTriggered) {
             $arguments = $entity;
@@ -188,7 +193,6 @@ class CommandBus
             if ($requiredParamsNotProvided->isNotEmpty()) {
                 throw TelegramCommandException::requiredParamsNotProvided($requiredParamsNotProvided);
             }
-
             $this->bot->getContainer()->call([$command, 'handle'], $arguments);
         } catch (BindingResolutionException|TelegramCommandException $e) {
             if (method_exists($command, 'failed')) {
@@ -245,6 +249,11 @@ class CommandBus
         }
 
         throw TelegramCommandException::commandClassNotValid($command);
+    }
+
+    private function getParser()
+    {
+        return new Parser();
     }
 
     /**
