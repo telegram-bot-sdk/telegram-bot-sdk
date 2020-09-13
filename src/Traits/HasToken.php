@@ -26,9 +26,10 @@ trait HasToken
      * Get the bot token.
      *
      * @throws TelegramSDKException
-     * @return string
+     *
+     * @return string|null
      */
-    public function getToken(): string
+    public function getToken(): ?string
     {
         if (! $this->hasToken()) {
             throw TelegramSDKException::tokenNotProvided();

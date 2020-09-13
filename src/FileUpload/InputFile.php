@@ -5,11 +5,12 @@ namespace Telegram\Bot\FileUpload;
 use GuzzleHttp\Psr7\LazyOpenStream;
 use GuzzleHttp\Psr7\PumpStream;
 use GuzzleHttp\Psr7\Stream;
-use function GuzzleHttp\Psr7\stream_for;
 use Iterator;
 use JsonSerializable;
 use Psr\Http\Message\StreamInterface;
 use Telegram\Bot\Contracts\Multipartable;
+
+use function GuzzleHttp\Psr7\stream_for;
 
 class InputFile implements Multipartable, JsonSerializable
 {
@@ -69,9 +70,9 @@ class InputFile implements Multipartable, JsonSerializable
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getMultipartName(): ?string
+    public function getMultipartName(): string
     {
         return $this->multipartName;
     }
@@ -115,6 +116,6 @@ class InputFile implements Multipartable, JsonSerializable
 
     protected function generateRandomName(): string
     {
-        return substr(md5(uniqid(rand(), true)), 0, 10);
+        return substr(md5(uniqid('', true)), 0, 10);
     }
 }

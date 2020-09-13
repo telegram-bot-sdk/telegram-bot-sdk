@@ -3,6 +3,7 @@
 namespace Telegram\Bot\Objects;
 
 use Telegram\Bot\Objects\InputMedia\InputMedia;
+use Telegram\Bot\Objects\Updates\Message;
 
 /**
  * Class Chat.

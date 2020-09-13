@@ -20,7 +20,7 @@ class CommandBus
 {
     use HasBot;
 
-    /** @var Command[] Holds all commands. */
+    /** @var string|CommandInterface[] Holds all commands. */
     protected array $commands = [];
 
     /**
@@ -46,7 +46,7 @@ class CommandBus
     /**
      * Add a list of commands.
      *
-     * @param array $commands
+     * @param string|CommandInterface[] $commands
      *
      * @return $this
      */
@@ -61,7 +61,7 @@ class CommandBus
      * Add a command to the commands list.
      *
      * @param string                  $command      Command name.
-     * @param CommandInterface|string $commandClass Either an object or full path to the command class.
+     * @param string|CommandInterface $commandClass Either an object or full path to the command class.
      *
      * @return $this
      */
@@ -105,13 +105,13 @@ class CommandBus
     /**
      * Parse a Command for a Match.
      *
-     * @param $text
-     * @param $offset
-     * @param $length
+     * @param string $text
+     * @param int    $offset
+     * @param int    $length
      *
      * @return string
      */
-    public function parseCommand($text, $offset, $length): string
+    public function parseCommand(string $text, int $offset, int $length): string
     {
         if (blank($text)) {
             throw new InvalidArgumentException('Message is empty, Cannot parse for command');
@@ -123,7 +123,7 @@ class CommandBus
     /**
      * Handles Inbound Messages and Executes Appropriate Command.
      *
-     * @param $update
+     * @param Update $update
      *
      * @return Update
      */

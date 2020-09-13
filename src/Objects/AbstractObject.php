@@ -58,7 +58,7 @@ abstract class AbstractObject implements Arrayable, IteratorAggregate, Jsonable,
     /**
      * Convert the object into something JSON serializable.
      *
-     * @return array
+     * @return object|array
      */
     public function jsonSerialize()
     {

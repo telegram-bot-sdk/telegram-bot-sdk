@@ -165,7 +165,7 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
      *
      * @return bool
      */
-    public function isType($type): bool
+    public function isType(string $type): bool
     {
         if ($this->offsetExists($type)) {
             return true;
@@ -177,11 +177,11 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Determine the type by given types.
      *
-     * @param $types
+     * @param array $types
      *
      * @return string|null
      */
-    protected function findType($types): ?string
+    protected function findType(array $types): ?string
     {
         return $this->collect()
             ->keys()
@@ -258,10 +258,10 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
             return $relations[$field]::make($value);
         }
 
-        /** @var AbstractResponseObject $class */
         $class = 'Telegram\Bot\Objects\\' . Str::studly($field);
 
         if (class_exists($class)) {
+            /** @var AbstractResponseObject $class */
             return $class::make($value);
         }
 

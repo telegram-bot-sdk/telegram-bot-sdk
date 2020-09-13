@@ -10,7 +10,7 @@ use Telegram\Bot\Objects\Update;
  */
 trait HasUpdate
 {
-    /** @var Update Telegram Update. */
+    /** @var Update|null Telegram Update. */
     protected ?Update $update = null;
 
     /**
@@ -28,9 +28,9 @@ trait HasUpdate
      *
      * @throws TelegramSDKException
      *
-     * @return Update
+     * @return Update|null
      */
-    public function getUpdate(): Update
+    public function getUpdate(): ?Update
     {
         if (! $this->hasUpdate()) {
             throw TelegramSDKException::updateObjectNotFound();

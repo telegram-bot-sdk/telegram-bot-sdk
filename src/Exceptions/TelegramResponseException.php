@@ -71,9 +71,9 @@ class TelegramResponseException extends TelegramSDKException
     /**
      * Returns the HTTP status code.
      *
-     * @return int
+     * @return int|null
      */
-    public function getHttpStatusCode(): int
+    public function getHttpStatusCode(): ?int
     {
         return $this->response->getHttpStatusCode();
     }

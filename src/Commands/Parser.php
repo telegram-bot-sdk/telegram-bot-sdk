@@ -12,6 +12,9 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\MessageEntity;
 use Telegram\Bot\Traits\HasUpdate;
 
+/**
+ * Class Parser
+ */
 class Parser
 {
     use HasUpdate;
@@ -22,8 +25,8 @@ class Parser
     /** @var CommandInterface|string */
     protected $command;
 
-    /** @var Collection|array Hold command params */
-    protected $params;
+    /** @var Collection|null Hold command params */
+    protected ?Collection $params;
 
     /**
      * @param CommandInterface|string $command
@@ -91,6 +94,7 @@ class Parser
      * Get all command handle params except type-hinted classes.
      *
      * @throws TelegramCommandException
+     *
      * @return Collection
      */
     public function allParams(): Collection
@@ -186,7 +190,8 @@ class Parser
      * @param string $fullString
      *
      * @throws TelegramSDKException
-     * @return bool|string
+     *
+     * @return string
      */
     private function relevantSubString(string $fullString): string
     {

@@ -7,6 +7,9 @@ use Illuminate\Support\Str;
 use Telegram\Bot\Objects\MessageEntity;
 use Telegram\Bot\Objects\Update;
 
+/**
+ * Class Entity
+ */
 class Entity
 {
     protected string $field;
@@ -43,18 +46,18 @@ class Entity
             return null;
         }
 
-        if ($this->field() === 'entities') {
+        if ($this->update->getMessage()->isType('text')) {
             return $this->update->getMessage()->text;
         }
 
         return $this->update->getMessage()->{Str::before($this->field(), '_')};
     }
 
-    protected function field(): ?string
+    protected function field(): string
     {
         return $this->field ??= $this->update->getMessage()
             ->collect()
             ->keys()
-            ->first(fn ($key) => Str::contains($key, 'entities'));
+            ->first(fn ($key) => Str::contains($key, 'entities'), '');
     }
 }

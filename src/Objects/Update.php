@@ -32,7 +32,7 @@ use Telegram\Bot\Objects\Updates\ShippingQuery;
  */
 class Update extends AbstractResponseObject
 {
-    protected string $updateType;
+    protected ?string $updateType = null;
 
     /**
      * @inheritdoc
@@ -57,9 +57,9 @@ class Update extends AbstractResponseObject
     /**
      * Update type.
      *
-     * @return string
+     * @return string|null
      */
-    public function objectType(): string
+    public function objectType(): ?string
     {
         return $this->updateType ??= $this->collect()
             ->except('update_id')

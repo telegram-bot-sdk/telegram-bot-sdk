@@ -23,7 +23,7 @@ interface CommandInterface
 
     public function setArgumentsNotProvided(array $arguments): self;
 
-    public function getBot(): Bot;
+    public function getBot(): ?Bot;
 
     public function setBot(Bot $bot): self;
 
@@ -31,9 +31,9 @@ interface CommandInterface
 
     public function setCommandBus(CommandBus $commandBus): self;
 
-    public function failed(array $arguments, Throwable $exception);
+    public function failed(array $arguments, Throwable $exception): void;
 
-    public function getUpdate(): Update;
+    public function getUpdate(): ?Update;
 
     public function setUpdate(Update $update);
 }

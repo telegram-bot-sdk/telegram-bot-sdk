@@ -22,7 +22,7 @@ interface HttpClientInterface
      * @param array      $options
      * @param bool|false $isAsyncRequest
      *
-     * @return mixed|ResponseInterface
+     * @return void|ResponseInterface
      */
     public function send(
         string $url,

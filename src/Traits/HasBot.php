@@ -25,9 +25,9 @@ trait HasBot
     /**
      * Get the Telegram Bot.
      *
-     * @return Bot
+     * @return Bot|null
      */
-    public function getBot(): Bot
+    public function getBot(): ?Bot
     {
         return $this->bot;
     }
