@@ -5,12 +5,11 @@ namespace Telegram\Bot\FileUpload;
 use GuzzleHttp\Psr7\LazyOpenStream;
 use GuzzleHttp\Psr7\PumpStream;
 use GuzzleHttp\Psr7\Stream;
+use function GuzzleHttp\Psr7\stream_for;
 use Iterator;
 use JsonSerializable;
 use Psr\Http\Message\StreamInterface;
 use Telegram\Bot\Contracts\Multipartable;
-
-use function GuzzleHttp\Psr7\stream_for;
 
 class InputFile implements Multipartable, JsonSerializable
 {
