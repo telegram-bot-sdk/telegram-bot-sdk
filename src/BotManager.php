@@ -72,10 +72,9 @@ class BotManager
     /**
      * Get a bot instance.
      *
-     * @param string $name
+     * @param  string|null  $name
      *
      * @throws TelegramSDKException
-     *
      * @return Bot
      */
     public function bot(string $name = null): Bot
@@ -88,10 +87,9 @@ class BotManager
     /**
      * Reconnect to the given bot.
      *
-     * @param string $name
+     * @param  string|null  $name
      *
      * @throws TelegramSDKException
-     *
      * @return Bot
      */
     public function reconnect(string $name = null): Bot
@@ -104,7 +102,7 @@ class BotManager
     /**
      * Disconnect from the given bot.
      *
-     * @param string $name
+     * @param  string|null  $name
      *
      * @return static
      */
@@ -158,14 +156,13 @@ class BotManager
     /**
      * Magically pass methods to the default bot.
      *
-     * @param string $method
-     * @param array  $parameters
+     * @param  string  $method
+     * @param  array   $parameters
      *
      * @throws TelegramSDKException
-     *
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters)
     {
         return $this->forwardCallTo($this->bot(), $method, $parameters);
     }

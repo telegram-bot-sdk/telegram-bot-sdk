@@ -35,7 +35,7 @@ class Api
     /**
      * Instantiates a new Telegram super-class object.
      *
-     * @param string $token The Telegram Bot Token.
+     * @param  string|null  $token  The Telegram Bot Token.
      */
     public function __construct(string $token = null)
     {
