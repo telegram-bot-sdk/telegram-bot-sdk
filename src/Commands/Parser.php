@@ -20,7 +20,7 @@ class Parser
     use HasUpdate;
 
     /** @var MessageEntity|null Details of the current entity this command is responding to - offset, length, type etc */
-    protected ?MessageEntity $entity;
+    protected ?MessageEntity $entity = null;
 
     /** @var CommandInterface|string */
     protected $command;

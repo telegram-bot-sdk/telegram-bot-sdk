@@ -16,7 +16,7 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 class TelegramResponse
 {
     /** @var null|int The HTTP status code response from API. */
-    protected ?int $httpStatusCode;
+    protected ?int $httpStatusCode = null;
 
     /** @var array The headers returned from API request. */
     protected array $headers;

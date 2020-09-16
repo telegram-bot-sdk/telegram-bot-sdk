@@ -25,7 +25,7 @@ class TelegramClient
     protected bool $isAsyncRequest = false;
 
     /** @var TelegramResponse|null Stores the last request made to Telegram Bot API. */
-    protected ?TelegramResponse $lastResponse;
+    protected ?TelegramResponse $lastResponse = null;
 
     /**
      * Instantiates a new TelegramClient object.

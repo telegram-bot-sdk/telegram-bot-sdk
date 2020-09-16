@@ -4,6 +4,9 @@ namespace Telegram\Bot\Traits;
 
 use Illuminate\Support\Arr;
 
+/**
+ * HasConfig.
+ */
 trait HasConfig
 {
     private array $config;

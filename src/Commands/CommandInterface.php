@@ -33,7 +33,7 @@ interface CommandInterface
 
     public function failed(array $arguments, Throwable $exception): void;
 
-    public function getUpdate(): ?Update;
+    public function getUpdate(): Update;
 
     public function setUpdate(Update $update);
 }

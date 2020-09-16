@@ -21,8 +21,8 @@ class GuzzleHttpClient implements HttpClientInterface
     /** @var PromiseInterface[] Holds promises. */
     private static array $promises = [];
 
-    /** @var ClientInterface HTTP client. */
-    protected ?ClientInterface $client;
+    /** @var ClientInterface|null HTTP client. */
+    protected ?ClientInterface $client = null;
 
     /** @var array Guzzle Config */
     protected array $config = [

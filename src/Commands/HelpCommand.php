@@ -2,9 +2,9 @@
 
 namespace Telegram\Bot\Commands;
 
-use Telegram\Bot\Exceptions\TelegramCommandException;
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use Throwable;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Exceptions\TelegramCommandException;
 
 /**
  * Class HelpCommand.
@@ -29,7 +29,7 @@ class HelpCommand extends Command
         foreach ($commands as $name => $command) {
             /* @var Command $command */
             $command = $handler->getCommandBus()->resolveCommand($command);
-            $text .= sprintf('/%s - %s' . PHP_EOL, $name, $command->getDescription());
+            $text .= sprintf('/%s - %s'.PHP_EOL, $name, $command->getDescription());
         }
 
         $this->reply($text);
@@ -40,7 +40,14 @@ class HelpCommand extends Command
         $this->reply('Sorry. Currently it is not possible to list all the commands.');
     }
 
-    protected function reply($text)
+    /**
+     * Reply helper.
+     * 
+     * @param $text
+     *
+     * @throws TelegramSDKException
+     */
+    protected function reply(string $text): void
     {
         $chat_id = $this->getUpdate()->getMessage()->chat->id;
 

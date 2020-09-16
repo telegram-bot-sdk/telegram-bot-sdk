@@ -34,7 +34,7 @@ use Telegram\Bot\Objects\File;
  */
 trait Http
 {
-    /** @var TelegramClient The Telegram client service. */
+    /** @var TelegramClient|null The Telegram client service. */
     protected ?TelegramClient $client = null;
 
     /**

@@ -2,30 +2,32 @@
 
 namespace Telegram\Bot\Traits;
 
-use BadMethodCallException;
 use Error;
+use BadMethodCallException;
 
+/**
+ * ForwardsCalls.
+ */
 trait ForwardsCalls
 {
     /**
      * Forward a method call to the given object.
      *
-     * @param mixed  $object
-     * @param string $method
-     * @param array  $parameters
+     * @param  mixed   $object
+     * @param  string  $method
+     * @param  array   $parameters
      *
      * @throws BadMethodCallException
-     *
      * @return mixed
      */
-    protected function forwardCallTo($object, $method, $parameters)
+    protected function forwardCallTo($object, string $method, array $parameters)
     {
         try {
             return $object->{$method}(...$parameters);
         } catch (Error | BadMethodCallException $e) {
             $pattern = '~^Call to undefined method (?P<class>[^:]+)::(?P<method>[^\(]+)\(\)$~';
 
-            if (! preg_match($pattern, $e->getMessage(), $matches)) {
+            if (!preg_match($pattern, $e->getMessage(), $matches)) {
                 throw $e;
             }
 
@@ -40,13 +42,12 @@ trait ForwardsCalls
     /**
      * Throw a bad method call exception for the given method.
      *
-     * @param string $method
+     * @param  string  $method
      *
      * @throws BadMethodCallException
-     *
      * @return void
      */
-    protected static function throwBadMethodCallException($method): void
+    protected static function throwBadMethodCallException(string $method): void
     {
         throw new BadMethodCallException(sprintf(
             'Call to undefined method %s::%s()',

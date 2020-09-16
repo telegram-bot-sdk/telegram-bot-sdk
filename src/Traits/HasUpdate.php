@@ -28,9 +28,9 @@ trait HasUpdate
      *
      * @throws TelegramSDKException
      *
-     * @return Update|null
+     * @return Update
      */
-    public function getUpdate(): ?Update
+    public function getUpdate(): Update
     {
         if (! $this->hasUpdate()) {
             throw TelegramSDKException::updateObjectNotFound();

@@ -27,9 +27,9 @@ trait HasToken
      *
      * @throws TelegramSDKException
      *
-     * @return string|null
+     * @return string
      */
-    public function getToken(): ?string
+    public function getToken(): string
     {
         if (! $this->hasToken()) {
             throw TelegramSDKException::tokenNotProvided();
