@@ -26,7 +26,7 @@ class Parser
     protected $command;
 
     /** @var Collection|null Hold command params */
-    protected ?Collection $params;
+    protected ?Collection $params = null;
 
     /**
      * @param CommandInterface|string $command
