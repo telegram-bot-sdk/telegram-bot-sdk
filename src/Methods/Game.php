@@ -19,11 +19,12 @@ trait Game
      *
      * <code>
      * $params = [
-     *       'chat_id'               => '',  // int|string - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'game_short_name'       => '',  // string     - Required. Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
-     *       'disable_notification'  => '',  // bool       - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
-     *       'reply_to_message_id'   => '',  // int        - (Optional). If the message is a reply, ID of the original message
-     *       'reply_markup'          => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard. If empty, one ‘Play game_title’ button will be shown. If not empty, the first button must launch the game.
+     *       'chat_id'                      => '',  // int|string - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *       'game_short_name'              => '',  // string     - Required. Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
+     *       'disable_notification'         => '',  // bool       - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'reply_to_message_id'          => '',  // int        - (Optional). If the message is a reply, ID of the original message
+     *       'allow_sending_without_reply   => '',  // bool       - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
+     *       'reply_markup'                 => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard. If empty, one ‘Play game_title’ button will be shown. If not empty, the first button must launch the game.
      * ]
      * </code>
      *

@@ -66,10 +66,12 @@ trait Update
      *
      * <code>
      * $params = [
-     *       'url'              => '',                      // string    - Required. HTTPS url to send updates to. Use an empty string to remove webhook integration
-     *       'certificate'      => InputFile::file($file),  // InputFile - (Optional). Upload your public key certificate so that the root certificate in use can be checked. See our self-signed guide for details.
-     *       'max_connections'  => '',                      // int       - (Optional). Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40. Use lower values to limit the load on your bot‘s server, and higher values to increase your bot’s throughput.
-     *       'allowed_updates'  => '',                      // array     - (Optional). List the types of updates you want your bot to receive. For example, specify [“message”, “edited_channel_post”, “callback_query”] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all updates regardless of type (default). If not specified, the previous setting will be used.
+     *       'url'                  => '',                      // string    - Required. HTTPS url to send updates to. Use an empty string to remove webhook integration
+     *       'certificate'          => InputFile::file($file),  // InputFile - (Optional). Upload your public key certificate so that the root certificate in use can be checked. See our self-signed guide for details.
+     *       'ip_address'           => '',                      // string    - (Optional). The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS
+     *       'max_connections'      => '',                      // int       - (Optional). Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40. Use lower values to limit the load on your bot‘s server, and higher values to increase your bot’s throughput.
+     *       'allowed_updates'      => '',                      // array     - (Optional). List the types of updates you want your bot to receive. For example, specify [“message”, “edited_channel_post”, “callback_query”] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all updates regardless of type (default). If not specified, the previous setting will be used.
+     *       'drop_pending_updates' => '',                      // bool      - (Optional). Pass True to drop all pending updates.
      * ]
      * </code>
      *
@@ -98,6 +100,12 @@ trait Update
 
     /**
      * Remove webhook integration if you decide to switch back to getUpdates.
+     *
+     * <code>
+     * $params = [
+     *       'drop_pending_updates' => '',  // bool      - (Optional). Pass True to drop all pending updates.
+     * ]
+     * </code>
      *
      * @link https://core.telegram.org/bots/api#deletewebhook
      *
@@ -165,5 +173,31 @@ trait Update
         }
 
         return InputFile::file($certificate, 'certificate.pem');
+    }
+
+    /**
+     * Use this method to log out from the cloud Bot API server before launching the bot locally.
+     *
+     * @link https://core.telegram.org/bots/api#logout
+     *
+     * @throws TelegramSDKException
+     * @return bool
+     */
+    public function logOut(): bool
+    {
+        return $this->get('logout')->getResult();
+    }
+
+    /**
+     * Use this method to close the bot instance before moving it from one local server to another.
+     *
+     * @link https://core.telegram.org/bots/api#logout
+     *
+     * @throws TelegramSDKException
+     * @return bool
+     */
+    public function close(): bool
+    {
+        return $this->get('close')->getResult();
     }
 }

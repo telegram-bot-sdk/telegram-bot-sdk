@@ -17,6 +17,8 @@ namespace Telegram\Bot\Objects\InlineQuery;
  *   'address'                => '',  //  string                - Required. Address of the venue
  *   'foursquare_id'          => '',  //  string                - (Optional). Foursquare identifier of the venue if known
  *   'foursquare_type'        => '',  //  string                - (Optional). Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
+ *   'google_place_id'        => '',  //  string                - (Optional). Google Places identifier of the venue
+ *   'google_place_type'      => '',  //  string                - (Optional). Google Places type of the venue.
  *   'reply_markup'           => '',  //  InlineKeyboardMarkup  - (Optional). Inline keyboard attached to the message
  *   'input_message_content'  => '',  //  InputMessageContent   - (Optional). Content of the message to be sent instead of the venue
  *   'thumb_url'              => '',  //  string                - (Optional). Url of the thumbnail for the result
@@ -34,6 +36,8 @@ namespace Telegram\Bot\Objects\InlineQuery;
  * @method $this address($string)                Required. Address of the venue
  * @method $this foursquareId($string)           (Optional). Foursquare identifier of the venue if known
  * @method $this foursquareType($string)         (Optional). Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
+ * @method $this googlePlaceId($string)          (Optional). Google Places identifier of the venue
+ * @method $this googlePlaceType($string)        (Optional). Google Places type of the venue.
  * @method $this replyMarkup($object)            (Optional). Inline keyboard attached to the message
  * @method $this inputMessageContent($object)    (Optional). Content of the message to be sent instead of the venue
  * @method $this thumbUrl($string)               (Optional). Url of the thumbnail for the result

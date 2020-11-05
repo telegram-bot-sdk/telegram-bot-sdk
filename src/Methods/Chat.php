@@ -199,7 +199,8 @@ trait Chat
      *
      * <code>
      * $params = [
-     *      'chat_id'  => '',  // string|int - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *      'chat_id'     => '',  // string|int - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     *      'message_id'  => '',  // int        - (Optional). Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.
      * ]
      * </code>
      *
@@ -213,6 +214,31 @@ trait Chat
     public function unpinChatMessage(array $params): bool
     {
         return $this->post('unpinChatMessage', $params)->getResult();
+    }
+
+    /**
+     * Unpin/clear the list of pinned messages in a chat.
+     *
+     * If the chat is not a private chat, the bot must be an administrator in the chat for this to work
+     * and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right
+     * in a channel.
+     *
+     * <code>
+     * $params = [
+     *      'chat_id'     => '',  // string|int - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
+     * ]
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#unpinallchatmessages
+     *
+     * @param array $params
+     *
+     * @throws TelegramSDKException
+     * @return bool
+     */
+    public function unpinAllChatMessages(array $params): bool
+    {
+        return $this->post('unpinAllChatMessages', $params)->getResult();
     }
 
     /**
@@ -245,8 +271,9 @@ trait Chat
      *
      * <code>
      * $params = [
-     *      'chat_id'  => '',  // int|string - Unique identifier for the target group or username of the target supergroup (in the format "@supergroupusername")
-     *      'user_id'  => '',  // int        - Unique identifier of the target user.
+     *      'chat_id'        => '',  // int|string - Unique identifier for the target group or username of the target supergroup (in the format "@supergroupusername")
+     *      'user_id'        => '',  // int        - Unique identifier of the target user.
+     *      'only_if_banned' => '',  // bool       - (Optional). Do nothing if the user is not banned
      * ]
      * </code>
      *
@@ -301,6 +328,7 @@ trait Chat
      * $params = [
      *      'chat_id'               => '',  // int|string - Required. Unique identifier for the target group or username of the target supergroup (in the format "@supergroupusername")
      *      'user_id'               => '',  // int        - Required. Unique identifier of the target user.
+     *      'is_anonymous'          => '',  // bool       - (Optional). Pass True, if the administrator's presence in the chat is hidden
      *      'can_change_info'       => '',  // bool       - (Optional). Pass True, if the administrator can change chat title, photo and other settings
      *      'can_post_messages'     => '',  // bool       - (Optional). Pass True, if the administrator can create channel posts, channels only
      *      'can_edit_messages'     => '',  // bool       - (Optional). Pass True, if the administrator can edit messages of other users, channels only

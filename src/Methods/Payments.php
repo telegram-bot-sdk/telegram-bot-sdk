@@ -22,24 +22,25 @@ trait Payments
      *      'title'                          => '',  // string         - Required. Product name, 1-32 characters
      *      'description'                    => '',  // string         - Required. Product description, 1-255 characters
      *      'payload'                        => '',  // string         - Required. Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
-     *      'providerToken'                  => '',  // string         - Required. Payments provider token, obtained via Botfather
-     *      'startParameter'                 => '',  // string         - Required. Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
+     *      'provider_token'                 => '',  // string         - Required. Payments provider token, obtained via Botfather
+     *      'start_parameter'                => '',  // string         - Required. Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
      *      'currency'                       => '',  // string         - Required. Three-letter ISO 4217 currency code
      *      'prices'                         => '',  // LabeledPrice[] - Required. Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
      *      'provider_data'                  => '',  // string         - (Optional). JSON-encoded data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
-     *      'photoUrl'                       => '',  // string         - (Optional). URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
-     *      'photoSize'                      => '',  // int            - (Optional). Photo size
-     *      'photoWidth'                     => '',  // int            - (Optional). Photo width
-     *      'photoHeight'                    => '',  // int            - (Optional). Photo height
-     *      'needName'                       => '',  // bool           - (Optional). Pass True, if you require the user's full name to complete the order
-     *      'needPhoneNumber'                => '',  // bool           - (Optional). Pass True, if you require the user's phone number to complete the order
-     *      'needEmail'                      => '',  // bool           - (Optional). Pass True, if you require the user's email to complete the order
-     *      'needShippingAddress'            => '',  // bool           - (Optional). Pass True, if you require the user's shipping address to complete the order
+     *      'photo_url'                      => '',  // string         - (Optional). URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
+     *      'photo_size'                     => '',  // int            - (Optional). Photo size
+     *      'photo_width'                    => '',  // int            - (Optional). Photo width
+     *      'photo_height'                   => '',  // int            - (Optional). Photo height
+     *      'need_name'                      => '',  // bool           - (Optional). Pass True, if you require the user's full name to complete the order
+     *      'need_phone_number'              => '',  // bool           - (Optional). Pass True, if you require the user's phone number to complete the order
+     *      'need_email'                     => '',  // bool           - (Optional). Pass True, if you require the user's email to complete the order
+     *      'need_shipping_address'          => '',  // bool           - (Optional). Pass True, if you require the user's shipping address to complete the order
      *      'send_phone_number_to_provider'  => '',  // bool           - (Optional). Pass True, if user's phone number should be sent to provider
      *      'send_email_to_provider'         => '',  // bool           - (Optional). Pass True, if user's email address should be sent to provider
-     *      'isFlexible'                     => '',  // bool           - (Optional). Pass True, if the final price depends on the shipping method
-     *      'disableNotification'            => '',  // bool           - (Optional). Sends the message silently. Users will receive a notification with no sound.
+     *      'is_flexible'                    => '',  // bool           - (Optional). Pass True, if the final price depends on the shipping method
+     *      'disable_notification'           => '',  // bool           - (Optional). Sends the message silently. Users will receive a notification with no sound.
      *      'reply_to_message_id'            => '',  // int            - (Optional). If the message is a reply, ID of the original message
+     *      'allow_sending_without_reply     => '',  // boo            - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *      'reply_markup'                   => '',  // string         - (Optional). A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
      * ]
      * </code>

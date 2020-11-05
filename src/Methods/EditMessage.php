@@ -24,6 +24,7 @@ trait EditMessage
      *       'inline_message_id'         => '',  // string     - (Optional). Required if chat_id and message_id are not specified. Identifier of the inline message
      *       'text'                      => '',  // string     - Required. New text of the message.
      *       'parse_mode'                => '',  // string     - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
+     *       'entities'                  => '',  // array      - (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
      *       'disable_web_page_preview'  => '',  // bool       - (Optional). Disables link previews for links in this message
      *       'reply_markup'              => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
      * ]
@@ -53,6 +54,7 @@ trait EditMessage
      *       'inline_message_id'  => '',  // string     - (Optional). Required if chat_id and message_id are not specified. Identifier of the inline message
      *       'caption'            => '',  // string     - (Optional). New caption of the message
      *       'parse_mode'         => '',  // string     - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+     *       'caption_entities'   => '',  // array      - (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
      *       'reply_markup'       => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
      * ]
      * </code>
