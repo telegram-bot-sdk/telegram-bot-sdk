@@ -16,6 +16,7 @@ namespace Telegram\Bot\Objects\InlineQuery;
  *   'title'                  => '',  //  string                - Required. Voice message title
  *   'caption'                => '',  //  string                - (Optional). Caption, 0-200 characters
  *   'parse_mode'             => '',  //  string                - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+ *   'caption_entities'       => '',  //  array                 - (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
  *   'reply_markup'           => '',  //  InlineKeyboardMarkup  - (Optional). Inline keyboard attached to the message
  *   'input_message_content'  => '',  //  InputMessageContent   - (Optional). Content of the message to be sent instead of the photo
  * ]
@@ -23,13 +24,14 @@ namespace Telegram\Bot\Objects\InlineQuery;
  *
  * @link https://core.telegram.org/bots/api#inlinequeryresultcachedvoice
  *
- * @method $this id($string)                     Required. Unique identifier for this result, 1-64 bytes
- * @method $this voiceFileId($string)            Required. A valid file identifier for the voice message
- * @method $this title($string)                  Required. Voice message title
- * @method $this caption($string)                (Optional). Caption, 0-200 characters
- * @method $this parseMode($string)              (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
- * @method $this replyMarkup($object)            (Optional). Inline keyboard attached to the message
- * @method $this inputMessageContent($object)    (Optional). Content of the message to be sent instead of the photo
+ * @method $this id($string)                           Required. Unique identifier for this result, 1-64 bytes
+ * @method $this voiceFileId($string)                  Required. A valid file identifier for the voice message
+ * @method $this title($string)                        Required. Voice message title
+ * @method $this caption($string)                      (Optional). Caption, 0-200 characters
+ * @method $this parseMode($string)                    (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+ * @method $this captionEntities(array $messageEntity) (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
+ * @method $this replyMarkup($object)                  (Optional). Inline keyboard attached to the message
+ * @method $this inputMessageContent($object)          (Optional). Content of the message to be sent instead of the photo
  */
 class InlineQueryResultCachedVoice extends AbstractInlineObject
 {

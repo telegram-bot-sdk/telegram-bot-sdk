@@ -13,6 +13,7 @@ namespace Telegram\Bot\Objects;
  * @property int       $height          Video height as defined by sender.
  * @property int       $duration        Duration of the video in seconds as defined by sender.
  * @property PhotoSize $thumb           (Optional). Video thumbnail.
+ * @property string    $file_name       (Optional). Original filename as defined by sender
  * @property string    $mime_type       (Optional). Mime type of a file as defined by sender.
  * @property int       $file_size       (Optional). File size.
  */

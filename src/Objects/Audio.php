@@ -12,6 +12,7 @@ namespace Telegram\Bot\Objects;
  * @property int       $duration       Duration of the audio in seconds as defined by sender.
  * @property string    $performer      (Optional). Performer of the audio as defined by sender or by audio tags.
  * @property string    $title          (Optional). Title of the audio as defined by sender or by audio tags.
+ * @property string    $file_name      (Optional). Original filename as defined by sender
  * @property string    $mime_type      (Optional). MIME type of the file as defined by sender.
  * @property int       $file_size      (Optional). File size.
  * @property PhotoSize $thumb          (Optional). Thumbnail of the album cover to which the music file belongs
