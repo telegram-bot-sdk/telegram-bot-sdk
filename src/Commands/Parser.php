@@ -2,15 +2,17 @@
 
 namespace Telegram\Bot\Commands;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use ReflectionException;
 use ReflectionMethod;
+use ReflectionException;
 use ReflectionParameter;
-use Telegram\Bot\Exceptions\TelegramCommandException;
-use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Objects\MessageEntity;
+use ReflectionNamedType;
+use ReflectionUnionType;
+use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 use Telegram\Bot\Traits\HasUpdate;
+use Telegram\Bot\Objects\MessageEntity;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Exceptions\TelegramCommandException;
 
 /**
  * Class Parser
@@ -29,7 +31,7 @@ class Parser
     protected ?Collection $params = null;
 
     /**
-     * @param CommandInterface|string $command
+     * @param  CommandInterface|string  $command
      *
      * @return Parser
      */
@@ -47,7 +49,7 @@ class Parser
     }
 
     /**
-     * @param CommandInterface|string $command
+     * @param  CommandInterface|string  $command
      *
      * @return $this
      */
@@ -110,7 +112,25 @@ class Parser
         }
 
         return $this->params = collect($handle->getParameters())
-            ->reject(fn (ReflectionParameter $param) => $param->getClass());
+            ->reject(function (ReflectionParameter $param) {
+                if (version_compare(phpversion(), '8.0.0', '<')) {
+                    return $param->getClass();
+                }
+
+                $type = $param->getType();
+
+                if ($type === null || ($type instanceof ReflectionNamedType && $type->isBuiltin())) {
+                    return false;
+                }
+
+                if ($type instanceof ReflectionUnionType) {
+                    return collect($type->getTypes())
+                        ->reject(fn(ReflectionNamedType $namedType) => !$namedType->isBuiltin())
+                        ->isEmpty();
+                }
+
+                return true;
+            });
     }
 
     /**
@@ -122,14 +142,14 @@ class Parser
     public function requiredParams(): Collection
     {
         return $this->allParams()
-            ->reject(fn ($parameter): bool => $parameter->isDefaultValueAvailable() || $parameter->isVariadic())
+            ->reject(fn($parameter): bool => $parameter->isDefaultValueAvailable() || $parameter->isVariadic())
             ->pluck('name');
     }
 
     /**
      * Get params that are required but have not been provided.
      *
-     * @param array $params
+     * @param  array  $params
      *
      * @throws TelegramCommandException
      * @return Collection
@@ -148,8 +168,8 @@ class Parser
     public function nullifiedRegexParams(): Collection
     {
         return $this->allParams()
-            ->filter(fn (ReflectionParameter $param): bool => $this->isRegexParam($param))
-            ->mapWithKeys(fn (ReflectionParameter $param): array => [$param->getName() => null]);
+            ->filter(fn(ReflectionParameter $param): bool => $this->isRegexParam($param))
+            ->mapWithKeys(fn(ReflectionParameter $param): array => [$param->getName() => null]);
     }
 
     /**
@@ -176,7 +196,7 @@ class Parser
     /**
      * Determine if its a regex parameter.
      *
-     * @param ReflectionParameter $param
+     * @param  ReflectionParameter  $param
      *
      * @throws ReflectionException
      * @return bool
@@ -187,7 +207,7 @@ class Parser
     }
 
     /**
-     * @param string $fullString
+     * @param  string  $fullString
      *
      * @throws TelegramSDKException
      *
@@ -235,9 +255,9 @@ class Parser
     /**
      * Get the portion of a string between a given values.
      *
-     * @param string $subject
-     * @param string $before
-     * @param string $after
+     * @param  string  $subject
+     * @param  string  $before
+     * @param  string  $after
      *
      * @return string
      */
