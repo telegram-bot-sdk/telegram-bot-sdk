@@ -32,7 +32,7 @@ class BotManager
     }
 
     /**
-     * Return all of the created bots.
+     * Return all the created bots.
      *
      * @return Bot[]
      */
