@@ -31,8 +31,7 @@
   "require": {
     "php": ">=7.4",
     "ext-json": "*",
-    "guzzlehttp/guzzle": "^6.3 || ^7.0.1",
-    "guzzlehttp/psr7": "^1.3",
+    "guzzlehttp/guzzle": "^7.3",
     "illuminate/container": "6 - 8",
     "illuminate/events": "6 - 8",
     "illuminate/support": "6 - 8",

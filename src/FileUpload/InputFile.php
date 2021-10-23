@@ -5,7 +5,7 @@ namespace Telegram\Bot\FileUpload;
 use GuzzleHttp\Psr7\LazyOpenStream;
 use GuzzleHttp\Psr7\PumpStream;
 use GuzzleHttp\Psr7\Stream;
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 use Iterator;
 use JsonSerializable;
 use Psr\Http\Message\StreamInterface;
@@ -49,7 +49,7 @@ class InputFile implements Multipartable, JsonSerializable
      */
     public static function contents($contents, string $filename): self
     {
-        return new static(stream_for($contents), $filename);
+        return new static(Utils::streamFor($contents), $filename);
     }
 
     /**
