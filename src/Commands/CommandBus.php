@@ -159,7 +159,7 @@ class CommandBus
     /**
      * Execute the command.
      *
-     * @param CommandInterface|string $command
+     * @param CommandInterface|string $commandName
      * @param Update                  $update
      * @param MessageEntity|array     $entity
      * @param bool                    $isTriggered
@@ -167,9 +167,9 @@ class CommandBus
      * @throws TelegramCommandException
      * @throws TelegramSDKException
      */
-    public function execute($command, Update $update, $entity, bool $isTriggered = false): void
+    public function execute($commandName, Update $update, $entity, bool $isTriggered = false): void
     {
-        $command = $this->resolveCommand($command);
+        $command = $this->resolveCommand($commandName);
 
         $parser = Parser::parse($command)->setUpdate($update);
 
@@ -180,7 +180,12 @@ class CommandBus
             $arguments = $parser->arguments();
         }
 
-        $command->setCommandBus($this)->setBot($this->bot)->setUpdate($update)->setArguments($arguments);
+        $command
+            ->setCommandBus($this)
+            ->setBot($this->bot)
+            ->setUpdate($update)
+            ->setName($commandName)
+            ->setArguments($arguments);
 
         $requiredParamsNotProvided = $parser->requiredParamsNotProvided(array_keys($arguments));
 

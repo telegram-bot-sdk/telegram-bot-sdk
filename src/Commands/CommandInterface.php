@@ -11,6 +11,10 @@ use Throwable;
  */
 interface CommandInterface
 {
+    public function getName(): string;
+
+    public function setName(string $name): self;
+
     public function getDescription(): string;
 
     public function setDescription(string $description): self;
