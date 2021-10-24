@@ -16,6 +16,9 @@ abstract class Command implements CommandInterface
     use HasBot;
     use HasUpdate;
 
+    /** @var string The Telegram command name. */
+    protected string $name;
+
     /** @var string The Telegram command description. */
     protected string $description;
 
@@ -26,6 +29,30 @@ abstract class Command implements CommandInterface
     protected array $argumentsNotProvided = [];
 
     protected CommandBus $commandBus;
+
+    /**
+     * Get the name used for this command
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the name used for this command
+     *
+     * @param string $name
+     *
+     * @return static
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
     /**
      * Get Command Description.
