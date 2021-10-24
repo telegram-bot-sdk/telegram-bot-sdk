@@ -31,7 +31,7 @@ abstract class Command implements CommandInterface
     protected CommandBus $commandBus;
 
     /**
-     * Get the names used for this command
+     * Get the name used for this command
      *
      * @return string
      */
