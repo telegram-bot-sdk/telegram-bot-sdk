@@ -3,9 +3,11 @@
 namespace Telegram\Bot\Events;
 
 use Closure;
+use Illuminate\Events\Dispatcher;
 
 /**
  * Class EventFactory
+ * @mixin Dispatcher
  */
 class EventFactory
 {
