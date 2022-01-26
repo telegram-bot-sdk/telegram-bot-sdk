@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'src/**'
@@ -21,13 +22,13 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [7.4]
+        php: ['7.4', '8.0', '8.1']
         stability: [prefer-lowest, prefer-stable]
 
     name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
     env:
-      EXTENSIONS: dom, curl, mbstring, fileinfo
-      EXT_CACHE_KEY: ext-cache-v1
+      extensions: dom, curl, mbstring, fileinfo
+      key: cache-v1
 
     steps:
       - name: Checkout code
@@ -38,21 +39,21 @@ jobs:
         uses: shivammathur/cache-extensions@v1
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ env.EXTENSIONS }}
-          key: ${{ env.EXT_CACHE_KEY }}
+          extensions: ${{ env.extensions }}
+          key: ${{ env.key }}
 
       - name: Cache extensions
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.cache-env.outputs.dir }}
-          key: ${{ steps.cache-env.outputs.key }}
+          key: ${{ steps.cache-env.outputs.key }}-${{ env.key }}
           restore-keys: ${{ steps.cache-env.outputs.key }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ env.EXTENSIONS }}
+          extensions: ${{ env.extensions }}
           coverage: xdebug
           ini-values: xdebug.overload_var_dump=1
           tools: prestissimo
@@ -62,7 +63,7 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache composer dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
