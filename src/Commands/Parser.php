@@ -2,17 +2,17 @@
 
 namespace Telegram\Bot\Commands;
 
-use ReflectionMethod;
-use ReflectionException;
-use ReflectionParameter;
-use ReflectionNamedType;
-use ReflectionUnionType;
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use Telegram\Bot\Traits\HasUpdate;
-use Telegram\Bot\Objects\MessageEntity;
-use Telegram\Bot\Exceptions\TelegramSDKException;
+use Illuminate\Support\Str;
+use ReflectionException;
+use ReflectionMethod;
+use ReflectionNamedType;
+use ReflectionParameter;
+use ReflectionUnionType;
 use Telegram\Bot\Exceptions\TelegramCommandException;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\MessageEntity;
+use Telegram\Bot\Traits\HasUpdate;
 
 /**
  * Class Parser
@@ -125,7 +125,7 @@ class Parser
 
                 if ($type instanceof ReflectionUnionType) {
                     return collect($type->getTypes())
-                        ->reject(fn(ReflectionNamedType $namedType) => !$namedType->isBuiltin())
+                        ->reject(fn (ReflectionNamedType $namedType) => ! $namedType->isBuiltin())
                         ->isEmpty();
                 }
 
@@ -142,7 +142,7 @@ class Parser
     public function requiredParams(): Collection
     {
         return $this->allParams()
-            ->reject(fn($parameter): bool => $parameter->isDefaultValueAvailable() || $parameter->isVariadic())
+            ->reject(fn ($parameter): bool => $parameter->isDefaultValueAvailable() || $parameter->isVariadic())
             ->pluck('name');
     }
 
@@ -168,8 +168,8 @@ class Parser
     public function nullifiedRegexParams(): Collection
     {
         return $this->allParams()
-            ->filter(fn(ReflectionParameter $param): bool => $this->isRegexParam($param))
-            ->mapWithKeys(fn(ReflectionParameter $param): array => [$param->getName() => null]);
+            ->filter(fn (ReflectionParameter $param): bool => $this->isRegexParam($param))
+            ->mapWithKeys(fn (ReflectionParameter $param): array => [$param->getName() => null]);
     }
 
     /**

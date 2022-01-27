@@ -23,14 +23,17 @@ final class Actions
     /** Sets chat status as Sending Video. */
     public const UPLOAD_VIDEO = 'upload_video';
 
-    /** Sets chat status as Recording Audio. */
-    public const RECORD_AUDIO = 'record_audio';
+    /** Sets chat status as Recording Voice. */
+    public const RECORD_VOICE = 'record_voice';
 
-    /** Sets chat status as Sending Audio. */
-    public const UPLOAD_AUDIO = 'upload_audio';
+    /** Sets chat status as Sending Voice. */
+    public const UPLOAD_VOICE = 'upload_voice';
 
     /** Sets chat status as Sending Document. */
     public const UPLOAD_DOCUMENT = 'upload_document';
+
+    /** Sets chat status as Choosing Sticker. */
+    public const CHOOSE_STICKER = 'choose_sticker';
 
     /** Sets chat status as Choosing Geo. */
     public const FIND_LOCATION = 'find_location';
