@@ -4,6 +4,7 @@ namespace Telegram\Bot\Methods;
 
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Chat as ChatObject;
+use Telegram\Bot\Objects\ChatInviteLink;
 use Telegram\Bot\Objects\ChatMember;
 use Telegram\Bot\Traits\Http;
 
@@ -27,9 +28,10 @@ trait Chat
      *
      * <code>
      * $params = [
-     *      'chat_id'     => '',  // int|string - Required. Unique identifier for the target group or username of the target supergroup (in the format "@supergroupusername")
-     *      'user_id'     => '',  // int        - Required. Unique identifier of the target user.
-     *      'until_date'  => '',  // int        - (Optional). Unique identifier of the target user.
+     *      'chat_id'         => '',  // int|string - Required. Unique identifier for the target group or username of the target supergroup (in the format "@supergroupusername")
+     *      'user_id'         => '',  // int        - Required. Unique identifier of the target user.
+     *      'until_date'      => '',  // int        - (Optional). Unique identifier of the target user.
+     *      'revoke_messages' => '',  // bool       - (Optional). Pass True to delete all messages from the chat for the user that is being removed. If False, the user will be able to see messages in the group that were sent before the user was removed. Always True for supergroups and channels.
      * ]
      * </code>
      *
@@ -66,6 +68,85 @@ trait Chat
     public function exportChatInviteLink(array $params): string
     {
         return $this->post('exportChatInviteLink', $params)->getResult();
+    }
+
+    /**
+     * Create an additional invite link for a chat
+     *
+     * The bot must be an administrator in the group for this to work.
+     *
+     * <code>
+     * $params = [
+     *      'chat_id'               => '',  // string|int - Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *      'name'                  => '',  // string     - (Optional).	Invite link name; 0-32 characters
+     *      'expire_date'           => '',  // int        - (Optional). Point in time (Unix timestamp) when the link will expire
+     *      'member_limit'          => '',  // int        - (Optional). Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+     *      'creates_join_request'  => '',  // bool       - (Optional). True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified
+     * ]
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#createchatinvitelink
+     *
+     * @param array $params
+     *
+     * @throws TelegramSDKException
+     * @return ChatInviteLink
+     */
+    public function createChatInviteLink(array $params): ChatInviteLink
+    {
+        return $this->post('createChatInviteLink', $params)->getResult();
+    }
+
+    /**
+     * Edit a non-primary invite link created by the bot.
+     *
+     * The bot must be an administrator in the group for this to work.
+     *
+     * <code>
+     * $params = [
+     *      'chat_id'               => '',  // string|int - Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *      'invite_link'           => '',  // string     - Required. The invite link to edit
+     *      'name'                  => '',  // string     - (Optional).	Invite link name; 0-32 characters
+     *      'expire_date'           => '',  // int        - (Optional). Point in time (Unix timestamp) when the link will expire
+     *      'member_limit'          => '',  // int        - (Optional). Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+     *      'creates_join_request'  => '',  // bool       - (Optional). True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified
+     * ]
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#editchatinvitelink
+     *
+     * @param array $params
+     *
+     * @throws TelegramSDKException
+     * @return ChatInviteLink
+     */
+    public function editChatInviteLink(array $params): ChatInviteLink
+    {
+        return $this->post('editChatInviteLink', $params)->getResult();
+    }
+
+    /**
+     * Revoke an invite link created by the bot.
+     *
+     * The bot must be an administrator in the group for this to work.
+     *
+     * <code>
+     * $params = [
+     *      'chat_id'               => '',  // string|int - Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *      'invite_link'           => '',  // string     - Required. The invite link to revoke
+     * ]
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#revokechatinvitelink
+     *
+     * @param array $params
+     *
+     * @throws TelegramSDKException
+     * @return ChatInviteLink
+     */
+    public function revokeChatInviteLink(array $params): ChatInviteLink
+    {
+        return $this->post('revokeChatInviteLink', $params)->getResult();
     }
 
     /**
@@ -329,11 +410,13 @@ trait Chat
      *      'chat_id'               => '',  // int|string - Required. Unique identifier for the target group or username of the target supergroup (in the format "@supergroupusername")
      *      'user_id'               => '',  // int        - Required. Unique identifier of the target user.
      *      'is_anonymous'          => '',  // bool       - (Optional). Pass True, if the administrator's presence in the chat is hidden
+     *      'can_manage_chat    '   => '',  // bool       - (Optional). Pass True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
      *      'can_change_info'       => '',  // bool       - (Optional). Pass True, if the administrator can change chat title, photo and other settings
      *      'can_post_messages'     => '',  // bool       - (Optional). Pass True, if the administrator can create channel posts, channels only
      *      'can_edit_messages'     => '',  // bool       - (Optional). Pass True, if the administrator can edit messages of other users, channels only
      *      'can_delete_messages'   => '',  // bool       - (Optional). Pass True, if the administrator can delete messages of other users
      *      'can_invite_users'      => '',  // bool       - (Optional). Pass True, if the administrator can invite new users to the chat
+     *      'can_manage_voice_chats'=> '',  // bool       - (Optional). Pass True, if the administrator can manage voice chats
      *      'can_restrict_members'  => '',  // bool       - (Optional). Pass True, if the administrator can restrict, ban or unban chat members
      *      'can_pin_messages'      => '',  // bool       - (Optional). Pass True, if the administrator can pin messages, supergroups only
      *      'can_promote_members'   => '',  // bool       - (Optional). Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)
