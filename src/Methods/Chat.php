@@ -150,6 +150,52 @@ trait Chat
     }
 
     /**
+     * Approve a chat join request
+     *
+     * The bot must be an administrator in the group for this to work.
+     *
+     * <code>
+     * $params = [
+     *      'chat_id'       => '',  // string|int - Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *      'user_id'       => '',  // int        - Required. Unique identifier of the target user
+     * ]
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#approvechatjoinrequest
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function approveChatJoinRequest(array $params): bool
+    {
+        return $this->post('approveChatJoinRequest', $params)->getResult();
+    }
+
+    /**
+     * Decline a chat join request
+     *
+     * The bot must be an administrator in the group for this to work.
+     *
+     * <code>
+     * $params = [
+     *      'chat_id'       => '',  // string|int - Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *      'user_id'       => '',  // int        - Required. Unique identifier of the target user
+     * ]
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#declinechatjoinrequest
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function declineChatJoinRequest(array $params): bool
+    {
+        return $this->post('declineChatJoinRequest', $params)->getResult();
+    }
+
+    /**
      * Set a new profile photo for the chat.
      *
      * The bot must be an administrator in the group for this to work.
