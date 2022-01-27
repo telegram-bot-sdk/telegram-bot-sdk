@@ -16,7 +16,7 @@ use Telegram\Bot\Traits\Http;
 trait Chat
 {
     /**
-     * Kick a user from a group or a supergroup.
+     * Ban a user in a group, a supergroup or a channel
      *
      * In the case of supergroups, the user will not be able to return to the group on their own using
      * invite links etc., unless unbanned first.
@@ -30,21 +30,21 @@ trait Chat
      * $params = [
      *      'chat_id'         => '',  // int|string - Required. Unique identifier for the target group or username of the target supergroup (in the format "@supergroupusername")
      *      'user_id'         => '',  // int        - Required. Unique identifier of the target user.
-     *      'until_date'      => '',  // int        - (Optional). Unique identifier of the target user.
+     *      'until_date'      => '',  // int        - (Optional). Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever. Applied for supergroups and channels only.
      *      'revoke_messages' => '',  // bool       - (Optional). Pass True to delete all messages from the chat for the user that is being removed. If False, the user will be able to see messages in the group that were sent before the user was removed. Always True for supergroups and channels.
      * ]
      * </code>
      *
-     * @link https://core.telegram.org/bots/api#kickchatmember
+     * @link https://core.telegram.org/bots/api#banchatmember
      *
      * @param array $params
      *
      * @throws TelegramSDKException
      * @return bool
      */
-    public function kickChatMember(array $params): bool
+    public function banChatMember(array $params): bool
     {
-        return $this->get('kickChatMember', $params)->getResult();
+        return $this->get('banChatMember', $params)->getResult();
     }
 
     /**
@@ -543,16 +543,16 @@ trait Chat
      * ]
      * </code>
      *
-     * @link https://core.telegram.org/bots/api#getchatmemberscount
+     * @link https://core.telegram.org/bots/api#getchatmembercount
      *
      * @param array $params
      *
      * @throws TelegramSDKException
      * @return int
      */
-    public function getChatMembersCount(array $params): int
+    public function getChatMemberCount(array $params): int
     {
-        return $this->get('getChatMembersCount', $params)->getResult();
+        return $this->get('getChatMemberCount', $params)->getResult();
     }
 
     /**
