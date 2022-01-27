@@ -44,9 +44,11 @@ use Telegram\Bot\Objects\VoiceChatStarted;
  * @property string                         $forward_signature                (Optional). For messages forwarded from channels, identifier of the original message in the channel
  * @property string                         $forward_sender_name              (Optional). Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages
  * @property int                            $forward_date                     (Optional). For forwarded messages, date the original message was sent in Unix time.
+ * @property bool                           $is_automatic_forward             (Optional). True, if the message is a channel post that was automatically forwarded to the connected discussion group
  * @property Message                        $reply_to_message                 (Optional). For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
  * @property User                           $via_bot                          (Optional). Bot through which the message was sent
  * @property int                            $edit_date                        (Optional). Date the message was last edited in Unix time.
+ * @property bool                           $has_protected_content            (Optional). True, if the message can't be forwarded
  * @property string                         $media_group_id                   (Optional). The unique identifier of a media message group this message belongs to
  * @property string                         $author_signature                 (Optional). Signature of the post author for messages in channels
  * @property string                         $text                             (Optional). For text messages, the actual UTF-8 text of the message, 0-4096 characters.

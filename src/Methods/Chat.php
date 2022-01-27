@@ -507,6 +507,57 @@ trait Chat
     }
 
     /**
+     * Ban a channel chat in a supergroup or a channel. Until the chat is unbanned, the owner of the banned chat
+     * won't be able to send messages on behalf of any of their channels.
+     *
+     * Returns True on success.
+     *
+     * <code>
+     * $params = [
+     *      'chat_id'         => '',  // int|string - Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *      'sender_chat_id'  => '',  // int        - Required. Unique identifier of the target sender chat
+     * ]
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#banchatsenderchat
+     *
+     * @param array $params
+     *
+     * @throws TelegramSDKException
+     * @return bool
+     */
+    public function banChatSenderChat(array $params): bool
+    {
+        return $this->post('banChatSenderChat', $params)->getResult();
+    }
+
+    /**
+     * Unban a previously banned channel chat in a supergroup or channel.
+     *
+     * The bot must be an administrator for this to work
+     *
+     * Returns True on success.
+     *
+     * <code>
+     * $params = [
+     *      'chat_id'         => '',  // int|string - Required. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     *      'sender_chat_id'  => '',  // int        - Required. Unique identifier of the target sender chat
+     * ]
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#unbanchatsenderchat
+     *
+     * @param array $params
+     *
+     * @throws TelegramSDKException
+     * @return bool
+     */
+    public function unbanChatSenderChat(array $params): bool
+    {
+        return $this->post('unbanChatSenderChat', $params)->getResult();
+    }
+
+    /**
      * Use this method to set default chat permissions for all members.
      * The bot must be an administrator in the group or a supergroup for this to work and
      * must have the can_restrict_members admin rights.
