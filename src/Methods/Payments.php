@@ -41,6 +41,7 @@ trait Payments
      *      'send_email_to_provider'         => '',  // bool           - (Optional). Pass True, if user's email address should be sent to provider
      *      'is_flexible'                    => '',  // bool           - (Optional). Pass True, if the final price depends on the shipping method
      *      'disable_notification'           => '',  // bool           - (Optional). Sends the message silently. Users will receive a notification with no sound.
+     *      'protect_content'                => '',  // bool           - (Optional). Protects the contents of the sent message from forwarding and saving
      *      'reply_to_message_id'            => '',  // int            - (Optional). If the message is a reply, ID of the original message
      *      'allow_sending_without_reply     => '',  // boo            - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *      'reply_markup'                   => '',  // string         - (Optional). A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.

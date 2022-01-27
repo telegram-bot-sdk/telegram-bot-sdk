@@ -24,6 +24,7 @@ trait Message
      *       'parse_mode'                  => '',  // string     - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
      *       'entities'                    => '',  // array      - (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
      *       'disable_web_page_preview'    => '',  // bool       - (Optional). Disables link previews for links in this message
+     *       'protect_content'             => '',  // bool       - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'disable_notification'        => '',  // bool       - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
      *       'reply_to_message_id'         => '',  // int        - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply' => '',  // bool       - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
@@ -54,6 +55,7 @@ trait Message
      *       'chat_id'               => '',  // int|string - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
      *       'from_chat_id'          => '',  // int        - Required. Unique identifier for the chat where the original message was sent (or channel username in the format "@channelusername")
      *       'disable_notification'  => '',  // bool       - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'       => '',  // bool       - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'message_id'            => '',  // int        - Required. Message identifier in the chat specified in from_chat_id
      * ]
      * </code>
@@ -87,6 +89,7 @@ trait Message
      *       'parse_mode'                    => '',  // string     - (Optional). Mode for parsing entities in the new caption. See formatting options for more details.
      *       'caption_entities'              => '',  // array      - (Optional). List of special entities that appear in the new caption, which can be specified instead of parse_mode
      *       'disable_notification'          => '',  // bool       - (Optional). Sends the message silently. Users will receive a notification with no sound.
+     *       'protect_content'               => '',  // bool       - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'           => '',  // int        - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply'   => '',  // bool       - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                  => '',  // string     - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -119,6 +122,7 @@ trait Message
      *       'parse_mode'                  => '',                      // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
      *       'caption_entities'            => '',                      // array            - (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
      *       'disable_notification'        => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'             => '',                      // bool             - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'         => '',                      // int              - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply' => '',                      // bool       - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -155,6 +159,7 @@ trait Message
      *       'title'                       => '',                      // string           - (Optional). Track name
      *       'thumb'                       => InputFile::file($file),  // InputFile|string - (Optional). Thumbnail can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Thumbnails can't be reused and can be only uploaded as a new file.
      *       'disable_notification'        => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'             => '',                      // bool             - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'         => '',                      // int              - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply' => '',                      // bool             - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -189,6 +194,7 @@ trait Message
      *       'caption_entities                 => '',                      // array            - (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
      *       'disable_content_type_detection'  => '',                      // bool             - (Optional). Disables automatic server-side content type detection for files uploaded using multipart/form-data
      *       'disable_notification'            => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'                 => '',                      // bool             - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'             => '',                      // int              - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply      => '',                      // bool             - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                    => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -226,6 +232,7 @@ trait Message
      *       'caption_entities'            => '',                      // array            - (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
      *       'supports_streaming'          => '',                      // bool             - (Optional). Pass True, if the uploaded video is suitable for streaming
      *       'disable_notification'        => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'             => '',                      // bool             - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'         => '',                      // int              - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply' => '',                      // bool             - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -263,6 +270,7 @@ trait Message
      *       'parse_mode'                    => '',                      // string           - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
      *       'caption_entities'              => '',                      // array            - (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
      *       'disable_notification'          => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'               => '',                      // bool             - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'           => '',                      // int              - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply'   => '',                      // bool             - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                  => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -296,6 +304,7 @@ trait Message
      *       'caption_entities'             => '',                       // array            - (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
      *       'duration'                     => '',                       // int              - (Optional). Duration of the voice message in seconds
      *       'disable_notification'         => '',                       // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'              => '',                       // bool             - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'          => '',                       // int              - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply'  => '',                       // bool             - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                 => '',                       // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -328,6 +337,7 @@ trait Message
      *       'length'                        => '',                      // int              - (Optional). Video width and height
      *       'thumb'                         => InputFile::file($file),  // InputFile|string - (Optional). Thumbnail can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Thumbnails can't be reused and can be only uploaded as a new file.
      *       'disable_notification'          => '',                      // bool             - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'               => '',                      // bool             - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'           => '',                      // int              - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply    => '',                      // bool             - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                  => '',                      // string           - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -357,6 +367,7 @@ trait Message
      *       'chat_id'                       => '',  // int|string    - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
      *       'media'                         => [],  // array         - Required. A JSON-serialized array describing messages to be sent, must include 2-10 items. Array of InputMediaAudio, InputMediaDocument, InputMediaPhoto and InputMediaVideo
      *       'disable_notification'          => '',  // bool          - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'               => '',  // bool          - (Optional). Protects the contents of the sent messages from forwarding and saving
      *       'reply_to_message_id'           => '',  // int           - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply    => '',  // bool          - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      * ]
@@ -398,6 +409,7 @@ trait Message
      *       'google_place_id'            => '',  // string     - (Optional). Google Places identifier of the venue
      *       'google_place_type'          => '',  // string     - (Optional). Google Places type of the venue.
      *       'disable_notification'       => '',  // bool       - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'            => '',  // bool       - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'        => '',  // int        - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply => '', // bool        - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'               => '',  // string     - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -430,6 +442,7 @@ trait Message
      *       'last_name'                    => '',  // string     - Required. Contact's last name
      *       'vcard'                        => '',  // string     - (Optional). Additional data about the contact in the form of a vCard, 0-2048 bytes
      *       'disable_notification'         => '',  // bool       - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'              => '',  // bool       - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'          => '',  // int        - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply   => '',  // bool       - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                 => '',  // string     - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -472,6 +485,7 @@ trait Message
      *       'close_date'                    => '',  // int        - (Optional). Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with open_period.
      *       'is_closed'                     => '',  // bool       - (Optional). Pass True, if the poll needs to be immediately closed. This can be useful for poll preview.
      *       'disable_notification'          => '',  // bool       - (Optional). Sends the message silently. Users will receive a notification with no sound.
+     *       'protect_content'               => '',  // bool       - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'           => '',  // int        - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply'   => '',  // bool       - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                  => '',  // string     - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -503,6 +517,7 @@ trait Message
      *       'chat_id'                       => '',  // int|string - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername"). A native poll can't be sent to a private chat.
      *       'emoji'                         => '',  // string     - (Optional). Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, “🎳”, or “🎰”. Dice can have values 1-6 for “🎲”, “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”. Defaults to “🎲”
      *       'disable_notification'          => '',  // bool       - (Optional). Sends the message silently. Users will receive a notification with no sound.
+     *       'protect_content'               => '',  // bool       - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'           => '',  // int        - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply    => '',  // bool       - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                  => '',  // string     - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.

@@ -26,6 +26,7 @@ trait Location
      *       'heading'                     => '',  // int        - (Optional). For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
      *       'proximity_alert_radius'      => '',  // int        - (Optional). For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
      *       'disable_notification'        => '',  // bool       - (Optional). Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.
+     *       'protect_content'             => '',  // bool       - (Optional). Protects the contents of the sent message from forwarding and saving
      *       'reply_to_message_id'         => '',  // int        - (Optional). If the message is a reply, ID of the original message
      *       'allow_sending_without_reply' => '',  // bool       - (Optional). Pass True, if the message should be sent even if the specified replied-to message is not found
      *       'reply_markup'                => '',  // string     - (Optional). Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
