@@ -5,7 +5,7 @@ namespace Telegram\Bot\Objects\Payments;
 use Telegram\Bot\Objects\AbstractResponseObject;
 
 /**
- * @link https://core.telegram.org/bots/api#invoice
+ * @link https://core.telegram.org/bots/api#successfulpayment
  *
  * @property string    $currency                             Three-letter ISO 4217 currency code
  * @property int       $total_amount                         Total price in the smallest units of the currency (integer, not float/double)

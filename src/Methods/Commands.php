@@ -69,6 +69,7 @@ trait Commands
      *
      * @link https://core.telegram.org/bots/api#getmycommands
      *
+     * @throws TelegramSDKException
      * @return BotCommand[]
      */
     public function getMyCommands(array $params = []): array

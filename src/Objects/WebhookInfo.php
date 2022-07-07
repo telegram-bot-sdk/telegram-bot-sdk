@@ -7,7 +7,7 @@ namespace Telegram\Bot\Objects;
  *
  * Contains information about the current status of a webhook.
  *
- * @link https://core.telegram.org/bots/api#webhooki    nfo
+ * @link https://core.telegram.org/bots/api#webhookinfo
  *
  * @property string $url                     Webhook URL, may be empty if webhook is not set up
  * @property bool   $has_custom_certificate  True, if a custom certificate was provided for webhook certificate checks

@@ -3,9 +3,9 @@
 namespace Telegram\Bot\Objects;
 
 /**
- * Class ChatMember.
+ * Class ChatInviteLink.
  *
- * @link https://core.telegram.org/bots/api#chatmember
+ * @link https://core.telegram.org/bots/api#chatinvitelink
  *
  * @property string $invite_link                Required. The invite link. If the link was created by another chat administrator, then the second part of the link will be replaced with “…”.
  * @property User   $creator                    Required. Creator of the link
