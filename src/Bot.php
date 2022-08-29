@@ -32,6 +32,7 @@ class Bot
     use HasConfig;
     use HasContainer;
 
+    protected string $name;
     protected Api $api;
     protected EventFactory $eventFactory;
     protected array $listeners;
@@ -46,6 +47,7 @@ class Bot
     public function __construct(array $config = [])
     {
         $this->config = $config;
+        $this->name = $config['bot'];
 
         $this->api = new Api($this->config('token'));
         $this->setHttpClientHandler($this->config('global.http.client', GuzzleHttpClient::class));
@@ -62,6 +64,16 @@ class Bot
         }
 
         AddonManager::loadAddons($this);
+    }
+
+    /**
+     * Get name of the bot (specified in a config).
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     /**

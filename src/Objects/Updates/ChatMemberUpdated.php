@@ -11,7 +11,7 @@ use Telegram\Bot\Objects\User;
 /**
  * Class Message.
  *
- * @link https://core.telegram.org/bots/api#message
+ * @link https://core.telegram.org/bots/api#chatmemberupdated
  *
  * @property Chat           $chat                Chat the user belongs to
  * @property User           $from                Performer of the action, which resulted in the change
