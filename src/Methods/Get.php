@@ -66,7 +66,7 @@ trait Get
      * https://api.telegram.org/file/bot<token>/<file_path>,
      * where <file_path> is taken from the response.
      *
-     * @link https://core.telegram.org/bots/api#getFile
+     * @link https://core.telegram.org/bots/api#getfile
      *
      * <code>
      * $params = [

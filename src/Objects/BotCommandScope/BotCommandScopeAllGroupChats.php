@@ -5,7 +5,7 @@ namespace Telegram\Bot\Objects\BotCommandScope;
 /**
  * Represents the scope of bot commands, covering all group and supergroup chats.
  *
- * @link https://core.telegram.org/bots/api#BotCommandScopeAllGroupChats
+ * @link https://core.telegram.org/bots/api#botcommandscopeallgroupchats
  */
 class BotCommandScopeAllGroupChats extends BotCommandScope
 {
