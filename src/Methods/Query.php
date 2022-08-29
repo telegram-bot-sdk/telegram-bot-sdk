@@ -31,7 +31,7 @@ trait Query
      * ]
      * </code>
      *
-     * @link https://core.telegram.org/bots/api#answerCallbackQuery
+     * @link https://core.telegram.org/bots/api#answercallbackquery
      *
      * @param array $params
      *
@@ -63,7 +63,7 @@ trait Query
      * ]
      * </code>
      *
-     * @link https://core.telegram.org/bots/api#answerCallbackQuery
+     * @link https://core.telegram.org/bots/api#answercallbackquery
      *
      * @param array $params
      *

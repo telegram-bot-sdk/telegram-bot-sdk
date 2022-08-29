@@ -88,8 +88,18 @@ class Update extends AbstractResponseObject
     /**
      * Get chat object (if exists).
      */
-    public function getChat()
+    public function getChat(): ?Chat
     {
-        return $this->getMessage()->get('chat');
+        if ($this->has('my_chat_member')) { // message is not available in such case
+            return $this->my_chat_member->chat;
+        }
+
+        $message = $this->getMessage();
+
+        return match (true) {
+            $message instanceof Message => $message->chat,
+            $message instanceof CallbackQuery => $message->message->chat,
+            default => null,
+        };
     }
 }
