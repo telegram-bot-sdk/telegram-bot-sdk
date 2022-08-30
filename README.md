@@ -86,8 +86,8 @@ This project is open-sourced software licensed under the [BSD 3-Clause][link-lic
 [img-hero]: https://user-images.githubusercontent.com/1915268/75023827-7879f780-54be-11ea-98c1-436a14e7e633.png
 
 [link-author]: https://github.com/irazasyed
-[link-site]: https://telegrambotsdk.com
-[link-docs]: https://telegrambotsdk.com
+[link-site]: https://telegram-bot-sdk.com
+[link-docs]: https://telegram-bot-sdk.com
 [link-repo]: https://github.com/telegram-bot-sdk/telegram-bot-sdk
 [link-old-repo]: https://github.com/irazasyed/telegram-bot-sdk
 [link-laravel-package]: https://github.com/telegram-bot-sdk/laravel
