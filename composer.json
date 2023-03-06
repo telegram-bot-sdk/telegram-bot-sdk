@@ -32,9 +32,9 @@
     "php": ">=7.4",
     "ext-json": "*",
     "guzzlehttp/guzzle": "^7.3",
-    "illuminate/container": "6 - 9",
-    "illuminate/events": "6 - 9",
-    "illuminate/support": "6 - 9",
+    "illuminate/container": "6 - 10",
+    "illuminate/events": "6 - 10",
+    "illuminate/support": "6 - 10",
     "telegram-bot-sdk/addon-manager": "^1.0@dev"
   },
   "require-dev": {
