@@ -23,11 +23,11 @@ use Telegram\Bot\Traits\Http;
 /**
  * Class Api.
  */
-class Api
-{
+class Api {
     use ForwardsCalls;
     use Macroable {
         __call as macroCall;
+
     }
     use Http;
     use HasToken;
