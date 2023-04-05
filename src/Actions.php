@@ -3,44 +3,43 @@
 namespace Telegram\Bot;
 
 /**
- * Class Actions.
+ * Chat Actions.
  *
  * Chat Actions let you broadcast a type of action depending on what the user is about to receive.
  * The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing
  * status).
  */
-final class Actions
+enum Actions: string
 {
     /** Sets chat status as Typing. */
-    public const TYPING = 'typing';
-
+    case TYPING = 'typing';
     /** Sets chat status as Sending Photo. */
-    public const UPLOAD_PHOTO = 'upload_photo';
+    case UPLOAD_PHOTO = 'upload_photo';
 
     /** Sets chat status as Recording Video. */
-    public const RECORD_VIDEO = 'record_video';
+    case RECORD_VIDEO = 'record_video';
 
     /** Sets chat status as Sending Video. */
-    public const UPLOAD_VIDEO = 'upload_video';
+    case UPLOAD_VIDEO = 'upload_video';
 
     /** Sets chat status as Recording Voice. */
-    public const RECORD_VOICE = 'record_voice';
+    case RECORD_VOICE = 'record_voice';
 
     /** Sets chat status as Sending Voice. */
-    public const UPLOAD_VOICE = 'upload_voice';
+    case UPLOAD_VOICE = 'upload_voice';
 
     /** Sets chat status as Sending Document. */
-    public const UPLOAD_DOCUMENT = 'upload_document';
+    case UPLOAD_DOCUMENT = 'upload_document';
 
     /** Sets chat status as Choosing Sticker. */
-    public const CHOOSE_STICKER = 'choose_sticker';
+    case CHOOSE_STICKER = 'choose_sticker';
 
     /** Sets chat status as Choosing Geo. */
-    public const FIND_LOCATION = 'find_location';
+    case FIND_LOCATION = 'find_location';
 
     /** Sets chat status as Recording Video Note. */
-    public const RECORD_VIDEO_NOTE = 'record_video_note';
+    case RECORD_VIDEO_NOTE = 'record_video_note';
 
     /** Sets chat status as Sending Video Note. */
-    public const UPLOAD_VIDEO_NOTE = 'upload_video_note';
+    case UPLOAD_VIDEO_NOTE = 'upload_video_note';
 }
