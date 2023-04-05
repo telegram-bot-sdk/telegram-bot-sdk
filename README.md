@@ -3,7 +3,7 @@
 <p align="center">
 <a href="https://phpchat.co"><img src="https://img.shields.io/badge/Slack-PHP%20Chat-5c6aaa.svg?logo=slack&labelColor=4A154B&style=for-the-badge" alt="Join PHP Chat"/></a>
 <a href="https://t.me/PHPChatCo"><img src="https://img.shields.io/badge/Chat-on%20Telegram-2CA5E0.svg?logo=telegram&style=for-the-badge" alt="Chat on Telegram"/></a>
-<a href="https://github.com/telegram-bot-sdk/telegram-bot-sdk/actions"><img src="https://img.shields.io/github/workflow/status/telegram-bot-sdk/telegram-bot-sdk/CI.svg?style=for-the-badge" alt="Build Status"/></a>
+<a href="https://github.com/telegram-bot-sdk/telegram-bot-sdk/actions"><img src="https://img.shields.io/github/actions/workflow/status/telegram-bot-sdk/telegram-bot-sdk/ci.yml?style=for-the-badge" alt="Build Status"/></a>
 <a href="https://github.com/telegram-bot-sdk/telegram-bot-sdk/releases"><img src="https://img.shields.io/github/release/telegram-bot-sdk/telegram-bot-sdk.svg?style=for-the-badge" alt="Latest Version"/></a>
 <a href="https://packagist.org/packages/telegram-bot-sdk/telegram-bot-sdk"><img src="https://img.shields.io/packagist/dt/telegram-bot-sdk/telegram-bot-sdk.svg?style=for-the-badge" alt="Total Downloads"/></a>
 </p>
@@ -13,7 +13,7 @@
 > [Telegram Bot SDK][link-site] lets you develop Telegram Bots in PHP easily! Supports [Laravel][link-laravel-package] framework and comes with addons to enhance your bot development experience.
 >
 > [Telegram Bot API][link-telegram-bot-api] is an HTTP-based interface created for developers keen on building bots for Telegram.
-> 
+>
 > To learn more about the Telegram Bot API, please consult the [Introduction to Bots][link-telegram-bot-api] and [Bot FAQ](https://core.telegram.org/bots/faq) on Telegram's official site.
 >
 > To get started writing your bots using **[Telegram Bot SDK][link-site]**, please refer the [SDK Documentation][link-docs].
@@ -44,7 +44,6 @@ Laravel service provider in addition to various other Laravel specific features 
 ```diff
 "require": {
 -    "irazasyed/telegram-bot-sdk": "(version you use)",
-+    "telegram-bot-sdk/telegram-bot-sdk": "(version you use)",
 +    "telegram-bot-sdk/laravel": "^4.0",
 }
 ```
@@ -67,7 +66,7 @@ Please read our [Code of Conduct][link-code-of-conduct] before contributing or e
 
 ## Security
 
-If you discover a security vulnerability within this project, please email Syed at `syed at lukonet.com`. All security vulnerabilities will be promptly addressed. You may view our full security policy [here][link-security-policy].
+If you discover a security vulnerability within this project, please email Syed at `security at telegram-bot-sdk.com`. All security vulnerabilities will be promptly addressed. You may view our full security policy [here][link-security-policy].
 
 ## Credits
 
@@ -77,7 +76,7 @@ If you discover a security vulnerability within this project, please email Syed 
 
 ## Disclaimer
 
-This project, its author, and contributors are neither associated nor affiliated with [Telegram](https://telegram.org/) in any way.
+The Telegram Bot SDK is a third-party library and is not associated with, endorsed by, or affiliated with Telegram or its products. For more details, please read the [Disclaimer][link-disclaimer]
 
 ## License
 
@@ -87,7 +86,7 @@ This project is open-sourced software licensed under the [BSD 3-Clause][link-lic
 
 [link-author]: https://github.com/irazasyed
 [link-site]: https://telegram-bot-sdk.com
-[link-docs]: https://telegram-bot-sdk.com
+[link-docs]: https://telegram-bot-sdk.com/docs/
 [link-repo]: https://github.com/telegram-bot-sdk/telegram-bot-sdk
 [link-old-repo]: https://github.com/irazasyed/telegram-bot-sdk
 [link-laravel-package]: https://github.com/telegram-bot-sdk/laravel
@@ -99,3 +98,4 @@ This project is open-sourced software licensed under the [BSD 3-Clause][link-lic
 [link-security-policy]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/security/policy
 [link-awesome-telegram-bots]: https://github.com/telegram-bot-sdk/awesome-telegram-bots
 [link-telegram-bot-api]: https://core.telegram.org/bots
+[link-disclaimer]: https://telegram-bot-sdk.com/license/#disclaimer
