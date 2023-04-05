@@ -2,8 +2,8 @@
 
 namespace Telegram\Bot;
 
-use Telegram\Bot\Traits\Http;
-use Telegram\Bot\Traits\HasToken;
+use Illuminate\Support\Traits\Macroable;
+use Telegram\Bot\Exceptions\TelegramLoginAuthException;
 use Telegram\Bot\Methods\Chat;
 use Telegram\Bot\Methods\Commands;
 use Telegram\Bot\Methods\EditMessage;
@@ -16,9 +16,9 @@ use Telegram\Bot\Methods\Payments;
 use Telegram\Bot\Methods\Query;
 use Telegram\Bot\Methods\Stickers;
 use Telegram\Bot\Methods\Update;
-use Illuminate\Support\Traits\Macroable;
-use Telegram\Bot\Exceptions\TelegramLoginAuthException;
 use Telegram\Bot\Traits\ForwardsCalls;
+use Telegram\Bot\Traits\HasToken;
+use Telegram\Bot\Traits\Http;
 
 /**
  * Class Api.
@@ -29,10 +29,8 @@ class Api
     use Macroable {
         __call as macroCall;
     }
-
     use Http;
     use HasToken;
-
     use Chat;
     use Commands;
     use EditMessage;
@@ -61,7 +59,6 @@ class Api
      *
      *
      * @throws TelegramLoginAuthException
-     *
      */
     public function isLoginAuthDataValid(array $auth_data): array
     {
@@ -73,7 +70,7 @@ class Api
 
         $data_check_string = collect($auth_data)
             ->only(['username', 'auth_date', 'first_name', 'last_name', 'photo_url', 'id'])
-            ->map(fn ($value, $key): string => $key . '=' . $value)
+            ->map(fn ($value, $key): string => $key.'='.$value)
             ->sort()
             ->implode("\n");
 
@@ -94,8 +91,6 @@ class Api
     /**
      * Magic method to process any dynamic method calls.
      *
-     * @param $method
-     * @param $parameters
      *
      * @return mixed
      */

@@ -2,8 +2,8 @@
 
 namespace Telegram\Bot\Objects;
 
-use BadMethodCallException;
 use ArrayAccess;
+use BadMethodCallException;
 use Countable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -14,7 +14,7 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Create a new object.
      *
-     * @param mixed $fields
+     * @param  mixed  $fields
      */
     public function __construct($fields = [])
     {
@@ -56,7 +56,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Returns raw result.
      *
-     * @param $data
      *
      * @return mixed
      */
@@ -77,8 +76,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
 
     /**
      * Determine if a field exists.
-     *
-     *
      */
     public function has(mixed $key): bool
     {
@@ -116,13 +113,12 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Remove a field from the object by key.
      *
-     * @param string|array $keys
-     *
+     * @param  string|array  $keys
      * @return $this
      */
     public function forget($keys): self
     {
-        foreach ((array)$keys as $key) {
+        foreach ((array) $keys as $key) {
             $this->offsetUnset($key);
         }
 
@@ -134,7 +130,7 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
      */
     public function count(): int
     {
-        return count((array)$this->fields);
+        return count((array) $this->fields);
     }
 
     /**
@@ -147,8 +143,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
 
     /**
      * Determine if the object is of given type.
-     *
-     *
      */
     public function isType(string $type): bool
     {
@@ -161,8 +155,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
 
     /**
      * Determine the type by given types.
-     *
-     *
      */
     protected function findType(array $types): ?string
     {
@@ -174,8 +166,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
 
     /**
      * Determine if a field exists at an offset.
-     *
-     *
      */
     public function offsetExists(mixed $key): bool
     {
@@ -184,8 +174,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
 
     /**
      * Get a field at a given offset.
-     *
-     *
      */
     public function offsetGet(mixed $key): mixed
     {
@@ -203,7 +191,7 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Unset the field at a given offset.
      *
-     * @param string $key
+     * @param  string  $key
      */
     public function offsetUnset($key): void
     {
@@ -213,7 +201,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Magically access object data.
      *
-     * @param $field
      *
      * @return mixed
      */
@@ -234,7 +221,7 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
             return $relations[$field]::make($value);
         }
 
-        $class = 'Telegram\Bot\Objects\\' . Str::studly($field);
+        $class = 'Telegram\Bot\Objects\\'.Str::studly($field);
 
         if (class_exists($class)) {
             /** @var AbstractResponseObject $class */
@@ -251,8 +238,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Set value of a field.
      *
-     * @param $field
-     * @param $value
      *
      * @throws TelegramSDKException
      */
@@ -268,7 +253,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Determine if the field exists.
      *
-     * @param $field
      *
      * @return bool
      */
@@ -279,8 +263,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
 
     /**
      * Unset field.
-     *
-     * @param $field
      */
     public function __unset($field)
     {
@@ -290,8 +272,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Magic method to get properties dynamically.
      *
-     * @param $method
-     * @param $arguments
      *
      * @return mixed
      */

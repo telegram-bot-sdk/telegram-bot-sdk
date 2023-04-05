@@ -43,7 +43,6 @@ trait Get
      *       'limit'   => '',  // int - (Optional). Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
      * ]
      * </code>
-     * @param array $params
      *
      * @throws TelegramSDKException
      */
@@ -69,7 +68,6 @@ trait Get
      *       'file_id' => '',  // string - Required. File identifier to get info about
      * ]
      * </code>
-     * @param array $params
      *
      * @throws TelegramSDKException
      */

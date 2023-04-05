@@ -26,8 +26,6 @@ trait Commands
      *
      * @link https://core.telegram.org/bots/api#setmycommands
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function setMyCommands(array $params): bool
@@ -47,7 +45,7 @@ trait Commands
      *
      * @link https://core.telegram.org/bots/api#deletemycommands
      *
-     * @param mixed[] $params
+     * @param  mixed[]  $params
      */
     public function deleteMyCommands(array $params = []): bool
     {
@@ -66,8 +64,9 @@ trait Commands
      *
      * @link https://core.telegram.org/bots/api#getmycommands
      *
-     * @throws TelegramSDKException
      * @return BotCommand[]
+     *
+     * @throws TelegramSDKException
      */
     public function getMyCommands(array $params = []): array
     {

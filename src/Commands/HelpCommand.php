@@ -29,7 +29,7 @@ class HelpCommand extends Command
         foreach ($commands as $name => $command) {
             /* @var Command $command */
             $command = $handler->getCommandBus()->resolveCommand($command);
-            $text .= sprintf('/%s - %s' . PHP_EOL, $name, $command->getDescription());
+            $text .= sprintf('/%s - %s'.PHP_EOL, $name, $command->getDescription());
         }
 
         $this->reply($text);
@@ -43,7 +43,6 @@ class HelpCommand extends Command
     /**
      * Reply helper.
      *
-     * @param $text
      *
      * @throws TelegramSDKException
      */

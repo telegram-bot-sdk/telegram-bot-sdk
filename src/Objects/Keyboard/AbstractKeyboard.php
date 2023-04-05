@@ -9,7 +9,7 @@ abstract class AbstractKeyboard extends AbstractCreateObject
     /**
      * Create a new row in keyboard to add buttons.
      *
-     * @param array $buttons
+     * @param  array  $buttons
      */
     public function row(...$buttons): self
     {

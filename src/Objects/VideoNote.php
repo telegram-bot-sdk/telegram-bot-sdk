@@ -3,7 +3,6 @@
 namespace Telegram\Bot\Objects;
 
 /**
- *
  * @link https://core.telegram.org/bots/api#videonote
  *
  * @property string    $file_id          Unique identifier for this file.
@@ -12,7 +11,6 @@ namespace Telegram\Bot\Objects;
  * @property int       $duration         Duration of the video in seconds as defined by sender.
  * @property PhotoSize $thumb            (Optional). Video thumbnail.
  * @property int       $file_size        (Optional). File size.
- *
  */
 class VideoNote extends AbstractResponseObject
 {

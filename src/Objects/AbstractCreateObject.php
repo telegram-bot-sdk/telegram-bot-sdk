@@ -23,8 +23,6 @@ abstract class AbstractCreateObject extends AbstractObject
     /**
      * Magic method to set properties dynamically.
      *
-     * @param $name
-     * @param $arguments
      *
      * @return $this
      */

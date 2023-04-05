@@ -7,11 +7,13 @@ use Illuminate\Events\Dispatcher;
 
 /**
  * Class EventFactory
+ *
  * @mixin Dispatcher
  */
 class EventFactory
 {
     use InteractsWithEvents;
+
     protected array $subscribers = [];
 
     /**
@@ -97,7 +99,7 @@ class EventFactory
     /**
      * Register an event subscriber with the dispatcher.
      *
-     * @param object|string $subscriber
+     * @param  object|string  $subscriber
      */
     public function subscribe($subscriber): void
     {
@@ -107,9 +109,8 @@ class EventFactory
     /**
      * Dispatch an event and call the listeners.
      *
-     * @param string|object $event
-     * @param bool          $halt
-     *
+     * @param  string|object  $event
+     * @param  bool  $halt
      */
     public function dispatch($event, mixed $payload = [], $halt = false): ?array
     {
@@ -117,9 +118,6 @@ class EventFactory
     }
 
     /**
-     * @param $method
-     * @param $params
-     *
      * @return mixed
      */
     public function __call($method, $params)

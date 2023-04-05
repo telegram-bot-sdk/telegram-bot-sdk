@@ -12,8 +12,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
 abstract class AbstractArrayObject extends AbstractCreateObject implements Multipartable
 {
     /**
-     * @param $object
-     *
      * @return $this
      */
     public function add($object): self

@@ -9,6 +9,7 @@ class Entities
 {
     /** @var array Entities from Telegram */
     protected array $entities;
+
     /** @var int Formatting Mode: 0:Markdown | 1:HTML */
     protected int $mode = 0;
 
@@ -97,12 +98,12 @@ class Entities
         // 'url', 'bot_command', 'hashtag', 'cashtag', 'email', 'phone_number', 'mention'
 
         return [
-            'bold'         => ['*%s*', '<strong>%s</strong>'],
-            'italic'       => ['_%s_', '<i>%s</i>'],
-            'code'         => ['`%s`', '<code>%s</code>'],
-            'pre'          => ["```\n%s```", '<pre>%s</pre>'],
+            'bold' => ['*%s*', '<strong>%s</strong>'],
+            'italic' => ['_%s_', '<i>%s</i>'],
+            'code' => ['`%s`', '<code>%s</code>'],
+            'pre' => ["```\n%s```", '<pre>%s</pre>'],
             'text_mention' => ['[%1$s](tg://user?id=%1$s)', '<a href="tg://user?id=%1$s">%1$s</a>'],
-            'text_link'    => ['[%s](%s)', '<a href="%2$s">%1$s</a>'],
+            'text_link' => ['[%s](%s)', '<a href="%2$s">%1$s</a>'],
         ];
     }
 }

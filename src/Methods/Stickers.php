@@ -32,8 +32,6 @@ trait Stickers
      *
      * @link https://core.telegram.org/bots/api#sendsticker
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function sendSticker(array $params): MessageObject
@@ -53,8 +51,6 @@ trait Stickers
      * </code>
      *
      * @link https://core.telegram.org/bots/api#getstickerset
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */
@@ -77,8 +73,6 @@ trait Stickers
      * </code>
      *
      * @link https://core.telegram.org/bots/api#uploadstickerfile
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */
@@ -107,8 +101,6 @@ trait Stickers
      *
      * @link https://core.telegram.org/bots/api#createnewstickerset
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function createNewStickerSet(array $params): bool
@@ -132,8 +124,6 @@ trait Stickers
      *
      * @link https://core.telegram.org/bots/api#addstickertoset
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function addStickerToSet(array $params): bool
@@ -153,8 +143,6 @@ trait Stickers
      *
      * @link https://core.telegram.org/bots/api#setstickerpositioninset
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function setStickerPositionInSet(array $params): bool
@@ -172,8 +160,6 @@ trait Stickers
      * </code>
      *
      * @link https://core.telegram.org/bots/api#deletestickerfromset
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */
@@ -194,8 +180,6 @@ trait Stickers
      *
      * @link https://core.telegram.org/bots/api#setstickersetthumb
      * </code>
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */

@@ -24,7 +24,7 @@ class ShippingQuery extends AbstractResponseObject
     public function relations(): array
     {
         return [
-            'from'             => User::class,
+            'from' => User::class,
             'shipping_address' => ShippingAddress::class,
         ];
     }

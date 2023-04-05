@@ -26,7 +26,7 @@ class CallbackQuery extends AbstractResponseObject
     public function relations(): array
     {
         return [
-            'from'    => User::class,
+            'from' => User::class,
             'message' => Message::class,
         ];
     }

@@ -25,8 +25,6 @@ class CommandBus
 
     /**
      * Instantiate Command Bus.
-     *
-     * @param Bot|null $bot
      */
     public function __construct(Bot $bot = null)
     {
@@ -44,8 +42,7 @@ class CommandBus
     /**
      * Add a list of commands.
      *
-     * @param string|CommandInterface[] $commands
-     *
+     * @param  string|CommandInterface[]  $commands
      * @return $this
      */
     public function addCommands(string|array $commands): self
@@ -58,9 +55,8 @@ class CommandBus
     /**
      * Add a command to the commands list.
      *
-     * @param string                  $command      Command name.
-     * @param string|CommandInterface $commandClass Either an object or full path to the command class.
-     *
+     * @param  string  $command      Command name.
+     * @param  string|CommandInterface  $commandClass Either an object or full path to the command class.
      * @return $this
      */
     public function addCommand(string $command, string|CommandInterface $commandClass): self
@@ -73,8 +69,7 @@ class CommandBus
     /**
      * Remove a command from the list.
      *
-     * @param string $name Command name.
-     *
+     * @param  string  $name Command name.
      * @return $this
      */
     public function removeCommand(string $name): self
@@ -101,8 +96,6 @@ class CommandBus
 
     /**
      * Parse a Command for a Match.
-     *
-     *
      */
     public function parseCommand(string $text, int $offset, int $length): string
     {
@@ -115,8 +108,6 @@ class CommandBus
 
     /**
      * Handles Inbound Messages and Executes Appropriate Command.
-     *
-     *
      */
     public function handler(Update $update): Update
     {
@@ -192,7 +183,7 @@ class CommandBus
     /**
      * Resolve given command with IoC container.
      *
-     * @param CommandInterface|string|object $command
+     * @param  CommandInterface|string|object  $command
      *
      * @throws TelegramCommandException
      */
@@ -222,7 +213,6 @@ class CommandBus
      *
      *
      * @throws TelegramCommandException
-     *
      */
     protected function validateCommandClassInstance(object $command): CommandInterface
     {
@@ -236,12 +226,11 @@ class CommandBus
     /**
      * Handle calls to missing methods.
      *
-     * @param string $method
-     * @param array  $parameters
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return mixed
      *
      * @throws BadMethodCallException
-     *
-     * @return mixed
      */
     public function __call($method, $parameters)
     {

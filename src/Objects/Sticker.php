@@ -26,7 +26,7 @@ class Sticker extends AbstractResponseObject
     public function relations(): array
     {
         return [
-            'thumb'         => PhotoSize::class,
+            'thumb' => PhotoSize::class,
             'mask_position' => MaskPosition::class,
         ];
     }

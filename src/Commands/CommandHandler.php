@@ -60,8 +60,6 @@ class CommandHandler
 
     /**
      * Check update object for a command and process.
-     *
-     *
      */
     public function processCommand(Update $update): Update
     {
@@ -84,9 +82,9 @@ class CommandHandler
     /**
      * Builds the list of commands.
      *
-     * @throws TelegramSDKException
-     *
      * @return array An array of commands which includes global, shared and bot specific commands.
+     *
+     * @throws TelegramSDKException
      */
     protected function buildCommandsList(): array
     {
@@ -99,7 +97,6 @@ class CommandHandler
     /**
      * Validate that all commands are configured correctly in the config file
      *
-     * @param $allCommands
      *
      * @throws TelegramSDKException
      */
@@ -122,8 +119,6 @@ class CommandHandler
 
     /**
      * Parse an array of commands and build a list.
-     *
-     *
      */
     protected function parseCommands(array $commands): array
     {
@@ -151,8 +146,6 @@ class CommandHandler
     /**
      * Magic method to call command related method directly on the CommandBus
      *
-     * @param $method
-     * @param $parameters
      *
      * @return mixed|void
      */

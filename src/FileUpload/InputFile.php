@@ -24,7 +24,6 @@ class InputFile implements Multipartable, JsonSerializable
     }
 
     /**
-     * @param string|null $filename
      * @return static
      */
     public static function file(string $file, string $filename = null): self
@@ -33,7 +32,6 @@ class InputFile implements Multipartable, JsonSerializable
     }
 
     /**
-     *
      * @return static
      */
     public static function contents(mixed $contents, string $filename): self
@@ -71,7 +69,7 @@ class InputFile implements Multipartable, JsonSerializable
 
     public function getAttachString(): string
     {
-        return 'attach://' . $this->getMultipartName();
+        return 'attach://'.$this->getMultipartName();
     }
 
     public function jsonSerialize(): mixed
@@ -85,7 +83,7 @@ class InputFile implements Multipartable, JsonSerializable
     public function toMultipart(): array
     {
         return [
-            'name'     => $this->getMultipartName(),
+            'name' => $this->getMultipartName(),
             'contents' => $this->getContents(),
             'filename' => $this->getFilename(),
         ];

@@ -38,8 +38,7 @@ trait HasUpdate
     /**
      * Set the Last Telegram Update.
      *
-     * @param Update $update Telegram Update.
-     *
+     * @param  Update  $update Telegram Update.
      * @return static
      */
     public function setUpdate(Update $update): self

@@ -6,6 +6,7 @@ use Telegram\Bot\Objects\AbstractResponseObject;
 
 /**
  * @link https://core.telegram.org/bots/api#personaldetails
+ *
  * @property string $first_name               First Name
  * @property string $last_name                Last Name
  * @property string $middle_name              (Optional). Middle Name

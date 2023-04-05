@@ -33,10 +33,7 @@ class TelegramRequest
     /**
      * Creates a new Request entity.
      *
-     * @param string|null $token
-     * @param string|null $method
-     * @param string|null $endpoint
-     * @param mixed[] $params
+     * @param  mixed[]  $params
      */
     public function __construct(
         string $token = null,
@@ -82,8 +79,6 @@ class TelegramRequest
 
     /**
      * Set the endpoint for this request.
-     *
-     *
      */
     public function setEndpoint(string $endpoint): self
     {
@@ -102,8 +97,6 @@ class TelegramRequest
 
     /**
      * Set the params for this request.
-     *
-     *
      */
     public function setParams(array $params): self
     {
@@ -126,8 +119,6 @@ class TelegramRequest
 
     /**
      * Make this request asynchronous (non-blocking).
-     *
-     * @param $isAsyncRequest
      */
     public function setAsyncRequest(bool $isAsyncRequest): self
     {
@@ -146,8 +137,6 @@ class TelegramRequest
 
     /**
      * Set the headers for this request.
-     *
-     *
      */
     public function setHeaders(array $headers): self
     {
@@ -182,14 +171,12 @@ class TelegramRequest
 
     /**
      * Generates the multipart data required when sending files to telegram.
-     *
-     *
      */
     protected function generateMultipartData(mixed $contents, string $name): array
     {
         if (Validator::isInputFile($contents)) {
             return [
-                'name'     => $name,
+                'name' => $name,
                 'contents' => $contents->getContents(),
                 'filename' => $contents->getFilename(),
             ];

@@ -2,12 +2,11 @@
 
 namespace Telegram\Bot\Http;
 
-use function GuzzleHttp\Promise\unwrap;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
+use function GuzzleHttp\Promise\unwrap;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 use Telegram\Bot\Contracts\HttpClientInterface;
@@ -27,7 +26,7 @@ class GuzzleHttpClient implements HttpClientInterface
 
     /** @var array Guzzle Config */
     protected array $config = [
-        RequestOptions::TIMEOUT         => 60,
+        RequestOptions::TIMEOUT => 60,
         RequestOptions::CONNECT_TIMEOUT => 10,
     ];
 
@@ -51,8 +50,6 @@ class GuzzleHttpClient implements HttpClientInterface
 
     /**
      * Set the HTTP client.
-     *
-     *
      */
     public function setClient(ClientInterface $client): self
     {

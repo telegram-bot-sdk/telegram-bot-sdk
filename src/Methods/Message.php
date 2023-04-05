@@ -34,8 +34,6 @@ trait Message
      *
      * @link https://core.telegram.org/bots/api#sendmessage
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function sendMessage(array $params): MessageObject
@@ -59,8 +57,6 @@ trait Message
      * </code>
      *
      * @link https://core.telegram.org/bots/api#forwardmessage
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */
@@ -94,8 +90,6 @@ trait Message
      *
      * @link https://core.telegram.org/bots/api#copymessage
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function copyMessage(array $params): int
@@ -124,8 +118,6 @@ trait Message
      * </code>
      *
      * @link https://core.telegram.org/bots/api#sendphoto
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */
@@ -160,8 +152,6 @@ trait Message
      * @link https://core.telegram.org/bots/api#sendaudio
      * </code>
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function sendAudio(array $params): MessageObject
@@ -192,8 +182,6 @@ trait Message
      * </code>
      *
      * @link https://core.telegram.org/bots/api#senddocument
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */
@@ -230,8 +218,6 @@ trait Message
      * @link https://core.telegram.org/bots/api#sendvideo
      * @see  sendDocument
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function sendVideo(array $params): MessageObject
@@ -265,8 +251,6 @@ trait Message
      *
      * @link https://core.telegram.org/bots/api#sendanimation
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function sendAnimation(array $params): MessageObject
@@ -297,8 +281,6 @@ trait Message
      *
      * @link https://core.telegram.org/bots/api#sendvoice
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function sendVoice(array $params): MessageObject
@@ -328,8 +310,6 @@ trait Message
      *
      * @link https://core.telegram.org/bots/api#sendvideonote
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function sendVideoNote(array $params): MessageObject
@@ -355,11 +335,9 @@ trait Message
      *
      * @link https://core.telegram.org/bots/api#sendmediagroup
      *
-     * @param array $params
+     * @return MessageObject[]
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject[]
      */
     public function sendMediaGroup(array $params): array
     {
@@ -398,8 +376,6 @@ trait Message
      *
      * @link https://core.telegram.org/bots/api#sendvenue
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function sendVenue(array $params): MessageObject
@@ -428,8 +404,6 @@ trait Message
      * </code>
      *
      * @link https://core.telegram.org/bots/api#sendcontact
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */
@@ -470,8 +444,6 @@ trait Message
      *
      * @link https://core.telegram.org/bots/api#sendpoll
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function sendPoll(array $params): MessageObject
@@ -500,8 +472,6 @@ trait Message
      *
      * @link https://core.telegram.org/bots/api#senddice
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function sendDice(array $params): MessageObject
@@ -522,8 +492,6 @@ trait Message
      * </code>
      *
      * @link https://core.telegram.org/bots/api#sendchataction
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */

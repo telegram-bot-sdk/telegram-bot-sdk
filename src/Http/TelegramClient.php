@@ -29,8 +29,6 @@ class TelegramClient
 
     /**
      * Instantiates a new TelegramClient object.
-     *
-     * @param HttpClientInterface|null $httpClientHandler
      */
     public function __construct(HttpClientInterface $httpClientHandler = null)
     {
@@ -132,7 +130,6 @@ class TelegramClient
     /**
      * Get File URL.
      *
-     * @param string|null $path
      *
      * @throws TelegramSDKException
      */
@@ -178,8 +175,8 @@ class TelegramClient
     /**
      * Download file from Telegram server for given file path.
      *
-     * @param string $filePath File path on Telegram server.
-     * @param string $filename Download path to save file.
+     * @param  string  $filePath File path on Telegram server.
+     * @param  string  $filename Download path to save file.
      *
      * @throws TelegramSDKException
      */
@@ -189,7 +186,7 @@ class TelegramClient
 
         // Ensure dir is created.
         if (! @mkdir($fileDir, 0755, true) && ! is_dir($fileDir)) {
-            throw TelegramSDKException::fileDownloadFailed('Directory ' . $fileDir . ' can\'t be created');
+            throw TelegramSDKException::fileDownloadFailed('Directory '.$fileDir.' can\'t be created');
         }
 
         $request = $this->resolveTelegramRequest('GET', '');
@@ -234,7 +231,6 @@ class TelegramClient
      *
      *
      * @throws TelegramSDKException
-     *
      */
     protected function sendRequest(
         string $method,
@@ -273,8 +269,6 @@ class TelegramClient
 
     /**
      * Creates response object.
-     *
-     *
      */
     protected function getResponse(TelegramRequest $request, ResponseInterface|PromiseInterface $response): TelegramResponse
     {

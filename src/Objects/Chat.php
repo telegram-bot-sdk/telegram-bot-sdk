@@ -38,10 +38,10 @@ class Chat extends AbstractResponseObject
     public function relations(): array
     {
         return [
-            'photo'          => InputMedia::class,
+            'photo' => InputMedia::class,
             'pinned_message' => Message::class,
-            'permissions'    => ChatPermissions::class,
-            'location'       => ChatLocation::class,
+            'permissions' => ChatPermissions::class,
+            'location' => ChatLocation::class,
         ];
     }
 }

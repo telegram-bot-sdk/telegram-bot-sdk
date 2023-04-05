@@ -2,10 +2,10 @@
 
 namespace Telegram\Bot\Http;
 
-use stdClass;
 use GuzzleHttp\Promise\PromiseInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
+use stdClass;
 use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
@@ -34,7 +34,7 @@ class TelegramResponse
     /**
      * Gets the relevant data from the Http client.
      *
-     * @param ResponseInterface|PromiseInterface $response
+     * @param  ResponseInterface|PromiseInterface  $response
      */
     public function __construct(protected TelegramRequest $request, $response)
     {

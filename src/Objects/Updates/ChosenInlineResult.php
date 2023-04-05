@@ -25,7 +25,7 @@ class ChosenInlineResult extends AbstractResponseObject
     public function relations(): array
     {
         return [
-            'from'     => User::class,
+            'from' => User::class,
             'location' => Location::class,
         ];
     }

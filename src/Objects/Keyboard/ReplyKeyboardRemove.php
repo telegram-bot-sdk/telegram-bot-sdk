@@ -16,8 +16,6 @@ class ReplyKeyboardRemove
      *
      * @link https://core.telegram.org/bots/api#replykeyboardremove
      *
-     * @param bool $selective
-     *
      * @return array{remove_keyboard: true, selective: bool}
      */
     public static function selective(bool $selective = false): array

@@ -37,8 +37,7 @@ trait HasToken
     /**
      * Set the bot token.
      *
-     * @param string $token The bot token.
-     *
+     * @param  string  $token The bot token.
      * @return $this
      */
     public function setToken(string $token): self

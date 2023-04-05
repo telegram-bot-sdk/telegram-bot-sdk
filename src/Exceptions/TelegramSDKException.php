@@ -46,8 +46,7 @@ class TelegramSDKException extends Exception
     /**
      * Thrown when command name is not set.
      *
-     * @param string|object $command
-     *
+     * @param  string|object  $command
      * @return static
      */
     public static function commandNameNotSet($command): self
@@ -65,7 +64,7 @@ class TelegramSDKException extends Exception
      */
     public static function httpClientNotInstantiable(string $httpClient, Throwable $e, int $code = 0): self
     {
-        return new static('Http Client class [' . $httpClient . '] is not instantiable.', $code, $e);
+        return new static('Http Client class ['.$httpClient.'] is not instantiable.', $code, $e);
     }
 
     /**
@@ -76,6 +75,6 @@ class TelegramSDKException extends Exception
      */
     public static function fileDownloadFailed(string $reason, string $url = null): self
     {
-        return new static($reason . ': Failed to Download File ' . $url);
+        return new static($reason.': Failed to Download File '.$url);
     }
 }

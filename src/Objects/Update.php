@@ -33,33 +33,33 @@ use Telegram\Bot\Objects\Updates\ShippingQuery;
  * @property ChatMemberUpdated  $my_chat_member        (Optional). The bot's chat member status was updated in a chat. For private chats, this update is received only when the bot is blocked or unblocked by the user.
  * @property ChatMemberUpdated  $chat_member           (Optional). A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates.
  * @property ChatJoinRequest    $chat_join_request     (Optional). A request to join the chat has been sent. The bot must have the can_invite_users administrator right in the chat to receive these updates.
- *
  */
 class Update extends AbstractResponseObject
 {
     protected ?string $updateType = null;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @return array{message: class-string<\Telegram\Bot\Objects\Updates\Message>, edited_message: class-string<\Telegram\Bot\Objects\Updates\Message>, channel_post: class-string<\Telegram\Bot\Objects\Updates\Message>, edited_channel_post: class-string<\Telegram\Bot\Objects\Updates\Message>, inline_query: class-string<\Telegram\Bot\Objects\Updates\InlineQuery>, chosen_inline_result: class-string<\Telegram\Bot\Objects\Updates\ChosenInlineResult>, callback_query: class-string<\Telegram\Bot\Objects\Updates\CallbackQuery>, shipping_query: class-string<\Telegram\Bot\Objects\Updates\ShippingQuery>, pre_checkout_query: class-string<\Telegram\Bot\Objects\Updates\PreCheckoutQuery>, poll: class-string<\Telegram\Bot\Objects\Updates\Poll>, poll_answer: class-string<\Telegram\Bot\Objects\Updates\PollAnswer>, my_chat_member: class-string<\Telegram\Bot\Objects\Updates\ChatMemberUpdated>, chat_member: class-string<\Telegram\Bot\Objects\Updates\ChatMemberUpdated>, chat_join_request: class-string<\Telegram\Bot\Objects\Updates\ChatJoinRequest>}
      */
     public function relations(): array
     {
         return [
-            'message'              => Message::class,
-            'edited_message'       => Message::class,
-            'channel_post'         => Message::class,
-            'edited_channel_post'  => Message::class,
-            'inline_query'         => InlineQuery::class,
+            'message' => Message::class,
+            'edited_message' => Message::class,
+            'channel_post' => Message::class,
+            'edited_channel_post' => Message::class,
+            'inline_query' => InlineQuery::class,
             'chosen_inline_result' => ChosenInlineResult::class,
-            'callback_query'       => CallbackQuery::class,
-            'shipping_query'       => ShippingQuery::class,
-            'pre_checkout_query'   => PreCheckoutQuery::class,
-            'poll'                 => Poll::class,
-            'poll_answer'          => PollAnswer::class,
-            'my_chat_member'       => ChatMemberUpdated::class,
-            'chat_member'          => ChatMemberUpdated::class,
-            'chat_join_request'    => ChatJoinRequest::class,
+            'callback_query' => CallbackQuery::class,
+            'shipping_query' => ShippingQuery::class,
+            'pre_checkout_query' => PreCheckoutQuery::class,
+            'poll' => Poll::class,
+            'poll_answer' => PollAnswer::class,
+            'my_chat_member' => ChatMemberUpdated::class,
+            'chat_member' => ChatMemberUpdated::class,
+            'chat_join_request' => ChatJoinRequest::class,
         ];
     }
 

@@ -29,11 +29,9 @@ trait Update
      *
      * @link https://core.telegram.org/bots/api#getupdates
      *
-     * @param array $params
+     * @return UpdateObject[]
      *
      * @throws TelegramSDKException
-     *
-     * @return UpdateObject[]
      */
     public function getUpdates(array $params = []): array
     {
@@ -49,13 +47,12 @@ trait Update
      *
      *
      * @throws TelegramSDKException
-     *
      */
     public function confirmUpdate(int $highestId): array
     {
         return $this->getUpdates([
             'offset' => $highestId + 1,
-            'limit'  => 1,
+            'limit' => 1,
         ]);
     }
 
@@ -74,8 +71,6 @@ trait Update
      * </code>
      *
      * @link https://core.telegram.org/bots/api#setwebhook
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */
@@ -151,8 +146,6 @@ trait Update
 
     /**
      * Format Certificate.
-     *
-     * @param $certificate
      */
     protected function formatCertificate($certificate): InputFile
     {

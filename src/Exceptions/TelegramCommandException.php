@@ -30,7 +30,7 @@ class TelegramCommandException extends TelegramSDKException
      */
     public static function commandClassDoesNotExist(string $commandClass): self
     {
-        return new static('Command class [' . $commandClass . '] does not exist.');
+        return new static('Command class ['.$commandClass.'] does not exist.');
     }
 
     /**
@@ -58,7 +58,7 @@ class TelegramCommandException extends TelegramSDKException
      */
     public static function commandNotInstantiable(string $commandClass, Throwable $e, int $code = 0): self
     {
-        return new static('Command class [' . $commandClass . '] is not instantiable.', $code, $e);
+        return new static('Command class ['.$commandClass.'] is not instantiable.', $code, $e);
     }
 
     /**
@@ -71,6 +71,6 @@ class TelegramCommandException extends TelegramSDKException
     {
         $params = $requiredParamsNotProvided->implode(', $');
 
-        return new static('Required command params [$' . $params . '] not provided');
+        return new static('Required command params [$'.$params.'] not provided');
     }
 }

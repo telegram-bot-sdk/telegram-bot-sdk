@@ -15,8 +15,6 @@ trait Passport
      * </code>
      *
      * @link https://core.telegram.org/bots/api#setpassportdataerrors
-     *
-     * @param array $params
      */
     public function setPassportDataErrors(array $params): bool
     {

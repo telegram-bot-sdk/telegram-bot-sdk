@@ -64,7 +64,6 @@ abstract class Command implements CommandInterface
     /**
      * Set Command Description.
      *
-     * @param $description
      *
      * @return static
      */
@@ -77,8 +76,6 @@ abstract class Command implements CommandInterface
 
     /**
      * Determine if given argument is provided.
-     *
-     *
      */
     public function hasArgument(string $argument): bool
     {
@@ -143,8 +140,6 @@ abstract class Command implements CommandInterface
 
     /**
      * Triggered on failure to find params in command.
-     *
-     *
      */
     public function failed(array $arguments, Throwable $exception): void
     {
@@ -153,7 +148,7 @@ abstract class Command implements CommandInterface
     /**
      * Helper to Trigger other Commands.
      *
-     * @param CommandInterface|string $command
+     * @param  CommandInterface|string  $command
      *
      * @throws TelegramCommandException
      * @throws TelegramSDKException

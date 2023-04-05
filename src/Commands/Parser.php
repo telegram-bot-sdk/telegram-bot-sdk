@@ -2,14 +2,14 @@
 
 namespace Telegram\Bot\Commands;
 
-use ReflectionType;
-use ReflectionClass;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
+use ReflectionType;
 use ReflectionUnionType;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -106,7 +106,7 @@ class Parser
                 }
 
                 $type = $param->getType();
-                if (!$type instanceof ReflectionType) {
+                if (! $type instanceof ReflectionType) {
                     return false;
                 }
                 if ($type instanceof ReflectionNamedType && $type->isBuiltin()) {
@@ -186,16 +186,15 @@ class Parser
      */
     protected function isRegexParam(ReflectionParameter $param): bool
     {
-        if (!$param->isDefaultValueAvailable()) {
+        if (! $param->isDefaultValueAvailable()) {
             return false;
         }
+
         return Str::is('{*}', $param->getDefaultValue());
     }
 
     /**
-     *
      * @throws TelegramSDKException
-     *
      */
     private function relevantSubString(string $fullString): string
     {
@@ -237,8 +236,6 @@ class Parser
 
     /**
      * Get the portion of a string between a given values.
-     *
-     *
      */
     public static function between(string $subject, string $before, string $after): string
     {
@@ -248,6 +245,7 @@ class Parser
         if ($after === '') {
             return $subject;
         }
+
         return Str::beforeLast(Str::after($subject, $before), $after);
     }
 }

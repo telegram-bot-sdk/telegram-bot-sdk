@@ -32,11 +32,9 @@ trait EditMessage
      *
      * @link https://core.telegram.org/bots/api#editmessagetext
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
-    public function editMessageText(array $params): \Telegram\Bot\Methods\Message|bool
+    public function editMessageText(array $params): Message|bool
     {
         $response = $this->post('editMessageText', $params);
 
@@ -59,11 +57,9 @@ trait EditMessage
      *
      * @link https://core.telegram.org/bots/api#editmessagecaption
      *
-     *
      * @throws TelegramSDKException
-     *
      */
-    public function editMessageCaption(array $params): \Telegram\Bot\Methods\Message|bool
+    public function editMessageCaption(array $params): Message|bool
     {
         $response = $this->post('editMessageCaption', $params);
 
@@ -85,11 +81,9 @@ trait EditMessage
      *
      * @link https://core.telegram.org/bots/api#editmessagemedia
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
-    public function editMessageMedia(array $params): \Telegram\Bot\Methods\Message|bool
+    public function editMessageMedia(array $params): Message|bool
     {
         $response = $this->post('editMessageMedia', $params);
 
@@ -110,11 +104,9 @@ trait EditMessage
      *
      * @link https://core.telegram.org/bots/api#editmessagereplymarkup
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
-    public function editMessageReplyMarkup(array $params): \Telegram\Bot\Methods\Message|bool
+    public function editMessageReplyMarkup(array $params): Message|bool
     {
         $response = $this->post('editMessageReplyMarkup', $params);
 
@@ -135,8 +127,6 @@ trait EditMessage
      * </code>
      *
      * @link https://core.telegram.org/bots/api#stoppoll
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */
@@ -165,8 +155,6 @@ trait EditMessage
      * </code>
      *
      * @link https://core.telegram.org/bots/api#deletemessage
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */

@@ -28,13 +28,15 @@ class Bot
     use Macroable {
         __call as macroCall;
     }
-
     use HasConfig;
     use HasContainer;
 
     protected string $name;
+
     protected Api $api;
+
     protected EventFactory $eventFactory;
+
     protected array $listeners;
 
     /**
@@ -146,9 +148,9 @@ class Bot
      * Dispatches event when an inbound update is received.
      *
      *
-     * @throws TelegramSDKException
-     *
      * @return Update|Update[]
+     *
+     * @throws TelegramSDKException
      */
     public function listen(bool $webhook = false, array $params = []): Update|array
     {
@@ -169,8 +171,9 @@ class Bot
      * Process the update object using the getUpdates method.
      *
      *
-     * @throws TelegramSDKException
      * @return Update[]
+     *
+     * @throws TelegramSDKException
      */
     protected function useGetUpdates(array $params = []): array
     {
@@ -193,8 +196,6 @@ class Bot
 
     /**
      * Dispatch Update Event.
-     *
-     *
      */
     public function dispatchUpdateEvent(Update $update): Update
     {
@@ -204,7 +205,7 @@ class Bot
         $this->eventFactory->dispatch($update->objectType(), $event);
 
         if (null !== $update->getMessage()->objectType()) {
-            $this->eventFactory->dispatch($update->objectType() . '.' . $update->getMessage()->objectType(), $event);
+            $this->eventFactory->dispatch($update->objectType().'.'.$update->getMessage()->objectType(), $event);
         }
 
         return $event->update;
@@ -214,8 +215,9 @@ class Bot
      * Set the HTTP Client Handler.
      *
      *
-     * @throws TelegramSDKException
      * @return static
+     *
+     * @throws TelegramSDKException
      */
     public function setHttpClientHandler(string|HttpClientInterface $handler): self
     {

@@ -24,16 +24,17 @@ class ChatMemberUpdated extends AbstractResponseObject
 {
     /**
      * {@inheritdoc}
+     *
      * @return array{chat: class-string<\Telegram\Bot\Objects\Chat>, from: class-string<\Telegram\Bot\Objects\User>, old_chat_member: class-string<\Telegram\Bot\Objects\ChatMember>, new_chat_member: class-string<\Telegram\Bot\Objects\ChatMember>, invite_link: class-string<\Telegram\Bot\Objects\ChatInviteLink>}
      */
     public function relations(): array
     {
         return [
-            'chat'            => Chat::class,
-            'from'            => User::class,
+            'chat' => Chat::class,
+            'from' => User::class,
             'old_chat_member' => ChatMember::class,
             'new_chat_member' => ChatMember::class,
-            'invite_link'     => ChatInviteLink::class,
+            'invite_link' => ChatInviteLink::class,
         ];
     }
 }

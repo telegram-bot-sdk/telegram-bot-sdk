@@ -27,7 +27,7 @@ class PreCheckoutQuery extends AbstractResponseObject
     public function relations(): array
     {
         return [
-            'from'       => User::class,
+            'from' => User::class,
             'order_info' => OrderInfo::class,
         ];
     }

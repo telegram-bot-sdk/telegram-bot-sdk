@@ -32,8 +32,6 @@ trait Query
      *
      * @link https://core.telegram.org/bots/api#answercallbackquery
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
      */
     public function answerCallbackQuery(array $params): bool
@@ -61,8 +59,6 @@ trait Query
      * </code>
      *
      * @link https://core.telegram.org/bots/api#answercallbackquery
-     *
-     * @param array $params
      *
      * @throws TelegramSDKException
      */

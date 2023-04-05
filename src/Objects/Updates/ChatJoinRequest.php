@@ -22,13 +22,14 @@ class ChatJoinRequest extends AbstractResponseObject
 {
     /**
      * {@inheritdoc}
+     *
      * @return array{chat: class-string<\Telegram\Bot\Objects\Chat>, from: class-string<\Telegram\Bot\Objects\User>, invite_link: class-string<\Telegram\Bot\Objects\ChatInviteLink>}
      */
     public function relations(): array
     {
         return [
-            'chat'        => Chat::class,
-            'from'        => User::class,
+            'chat' => Chat::class,
+            'from' => User::class,
             'invite_link' => ChatInviteLink::class,
         ];
     }

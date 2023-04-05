@@ -8,8 +8,6 @@ namespace Telegram\Bot\Exceptions;
 class CouldNotUploadInputFile extends TelegramSDKException
 {
     /**
-     * @param $file
-     *
      * @return static
      */
     public static function fileDoesNotExistOrNotReadable($file): self
@@ -18,8 +16,6 @@ class CouldNotUploadInputFile extends TelegramSDKException
     }
 
     /**
-     * @param $path
-     *
      * @return static
      */
     public static function filenameNotProvided($path): self
@@ -27,14 +23,12 @@ class CouldNotUploadInputFile extends TelegramSDKException
         $file = is_string($path) ? $path : "the resource that you're trying to upload";
 
         return new static(
-            "Filename not provided for {$file}. " .
+            "Filename not provided for {$file}. ".
             'Remote or Resource file uploads require a filename. Refer Docs for more information.'
         );
     }
 
     /**
-     * @param $path
-     *
      * @return static
      */
     public static function couldNotOpenResource($path): self
@@ -43,8 +37,6 @@ class CouldNotUploadInputFile extends TelegramSDKException
     }
 
     /**
-     * @param $property
-     *
      * @return static
      */
     public static function inputFileParameterShouldBeInputFileEntity($property): self
@@ -53,8 +45,6 @@ class CouldNotUploadInputFile extends TelegramSDKException
     }
 
     /**
-     * @param $inputFileField
-     *
      * @return static
      */
     public static function missingParam($inputFileField): self

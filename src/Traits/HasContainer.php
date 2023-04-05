@@ -31,8 +31,7 @@ trait HasContainer
     /**
      * Set the IoC Container.
      *
-     * @param Container $container instance
-     *
+     * @param  Container  $container instance
      * @return $this
      */
     public function setContainer(Container $container): self

@@ -22,9 +22,9 @@ class Game extends AbstractResponseObject
     public function relations(): array
     {
         return [
-            'photo'         => PhotoSize::class,
+            'photo' => PhotoSize::class,
             'text_entities' => MessageEntity::class,
-            'animation'     => Animation::class,
+            'animation' => Animation::class,
         ];
     }
 }
