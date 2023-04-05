@@ -7,14 +7,9 @@ use Telegram\Bot\Objects\Update;
 
 class UpdateEvent
 {
-    public const NAME = 'update';
+    final public const NAME = 'update';
 
-    public Bot $bot;
-    public Update $update;
-
-    public function __construct(Bot $bot, Update $update)
+    public function __construct(public Bot $bot, public Update $update)
     {
-        $this->bot = $bot;
-        $this->update = $update;
     }
 }

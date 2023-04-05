@@ -11,6 +11,9 @@ namespace Telegram\Bot\Objects;
  */
 class VoiceChatParticipantsInvited extends AbstractResponseObject
 {
+    /**
+     * @return array{users: class-string<\Telegram\Bot\Objects\User>}
+     */
     public function relations(): array
     {
         return [

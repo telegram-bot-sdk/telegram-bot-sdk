@@ -27,6 +27,9 @@ use Telegram\Bot\Objects\PollOption;
  */
 class Poll extends AbstractResponseObject
 {
+    /**
+     * @return array{options: class-string<\Telegram\Bot\Objects\PollOption>}
+     */
     public function relations(): array
     {
         return [

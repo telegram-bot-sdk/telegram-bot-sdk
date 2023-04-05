@@ -31,6 +31,9 @@ namespace Telegram\Bot\Objects;
  */
 class ChatMember extends AbstractResponseObject
 {
+    /**
+     * @return array{user: class-string<\Telegram\Bot\Objects\User>}
+     */
     public function relations(): array
     {
         return [

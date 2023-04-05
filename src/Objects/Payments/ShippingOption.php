@@ -13,6 +13,9 @@ use Telegram\Bot\Objects\AbstractResponseObject;
  */
 class ShippingOption extends AbstractResponseObject
 {
+    /**
+     * @return array{prices: class-string<\Telegram\Bot\Objects\Payments\LabeledPrice>}
+     */
     public function relations(): array
     {
         return [

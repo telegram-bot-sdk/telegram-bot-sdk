@@ -2,6 +2,8 @@
 
 namespace Telegram\Bot\Commands;
 
+use ReflectionType;
+use ReflectionClass;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionException;
@@ -24,36 +26,25 @@ class Parser
     /** @var MessageEntity|null Details of the current entity this command is responding to - offset, length, type etc */
     protected ?MessageEntity $entity = null;
 
-    /** @var CommandInterface|string */
-    protected $command;
+    protected CommandInterface|string $command;
 
     /** @var Collection|null Hold command params */
     protected ?Collection $params = null;
 
-    /**
-     * @param  CommandInterface|string  $command
-     *
-     * @return Parser
-     */
-    public static function parse($command): self
+    public static function parse(CommandInterface|string $command): self
     {
         return (new static())->setCommand($command);
     }
 
-    /**
-     * @return CommandInterface|string
-     */
-    public function getCommand()
+    public function getCommand(): CommandInterface|string
     {
         return $this->command;
     }
 
     /**
-     * @param  CommandInterface|string  $command
-     *
      * @return $this
      */
-    public function setCommand($command): self
+    public function setCommand(CommandInterface|string $command): self
     {
         $this->command = $command;
 
@@ -76,7 +67,6 @@ class Parser
      * Parse Command Arguments.
      *
      * @throws TelegramCommandException|TelegramSDKException
-     * @return array
      */
     public function arguments(): array
     {
@@ -96,12 +86,10 @@ class Parser
      * Get all command handle params except type-hinted classes.
      *
      * @throws TelegramCommandException
-     *
-     * @return Collection
      */
     public function allParams(): Collection
     {
-        if (null !== $this->params) {
+        if ($this->params instanceof Collection) {
             return $this->params;
         }
 
@@ -112,20 +100,22 @@ class Parser
         }
 
         return $this->params = collect($handle->getParameters())
-            ->reject(function (ReflectionParameter $param) {
+            ->reject(function (ReflectionParameter $param): ReflectionClass|null|bool {
                 if (version_compare(phpversion(), '8.0.0', '<')) {
                     return $param->getClass();
                 }
 
                 $type = $param->getType();
-
-                if ($type === null || ($type instanceof ReflectionNamedType && $type->isBuiltin())) {
+                if (!$type instanceof ReflectionType) {
+                    return false;
+                }
+                if ($type instanceof ReflectionNamedType && $type->isBuiltin()) {
                     return false;
                 }
 
                 if ($type instanceof ReflectionUnionType) {
                     return collect($type->getTypes())
-                        ->reject(fn (ReflectionNamedType $namedType) => ! $namedType->isBuiltin())
+                        ->reject(fn (ReflectionNamedType $namedType): bool => ! $namedType->isBuiltin())
                         ->isEmpty();
                 }
 
@@ -137,7 +127,6 @@ class Parser
      * Get all REQUIRED params of a command handle.
      *
      * @throws TelegramCommandException
-     * @return Collection
      */
     public function requiredParams(): Collection
     {
@@ -149,10 +138,8 @@ class Parser
     /**
      * Get params that are required but have not been provided.
      *
-     * @param  array  $params
      *
      * @throws TelegramCommandException
-     * @return Collection
      */
     public function requiredParamsNotProvided(array $params): Collection
     {
@@ -163,7 +150,6 @@ class Parser
      * Get Nullified Regex Params.
      *
      * @throws TelegramCommandException
-     * @return Collection
      */
     public function nullifiedRegexParams(): Collection
     {
@@ -176,7 +162,6 @@ class Parser
      * Make command arguments regex pattern.
      *
      * @throws TelegramCommandException
-     * @return string
      */
     protected function argumentsPattern(): string
     {
@@ -196,22 +181,21 @@ class Parser
     /**
      * Determine if its a regex parameter.
      *
-     * @param  ReflectionParameter  $param
      *
      * @throws ReflectionException
-     * @return bool
      */
     protected function isRegexParam(ReflectionParameter $param): bool
     {
-        return $param->isDefaultValueAvailable() && Str::is('{*}', $param->getDefaultValue());
+        if (!$param->isDefaultValueAvailable()) {
+            return false;
+        }
+        return Str::is('{*}', $param->getDefaultValue());
     }
 
     /**
-     * @param  string  $fullString
      *
      * @throws TelegramSDKException
      *
-     * @return string
      */
     private function relevantSubString(string $fullString): string
     {
@@ -245,7 +229,6 @@ class Parser
 
     /**
      * @throws TelegramSDKException
-     * @return Collection
      */
     private function allCommandOffsets(): Collection
     {
@@ -255,18 +238,16 @@ class Parser
     /**
      * Get the portion of a string between a given values.
      *
-     * @param  string  $subject
-     * @param  string  $before
-     * @param  string  $after
      *
-     * @return string
      */
     public static function between(string $subject, string $before, string $after): string
     {
-        if ($before === '' || $after === '') {
+        if ($before === '') {
             return $subject;
         }
-
+        if ($after === '') {
+            return $subject;
+        }
         return Str::beforeLast(Str::after($subject, $before), $after);
     }
 }

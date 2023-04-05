@@ -47,11 +47,9 @@ trait Update
     /**
      * Confirm update as received.
      *
-     * @param int $highestId
      *
      * @throws TelegramSDKException
      *
-     * @return array
      */
     public function confirmUpdate(int $highestId): array
     {
@@ -80,8 +78,6 @@ trait Update
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function setWebhook(array $params): bool
     {
@@ -110,7 +106,6 @@ trait Update
      * @link https://core.telegram.org/bots/api#deletewebhook
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function deleteWebhook(): bool
     {
@@ -123,8 +118,6 @@ trait Update
      * @link https://core.telegram.org/bots/api#getwebhookinfo
      *
      * @throws TelegramSDKException
-     *
-     * @return WebhookInfo
      */
     public function getWebhookInfo(): WebhookInfo
     {
@@ -137,7 +130,6 @@ trait Update
      * Returns a webhook update sent by Telegram.
      * Works only if you set a webhook.
      *
-     * @return UpdateObject
      * @see setWebhook
      */
     public function getWebhookUpdate(): UpdateObject
@@ -151,8 +143,6 @@ trait Update
      * Alias for deleteWebhook.
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function removeWebhook(): bool
     {
@@ -163,8 +153,6 @@ trait Update
      * Format Certificate.
      *
      * @param $certificate
-     *
-     * @return InputFile
      */
     protected function formatCertificate($certificate): InputFile
     {
@@ -181,7 +169,6 @@ trait Update
      * @link https://core.telegram.org/bots/api#logout
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function logOut(): bool
     {
@@ -194,7 +181,6 @@ trait Update
      * @link https://core.telegram.org/bots/api#logout
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function close(): bool
     {

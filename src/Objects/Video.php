@@ -19,6 +19,9 @@ namespace Telegram\Bot\Objects;
  */
 class Video extends AbstractResponseObject
 {
+    /**
+     * @return array{thumb: class-string<\Telegram\Bot\Objects\PhotoSize>}
+     */
     public function relations(): array
     {
         return [

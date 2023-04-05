@@ -32,6 +32,9 @@ use Telegram\Bot\Objects\Updates\Message;
  */
 class Chat extends AbstractResponseObject
 {
+    /**
+     * @return array{photo: class-string<\Telegram\Bot\Objects\InputMedia\InputMedia>, pinned_message: class-string<\Telegram\Bot\Objects\Updates\Message>, permissions: class-string<\Telegram\Bot\Objects\ChatPermissions>, location: class-string<\Telegram\Bot\Objects\ChatLocation>}
+     */
     public function relations(): array
     {
         return [

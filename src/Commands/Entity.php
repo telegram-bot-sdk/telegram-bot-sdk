@@ -13,16 +13,14 @@ use Telegram\Bot\Objects\Update;
 class Entity
 {
     protected string $field;
-    protected Update $update;
 
     public static function from(Update $update): self
     {
         return new static($update);
     }
 
-    public function __construct(Update $update)
+    public function __construct(protected Update $update)
     {
-        $this->update = $update;
     }
 
     public function entities(): ?array
@@ -32,17 +30,15 @@ class Entity
 
     public function commandEntities(): Collection
     {
-        return collect($this->entities())->filter(fn (MessageEntity $entity) => $entity->type === 'bot_command');
+        return collect($this->entities())->filter(fn (MessageEntity $entity): bool => $entity->type === 'bot_command');
     }
 
     /**
      * Return the relevant text/string that the entities in the update are referencing.
-     *
-     * @return string|null
      */
     public function text(): ?string
     {
-        if (! $this->field()) {
+        if ($this->field() === '' || $this->field() === '0') {
             return null;
         }
 
@@ -58,6 +54,6 @@ class Entity
         return $this->field ??= $this->update->getMessage()
             ->collect()
             ->keys()
-            ->first(fn ($key) => Str::contains($key, 'entities'), '');
+            ->first(fn ($key): bool => Str::contains($key, 'entities'), '');
     }
 }

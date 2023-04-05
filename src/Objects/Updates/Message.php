@@ -94,6 +94,7 @@ class Message extends AbstractResponseObject
 {
     /**
      * {@inheritdoc}
+     * @return array{from: class-string<\Telegram\Bot\Objects\User>, sender_chat: class-string<\Telegram\Bot\Objects\Chat>, chat: class-string<\Telegram\Bot\Objects\Chat>, forward_from: class-string<\Telegram\Bot\Objects\User>, forward_from_chat: class-string<\Telegram\Bot\Objects\Chat>, reply_to_message: class-string<\Telegram\Bot\Objects\Updates\Message>, via_bot: class-string<\Telegram\Bot\Objects\User>, entities: class-string<\Telegram\Bot\Objects\MessageEntity>, caption_entities: class-string<\Telegram\Bot\Objects\MessageEntity>, audio: class-string<\Telegram\Bot\Objects\Audio>, document: class-string<\Telegram\Bot\Objects\Document>, animation: class-string<\Telegram\Bot\Objects\Animation>, game: class-string<\Telegram\Bot\Objects\Game>, photo: class-string<\Telegram\Bot\Objects\PhotoSize>, sticker: class-string<\Telegram\Bot\Objects\Sticker>, video: class-string<\Telegram\Bot\Objects\Video>, voice: class-string<\Telegram\Bot\Objects\Voice>, video_note: class-string<\Telegram\Bot\Objects\VideoNote>, contact: class-string<\Telegram\Bot\Objects\Contact>, location: class-string<\Telegram\Bot\Objects\Location>, venue: class-string<\Telegram\Bot\Objects\Venue>, poll: class-string<\Telegram\Bot\Objects\Updates\Poll>, dice: class-string<\Telegram\Bot\Objects\Dice>, new_chat_members: class-string<\Telegram\Bot\Objects\User>, left_chat_member: class-string<\Telegram\Bot\Objects\User>, new_chat_photo: class-string<\Telegram\Bot\Objects\PhotoSize>, pinned_message: class-string<\Telegram\Bot\Objects\Updates\Message>, invoice: class-string<\Telegram\Bot\Objects\Payments\Invoice>, successful_payment: class-string<\Telegram\Bot\Objects\Payments\SuccessfulPayment>, passport_data: class-string<\Telegram\Bot\Objects\Passport\PassportData>, proximity_alert_triggered: class-string<\Telegram\Bot\Objects\ProximityAlertTriggered>, voice_chat_started: class-string<\Telegram\Bot\Objects\VoiceChatStarted>, voice_chat_ended: class-string<\Telegram\Bot\Objects\VoiceChatEnded>, voice_chat_participants_invited: class-string<\Telegram\Bot\Objects\VoiceChatParticipantsInvited>}
      */
     public function relations(): array
     {
@@ -137,8 +138,6 @@ class Message extends AbstractResponseObject
 
     /**
      * Detect type based on properties.
-     *
-     * @return string|null
      */
     public function objectType(): ?string
     {

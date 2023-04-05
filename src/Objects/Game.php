@@ -16,6 +16,9 @@ namespace Telegram\Bot\Objects;
  */
 class Game extends AbstractResponseObject
 {
+    /**
+     * @return array{photo: class-string<\Telegram\Bot\Objects\PhotoSize>, text_entities: class-string<\Telegram\Bot\Objects\MessageEntity>, animation: class-string<\Telegram\Bot\Objects\Animation>}
+     */
     public function relations(): array
     {
         return [

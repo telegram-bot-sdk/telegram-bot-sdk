@@ -22,8 +22,6 @@ trait Get
      * @link https://core.telegram.org/bots/api#getme
      *
      * @throws TelegramSDKException
-     *
-     * @return User
      */
     public function getMe(): User
     {
@@ -48,8 +46,6 @@ trait Get
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return UserProfilePhotos
      */
     public function getUserProfilePhotos(array $params): UserProfilePhotos
     {
@@ -76,8 +72,6 @@ trait Get
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return File
      */
     public function getFile(array $params): File
     {

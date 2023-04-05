@@ -19,6 +19,9 @@ namespace Telegram\Bot\Objects;
  */
 class ChatInviteLink extends AbstractResponseObject
 {
+    /**
+     * @return array{creator: class-string<\Telegram\Bot\Objects\User>}
+     */
     public function relations(): array
     {
         return [

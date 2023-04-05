@@ -14,8 +14,6 @@ trait HasBot
 
     /**
      * Determine if Telegram Bot is set.
-     *
-     * @return bool
      */
     public function hasBot(): bool
     {
@@ -24,8 +22,6 @@ trait HasBot
 
     /**
      * Get the Telegram Bot.
-     *
-     * @return Bot|null
      */
     public function getBot(): ?Bot
     {
@@ -35,7 +31,6 @@ trait HasBot
     /**
      * Set the Telegram Bot.
      *
-     * @param Bot $bot
      *
      * @return $this
      */

@@ -20,6 +20,9 @@ use Telegram\Bot\Objects\User;
  */
 class CallbackQuery extends AbstractResponseObject
 {
+    /**
+     * @return array{from: class-string<\Telegram\Bot\Objects\User>, message: class-string<\Telegram\Bot\Objects\Updates\Message>}
+     */
     public function relations(): array
     {
         return [

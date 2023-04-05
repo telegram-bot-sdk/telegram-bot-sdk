@@ -4,73 +4,70 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'src/**'
-      - 'test/**'
+      - '**.php'
+      - 'ci.yml'
       - 'composer.json'
       - 'phpunit.xml.dist'
   pull_request:
     paths:
-      - 'src/**'
-      - 'test/**'
+      - '**.php'
+      - 'ci.yml'
       - 'composer.json'
       - 'phpunit.xml.dist'
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
 
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: true
       matrix:
-        php: ['7.4', '8.0', '8.1']
-        stability: [prefer-lowest, prefer-stable]
+        php: [8.1, 8.2]
+        dependencies: [lowest, highest]
+        experimental: [false]
 
-    name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
-    env:
-      extensions: dom, curl, mbstring, fileinfo
-      key: cache-v1
+    name: PHP ${{ matrix.php }} (${{ matrix.dependencies }})
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup extensions cache environment
-        id: cache-env
-        uses: shivammathur/cache-extensions@v1
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: ${{ env.extensions }}
-          key: ${{ env.key }}
-
-      - name: Cache extensions
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.cache-env.outputs.dir }}
-          key: ${{ steps.cache-env.outputs.key }}-${{ env.key }}
-          restore-keys: ${{ steps.cache-env.outputs.key }}
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ env.extensions }}
-          coverage: xdebug
-          ini-values: xdebug.overload_var_dump=1
-          tools: prestissimo
+          tools: cs2pr
+          coverage: none
 
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Install dependencies
-        run: composer update --${{ matrix.stability }} --prefer-dist -n --no-suggest --no-progress
+        uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: ${{ matrix.dependencies }}
+          composer-options: "--prefer-dist ${{ matrix.composer-options }}"
 
-#      - name: Execute tests
-#        run: vendor/bin/phpunit --verbose
+      - name: List Installed Dependencies
+        run: composer show -D
+
+      - name: Execute tests
+        run: composer test:unit
+
+      - name: Check .php files for syntax errors
+        run: composer test:lint -- --checkstyle | cs2pr
+
+      - uses: actions/cache@v3
+        id: cache-db
+        with:
+          path: ~/.symfony/cache
+          key: db
+
+      - name: Check composer dependencies for known security issues
+        uses: symfonycorp/security-checker-action@v5
+        with:
+          lock: ./composer.lock

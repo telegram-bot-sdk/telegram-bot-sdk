@@ -18,7 +18,6 @@ class CommandHandler
     /**
      * CommandHandler constructor.
      *
-     * @param Bot $bot
      *
      * @throws TelegramSDKException
      */
@@ -32,8 +31,6 @@ class CommandHandler
 
     /**
      * Return Command Bus.
-     *
-     * @return CommandBus
      */
     public function getCommandBus(): CommandBus
     {
@@ -43,7 +40,6 @@ class CommandHandler
     /**
      * Set command bus.
      *
-     * @param CommandBus $commandBus
      *
      * @return static
      */
@@ -56,8 +52,6 @@ class CommandHandler
 
     /**
      * Get all registered commands.
-     *
-     * @return array
      */
     public function getCommands(): array
     {
@@ -67,9 +61,7 @@ class CommandHandler
     /**
      * Check update object for a command and process.
      *
-     * @param Update $update
      *
-     * @return Update
      */
     public function processCommand(Update $update): Update
     {
@@ -110,7 +102,6 @@ class CommandHandler
      * @param $allCommands
      *
      * @throws TelegramSDKException
-     * @return array
      */
     protected function validate(Collection $allCommands): array
     {
@@ -132,16 +123,14 @@ class CommandHandler
     /**
      * Parse an array of commands and build a list.
      *
-     * @param array $commands
      *
-     * @return array
      */
     protected function parseCommands(array $commands): array
     {
         $groups = $this->bot->config('global.command_groups');
         $repo = $this->bot->config('global.command_repository');
 
-        return collect($commands)->flatMap(function ($command, $name) use ($groups, $repo) {
+        return collect($commands)->flatMap(function ($command, $name) use ($groups, $repo): array {
             // If the command is a group, we'll parse through the group of commands
             // and resolve the full class name.
             if (isset($groups[$command])) {

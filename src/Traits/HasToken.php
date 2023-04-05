@@ -14,8 +14,6 @@ trait HasToken
 
     /**
      * Determine if bot token is set.
-     *
-     * @return bool
      */
     public function hasToken(): bool
     {
@@ -26,8 +24,6 @@ trait HasToken
      * Get the bot token.
      *
      * @throws TelegramSDKException
-     *
-     * @return string
      */
     public function getToken(): string
     {

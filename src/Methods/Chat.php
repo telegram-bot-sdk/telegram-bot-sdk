@@ -40,7 +40,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function banChatMember(array $params): bool
     {
@@ -63,7 +62,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return string
      */
     public function exportChatInviteLink(array $params): string
     {
@@ -90,7 +88,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return ChatInviteLink
      */
     public function createChatInviteLink(array $params): ChatInviteLink
     {
@@ -118,7 +115,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return ChatInviteLink
      */
     public function editChatInviteLink(array $params): ChatInviteLink
     {
@@ -142,7 +138,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return ChatInviteLink
      */
     public function revokeChatInviteLink(array $params): ChatInviteLink
     {
@@ -164,8 +159,6 @@ trait Chat
      * @link https://core.telegram.org/bots/api#approvechatjoinrequest
      *
      * @param array $params
-     *
-     * @return bool
      */
     public function approveChatJoinRequest(array $params): bool
     {
@@ -187,8 +180,6 @@ trait Chat
      * @link https://core.telegram.org/bots/api#declinechatjoinrequest
      *
      * @param array $params
-     *
-     * @return bool
      */
     public function declineChatJoinRequest(array $params): bool
     {
@@ -212,7 +203,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function setChatPhoto(array $params): bool
     {
@@ -235,7 +225,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function deleteChatPhoto(array $params): bool
     {
@@ -259,7 +248,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function setChatTitle(array $params): bool
     {
@@ -283,7 +271,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function setChatDescription(array $params): bool
     {
@@ -309,7 +296,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function pinChatMessage(array $params): bool
     {
@@ -336,7 +322,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function unpinChatMessage(array $params): bool
     {
@@ -361,7 +346,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function unpinAllChatMessages(array $params): bool
     {
@@ -382,7 +366,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function leaveChat(array $params): bool
     {
@@ -409,7 +392,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function unbanChatMember(array $params): bool
     {
@@ -437,7 +419,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function restrictChatMember(array $params): bool
     {
@@ -474,7 +455,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function promoteChatMember(array $params): bool
     {
@@ -499,7 +479,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function setChatAdministratorCustomTitle(array $params): bool
     {
@@ -524,7 +503,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function banChatSenderChat(array $params): bool
     {
@@ -550,7 +528,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function unbanChatSenderChat(array $params): bool
     {
@@ -574,7 +551,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function setChatPermissions(array $params): bool
     {
@@ -596,8 +572,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return ChatObject
      */
     public function getChat(array $params): ChatObject
     {
@@ -645,7 +619,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return int
      */
     public function getChatMemberCount(array $params): int
     {
@@ -667,7 +640,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return ChatMember
      */
     public function getChatMember(array $params): ChatMember
     {
@@ -693,7 +665,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function setChatStickerSet(array $params): bool
     {
@@ -716,7 +687,6 @@ trait Chat
      * @param array $params
      *
      * @throws TelegramSDKException
-     * @return bool
      */
     public function deleteChatStickerSet(array $params): bool
     {

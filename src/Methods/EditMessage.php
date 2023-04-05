@@ -35,10 +35,8 @@ trait EditMessage
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return Message|bool
      */
-    public function editMessageText(array $params)
+    public function editMessageText(array $params): \Telegram\Bot\Methods\Message|bool
     {
         $response = $this->post('editMessageText', $params);
 
@@ -61,13 +59,11 @@ trait EditMessage
      *
      * @link https://core.telegram.org/bots/api#editmessagecaption
      *
-     * @param array $params
      *
      * @throws TelegramSDKException
      *
-     * @return Message|bool
      */
-    public function editMessageCaption(array $params)
+    public function editMessageCaption(array $params): \Telegram\Bot\Methods\Message|bool
     {
         $response = $this->post('editMessageCaption', $params);
 
@@ -92,10 +88,8 @@ trait EditMessage
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return Message|bool
      */
-    public function editMessageMedia(array $params)
+    public function editMessageMedia(array $params): \Telegram\Bot\Methods\Message|bool
     {
         $response = $this->post('editMessageMedia', $params);
 
@@ -119,10 +113,8 @@ trait EditMessage
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return Message|bool
      */
-    public function editMessageReplyMarkup(array $params)
+    public function editMessageReplyMarkup(array $params): \Telegram\Bot\Methods\Message|bool
     {
         $response = $this->post('editMessageReplyMarkup', $params);
 
@@ -147,8 +139,6 @@ trait EditMessage
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return Poll
      */
     public function stopPoll(array $params): Poll
     {
@@ -179,8 +169,6 @@ trait EditMessage
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function deleteMessage(array $params): bool
     {

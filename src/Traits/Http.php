@@ -39,8 +39,6 @@ trait Http
 
     /**
      * Returns the TelegramClient service.
-     *
-     * @return TelegramClient
      */
     public function getClient(): TelegramClient
     {
@@ -49,8 +47,6 @@ trait Http
 
     /**
      * Get HTTP Client Config.
-     *
-     * @return array
      */
     public function getHttpClientConfig(): array
     {
@@ -60,7 +56,6 @@ trait Http
     /**
      * Set HTTP Client Config.
      *
-     * @param array $config
      *
      * @return $this
      */
@@ -78,10 +73,8 @@ trait Http
      * @param string                             $filename Absolute path to dir or filename to save as.
      *
      * @throws TelegramSDKException
-     *
-     * @return string
      */
-    public function downloadFile($file, string $filename): string
+    public function downloadFile(File|AbstractResponseObject|string $file, string $filename): string
     {
         $originalFilename = null;
         if (! $file instanceof File) {
@@ -104,7 +97,7 @@ trait Http
         // No filename provided.
         if (pathinfo($filename, PATHINFO_EXTENSION) === '') {
             // Attempt to use the original file name if there is one or fallback to the file_path filename.
-            $filename .= DIRECTORY_SEPARATOR . ($originalFilename ?: basename($file->file_path));
+            $filename .= DIRECTORY_SEPARATOR . ($originalFilename ?: basename((string) $file->file_path));
         }
 
         return $this->getClient()->download($file->file_path, $filename);

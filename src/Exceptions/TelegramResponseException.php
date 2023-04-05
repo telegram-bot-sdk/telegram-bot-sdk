@@ -10,9 +10,6 @@ use Telegram\Bot\Objects\ResponseParameters;
  */
 class TelegramResponseException extends TelegramSDKException
 {
-    /** @var TelegramResponse The response that threw the exception. */
-    protected TelegramResponse $response;
-
     /** @var object Decoded response. */
     protected object $responseData;
 
@@ -20,11 +17,10 @@ class TelegramResponseException extends TelegramSDKException
      * Creates a TelegramResponseException.
      *
      * @param TelegramResponse     $response          The response that threw the exception.
-     * @param TelegramSDKException $previousException The more detailed exception.
+     * @param \Telegram\Bot\Exceptions\TelegramSDKException|null $previousException The more detailed exception.
      */
-    public function __construct(TelegramResponse $response, TelegramSDKException $previousException = null)
+    public function __construct(protected TelegramResponse $response, TelegramSDKException $previousException = null)
     {
-        $this->response = $response;
         $this->responseData = $response->getDecodedBody();
 
         $errorMessage = $this->get('description', 'Unknown error from API Response.');
@@ -36,12 +32,10 @@ class TelegramResponseException extends TelegramSDKException
     /**
      * Checks isset and returns that or a default value.
      *
-     * @param string $key
-     * @param mixed  $default
      *
      * @return mixed
      */
-    protected function get(string $key, $default = null)
+    protected function get(string $key, mixed $default = null)
     {
         return data_get($this->responseData, $key, $default);
     }
@@ -70,8 +64,6 @@ class TelegramResponseException extends TelegramSDKException
 
     /**
      * Returns the HTTP status code.
-     *
-     * @return int|null
      */
     public function getHttpStatusCode(): ?int
     {
@@ -80,8 +72,6 @@ class TelegramResponseException extends TelegramSDKException
 
     /**
      * Returns the error type.
-     *
-     * @return string
      */
     public function getErrorType(): string
     {
@@ -90,8 +80,6 @@ class TelegramResponseException extends TelegramSDKException
 
     /**
      * Returns the raw response used to create the exception.
-     *
-     * @return string
      */
     public function getRawResponse(): string
     {
@@ -100,8 +88,6 @@ class TelegramResponseException extends TelegramSDKException
 
     /**
      * Returns the decoded response used to create the exception.
-     *
-     * @return object
      */
     public function getResponseData(): object
     {
@@ -110,8 +96,6 @@ class TelegramResponseException extends TelegramSDKException
 
     /**
      * Returns the response entity used to create the exception.
-     *
-     * @return TelegramResponse
      */
     public function getResponse(): TelegramResponse
     {
@@ -120,8 +104,6 @@ class TelegramResponseException extends TelegramSDKException
 
     /**
      * Get Response Parameters.
-     *
-     * @return ResponseParameters
      */
     public function getParameters(): ResponseParameters
     {

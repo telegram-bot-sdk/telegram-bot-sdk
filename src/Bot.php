@@ -40,7 +40,6 @@ class Bot
     /**
      * Bot constructor.
      *
-     * @param array $config
      *
      * @throws TelegramSDKException
      */
@@ -68,8 +67,6 @@ class Bot
 
     /**
      * Get name of the bot (specified in a config).
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -78,8 +75,6 @@ class Bot
 
     /**
      * Get Api Instance.
-     *
-     * @return Api
      */
     public function getApi(): Api
     {
@@ -89,7 +84,6 @@ class Bot
     /**
      * Set Api Instance.
      *
-     * @param Api $api
      *
      * @return static
      */
@@ -102,8 +96,6 @@ class Bot
 
     /**
      * Get Event Factory.
-     *
-     * @return EventFactory
      */
     public function getEventFactory(): EventFactory
     {
@@ -113,7 +105,6 @@ class Bot
     /**
      * Set Event Factory.
      *
-     * @param EventFactory $eventFactory
      *
      * @return static
      */
@@ -127,11 +118,10 @@ class Bot
     /**
      * Adds a listener to be notified when an update is received.
      *
-     * @param Closure|string $listener
      *
      * @return static
      */
-    public function onUpdate($listener): self
+    public function onUpdate(Closure|string $listener): self
     {
         $this->eventFactory->listen(UpdateEvent::NAME, $listener);
 
@@ -141,12 +131,10 @@ class Bot
     /**
      * Register an event listener with the dispatcher.
      *
-     * @param string|array   $events
-     * @param Closure|string $listener
      *
      * @return static
      */
-    public function on($events, $listener): self
+    public function on(string|array $events, Closure|string $listener): self
     {
         $this->eventFactory->listen($events, $listener);
 
@@ -157,22 +145,18 @@ class Bot
      * Listen for inbound updates using either webhook or polling method.
      * Dispatches event when an inbound update is received.
      *
-     * @param bool  $webhook
-     * @param array $params
      *
      * @throws TelegramSDKException
      *
      * @return Update|Update[]
      */
-    public function listen(bool $webhook = false, array $params = [])
+    public function listen(bool $webhook = false, array $params = []): Update|array
     {
         return $webhook ? $this->useWebHook() : $this->useGetUpdates($params);
     }
 
     /**
      * Process the update object for a command from your webhook.
-     *
-     * @return Update
      */
     protected function useWebHook(): Update
     {
@@ -184,10 +168,8 @@ class Bot
     /**
      * Process the update object using the getUpdates method.
      *
-     * @param array $params
      *
      * @throws TelegramSDKException
-     *
      * @return Update[]
      */
     protected function useGetUpdates(array $params = []): array
@@ -212,9 +194,7 @@ class Bot
     /**
      * Dispatch Update Event.
      *
-     * @param Update $update
      *
-     * @return Update
      */
     public function dispatchUpdateEvent(Update $update): Update
     {
@@ -233,13 +213,11 @@ class Bot
     /**
      * Set the HTTP Client Handler.
      *
-     * @param string|HttpClientInterface $handler
      *
      * @throws TelegramSDKException
-     *
      * @return static
      */
-    public function setHttpClientHandler($handler): self
+    public function setHttpClientHandler(string|HttpClientInterface $handler): self
     {
         try {
             $client = is_string($handler) ? $this->getContainer()->make($handler) : $handler;
@@ -255,8 +233,6 @@ class Bot
     /**
      * Magically pass methods to the api.
      *
-     * @param  string  $method
-     * @param  array   $parameters
      *
      * @return mixed
      */

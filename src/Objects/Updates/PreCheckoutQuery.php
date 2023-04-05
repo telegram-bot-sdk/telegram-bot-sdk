@@ -21,6 +21,9 @@ use Telegram\Bot\Objects\User;
  */
 class PreCheckoutQuery extends AbstractResponseObject
 {
+    /**
+     * @return array{from: class-string<\Telegram\Bot\Objects\User>, order_info: class-string<\Telegram\Bot\Objects\Payments\OrderInfo>}
+     */
     public function relations(): array
     {
         return [

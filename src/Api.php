@@ -2,6 +2,20 @@
 
 namespace Telegram\Bot;
 
+use Telegram\Bot\Traits\Http;
+use Telegram\Bot\Traits\HasToken;
+use Telegram\Bot\Methods\Chat;
+use Telegram\Bot\Methods\Commands;
+use Telegram\Bot\Methods\EditMessage;
+use Telegram\Bot\Methods\Game;
+use Telegram\Bot\Methods\Get;
+use Telegram\Bot\Methods\Location;
+use Telegram\Bot\Methods\Message;
+use Telegram\Bot\Methods\Passport;
+use Telegram\Bot\Methods\Payments;
+use Telegram\Bot\Methods\Query;
+use Telegram\Bot\Methods\Stickers;
+use Telegram\Bot\Methods\Update;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Exceptions\TelegramLoginAuthException;
 use Telegram\Bot\Traits\ForwardsCalls;
@@ -16,21 +30,21 @@ class Api
         __call as macroCall;
     }
 
-    use Traits\Http;
-    use Traits\HasToken;
+    use Http;
+    use HasToken;
 
-    use Methods\Chat;
-    use Methods\Commands;
-    use Methods\EditMessage;
-    use Methods\Game;
-    use Methods\Get;
-    use Methods\Location;
-    use Methods\Message;
-    use Methods\Passport;
-    use Methods\Payments;
-    use Methods\Query;
-    use Methods\Stickers;
-    use Methods\Update;
+    use Chat;
+    use Commands;
+    use EditMessage;
+    use Game;
+    use Get;
+    use Location;
+    use Message;
+    use Passport;
+    use Payments;
+    use Query;
+    use Stickers;
+    use Update;
 
     /**
      * Instantiates a new Telegram super-class object.
@@ -45,11 +59,9 @@ class Api
     /**
      * Determine given login auth data is valid.
      *
-     * @param array $auth_data
      *
      * @throws TelegramLoginAuthException
      *
-     * @return array
      */
     public function isLoginAuthDataValid(array $auth_data): array
     {
@@ -61,7 +73,7 @@ class Api
 
         $data_check_string = collect($auth_data)
             ->only(['username', 'auth_date', 'first_name', 'last_name', 'photo_url', 'id'])
-            ->map(fn ($value, $key) => $key . '=' . $value)
+            ->map(fn ($value, $key): string => $key . '=' . $value)
             ->sort()
             ->implode("\n");
 

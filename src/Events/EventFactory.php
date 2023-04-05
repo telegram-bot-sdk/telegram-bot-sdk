@@ -12,24 +12,17 @@ use Illuminate\Events\Dispatcher;
 class EventFactory
 {
     use InteractsWithEvents;
-
-    protected array $listens = [];
     protected array $subscribers = [];
 
     /**
      * EventFactory constructor.
-     *
-     * @param array $listens
      */
-    public function __construct(array $listens = [])
+    public function __construct(protected array $listens = [])
     {
-        $this->listens = $listens;
     }
 
     /**
      * Get the events and handlers.
-     *
-     * @return array
      */
     public function listens(): array
     {
@@ -39,7 +32,6 @@ class EventFactory
     /**
      * Set the events and handlers.
      *
-     * @param array $listeners
      *
      * @return static
      */
@@ -52,8 +44,6 @@ class EventFactory
 
     /**
      * Get subscribers.
-     *
-     * @return array
      */
     public function subscribers(): array
     {
@@ -63,7 +53,6 @@ class EventFactory
     /**
      * Add a subscriber.
      *
-     * @param array $subscribe
      *
      * @return static
      */
@@ -95,12 +84,10 @@ class EventFactory
     /**
      * Register an event listener with the dispatcher.
      *
-     * @param string|array   $events
-     * @param Closure|string $listener
      *
      * @return static
      */
-    public function listen($events, $listener): self
+    public function listen(string|array $events, Closure|string $listener): self
     {
         $this->getDispatcher()->listen($events, $listener);
 
@@ -121,12 +108,10 @@ class EventFactory
      * Dispatch an event and call the listeners.
      *
      * @param string|object $event
-     * @param mixed         $payload
      * @param bool          $halt
      *
-     * @return array|null
      */
-    public function dispatch($event, $payload = [], $halt = false): ?array
+    public function dispatch($event, mixed $payload = [], $halt = false): ?array
     {
         return $this->getDispatcher()->dispatch($event, $payload, $halt);
     }

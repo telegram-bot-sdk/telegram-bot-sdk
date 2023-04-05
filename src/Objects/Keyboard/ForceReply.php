@@ -19,7 +19,7 @@ class ForceReply
      * @param bool        $selective
      * @param string|null $inputFieldPlaceHolder
      *
-     * @return array
+     * @return array{force_reply: true, selective: bool, input_field_placeholder: string|null}
      */
     public static function selective(bool $selective = false, string $inputFieldPlaceHolder = null): array
     {

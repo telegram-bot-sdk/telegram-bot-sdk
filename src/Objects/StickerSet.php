@@ -16,6 +16,9 @@ namespace Telegram\Bot\Objects;
  */
 class StickerSet extends AbstractResponseObject
 {
+    /**
+     * @return array{stickers: class-string<\Telegram\Bot\Objects\Sticker>, thumb: class-string<\Telegram\Bot\Objects\PhotoSize>}
+     */
     public function relations(): array
     {
         return [

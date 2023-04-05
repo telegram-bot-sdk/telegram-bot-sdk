@@ -13,27 +13,18 @@ use Telegram\Bot\Contracts\Multipartable;
 
 class InputFile implements Multipartable, JsonSerializable
 {
-    protected $contents;
-    protected ?string $filename = null;
     protected string $multipartName;
 
     /**
      * Creates a new InputFile object.
-     *
-     * @param mixed       $contents
-     * @param string|null $filename
      */
-    public function __construct($contents, string $filename = null)
+    public function __construct(protected mixed $contents, protected ?string $filename = null)
     {
-        $this->contents = $contents;
-        $this->filename = $filename;
         $this->multipartName = $this->generateRandomName();
     }
 
     /**
-     * @param string      $file
      * @param string|null $filename
-     *
      * @return static
      */
     public static function file(string $file, string $filename = null): self
@@ -42,19 +33,14 @@ class InputFile implements Multipartable, JsonSerializable
     }
 
     /**
-     * @param mixed  $contents
-     * @param string $filename
      *
      * @return static
      */
-    public static function contents($contents, string $filename): self
+    public static function contents(mixed $contents, string $filename): self
     {
         return new static(Utils::streamFor($contents), $filename);
     }
 
-    /**
-     * @return string|null
-     */
     public function getFilename(): ?string
     {
         return $this->filename;
@@ -68,17 +54,12 @@ class InputFile implements Multipartable, JsonSerializable
         return $this->contents;
     }
 
-    /**
-     * @return string
-     */
     public function getMultipartName(): string
     {
         return $this->multipartName;
     }
 
     /**
-     * @param string $multipartName
-     *
      * @return $this
      */
     public function setMultipartName(string $multipartName): self
@@ -88,21 +69,18 @@ class InputFile implements Multipartable, JsonSerializable
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getAttachString(): string
     {
         return 'attach://' . $this->getMultipartName();
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->getAttachString();
     }
 
     /**
-     * @return array
+     * @return array{name: string, contents: bool|callable|float|int|\Iterator|\Psr\Http\Message\StreamInterface|resource|string|null, filename: string|null}
      */
     public function toMultipart(): array
     {

@@ -12,6 +12,9 @@ namespace Telegram\Bot\Objects;
  */
 class UserProfilePhotos extends AbstractResponseObject
 {
+    /**
+     * @return array{photos: class-string<\Telegram\Bot\Objects\PhotoSize>}
+     */
     public function relations(): array
     {
         return [

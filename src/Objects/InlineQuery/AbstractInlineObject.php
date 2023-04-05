@@ -15,8 +15,6 @@ abstract class AbstractInlineObject extends AbstractCreateObject
 
     /**
      * Create a new object.
-     *
-     * @param array $fields
      */
     public function __construct(array $fields = [])
     {

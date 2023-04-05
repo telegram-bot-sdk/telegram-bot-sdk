@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Http;
 
+use function GuzzleHttp\Promise\unwrap;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -37,13 +38,11 @@ class GuzzleHttpClient implements HttpClientInterface
      */
     public function __destruct()
     {
-        Promise\unwrap(self::$promises);
+        unwrap(self::$promises);
     }
 
     /**
      * Get the HTTP client.
-     *
-     * @return ClientInterface
      */
     public function getClient(): ClientInterface
     {
@@ -53,9 +52,7 @@ class GuzzleHttpClient implements HttpClientInterface
     /**
      * Set the HTTP client.
      *
-     * @param ClientInterface $client
      *
-     * @return GuzzleHttpClient
      */
     public function setClient(ClientInterface $client): self
     {
@@ -66,8 +63,6 @@ class GuzzleHttpClient implements HttpClientInterface
 
     /**
      * Get Guzzle Config.
-     *
-     * @return array
      */
     public function getConfig(): array
     {
@@ -77,7 +72,6 @@ class GuzzleHttpClient implements HttpClientInterface
     /**
      * Set Guzzle Config.
      *
-     * @param array $config
      *
      * @return $this
      */

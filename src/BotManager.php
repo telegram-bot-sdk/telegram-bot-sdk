@@ -23,8 +23,6 @@ class BotManager
 
     /**
      * Bots Manager constructor.
-     *
-     * @param array $config
      */
     public function __construct(array $config)
     {
@@ -43,8 +41,6 @@ class BotManager
 
     /**
      * Get the default bot name.
-     *
-     * @return string|null
      */
     public function getDefaultBotName(): ?string
     {
@@ -54,10 +50,8 @@ class BotManager
     /**
      * Set the default bot name.
      *
-     * @param string $name
      *
      * @throws TelegramSDKException
-     *
      * @return static
      */
     public function setDefaultBotName(string $name): self
@@ -75,7 +69,6 @@ class BotManager
      * @param  string|null  $name
      *
      * @throws TelegramSDKException
-     * @return Bot
      */
     public function bot(string $name = null): Bot
     {
@@ -90,7 +83,6 @@ class BotManager
      * @param  string|null  $name
      *
      * @throws TelegramSDKException
-     * @return Bot
      */
     public function reconnect(string $name = null): Bot
     {
@@ -120,8 +112,6 @@ class BotManager
      * @param string|null $name
      *
      * @throws TelegramSDKException
-     *
-     * @return array
      */
     public function getBotConfig(string $name = null): array
     {
@@ -142,11 +132,9 @@ class BotManager
     /**
      * Make the bot instance.
      *
-     * @param string $name
      *
      * @throws TelegramSDKException
      *
-     * @return Bot
      */
     protected function makeBot(string $name): Bot
     {
@@ -156,8 +144,6 @@ class BotManager
     /**
      * Magically pass methods to the default bot.
      *
-     * @param  string  $method
-     * @param  array   $parameters
      *
      * @throws TelegramSDKException
      * @return mixed

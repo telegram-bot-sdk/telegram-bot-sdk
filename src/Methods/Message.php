@@ -37,8 +37,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendMessage(array $params): MessageObject
     {
@@ -65,8 +63,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function forwardMessage(array $params): MessageObject
     {
@@ -101,8 +97,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return int
      */
     public function copyMessage(array $params): int
     {
@@ -134,8 +128,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendPhoto(array $params): MessageObject
     {
@@ -171,8 +163,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendAudio(array $params): MessageObject
     {
@@ -206,8 +196,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendDocument(array $params): MessageObject
     {
@@ -245,8 +233,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendVideo(array $params): MessageObject
     {
@@ -282,8 +268,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendAnimation(array $params): MessageObject
     {
@@ -316,8 +300,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendVoice(array $params): MessageObject
     {
@@ -349,8 +331,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendVideoNote(array $params): MessageObject
     {
@@ -421,8 +401,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendVenue(array $params): MessageObject
     {
@@ -454,8 +432,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendContact(array $params): MessageObject
     {
@@ -497,8 +473,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendPoll(array $params): MessageObject
     {
@@ -529,8 +503,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendDice(array $params): MessageObject
     {
@@ -554,8 +526,6 @@ trait Message
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function sendChatAction(array $params): bool
     {

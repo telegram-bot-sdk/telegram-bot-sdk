@@ -17,6 +17,9 @@ use Telegram\Bot\Objects\AbstractResponseObject;
  */
 class SuccessfulPayment extends AbstractResponseObject
 {
+    /**
+     * @return array{order_info: class-string<\Telegram\Bot\Objects\Payments\OrderInfo>}
+     */
     public function relations(): array
     {
         return [

@@ -9,8 +9,6 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 class ProcessCommand
 {
     /**
-     * @param UpdateEvent $event
-     *
      * @throws TelegramSDKException
      */
     public function handle(UpdateEvent $event): void

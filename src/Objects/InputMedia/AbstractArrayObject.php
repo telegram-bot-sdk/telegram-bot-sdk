@@ -23,13 +23,10 @@ abstract class AbstractArrayObject extends AbstractCreateObject implements Multi
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function toMultipart(): array
     {
         return collect($this->fields)
-            ->filter(fn ($field) => Validator::isMultipartable($field))
+            ->filter(fn ($field): bool => Validator::isMultipartable($field))
             ->flatMap(fn ($field) => $field->toMultipart())
             ->all();
     }

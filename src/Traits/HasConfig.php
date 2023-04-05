@@ -15,8 +15,6 @@ trait HasConfig
      * Check if an option or options exist in config using "dot" notation.
      *
      * @param $key
-     *
-     * @return bool
      */
     public function hasConfig($key): bool
     {
@@ -26,12 +24,10 @@ trait HasConfig
     /**
      * Get or set configuration value using "dot" notation.
      *
-     * @param array|string|null $key
      * @param mixed|null        $default
-     *
      * @return mixed
      */
-    public function config($key = null, $default = null)
+    public function config(array|string|null $key = null, $default = null)
     {
         if (null === $key) {
             return $this->config;
@@ -50,8 +46,6 @@ trait HasConfig
 
     /**
      * Get Config Array.
-     *
-     * @return array
      */
     public function getConfig(): array
     {
@@ -61,7 +55,6 @@ trait HasConfig
     /**
      * Set Config Array.
      *
-     * @param array $config
      *
      * @return static
      */

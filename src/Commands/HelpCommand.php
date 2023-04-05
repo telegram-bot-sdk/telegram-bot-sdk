@@ -51,6 +51,6 @@ class HelpCommand extends Command
     {
         $chat_id = $this->getUpdate()->getMessage()->chat->id;
 
-        $this->bot->sendMessage(compact('chat_id', 'text'));
+        $this->bot->sendMessage(['chat_id' => $chat_id, 'text' => $text]);
     }
 }

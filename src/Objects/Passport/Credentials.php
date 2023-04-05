@@ -12,6 +12,9 @@ use Telegram\Bot\Objects\AbstractResponseObject;
  */
 class Credentials extends AbstractResponseObject
 {
+    /**
+     * @return array{secure_data: class-string<\Telegram\Bot\Objects\Passport\SecureData>}
+     */
     public function relations(): array
     {
         return [

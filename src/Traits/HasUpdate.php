@@ -15,8 +15,6 @@ trait HasUpdate
 
     /**
      * Determine if Telegram Update is available.
-     *
-     * @return bool
      */
     public function hasUpdate(): bool
     {
@@ -27,8 +25,6 @@ trait HasUpdate
      * Get the Telegram Update.
      *
      * @throws TelegramSDKException
-     *
-     * @return Update
      */
     public function getUpdate(): Update
     {

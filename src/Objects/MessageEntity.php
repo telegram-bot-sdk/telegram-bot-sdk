@@ -20,6 +20,9 @@ use Telegram\Bot\EntityType;
  */
 class MessageEntity extends AbstractResponseObject
 {
+    /**
+     * @return array{user: class-string<\Telegram\Bot\Objects\User>}
+     */
     public function relations(): array
     {
         return [

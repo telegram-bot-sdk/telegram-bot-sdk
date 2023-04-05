@@ -80,8 +80,6 @@ trait Payments
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function answerShippingQuery(array $params): bool
     {
@@ -104,8 +102,6 @@ trait Payments
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function answerPreCheckoutQuery(array $params): bool
     {

@@ -35,8 +35,6 @@ class CommandBus
 
     /**
      * Returns the list of commands.
-     *
-     * @return array
      */
     public function getCommands(): array
     {
@@ -50,7 +48,7 @@ class CommandBus
      *
      * @return $this
      */
-    public function addCommands(array $commands): self
+    public function addCommands(string|array $commands): self
     {
         $this->commands = $commands;
 
@@ -65,7 +63,7 @@ class CommandBus
      *
      * @return $this
      */
-    public function addCommand(string $command, $commandClass): self
+    public function addCommand(string $command, string|CommandInterface $commandClass): self
     {
         $this->commands[$command] = $commandClass;
 
@@ -89,7 +87,6 @@ class CommandBus
     /**
      * Removes a list of commands.
      *
-     * @param array $names
      *
      * @return $this
      */
@@ -105,11 +102,7 @@ class CommandBus
     /**
      * Parse a Command for a Match.
      *
-     * @param string $text
-     * @param int    $offset
-     * @param int    $length
      *
-     * @return string
      */
     public function parseCommand(string $text, int $offset, int $length): string
     {
@@ -123,9 +116,7 @@ class CommandBus
     /**
      * Handles Inbound Messages and Executes Appropriate Command.
      *
-     * @param Update $update
      *
-     * @return Update
      */
     public function handler(Update $update): Update
     {
@@ -140,8 +131,6 @@ class CommandBus
     /**
      * Execute a bot command from the update text.
      *
-     * @param Update        $update
-     * @param MessageEntity $entity
      *
      * @throws TelegramSDKException
      */
@@ -159,15 +148,11 @@ class CommandBus
     /**
      * Execute the command.
      *
-     * @param CommandInterface|string $commandName
-     * @param Update                  $update
-     * @param MessageEntity|array     $entity
-     * @param bool                    $isTriggered
      *
      * @throws TelegramCommandException
      * @throws TelegramSDKException
      */
-    public function execute($commandName, Update $update, $entity, bool $isTriggered = false): void
+    public function execute(CommandInterface|string $commandName, Update $update, MessageEntity|array $entity, bool $isTriggered = false): void
     {
         $command = $this->resolveCommand($commandName);
 
@@ -210,8 +195,6 @@ class CommandBus
      * @param CommandInterface|string|object $command
      *
      * @throws TelegramCommandException
-     *
-     * @return CommandInterface
      */
     public function resolveCommand($command): CommandInterface
     {
@@ -237,11 +220,9 @@ class CommandBus
     /**
      * Validate Command Class Instance.
      *
-     * @param object $command
      *
      * @throws TelegramCommandException
      *
-     * @return CommandInterface
      */
     protected function validateCommandClassInstance(object $command): CommandInterface
     {

@@ -20,6 +20,9 @@ namespace Telegram\Bot\Objects;
  */
 class Sticker extends AbstractResponseObject
 {
+    /**
+     * @return array{thumb: class-string<\Telegram\Bot\Objects\PhotoSize>, mask_position: class-string<\Telegram\Bot\Objects\MaskPosition>}
+     */
     public function relations(): array
     {
         return [

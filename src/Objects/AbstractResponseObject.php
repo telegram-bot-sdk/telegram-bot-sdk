@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Objects;
 
+use BadMethodCallException;
 use ArrayAccess;
 use Countable;
 use Illuminate\Support\Collection;
@@ -20,7 +21,7 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
         $data = $this->getRawResult($fields);
 
         if (is_array($data)) {
-            $data = json_decode(json_encode($fields));
+            $data = json_decode(json_encode($fields, JSON_THROW_ON_ERROR), null, 512, JSON_THROW_ON_ERROR);
         }
 
         parent::__construct($data);
@@ -28,8 +29,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
 
     /**
      * Make a collection of fields.
-     *
-     * @return Collection
      */
     public function collect(): Collection
     {
@@ -38,8 +37,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
 
     /**
      * Field relations.
-     *
-     * @return array
      */
     public function relations(): array
     {
@@ -81,11 +78,9 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Determine if a field exists.
      *
-     * @param mixed $key
      *
-     * @return bool
      */
-    public function has($key): bool
+    public function has(mixed $key): bool
     {
         return $this->offsetExists($key);
     }
@@ -93,12 +88,10 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Get field from the object by key.
      *
-     * @param mixed $key
-     * @param mixed $default
      *
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get(mixed $key, mixed $default = null)
     {
         if ($this->offsetExists($key)) {
             return $this->offsetGet($key);
@@ -110,12 +103,10 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Put a field in the object by key.
      *
-     * @param mixed $key
-     * @param mixed $value
      *
      * @return static
      */
-    public function put($key, $value): self
+    public function put(mixed $key, mixed $value): self
     {
         $this->offsetSet($key, $value);
 
@@ -140,8 +131,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
 
     /**
      * Count the number of fields in the object.
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -150,8 +139,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
 
     /**
      * Detect type based on fields.
-     *
-     * @return string|null
      */
     public function objectType(): ?string
     {
@@ -161,9 +148,7 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Determine if the object is of given type.
      *
-     * @param string $type
      *
-     * @return bool
      */
     public function isType(string $type): bool
     {
@@ -177,9 +162,7 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Determine the type by given types.
      *
-     * @param array $types
      *
-     * @return string|null
      */
     protected function findType(array $types): ?string
     {
@@ -192,11 +175,9 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Determine if a field exists at an offset.
      *
-     * @param mixed $key
      *
-     * @return bool
      */
-    public function offsetExists($key): bool
+    public function offsetExists(mixed $key): bool
     {
         return isset($this->fields->{$key});
     }
@@ -204,22 +185,17 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
     /**
      * Get a field at a given offset.
      *
-     * @param mixed $key
      *
-     * @return mixed
      */
-    public function offsetGet($key)
+    public function offsetGet(mixed $key): mixed
     {
         return data_get($this->fields, $key);
     }
 
     /**
      * Set the field at a given offset.
-     *
-     * @param mixed $key
-     * @param mixed $value
      */
-    public function offsetSet($key, $value): void
+    public function offsetSet(mixed $key, mixed $value): void
     {
         data_set($this->fields, $key, $value);
     }
@@ -325,6 +301,6 @@ abstract class AbstractResponseObject extends AbstractObject implements ArrayAcc
             return $collect->{$method}(...$arguments);
         }
 
-        throw new \BadMethodCallException("Method [$method] does not exist.");
+        throw new BadMethodCallException("Method [$method] does not exist.");
     }
 }

@@ -36,8 +36,7 @@ class TelegramRequest
      * @param string|null $token
      * @param string|null $method
      * @param string|null $endpoint
-     * @param array|null  $params
-     * @param bool        $isAsyncRequest
+     * @param mixed[] $params
      */
     public function __construct(
         string $token = null,
@@ -55,8 +54,6 @@ class TelegramRequest
 
     /**
      * Return the HTTP method for this request.
-     *
-     * @return string
      */
     public function getMethod(): string
     {
@@ -67,8 +64,6 @@ class TelegramRequest
      * Set the HTTP method for this request.
      *
      * @param string
-     *
-     * @return TelegramRequest
      */
     public function setMethod(string $method): self
     {
@@ -79,8 +74,6 @@ class TelegramRequest
 
     /**
      * Return the API Endpoint for this request.
-     *
-     * @return string
      */
     public function getEndpoint(): string
     {
@@ -90,9 +83,7 @@ class TelegramRequest
     /**
      * Set the endpoint for this request.
      *
-     * @param string $endpoint
      *
-     * @return TelegramRequest
      */
     public function setEndpoint(string $endpoint): self
     {
@@ -103,8 +94,6 @@ class TelegramRequest
 
     /**
      * Return the params for this request.
-     *
-     * @return array
      */
     public function getParams(): array
     {
@@ -114,9 +103,7 @@ class TelegramRequest
     /**
      * Set the params for this request.
      *
-     * @param array $params
      *
-     * @return TelegramRequest
      */
     public function setParams(array $params): self
     {
@@ -131,8 +118,6 @@ class TelegramRequest
 
     /**
      * Check if this is an asynchronous request (non-blocking).
-     *
-     * @return bool
      */
     public function isAsyncRequest(): bool
     {
@@ -143,10 +128,8 @@ class TelegramRequest
      * Make this request asynchronous (non-blocking).
      *
      * @param $isAsyncRequest
-     *
-     * @return TelegramRequest
      */
-    public function setAsyncRequest($isAsyncRequest): self
+    public function setAsyncRequest(bool $isAsyncRequest): self
     {
         $this->isAsyncRequest = $isAsyncRequest;
 
@@ -155,8 +138,6 @@ class TelegramRequest
 
     /**
      * Return the headers for this request.
-     *
-     * @return array
      */
     public function getHeaders(): array
     {
@@ -166,9 +147,7 @@ class TelegramRequest
     /**
      * Set the headers for this request.
      *
-     * @param array $headers
      *
-     * @return TelegramRequest
      */
     public function setHeaders(array $headers): self
     {
@@ -179,8 +158,6 @@ class TelegramRequest
 
     /**
      * The default headers used with every request.
-     *
-     * @return array
      */
     public function getDefaultHeaders(): array
     {
@@ -193,11 +170,11 @@ class TelegramRequest
     {
         $params = collect($params);
 
-        $multipart = $params->filter(fn ($param) => $param instanceof AbstractArrayObject)
+        $multipart = $params->filter(fn ($param): bool => $param instanceof AbstractArrayObject)
             ->flatMap(fn ($param) => $param->toMultipart())
             ->all();
 
-        return $params->map(fn ($contents, $name) => $this->generateMultipartData($contents, $name))
+        return $params->map(fn ($contents, $name): array => $this->generateMultipartData($contents, $name))
             ->concat($multipart)
             ->values()
             ->all();
@@ -206,12 +183,9 @@ class TelegramRequest
     /**
      * Generates the multipart data required when sending files to telegram.
      *
-     * @param mixed  $contents
-     * @param string $name
      *
-     * @return array
      */
-    protected function generateMultipartData($contents, string $name): array
+    protected function generateMultipartData(mixed $contents, string $name): array
     {
         if (Validator::isInputFile($contents)) {
             return [
@@ -226,6 +200,6 @@ class TelegramRequest
             $contents = $contents->toJson();
         }
 
-        return compact('name', 'contents');
+        return ['name' => $name, 'contents' => $contents];
     }
 }

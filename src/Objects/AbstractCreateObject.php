@@ -14,8 +14,6 @@ abstract class AbstractCreateObject extends AbstractObject
 {
     /**
      * Create a new object.
-     *
-     * @param array $fields
      */
     public function __construct(array $fields = [])
     {

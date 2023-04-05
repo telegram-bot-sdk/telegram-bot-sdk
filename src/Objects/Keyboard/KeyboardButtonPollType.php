@@ -9,7 +9,7 @@ class KeyboardButtonPollType
      *
      * @link https://core.telegram.org/bots/api#keyboardbuttonpolltype
      *
-     * @return array
+     * @return array{type: string}
      */
     public static function quiz(): array
     {
@@ -21,7 +21,7 @@ class KeyboardButtonPollType
      *
      * @link https://core.telegram.org/bots/api#keyboardbuttonpolltype
      *
-     * @return array
+     * @return array{type: string}
      */
     public static function regular(): array
     {
@@ -33,7 +33,7 @@ class KeyboardButtonPollType
      *
      * @link https://core.telegram.org/bots/api#keyboardbuttonpolltype
      *
-     * @return array
+     * @return array{type: string}
      */
     public static function any(): array
     {

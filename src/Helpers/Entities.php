@@ -7,8 +7,6 @@ namespace Telegram\Bot\Helpers;
  */
 class Entities
 {
-    /** @var string Message or Caption */
-    protected string $text;
     /** @var array Entities from Telegram */
     protected array $entities;
     /** @var int Formatting Mode: 0:Markdown | 1:HTML */
@@ -16,17 +14,12 @@ class Entities
 
     /**
      * Entities constructor.
-     *
-     * @param string $text
      */
-    public function __construct(string $text)
+    public function __construct(protected string $text)
     {
-        $this->text = $text;
     }
 
     /**
-     * @param string $text
-     *
      * @return static
      */
     public static function format(string $text): self
@@ -35,8 +28,6 @@ class Entities
     }
 
     /**
-     * @param array $entities
-     *
      * @return $this
      */
     public function withEntities(array $entities): self
@@ -48,8 +39,6 @@ class Entities
 
     /**
      * Format it to markdown style.
-     *
-     * @return string
      */
     public function toMarkdown(): string
     {
@@ -60,8 +49,6 @@ class Entities
 
     /**
      * Format it to HTML syntax.
-     *
-     * @return string
      */
     public function toHTML(): string
     {
@@ -75,7 +62,7 @@ class Entities
      *
      * @return mixed|string
      */
-    protected function apply()
+    protected function apply(): string
     {
         $syntax = $this->syntax();
 
@@ -102,7 +89,7 @@ class Entities
     /**
      * Formatting Syntax.
      *
-     * @return array
+     * @return array{bold: string[], italic: string[], code: string[], pre: string[], text_mention: string[], text_link: string[]}
      */
     protected function syntax(): array
     {

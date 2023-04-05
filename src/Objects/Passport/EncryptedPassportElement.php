@@ -20,6 +20,9 @@ use Telegram\Bot\Objects\AbstractResponseObject;
  */
 class EncryptedPassportElement extends AbstractResponseObject
 {
+    /**
+     * @return array{files: class-string<\Telegram\Bot\Objects\Passport\PassportFile>, front_side: class-string<\Telegram\Bot\Objects\Passport\PassportFile>, reverse_side: class-string<\Telegram\Bot\Objects\Passport\PassportFile>, selfie: class-string<\Telegram\Bot\Objects\Passport\PassportFile>, translation: class-string<\Telegram\Bot\Objects\Passport\PassportFile>}
+     */
     public function relations(): array
     {
         return [

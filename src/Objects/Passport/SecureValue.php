@@ -16,6 +16,9 @@ use Telegram\Bot\Objects\AbstractResponseObject;
  */
 class SecureValue extends AbstractResponseObject
 {
+    /**
+     * @return array{data: class-string<\Telegram\Bot\Objects\Passport\DataCredentials>, front_side: class-string<\Telegram\Bot\Objects\Passport\FileCredentials>, reverse_side: class-string<\Telegram\Bot\Objects\Passport\FileCredentials>, selfie: class-string<\Telegram\Bot\Objects\Passport\FileCredentials>, translation: class-string<\Telegram\Bot\Objects\Passport\FileCredentials>, files: class-string<\Telegram\Bot\Objects\Passport\FileCredentials>}
+     */
     public function relations(): array
     {
         return [

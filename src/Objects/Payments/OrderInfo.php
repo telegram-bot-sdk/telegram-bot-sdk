@@ -14,6 +14,9 @@ use Telegram\Bot\Objects\AbstractResponseObject;
  */
 class OrderInfo extends AbstractResponseObject
 {
+    /**
+     * @return array{shipping_address: class-string<\Telegram\Bot\Objects\Payments\ShippingAddress>}
+     */
     public function relations(): array
     {
         return [

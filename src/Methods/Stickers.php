@@ -35,8 +35,6 @@ trait Stickers
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendSticker(array $params): MessageObject
     {
@@ -59,8 +57,6 @@ trait Stickers
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return StickerSet
      */
     public function getStickerSet(array $params): StickerSet
     {
@@ -85,8 +81,6 @@ trait Stickers
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return File
      */
     public function uploadStickerFile(array $params): File
     {
@@ -116,8 +110,6 @@ trait Stickers
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function createNewStickerSet(array $params): bool
     {
@@ -143,8 +135,6 @@ trait Stickers
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function addStickerToSet(array $params): bool
     {
@@ -166,8 +156,6 @@ trait Stickers
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function setStickerPositionInSet(array $params): bool
     {
@@ -188,8 +176,6 @@ trait Stickers
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function deleteStickerFromSet(array $params): bool
     {
@@ -212,8 +198,6 @@ trait Stickers
      * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function setStickerSetThumb(array $params): bool
     {

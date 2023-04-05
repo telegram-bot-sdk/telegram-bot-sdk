@@ -19,6 +19,9 @@ use Telegram\Bot\Objects\User;
  */
 class ChosenInlineResult extends AbstractResponseObject
 {
+    /**
+     * @return array{from: class-string<\Telegram\Bot\Objects\User>, location: class-string<\Telegram\Bot\Objects\Location>}
+     */
     public function relations(): array
     {
         return [

@@ -32,8 +32,6 @@ abstract class Command implements CommandInterface
 
     /**
      * Get the name used for this command
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -43,7 +41,6 @@ abstract class Command implements CommandInterface
     /**
      * Set the name used for this command
      *
-     * @param string $name
      *
      * @return static
      */
@@ -58,8 +55,6 @@ abstract class Command implements CommandInterface
      * Get Command Description.
      *
      * The Telegram command description.
-     *
-     * @return string
      */
     public function getDescription(): string
     {
@@ -83,9 +78,7 @@ abstract class Command implements CommandInterface
     /**
      * Determine if given argument is provided.
      *
-     * @param string $argument
      *
-     * @return bool
      */
     public function hasArgument(string $argument): bool
     {
@@ -96,8 +89,6 @@ abstract class Command implements CommandInterface
      * Get Arguments Description.
      *
      * Get Command Arguments.
-     *
-     * @return array
      */
     public function getArguments(): array
     {
@@ -107,7 +98,6 @@ abstract class Command implements CommandInterface
     /**
      * Set Command Arguments.
      *
-     * @param array $arguments
      *
      * @return static
      */
@@ -120,8 +110,6 @@ abstract class Command implements CommandInterface
 
     /**
      * Get arguments that have not been provided.
-     *
-     * @return array
      */
     public function getArgumentsNotProvided(): array
     {
@@ -131,7 +119,6 @@ abstract class Command implements CommandInterface
     /**
      * Set arguments that have not been provided.
      *
-     * @param array $arguments
      *
      * @return static
      */
@@ -157,10 +144,7 @@ abstract class Command implements CommandInterface
     /**
      * Triggered on failure to find params in command.
      *
-     * @param array     $arguments
-     * @param Throwable $exception
      *
-     * @return void
      */
     public function failed(array $arguments, Throwable $exception): void
     {
@@ -170,7 +154,6 @@ abstract class Command implements CommandInterface
      * Helper to Trigger other Commands.
      *
      * @param CommandInterface|string $command
-     * @param array                   $params
      *
      * @throws TelegramCommandException
      * @throws TelegramSDKException

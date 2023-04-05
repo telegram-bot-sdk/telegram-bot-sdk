@@ -14,7 +14,6 @@ class TelegramCommandException extends TelegramSDKException
     /**
      * Thrown when command method doesn't exist.
      *
-     * @param Throwable $e
      *
      * @return static
      */
@@ -26,7 +25,6 @@ class TelegramCommandException extends TelegramSDKException
     /**
      * Thrown when command class doesn't exist.
      *
-     * @param string $commandClass
      *
      * @return static
      */
@@ -38,7 +36,6 @@ class TelegramCommandException extends TelegramSDKException
     /**
      * Thrown when command class is not a valid instance of CommandInterface.
      *
-     * @param object $commandClass
      *
      * @return static
      */
@@ -47,7 +44,7 @@ class TelegramCommandException extends TelegramSDKException
         return new static(
             sprintf(
                 'Command class [%s] should be an instance of [%s]',
-                get_class($commandClass),
+                $commandClass::class,
                 CommandInterface::class
             )
         );
@@ -56,9 +53,6 @@ class TelegramCommandException extends TelegramSDKException
     /**
      * Thrown when command class is not instantiable.
      *
-     * @param string    $commandClass
-     * @param Throwable $e
-     * @param int       $code
      *
      * @return static
      */
@@ -70,7 +64,6 @@ class TelegramCommandException extends TelegramSDKException
     /**
      * Thrown when command's required params are not provided.
      *
-     * @param Collection $requiredParamsNotProvided
      *
      * @return static
      */

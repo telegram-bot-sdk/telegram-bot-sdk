@@ -21,6 +21,9 @@ use Telegram\Bot\Objects\AbstractResponseObject;
  */
 class SecureData extends AbstractResponseObject
 {
+    /**
+     * @return array{personal_details: class-string<\Telegram\Bot\Objects\Passport\SecureValue>, passport: class-string<\Telegram\Bot\Objects\Passport\SecureValue>, internal_passport: class-string<\Telegram\Bot\Objects\Passport\SecureValue>, driver_license: class-string<\Telegram\Bot\Objects\Passport\SecureValue>, identity_card: class-string<\Telegram\Bot\Objects\Passport\SecureValue>, address: class-string<\Telegram\Bot\Objects\Passport\SecureValue>, utility_bill: class-string<\Telegram\Bot\Objects\Passport\SecureValue>, bank_statement: class-string<\Telegram\Bot\Objects\Passport\SecureValue>, rental_agreement: class-string<\Telegram\Bot\Objects\Passport\SecureValue>, passport_registration: class-string<\Telegram\Bot\Objects\Passport\SecureValue>, temporary_registration: class-string<\Telegram\Bot\Objects\Passport\SecureValue>}
+     */
     public function relations(): array
     {
         return [

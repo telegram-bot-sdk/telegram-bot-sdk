@@ -17,6 +17,9 @@ namespace Telegram\Bot\Objects;
  */
 class Venue extends AbstractResponseObject
 {
+    /**
+     * @return array{location: class-string<\Telegram\Bot\Objects\Location>}
+     */
     public function relations(): array
     {
         return [

@@ -18,8 +18,6 @@ trait InteractsWithEvents
 
     /**
      * Determine if Events Dispatcher is set.
-     *
-     * @return bool
      */
     public function hasDispatcher(): bool
     {
@@ -28,8 +26,6 @@ trait InteractsWithEvents
 
     /**
      * Get the Events Dispatcher.
-     *
-     * @return DispatcherContract
      */
     public function getDispatcher(): DispatcherContract
     {

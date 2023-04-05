@@ -41,6 +41,7 @@ class Update extends AbstractResponseObject
 
     /**
      * @inheritdoc
+     * @return array{message: class-string<\Telegram\Bot\Objects\Updates\Message>, edited_message: class-string<\Telegram\Bot\Objects\Updates\Message>, channel_post: class-string<\Telegram\Bot\Objects\Updates\Message>, edited_channel_post: class-string<\Telegram\Bot\Objects\Updates\Message>, inline_query: class-string<\Telegram\Bot\Objects\Updates\InlineQuery>, chosen_inline_result: class-string<\Telegram\Bot\Objects\Updates\ChosenInlineResult>, callback_query: class-string<\Telegram\Bot\Objects\Updates\CallbackQuery>, shipping_query: class-string<\Telegram\Bot\Objects\Updates\ShippingQuery>, pre_checkout_query: class-string<\Telegram\Bot\Objects\Updates\PreCheckoutQuery>, poll: class-string<\Telegram\Bot\Objects\Updates\Poll>, poll_answer: class-string<\Telegram\Bot\Objects\Updates\PollAnswer>, my_chat_member: class-string<\Telegram\Bot\Objects\Updates\ChatMemberUpdated>, chat_member: class-string<\Telegram\Bot\Objects\Updates\ChatMemberUpdated>, chat_join_request: class-string<\Telegram\Bot\Objects\Updates\ChatJoinRequest>}
      */
     public function relations(): array
     {
@@ -64,8 +65,6 @@ class Update extends AbstractResponseObject
 
     /**
      * Update type.
-     *
-     * @return string|null
      */
     public function objectType(): ?string
     {
@@ -77,10 +76,8 @@ class Update extends AbstractResponseObject
 
     /**
      * Get the message contained in the Update.
-     *
-     * @return Message|InlineQuery|ChosenInlineResult|CallbackQuery|ShippingQuery|PreCheckoutQuery|Poll|PollAnswer
      */
-    public function getMessage()
+    public function getMessage(): Message|InlineQuery|ChosenInlineResult|CallbackQuery|ShippingQuery|PreCheckoutQuery|Poll|PollAnswer
     {
         return $this->{$this->objectType()};
     }

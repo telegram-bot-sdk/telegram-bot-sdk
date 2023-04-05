@@ -18,7 +18,7 @@ class ReplyKeyboardRemove
      *
      * @param bool $selective
      *
-     * @return array
+     * @return array{remove_keyboard: true, selective: bool}
      */
     public static function selective(bool $selective = false): array
     {
