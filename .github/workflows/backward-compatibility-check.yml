@@ -5,19 +5,19 @@ jobs:
   bc-check:
     name: Backward compatibility check
     runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-        - name: fetch tags
-          run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+      - name: fetch tags
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
-        - name: "Install PHP"
-          uses: shivammathur/setup-php@v2
-          with:
-            php-version: "8.1"
+      - name: "Install PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
 
-        - name: Install roave/backward-compatibility-check.
-          run: composer require --dev roave/backward-compatibility-check
+      - name: Install roave/backward-compatibility-check.
+        run: composer require --dev roave/backward-compatibility-check
 
-        - name: Run backward-compatibility-check.
-          run: vendor/bin/roave-backward-compatibility-check
+      - name: Run backward-compatibility-check.
+        run: vendor/bin/roave-backward-compatibility-check
