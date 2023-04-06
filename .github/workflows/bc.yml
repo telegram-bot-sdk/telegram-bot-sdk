@@ -1,9 +1,11 @@
 name: Backward compatibility check
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '**.php'
+      - 'composer.json'
       - 'bc.yml'
 
 jobs:
