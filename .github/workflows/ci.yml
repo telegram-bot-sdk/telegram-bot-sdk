@@ -16,5 +16,5 @@ on:
       - 'phpunit.xml.dist'
 
 jobs:
-  bc:
+  ci:
     uses: telegram-bot-sdk/.github/.github/workflows/ci.yml@main
