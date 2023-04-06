@@ -67,7 +67,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "4.x-dev"
+      "dev-main": "4.x-dev"
     }
   },
   "scripts": {
