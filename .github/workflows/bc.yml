@@ -1,0 +1,7 @@
+name: Backward compatibility check
+
+on: [push]
+
+jobs:
+  bc:
+    uses: telegram-bot-sdk/.github/.github/workflows/bc.yml@main
