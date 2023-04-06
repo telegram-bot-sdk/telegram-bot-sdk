@@ -1,6 +1,10 @@
 name: Backward compatibility check
 
-on: [push]
+on:
+  push:
+    paths:
+      - '**.php'
+      - 'bc.yml'
 
 jobs:
   bc:
