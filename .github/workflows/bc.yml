@@ -1,4 +1,4 @@
-name: Backward compatibility check
+name: BC
 
 on:
   workflow_dispatch:
