@@ -12,6 +12,7 @@ namespace Telegram\Bot\Objects;
  * @property int          $width           Sticker width.
  * @property int          $height          Sticker height.
  * @property bool         $is_animated     True, if the sticker is animated.
+ * @property bool         $is_video        True, if the sticker is a video sticker
  * @property PhotoSize    $thumb           (Optional). Sticker thumbnail in .webp or .jpg format.
  * @property string       $emoji           (Optional). Emoji associated with the sticker
  * @property string       $set_name        (Optional). Name of the sticker set to which the sticker belongs

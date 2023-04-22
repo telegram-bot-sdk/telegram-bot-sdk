@@ -10,6 +10,7 @@ namespace Telegram\Bot\Objects;
  * @property string    $name            Sticker set name
  * @property string    $title           Sticker set title
  * @property bool      $is_animated     True, if the sticker set contains animated stickers
+ * @property bool      $is_video        True, if the sticker is a video sticker
  * @property bool      $contains_masks  True, if the sticker set contains masks
  * @property Sticker[] $stickers        List of all set stickers
  * @property PhotoSize $thumb           (Optional). Sticker set thumbnail in the .WEBP or .TGS format
