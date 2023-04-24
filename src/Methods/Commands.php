@@ -2,8 +2,7 @@
 
 namespace Telegram\Bot\Methods;
 
-use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Objects\BotCommand;
+use stdClass;
 use Telegram\Bot\Traits\Http;
 
 /**
@@ -25,8 +24,6 @@ trait Commands
      * </code>
      *
      * @link https://core.telegram.org/bots/api#setmycommands
-     *
-     * @throws TelegramSDKException
      */
     public function setMyCommands(array $params): bool
     {
@@ -44,8 +41,6 @@ trait Commands
      * </code>
      *
      * @link https://core.telegram.org/bots/api#deletemycommands
-     *
-     * @param  mixed[]  $params
      */
     public function deleteMyCommands(array $params = []): bool
     {
@@ -64,14 +59,10 @@ trait Commands
      *
      * @link https://core.telegram.org/bots/api#getmycommands
      *
-     * @return BotCommand[]
-     *
-     * @throws TelegramSDKException
+     * @return stdClass[]
      */
     public function getMyCommands(array $params = []): array
     {
-        return collect($this->get('getMyCommands', $params)->getResult())
-            ->mapInto(BotCommand::class)
-            ->all();
+        return $this->get('getMyCommands', $params)->getResult();
     }
 }
