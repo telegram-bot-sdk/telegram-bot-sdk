@@ -532,7 +532,6 @@ trait Chat
      * </code>
      *
      * @link https://core.telegram.org/bots/api#getchatmember
-     *
      */
     public function getChatMember(array $params)
     {
