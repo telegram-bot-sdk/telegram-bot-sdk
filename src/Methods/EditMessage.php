@@ -2,9 +2,7 @@
 
 namespace Telegram\Bot\Methods;
 
-use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Objects\Updates\Message;
-use Telegram\Bot\Objects\Updates\Poll;
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
 /**
@@ -31,14 +29,10 @@ trait EditMessage
      * </code>
      *
      * @link https://core.telegram.org/bots/api#editmessagetext
-     *
-     * @throws TelegramSDKException
      */
-    public function editMessageText(array $params): Message|bool
+    public function editMessageText(array $params): ResponseObject|bool
     {
-        $response = $this->post('editMessageText', $params);
-
-        return new Message($response->getDecodedBody());
+        return $this->post('editMessageText', $params)->getResult();
     }
 
     /**
@@ -56,14 +50,10 @@ trait EditMessage
      * </code>
      *
      * @link https://core.telegram.org/bots/api#editmessagecaption
-     *
-     * @throws TelegramSDKException
      */
-    public function editMessageCaption(array $params): Message|bool
+    public function editMessageCaption(array $params): ResponseObject|bool
     {
-        $response = $this->post('editMessageCaption', $params);
-
-        return new Message($response->getDecodedBody());
+        return $this->post('editMessageCaption', $params)->getResult();
     }
 
     /**
@@ -80,14 +70,10 @@ trait EditMessage
      * </code>
      *
      * @link https://core.telegram.org/bots/api#editmessagemedia
-     *
-     * @throws TelegramSDKException
      */
-    public function editMessageMedia(array $params): Message|bool
+    public function editMessageMedia(array $params): ResponseObject|bool
     {
-        $response = $this->post('editMessageMedia', $params);
-
-        return new Message($response->getDecodedBody());
+        return $this->post('editMessageMedia', $params)->getResult();
     }
 
     /**
@@ -103,14 +89,10 @@ trait EditMessage
      * </code>
      *
      * @link https://core.telegram.org/bots/api#editmessagereplymarkup
-     *
-     * @throws TelegramSDKException
      */
-    public function editMessageReplyMarkup(array $params): Message|bool
+    public function editMessageReplyMarkup(array $params): ResponseObject|bool
     {
-        $response = $this->post('editMessageReplyMarkup', $params);
-
-        return new Message($response->getDecodedBody());
+        return $this->post('editMessageReplyMarkup', $params)->getResult();
     }
 
     /**
@@ -127,14 +109,10 @@ trait EditMessage
      * </code>
      *
      * @link https://core.telegram.org/bots/api#stoppoll
-     *
-     * @throws TelegramSDKException
      */
-    public function stopPoll(array $params): Poll
+    public function stopPoll(array $params): ResponseObject
     {
-        $response = $this->post('stopPoll', $params);
-
-        return new Poll($response->getDecodedBody());
+        return $this->post('stopPoll', $params)->getResult();
     }
 
     /**
@@ -155,8 +133,6 @@ trait EditMessage
      * </code>
      *
      * @link https://core.telegram.org/bots/api#deletemessage
-     *
-     * @throws TelegramSDKException
      */
     public function deleteMessage(array $params): bool
     {

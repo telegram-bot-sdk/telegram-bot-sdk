@@ -4,6 +4,7 @@ namespace Telegram\Bot\Methods;
 
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\InputMedia\ArrayOfInputMedia;
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Objects\Updates\Message as MessageObject;
 use Telegram\Bot\Traits\Http;
 
@@ -33,14 +34,10 @@ trait Message
      * </code>
      *
      * @link https://core.telegram.org/bots/api#sendmessage
-     *
-     * @throws TelegramSDKException
      */
-    public function sendMessage(array $params): MessageObject
+    public function sendMessage(array $params): ResponseObject
     {
-        $response = $this->post('sendMessage', $params);
-
-        return new MessageObject($response->getDecodedBody());
+        return $this->post('sendMessage', $params)->getResult();
     }
 
     /**

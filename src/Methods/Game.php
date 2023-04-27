@@ -2,9 +2,7 @@
 
 namespace Telegram\Bot\Methods;
 
-use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Objects\GameHighScore;
-use Telegram\Bot\Objects\Updates\Message;
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
 /**
@@ -30,14 +28,10 @@ trait Game
      * </code>
      *
      * @link https://core.telegram.org/bots/api#sendgame
-     *
-     * @throws TelegramSDKException
      */
-    public function sendGame(array $params): Message
+    public function sendGame(array $params): ResponseObject
     {
-        $response = $this->post('sendGame', $params);
-
-        return new Message($response->getDecodedBody());
+        return $this->post('sendGame', $params)->getResult();
     }
 
     /**
@@ -56,14 +50,10 @@ trait Game
      * </code>
      *
      * @link https://core.telegram.org/bots/api#setgamescore
-     *
-     * @throws TelegramSDKException
      */
-    public function setGameScore(array $params): Message
+    public function setGameScore(array $params): ResponseObject
     {
-        $response = $this->post('setGameScore', $params);
-
-        return new Message($response->getDecodedBody());
+        return $this->post('setGameScore', $params)->getResult();
     }
 
     /**
@@ -80,14 +70,10 @@ trait Game
      *
      * @link https://core.telegram.org/bots/api#getgamehighscores
      *
-     * @return GameHighScore[]
-     *
-     * @throws TelegramSDKException
+     * @return ResponseObject[]
      */
     public function getGameHighScores(array $params): array
     {
-        return collect($this->get('getGameHighScores', $params)->getResult())
-            ->mapInto(GameHighScore::class)
-            ->all();
+        return $this->get('getGameHighScores', $params)->getResult();
     }
 }

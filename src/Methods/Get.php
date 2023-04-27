@@ -4,6 +4,7 @@ namespace Telegram\Bot\Methods;
 
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\File;
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Objects\User;
 use Telegram\Bot\Objects\UserProfilePhotos;
 use Telegram\Bot\Traits\Http;
@@ -20,14 +21,10 @@ trait Get
      * Returns basic information about the bot in form of a User object.
      *
      * @link https://core.telegram.org/bots/api#getme
-     *
-     * @throws TelegramSDKException
      */
-    public function getMe(): User
+    public function getMe(): ResponseObject
     {
-        $response = $this->get('getMe');
-
-        return new User($response->getDecodedBody());
+        return $this->get('getMe')->getResult();
     }
 
     /**
@@ -43,14 +40,10 @@ trait Get
      *       'limit'   => '',  // int - (Optional). Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
      * ]
      * </code>
-     *
-     * @throws TelegramSDKException
      */
-    public function getUserProfilePhotos(array $params): UserProfilePhotos
+    public function getUserProfilePhotos(array $params): ResponseObject
     {
-        $response = $this->get('getUserProfilePhotos', $params);
-
-        return new UserProfilePhotos($response->getDecodedBody());
+        return $this->get('getUserProfilePhotos', $params)->getResult();
     }
 
     /**
