@@ -15,18 +15,16 @@ trait EditMessage
     /**
      * Edit text messages sent by the bot or via the bot (for inline bots).
      *
-     * <code>
-     * $params = [
-     *       'chat_id'                   => '',  // int|string - (Optional). Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'message_id'                => '',  // int        - (Optional). Required if inline_message_id is not specified. Identifier of the sent message
-     *       'inline_message_id'         => '',  // string     - (Optional). Required if chat_id and message_id are not specified. Identifier of the inline message
-     *       'text'                      => '',  // string     - Required. New text of the message.
-     *       'parse_mode'                => '',  // string     - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
-     *       'entities'                  => '',  // array      - (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
-     *       'disable_web_page_preview'  => '',  // bool       - (Optional). Disables link previews for links in this message
-     *       'reply_markup'              => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
-     * ]
-     * </code>
+     * @param array{
+     * 	chat_id: int|string,
+     * 	message_id: int,
+     * 	inline_message_id: string,
+     * 	text: string,
+     * 	parse_mode: string,
+     * 	entities: array,
+     * 	disable_web_page_preview: bool,
+     * 	reply_markup: string,
+     * } $params
      *
      * @link https://core.telegram.org/bots/api#editmessagetext
      */
@@ -37,17 +35,15 @@ trait EditMessage
 
     /**
      * Edit captions of messages sent by the bot or via the bot (for inline bots).
-     * <code>
-     * $params = [
-     *       'chat_id'            => '',  // int|string - (Optional). Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'message_id'         => '',  // int        - (Optional). Required if inline_message_id is not specified. Identifier of the sent message
-     *       'inline_message_id'  => '',  // string     - (Optional). Required if chat_id and message_id are not specified. Identifier of the inline message
-     *       'caption'            => '',  // string     - (Optional). New caption of the message
-     *       'parse_mode'         => '',  // string     - (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
-     *       'caption_entities'   => '',  // array      - (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
-     *       'reply_markup'       => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
-     * ]
-     * </code>
+     * @param array{
+     * 	chat_id: int|string,
+     * 	message_id: int,
+     * 	inline_message_id: string,
+     * 	caption: string,
+     * 	parse_mode: string,
+     * 	caption_entities: array,
+     * 	reply_markup: string,
+     * } $params
      *
      * @link https://core.telegram.org/bots/api#editmessagecaption
      */
@@ -59,15 +55,13 @@ trait EditMessage
     /**
      * Edit audio, document, photo, or video messages sent by the bot or via the bot.
      *
-     * <code>
-     * $params = [
-     *       'chat_id'            => '',  // int|string - (Optional). Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'message_id'         => '',  // int        - (Optional). Required if inline_message_id is not specified. Identifier of the sent message
-     *       'inline_message_id'  => '',  // string     - (Optional). Required if chat_id and message_id are not specified. Identifier of the inline message
-     *       'media'              => '',  // InputMedia - Required. A JSON-serialized object for a new media content of the message
-     *       'reply_markup'       => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
-     * ]
-     * </code>
+     * @param array{
+     * 	chat_id: int|string,
+     * 	message_id: int,
+     * 	inline_message_id: string,
+     * 	media: InputMedia,
+     * 	reply_markup: string,
+     * } $params
      *
      * @link https://core.telegram.org/bots/api#editmessagemedia
      */
@@ -79,14 +73,12 @@ trait EditMessage
     /**
      * Edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
      *
-     * <code>
-     * $params = [
-     *       'chat_id'            => '',  // int|string - (Optional). Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'message_id'         => '',  // int        - (Optional). Required if inline_message_id is not specified. Identifier of the sent message
-     *       'inline_message_id'  => '',  // string     - (Optional). Required if chat_id and message_id are not specified. Identifier of the inline message
-     *       'reply_markup'       => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
-     * ]
-     * </code>
+     * @param array{
+     * 	chat_id: int|string,
+     * 	message_id: int,
+     * 	inline_message_id: string,
+     * 	reply_markup: string,
+     * } $params
      *
      * @link https://core.telegram.org/bots/api#editmessagereplymarkup
      */
@@ -100,13 +92,11 @@ trait EditMessage
      *
      * Stop a poll which was sent by the bot. On success, the stopped Poll with the final results is returned.
      *
-     * <code>
-     * $params = [
-     *       'chat_id'       => '',  // int|string - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'message_id'    => '',  // int        - Required. Identifier of the original message with the poll
-     *       'reply_markup'  => '',  // string     - (Optional). A JSON-serialized object for an inline keyboard.
-     * ]
-     * </code>
+     * @param array{
+     * 	chat_id: int|string,
+     * 	message_id: int,
+     * 	reply_markup: string,
+     * } $params
      *
      * @link https://core.telegram.org/bots/api#stoppoll
      */
@@ -125,12 +115,10 @@ trait EditMessage
      * - If the bot is an administrator of a group, it can delete any message there.
      * - If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.
      *
-     * <code>
-     * $params = [
-     *       'chat_id'     => '',  // int|string - Required. Unique identifier for the target chat or username of the target channel (in the format "@channelusername")
-     *       'message_id'  => '',  // int        - Required. Identifier of the message to delete.
-     * ]
-     * </code>
+     * @param array{
+     * 	chat_id: int|string,
+     * 	message_id: int,
+     * } $params
      *
      * @link https://core.telegram.org/bots/api#deletemessage
      */

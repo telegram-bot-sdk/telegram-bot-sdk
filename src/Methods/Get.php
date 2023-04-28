@@ -18,7 +18,8 @@ trait Get
 {
     /**
      * A simple method for testing your bot's auth token.
-     * Returns basic information about the bot in form of a User object.
+     *
+     * Returns basic information about the bot.
      *
      * @link https://core.telegram.org/bots/api#getme
      */
@@ -30,16 +31,13 @@ trait Get
     /**
      * Returns a list of profile pictures for a user.
      *
-     *
      * @link https://core.telegram.org/bots/api#getuserprofilephotos
      *
-     * <code>
-     * $params = [
-     *       'user_id' => '',  // int - Required. Unique identifier of the target user
-     *       'offset'  => '',  // int - (Optional). Sequential number of the first photo to be returned. By default, all photos are returned.
-     *       'limit'   => '',  // int - (Optional). Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
-     * ]
-     * </code>
+     * @param array{
+     * 	user_id: int,
+     * 	offset: int,
+     * 	limit: int,
+     * } $params
      */
     public function getUserProfilePhotos(array $params): ResponseObject
     {
@@ -49,25 +47,22 @@ trait Get
     /**
      * Returns basic info about a file and prepare it for downloading.
      *
-     *
-     * The file can then be downloaded via the link
+     * Bots can download files of up to 20MB in size. On success, a File object
+     * is returned. The file can then be downloaded via the link
      * https://api.telegram.org/file/bot<token>/<file_path>,
-     * where <file_path> is taken from the response.
+     * where < file_path > is taken from the response.
+     *
+     * It is guaranteed that the link will be valid for at least 1 hour.
+     * When the link expires, a new one can be requested by calling getFile again
      *
      * @link https://core.telegram.org/bots/api#getfile
      *
-     * <code>
-     * $params = [
-     *       'file_id' => '',  // string - Required. File identifier to get info about
-     * ]
-     * </code>
-     *
-     * @throws TelegramSDKException
+     * @param array{
+     * 	file_id: string,
+     * } $params
      */
-    public function getFile(array $params): File
+    public function getFile(array $params): ResponseObject
     {
-        $response = $this->get('getFile', $params);
-
-        return new File($response->getDecodedBody());
+        return $this->get('getFile', $params)->getResult();
     }
 }
