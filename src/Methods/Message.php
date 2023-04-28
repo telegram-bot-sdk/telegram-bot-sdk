@@ -37,7 +37,6 @@ trait Message
      *    allow_sending_without_reply: bool,
      *    reply_markup: InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply,
      * } $params
-     *
      * @return ResponseObject{
      *     message_id: int,
      *     message_thread_id : string,
@@ -323,7 +322,6 @@ trait Message
      *    reply_to_message_id: int,
      *    allow_sending_without_reply: bool,
      * } $params
-     *
      * @return ResponseObject[]
      */
     public function sendMediaGroup(array $params): array

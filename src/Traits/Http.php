@@ -69,29 +69,29 @@ trait Http
     public function downloadFile(string $file, string $filename): string
     {
         $originalFilename = null;
-//        if (! $file instanceof File) {
-//            if ($file instanceof AbstractResponseObject) {
-//                $originalFilename = $file->get('file_name');
-//
-//                // Try to get file_id from the object or default to the original param.
-//                $file = $file->get('file_id');
-//            }
-//
-//            if (! is_string($file)) {
-//                throw new InvalidArgumentException(
-//                    'Invalid $file param provided. Please provide one of file_id, File or Response object containing file_id'
-//                );
-//            }
-//
-//            $file = $this->getFile(['file_id' => $file]);
-//        }
-//
-//        // No filename provided.
-//        if (pathinfo($filename, PATHINFO_EXTENSION) === '') {
-//            // Attempt to use the original file name if there is one or fallback to the file_path filename.
-//            $filename .= DIRECTORY_SEPARATOR.($originalFilename ?: basename((string) $file->file_path));
-//        }
-//
-//        return $this->getClient()->download($file->file_path, $filename);
+        //        if (! $file instanceof File) {
+        //            if ($file instanceof AbstractResponseObject) {
+        //                $originalFilename = $file->get('file_name');
+        //
+        //                // Try to get file_id from the object or default to the original param.
+        //                $file = $file->get('file_id');
+        //            }
+        //
+        //            if (! is_string($file)) {
+        //                throw new InvalidArgumentException(
+        //                    'Invalid $file param provided. Please provide one of file_id, File or Response object containing file_id'
+        //                );
+        //            }
+        //
+        //            $file = $this->getFile(['file_id' => $file]);
+        //        }
+        //
+        //        // No filename provided.
+        //        if (pathinfo($filename, PATHINFO_EXTENSION) === '') {
+        //            // Attempt to use the original file name if there is one or fallback to the file_path filename.
+        //            $filename .= DIRECTORY_SEPARATOR.($originalFilename ?: basename((string) $file->file_path));
+        //        }
+        //
+        //        return $this->getClient()->download($file->file_path, $filename);
     }
 }

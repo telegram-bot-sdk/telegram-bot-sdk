@@ -35,6 +35,7 @@ trait EditMessage
 
     /**
      * Edit captions of messages sent by the bot or via the bot (for inline bots).
+     *
      * @param array{
      * 	chat_id: int|string,
      * 	message_id: int,

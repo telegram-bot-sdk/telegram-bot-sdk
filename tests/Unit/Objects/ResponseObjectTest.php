@@ -11,7 +11,7 @@ it('recursively converts stdClass to ResponseObjects', function () {
     $object->address->street = '123 Main St';
     $object->address->city = 'Anytown';
 
-// Create a new instance of MyStdClass with the object
+    // Create a new instance of MyStdClass with the object
     $response = new ResponseObject($object);
 
     expect($response)->toBeInstanceOf(ResponseObject::class);

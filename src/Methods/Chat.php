@@ -87,7 +87,6 @@ trait Chat
      *  use_independent_chat_permissions: bool,
      * 	until_date: int,
      * } $params
-     *
      */
     public function restrictChatMember(array $params): bool
     {
@@ -137,7 +136,6 @@ trait Chat
      * 	user_id: int,
      * 	custom_title: string,
      * } $params
-     *
      */
     public function setChatAdministratorCustomTitle(array $params): bool
     {
@@ -284,7 +282,6 @@ trait Chat
      * 	chat_id: string|int,
      * 	invite_link: string,
      * } $params
-     *
      */
     public function revokeChatInviteLink(array $params): stdClass
     {
@@ -386,7 +383,6 @@ trait Chat
      * 	chat_id: string|int,
      * 	description: string,
      * } $params
-     *
      */
     public function setChatDescription(array $params): bool
     {
@@ -405,7 +401,6 @@ trait Chat
      * 	message_id: int,
      * 	disable_notification: bool,
      * } $params
-     *
      */
     public function pinChatMessage(array $params): bool
     {
@@ -423,7 +418,6 @@ trait Chat
      * 	chat_id: string|int,
      * 	message_id: int,
      * } $params
-     *
      */
     public function unpinChatMessage(array $params): bool
     {
@@ -440,7 +434,6 @@ trait Chat
      * @param array{
      * 	chat_id: string|int,
      * } $params
-     *
      */
     public function unpinAllChatMessages(array $params): bool
     {
@@ -486,8 +479,6 @@ trait Chat
      * @param array{
      * 	chat_id: string|int,
      * } $params
-     *
-     *
      * @return ResponseObject[]
      */
     public function getChatAdministrators(array $params): array
@@ -537,7 +528,6 @@ trait Chat
      * 	chat_id: string|int,
      * 	sticker_set_name: string,
      * } $params
-     *
      */
     public function setChatStickerSet(array $params): bool
     {
