@@ -2,7 +2,6 @@
 
 namespace Telegram\Bot\Methods;
 
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
