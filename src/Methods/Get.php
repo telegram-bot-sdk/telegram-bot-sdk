@@ -122,7 +122,6 @@ trait Get
      * @param array{
      * 	language_code: string,
      * } $params
-     *
      * @return ResponseObject{
      *  description: string
      * }
@@ -159,7 +158,6 @@ trait Get
      * @param array{
      * 	language_code: string,
      * } $params
-     *
      * @return ResponseObject{
      *  short_description: string
      * }

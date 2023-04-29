@@ -59,7 +59,6 @@ trait Commands
      * 	scope: BotCommandScope,
      * 	language_code: String,
      * } $params
-     *
      * @return ResponseObject[]
      */
     public function getMyCommands(array $params = []): array

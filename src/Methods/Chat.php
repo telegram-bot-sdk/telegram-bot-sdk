@@ -478,7 +478,6 @@ trait Chat
      * @param array{
      * 	chat_id: string|int,
      * } $params
-     *
      * @return ResponseObject[]
      */
     public function getChatAdministrators(array $params): array
@@ -582,6 +581,4 @@ trait Chat
     {
         return $this->post('getChatMenuButton', $params)->getResult();
     }
-
-
 }

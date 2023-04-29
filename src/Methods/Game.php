@@ -52,7 +52,6 @@ trait Game
      * 	message_id: int,
      * 	inline_message_id: string,
      * } $params
-     *
      */
     public function setGameScore(array $params): ResponseObject|bool
     {
@@ -72,7 +71,6 @@ trait Game
      * 	message_id: int,
      * 	inline_message_id: string,
      * } $params
-     *
      * @return ResponseObject[]
      */
     public function getGameHighScores(array $params): array
