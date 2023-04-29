@@ -2,7 +2,8 @@
 
 namespace Telegram\Bot\Methods;
 
-use stdClass;
+use Telegram\Bot\Objects\BotCommandScope\BotCommandScope;
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
 /**
@@ -15,13 +16,15 @@ trait Commands
     /**
      * Change the list of the bots commands.
      *
-     * @param array{
-     * 	commands: array,
-     * 	scope: BotCommandScope,
-     * 	language_code: String,
-     * } $params
+     * Returns True on success
      *
      * @link https://core.telegram.org/bots/api#setmycommands
+     *
+     * @param array{
+     * 	commands: array<int, array{command: string, description: string}>,
+     * 	scope: BotCommandScope[],
+     * 	language_code: String,
+     * } $params
      */
     public function setMyCommands(array $params): bool
     {
@@ -31,29 +34,33 @@ trait Commands
     /**
      * Delete the list of the bot's commands for the given scope and user language
      *
+     * After deletion, higher level commands will be shown to affected users. Returns True on success.
+     *
+     * @link https://core.telegram.org/bots/api#deletemycommands
+     *
      * @param array{
      * 	scope: BotCommandScope,
      * 	language_code: String,
      * } $params
-     *
-     * @link https://core.telegram.org/bots/api#deletemycommands
      */
-    public function deleteMyCommands(array $params = []): bool
+    public function deleteMyCommands(array $params): bool
     {
         return $this->post('deleteMyCommands', $params)->getResult();
     }
 
     /**
-     * Get the current list of the bot's commands.
+     * Get the current list of the bot's commands for the given scope and user language
+     *
+     * Returns an Array of BotCommand objects. If commands aren't set, an empty list is returned
+     *
+     * @link https://core.telegram.org/bots/api#getmycommands
      *
      * @param array{
      * 	scope: BotCommandScope,
      * 	language_code: String,
      * } $params
      *
-     * @link https://core.telegram.org/bots/api#getmycommands
-     *
-     * @return stdClass[]
+     * @return ResponseObject[]
      */
     public function getMyCommands(array $params = []): array
     {

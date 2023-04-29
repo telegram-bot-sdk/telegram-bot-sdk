@@ -214,8 +214,6 @@ trait Message
      *    allow_sending_without_reply: bool,
      *    reply_markup: InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply,
      * } $params
-     *
-     * @see  sendDocument
      */
     public function sendVideo(array $params): ResponseObject
     {

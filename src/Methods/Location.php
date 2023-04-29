@@ -2,13 +2,11 @@
 
 namespace Telegram\Bot\Methods;
 
-use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\Keyboard\ForceReply;
 use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
 use Telegram\Bot\Objects\Keyboard\ReplyKeyboardMarkup;
 use Telegram\Bot\Objects\Keyboard\ReplyKeyboardRemove;
 use Telegram\Bot\Objects\ResponseObject;
-use Telegram\Bot\Objects\Updates\Message as MessageObject;
 use Telegram\Bot\Traits\Http;
 
 /**
@@ -47,7 +45,11 @@ trait Location
     }
 
     /**
-     * Edit live location messages sent by the bot or via the bot.
+     * Edit live location messages
+     *
+     * A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+     *
+     * @link https://core.telegram.org/bots/api#editmessagelivelocation
      *
      * @param array{
      * 	chat_id: int|string,
@@ -57,38 +59,30 @@ trait Location
      * 	longitude: float,
      * 	heading: int,
      * 	proximity_alert_radius: int,
-     * 	reply_markup: string,
+     * 	reply_markup: InlineKeyboardMarkup,
      * } $params
-     *
-     * @link https://core.telegram.org/bots/api#editmessagelivelocation
-     *
-     * @throws TelegramSDKException
      */
-    public function editMessageLiveLocation(array $params): MessageObject|bool
+    public function editMessageLiveLocation(array $params): ResponseObject|bool
     {
-        $response = $this->post('editMessageLiveLocation', $params);
-
-        return new MessageObject($response->getDecodedBody());
+        return $this->post('editMessageLiveLocation', $params)->getResult();
     }
 
     /**
-     * Stop updating a live location message sent by the bot or via the bot.
+     * Stop updating a live location message before live_period expires
+     *
+     * On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
+     *
+     * @link https://core.telegram.org/bots/api#stopmessagelivelocation
      *
      * @param array{
      * 	chat_id: int|string,
      * 	message_id: int,
      * 	inline_message_id: string,
-     * 	reply_markup: string,
+     * 	reply_markup: InlineKeyboardMarkup,
      * } $params
-     *
-     * @link https://core.telegram.org/bots/api#stopmessagelivelocation
-     *
-     * @throws TelegramSDKException
      */
-    public function stopMessageLiveLocation(array $params): MessageObject|bool
+    public function stopMessageLiveLocation(array $params): ResponseObject|bool
     {
-        $response = $this->post('stopMessageLiveLocation', $params);
-
-        return new MessageObject($response->getDecodedBody());
+        return $this->post('stopMessageLiveLocation', $params)->getResult();
     }
 }

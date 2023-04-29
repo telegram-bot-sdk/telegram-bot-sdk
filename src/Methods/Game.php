@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Methods;
 
+use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
@@ -15,16 +16,20 @@ trait Game
     /**
      * Send a game.
      *
+     * On success, the sent Message is returned.
+     *
+     * @link https://core.telegram.org/bots/api#sendgame
+     *
      * @param array{
      * 	chat_id: int|string,
+     *  message_thread_id: int,
      * 	game_short_name: string,
      * 	disable_notification: bool,
      * 	protect_content: bool,
      * 	reply_to_message_id: int,
-     * 	reply_markup: string,
+     *  allow_sending_without_reply: bool,
+     * 	reply_markup: InlineKeyboardMarkup,
      * } $params
-     *
-     * @link https://core.telegram.org/bots/api#sendgame
      */
     public function sendGame(array $params): ResponseObject
     {
@@ -33,6 +38,10 @@ trait Game
 
     /**
      * Set the score of the specified user in a game.
+     *
+     * On success, if the message is not an inline message, the Message is returned, otherwise True is returned. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
+     *
+     * @link https://core.telegram.org/bots/api#setgamescore
      *
      * @param array{
      * 	user_id: int,
@@ -44,9 +53,8 @@ trait Game
      * 	inline_message_id: string,
      * } $params
      *
-     * @link https://core.telegram.org/bots/api#setgamescore
      */
-    public function setGameScore(array $params): ResponseObject
+    public function setGameScore(array $params): ResponseObject|bool
     {
         return $this->post('setGameScore', $params)->getResult();
     }
@@ -54,14 +62,16 @@ trait Game
     /**
      * Set the score of the specified user in a game.
      *
+     * Will return the score of the specified user and several of their neighbors in a game. Returns an Array of GameHighScore objects.
+     *
+     * @link https://core.telegram.org/bots/api#getgamehighscores
+     *
      * @param array{
      * 	user_id: int,
-     * 	chat_id: int|string,
+     * 	chat_id: int,
      * 	message_id: int,
      * 	inline_message_id: string,
      * } $params
-     *
-     * @link https://core.telegram.org/bots/api#getgamehighscores
      *
      * @return ResponseObject[]
      */

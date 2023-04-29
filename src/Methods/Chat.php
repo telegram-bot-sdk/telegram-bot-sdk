@@ -2,7 +2,6 @@
 
 namespace Telegram\Bot\Methods;
 
-use stdClass;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
@@ -43,13 +42,13 @@ trait Chat
      *
      * The bot must be an administrator in the group for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be removed from the chat. If you don't want this, use the parameter only_if_banned. Returns True on success.
      *
+     * @link https://core.telegram.org/bots/api#unbanchatmember
+     *
      * @param array{
      * 	chat_id: int|string,
      * 	user_id: int,
      * 	only_if_banned: bool,
      * } $params
-     *
-     * @link https://core.telegram.org/bots/api#unbanchatmember
      */
     public function unbanChatMember(array $params): bool
     {
@@ -266,7 +265,7 @@ trait Chat
      * 	creates_join_request: bool,
      * } $params
      */
-    public function editChatInviteLink(array $params): stdClass
+    public function editChatInviteLink(array $params): ResponseObject
     {
         return $this->post('editChatInviteLink', $params)->getResult();
     }
@@ -283,7 +282,7 @@ trait Chat
      * 	invite_link: string,
      * } $params
      */
-    public function revokeChatInviteLink(array $params): stdClass
+    public function revokeChatInviteLink(array $params): ResponseObject
     {
         return $this->post('revokeChatInviteLink', $params)->getResult();
     }
@@ -466,7 +465,7 @@ trait Chat
      * 	chat_id: string|int,
      * } $params
      */
-    public function getChat(array $params): stdClass
+    public function getChat(array $params): ResponseObject
     {
         return $this->get('getChat', $params)->getResult();
     }
@@ -479,6 +478,7 @@ trait Chat
      * @param array{
      * 	chat_id: string|int,
      * } $params
+     *
      * @return ResponseObject[]
      */
     public function getChatAdministrators(array $params): array
@@ -549,4 +549,39 @@ trait Chat
     {
         return $this->post('deleteChatStickerSet', $params)->getResult();
     }
+
+    /**
+     * Change the bot's menu button in a private chat
+     *
+     * Returns True on success.
+     *
+     * @link https://core.telegram.org/bots/api#setchatmenubutton
+     *
+     * @param array{
+     * 	chat_id: int,
+     *  menu_button: array
+     * } $params
+     */
+    public function setChatMenuButton(array $params): bool
+    {
+        return $this->post('setChatMenuButton', $params)->getResult();
+    }
+
+    /**
+     * Get the current value of the bot's menu button in a private chat, or the default menu button
+     *
+     * Returns MenuButton on success.
+     *
+     * @link https://core.telegram.org/bots/api#getchatmenubutton
+     *
+     * @param array{
+     * 	chat_id: int,
+     * } $params
+     */
+    public function getChatMenuButton(array $params): bool
+    {
+        return $this->post('getChatMenuButton', $params)->getResult();
+    }
+
+
 }
