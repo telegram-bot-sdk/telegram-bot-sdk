@@ -6,32 +6,10 @@ use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
 /**
- * Class Query.
- *
  * @mixin Http
  */
-trait Query
+trait InlineMode
 {
-    /**
-     * Send answers to callback queries sent from inline keyboards
-     *
-     * The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
-     *
-     * @link https://core.telegram.org/bots/api#answercallbackquery
-     *
-     * @param array{
-     * 	callback_query_id: string,
-     * 	text: string,
-     * 	show_alert: bool,
-     * 	url: string,
-     * 	cache_time: int,
-     * } $params
-     */
-    public function answerCallbackQuery(array $params): bool
-    {
-        return $this->post('answerCallbackQuery', $params)->getResult();
-    }
-
     /**
      * Send answers to an inline query.
      *
@@ -65,6 +43,8 @@ trait Query
      * 	web_app_query_id: string,
      * 	result: array,
      * } $params
+     *
+     *  @return ResponseObject{inline_message_id: string}
      */
     public function answerWebAppQuery(array $params): ResponseObject
     {

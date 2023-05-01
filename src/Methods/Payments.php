@@ -7,8 +7,6 @@ use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
 /**
- * Trait Payments.
- *
  * @mixin Http
  */
 trait Payments

@@ -11,8 +11,6 @@ use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
 /**
- * Class Message.
- *
  * @mixin Http
  */
 trait Stickers
@@ -65,8 +63,10 @@ trait Stickers
      * @param array{
      * 	custom_emoji_ids: string[],
      * } $params
+     *
+     * @return ResponseObject<array>
      */
-    public function getCustomEmojiStickers(array $params): array
+    public function getCustomEmojiStickers(array $params): ResponseObject
     {
         return $this->post('getCustomEmojiStickers', $params)->getResult();
     }
@@ -83,6 +83,13 @@ trait Stickers
      * 	sticker: InputFile,
      *  sticker_format: string
      * } $params
+     *
+     * @return ResponseObject{
+     *     file_id: string,
+     *     file_unique_id: string,
+     *     file_size: int,
+     *     file_path: string,
+     * }
      */
     public function uploadStickerFile(array $params): ResponseObject
     {

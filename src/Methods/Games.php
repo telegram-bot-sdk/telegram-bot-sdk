@@ -7,11 +7,9 @@ use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
 /**
- * Class Game.
- *
  * @mixin Http
  */
-trait Game
+trait Games
 {
     /**
      * Send a game.
@@ -21,14 +19,14 @@ trait Game
      * @link https://core.telegram.org/bots/api#sendgame
      *
      * @param array{
-     * 	chat_id: int|string,
-     *  message_thread_id: int,
-     * 	game_short_name: string,
-     * 	disable_notification: bool,
-     * 	protect_content: bool,
-     * 	reply_to_message_id: int,
-     *  allow_sending_without_reply: bool,
-     * 	reply_markup: InlineKeyboardMarkup,
+     *    chat_id: int|string,
+     *    message_thread_id: int,
+     *    game_short_name: string,
+     *    disable_notification: bool,
+     *    protect_content: bool,
+     *    reply_to_message_id: int,
+     *    allow_sending_without_reply: bool,
+     *    reply_markup: InlineKeyboardMarkup,
      * } $params
      */
     public function sendGame(array $params): ResponseObject
@@ -44,13 +42,13 @@ trait Game
      * @link https://core.telegram.org/bots/api#setgamescore
      *
      * @param array{
-     * 	user_id: int,
-     * 	score: int,
-     * 	force: bool,
-     * 	disable_edit_message: bool,
-     * 	chat_id: int,
-     * 	message_id: int,
-     * 	inline_message_id: string,
+     *    user_id: int,
+     *    score: int,
+     *    force: bool,
+     *    disable_edit_message: bool,
+     *    chat_id: int,
+     *    message_id: int,
+     *    inline_message_id: string,
      * } $params
      */
     public function setGameScore(array $params): ResponseObject|bool
@@ -66,14 +64,15 @@ trait Game
      * @link https://core.telegram.org/bots/api#getgamehighscores
      *
      * @param array{
-     * 	user_id: int,
-     * 	chat_id: int,
-     * 	message_id: int,
-     * 	inline_message_id: string,
+     *    user_id: int,
+     *    chat_id: int,
+     *    message_id: int,
+     *    inline_message_id: string,
      * } $params
-     * @return ResponseObject[]
+     *
+     * @return ResponseObject<array{position: int, user: array, score: int}>
      */
-    public function getGameHighScores(array $params): array
+    public function getGameHighScores(array $params): ResponseObject
     {
         return $this->get('getGameHighScores', $params)->getResult();
     }

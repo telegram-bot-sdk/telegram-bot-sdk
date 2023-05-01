@@ -2,6 +2,11 @@
 
 namespace Telegram\Bot\Methods;
 
+use Telegram\Bot\Traits\Http;
+
+/**
+ * @mixin Http
+ */
 trait Passport
 {
     /**

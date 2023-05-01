@@ -8,11 +8,9 @@ use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
 /**
- * Class EditMessage.
- *
  * @mixin Http
  */
-trait EditMessage
+trait UpdateMessages
 {
     /**
      * Edit text and game messages.
@@ -79,6 +77,49 @@ trait EditMessage
         return $this->post('editMessageMedia', $params)->getResult();
     }
 
+
+    /**
+     * Edit live location messages
+     *
+     * A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+     *
+     * @link https://core.telegram.org/bots/api#editmessagelivelocation
+     *
+     * @param array{
+     * 	chat_id: int|string,
+     * 	message_id: int,
+     * 	inline_message_id: string,
+     * 	latitude: float,
+     * 	longitude: float,
+     * 	heading: int,
+     * 	proximity_alert_radius: int,
+     * 	reply_markup: InlineKeyboardMarkup,
+     * } $params
+     */
+    public function editMessageLiveLocation(array $params): ResponseObject|bool
+    {
+        return $this->post('editMessageLiveLocation', $params)->getResult();
+    }
+
+    /**
+     * Stop updating a live location message before live_period expires
+     *
+     * On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
+     *
+     * @link https://core.telegram.org/bots/api#stopmessagelivelocation
+     *
+     * @param array{
+     * 	chat_id: int|string,
+     * 	message_id: int,
+     * 	inline_message_id: string,
+     * 	reply_markup: InlineKeyboardMarkup,
+     * } $params
+     */
+    public function stopMessageLiveLocation(array $params): ResponseObject|bool
+    {
+        return $this->post('stopMessageLiveLocation', $params)->getResult();
+    }
+
     /**
      * Edit only the reply markup of messages
      *
@@ -110,6 +151,22 @@ trait EditMessage
      * 	message_id: int,
      * 	reply_markup: InlineKeyboardMarkup,
      * } $params
+     *
+     * @return ResponseObject{
+     *     id: string,
+     *     question: string,
+     *     options: <array{text: string, voter_count: int}>,
+     *     total_voter_count: int,
+     *     is_closed: bool,
+     *     is_anonymous: bool,
+     *     type: string,
+     *     allows_multiple_answers: bool,
+     *     correct_option_id: int,
+     *     explanation: string,
+     *     explanation_entities: array,
+     *     open_period: int,
+     *     close_date: int
+     * }
      */
     public function stopPoll(array $params): ResponseObject
     {
