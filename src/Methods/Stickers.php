@@ -63,7 +63,6 @@ trait Stickers
      * @param array{
      * 	custom_emoji_ids: string[],
      * } $params
-     *
      * @return ResponseObject<array>
      */
     public function getCustomEmojiStickers(array $params): ResponseObject
@@ -83,7 +82,6 @@ trait Stickers
      * 	sticker: InputFile,
      *  sticker_format: string
      * } $params
-     *
      * @return ResponseObject{
      *     file_id: string,
      *     file_unique_id: string,

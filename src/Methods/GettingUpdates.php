@@ -22,8 +22,6 @@ trait GettingUpdates
      * 	timeout: int,
      * 	allowed_updates: string[],
      * } $params
-     *
-     *
      * @return ResponseObject<array{
      *     update_id: int,
      *     message: array,

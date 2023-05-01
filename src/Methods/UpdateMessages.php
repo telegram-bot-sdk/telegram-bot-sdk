@@ -77,7 +77,6 @@ trait UpdateMessages
         return $this->post('editMessageMedia', $params)->getResult();
     }
 
-
     /**
      * Edit live location messages
      *
@@ -151,7 +150,6 @@ trait UpdateMessages
      * 	message_id: int,
      * 	reply_markup: InlineKeyboardMarkup,
      * } $params
-     *
      * @return ResponseObject{
      *     id: string,
      *     question: string,

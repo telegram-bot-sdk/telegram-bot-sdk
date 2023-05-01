@@ -43,7 +43,6 @@ trait InlineMode
      * 	web_app_query_id: string,
      * 	result: array,
      * } $params
-     *
      *  @return ResponseObject{inline_message_id: string}
      */
     public function answerWebAppQuery(array $params): ResponseObject

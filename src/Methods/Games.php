@@ -69,7 +69,6 @@ trait Games
      *    message_id: int,
      *    inline_message_id: string,
      * } $params
-     *
      * @return ResponseObject<array{position: int, user: array, score: int}>
      */
     public function getGameHighScores(array $params): ResponseObject

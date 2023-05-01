@@ -2,16 +2,16 @@
 
 namespace Telegram\Bot\Objects;
 
-use Countable;
 use ArrayAccess;
-use Traversable;
 use ArrayIterator;
-use LogicException;
-use JsonSerializable;
-use IteratorAggregate;
-use Illuminate\Support\Collection;
-use Illuminate\Contracts\Support\Jsonable;
+use Countable;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Collection;
+use IteratorAggregate;
+use JsonSerializable;
+use LogicException;
+use Traversable;
 
 class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable, JsonSerializable
 {

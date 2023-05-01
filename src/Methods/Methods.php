@@ -82,7 +82,6 @@ trait Methods
      *    allow_sending_without_reply: bool,
      *    reply_markup: InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply,
      * } $params
-     *
      * @return ResponseObject{
      *     message_id: int,
      *     message_thread_id : string,
@@ -215,7 +214,6 @@ trait Methods
      *    allow_sending_without_reply: bool,
      *    reply_markup: InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply,
      * } $params
-     *
      * @return ResponseObject{
      *     message_id: int
      * }
@@ -371,7 +369,6 @@ trait Methods
         return $this->uploadFile('sendAnimation', $params)->getResult();
     }
 
-
     /**
      * Send voice audio files.
      *
@@ -441,7 +438,6 @@ trait Methods
      *    reply_to_message_id: int,
      *    allow_sending_without_reply: bool,
      * } $params
-     *
      * @return ResponseObject<array>
      */
     public function sendMediaGroup(array $params): ResponseObject
@@ -452,7 +448,6 @@ trait Methods
 
         return $this->uploadFile('sendMediaGroup', $params)->getResult();
     }
-
 
     /**
      * Send point on the map.
@@ -535,7 +530,6 @@ trait Methods
     {
         return $this->post('sendContact', $params)->getResult();
     }
-
 
     /**
      * Send a poll.
@@ -622,7 +616,6 @@ trait Methods
      *    offset: int,
      *    limit: int,
      * } $params
-     *
      * @return ResponseObject<array{
      *     total_count: int,
      *      photos: <array{
@@ -655,7 +648,6 @@ trait Methods
      * @param array{
      *    file_id: string,
      * } $params
-     *
      * @return ResponseObject{
      *     file_id: string,
      *     file_unique_id: string,
@@ -898,7 +890,6 @@ trait Methods
      *    member_limit: int,
      *    creates_join_request: bool,
      * } $params
-     *
      * @return ResponseObject{
      *     invite_link: string,
      *     creator: array,
@@ -931,7 +922,6 @@ trait Methods
      *    member_limit: int,
      *    creates_join_request: bool,
      * } $params
-     *
      * @return ResponseObject{
      *     invite_link: string,
      *     creator: array,
@@ -960,7 +950,6 @@ trait Methods
      *    chat_id: string|int,
      *    invite_link: string,
      * } $params
-     *
      * @return ResponseObject{
      *     invite_link: string,
      *     creator: array,
@@ -1169,7 +1158,6 @@ trait Methods
      * @param array{
      *    chat_id: string|int,
      * } $params
-     *
      * @return ResponseObject<array>
      */
     public function getChatAdministrators(array $params): ResponseObject
@@ -1268,7 +1256,6 @@ trait Methods
      *    icon_color: int,
      *    icon_custom_emoji_id: string,
      * } $params
-     *
      * @return ResponseObject{
      *     message_thread_id: int,
      *     name: string,
@@ -1469,7 +1456,6 @@ trait Methods
         return $this->post('answerCallbackQuery', $params)->getResult();
     }
 
-
     /**
      * Change the list of the bots commands.
      *
@@ -1516,7 +1502,6 @@ trait Methods
      *    scope: BotCommandScope,
      *    language_code: String,
      * } $params
-     *
      * @return ResponseObject<array{command: string, description: string}>
      */
     public function getMyCommands(array $params = []): ResponseObject
@@ -1551,7 +1536,6 @@ trait Methods
      * @param array{
      *    language_code: string,
      * } $params
-     *
      * @return ResponseObject{name: string}
      */
     public function getMyName(array $params = []): ResponseObject
@@ -1586,7 +1570,6 @@ trait Methods
      * @param array{
      *    language_code: string,
      * } $params
-     *
      * @return ResponseObject{
      *  description: string
      * }
@@ -1623,7 +1606,6 @@ trait Methods
      * @param array{
      *    language_code: string,
      * } $params
-     *
      * @return ResponseObject{
      *  short_description: string
      * }
@@ -1693,7 +1675,6 @@ trait Methods
      * @param array{
      *    for_channels: bool,
      * } $params
-     *
      * @return ResponseObject{
      *      is_anonymous: bool,
      *      can_manage_chat: bool,
