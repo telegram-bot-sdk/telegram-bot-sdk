@@ -58,7 +58,7 @@ class TelegramResponse
      */
     public function decodeBody(): void
     {
-        $this->decodedBody = new ResponseObject(json_decode($this->body, null, 512, JSON_THROW_ON_ERROR));
+        $this->decodedBody = new ResponseObject(json_decode($this->body, true, 512, JSON_THROW_ON_ERROR));
 
         if (! is_object($this->decodedBody)) {
             $this->decodedBody = new ResponseObject();
