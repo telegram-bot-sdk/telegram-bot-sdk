@@ -4,18 +4,14 @@ namespace Telegram\Bot;
 
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Exceptions\TelegramLoginAuthException;
-use Telegram\Bot\Methods\Chat;
-use Telegram\Bot\Methods\Commands;
-use Telegram\Bot\Methods\EditMessage;
-use Telegram\Bot\Methods\Game;
-use Telegram\Bot\Methods\Get;
-use Telegram\Bot\Methods\Location;
-use Telegram\Bot\Methods\Message;
+use Telegram\Bot\Methods\Games;
+use Telegram\Bot\Methods\GettingUpdates;
+use Telegram\Bot\Methods\InlineMode;
+use Telegram\Bot\Methods\Methods;
 use Telegram\Bot\Methods\Passport;
 use Telegram\Bot\Methods\Payments;
-use Telegram\Bot\Methods\Query;
 use Telegram\Bot\Methods\Stickers;
-use Telegram\Bot\Methods\Update;
+use Telegram\Bot\Methods\UpdateMessages;
 use Telegram\Bot\Traits\ForwardsCalls;
 use Telegram\Bot\Traits\HasToken;
 use Telegram\Bot\Traits\Http;
@@ -32,18 +28,14 @@ class Api
     }
     use Http;
     use HasToken;
-    use Chat;
-    use Commands;
-    use EditMessage;
-    use Game;
-    use Get;
-    use Location;
-    use Message;
-    use Passport;
-    use Payments;
-    use Query;
+    use GettingUpdates;
+    use Methods;
+    use UpdateMessages;
+    use InlineMode;
     use Stickers;
-    use Update;
+    use Payments;
+    use Passport;
+    use Games;
 
     /**
      * Instantiates a new Telegram super-class object.
