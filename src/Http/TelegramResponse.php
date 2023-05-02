@@ -5,9 +5,9 @@ namespace Telegram\Bot\Http;
 use GuzzleHttp\Promise\PromiseInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
-use stdClass;
 use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\ResponseObject;
 
 /**
  * Class TelegramResponse.
@@ -58,10 +58,10 @@ class TelegramResponse
      */
     public function decodeBody(): void
     {
-        $this->decodedBody = json_decode($this->body, null, 512, JSON_THROW_ON_ERROR);
+        $this->decodedBody = new ResponseObject(json_decode($this->body, true, 512, JSON_THROW_ON_ERROR));
 
         if (! is_object($this->decodedBody)) {
-            $this->decodedBody = new stdClass();
+            $this->decodedBody = new ResponseObject();
         }
 
         if ($this->isError()) {
@@ -141,7 +141,7 @@ class TelegramResponse
      */
     public function getDecodedBody(): object
     {
-        return $this->decodedBody ?? new stdClass();
+        return $this->decodedBody ?? new ResponseObject();
     }
 
     /**
@@ -151,7 +151,7 @@ class TelegramResponse
      */
     public function getResult()
     {
-        return $this->decodedBody->result ?? new stdClass();
+        return $this->decodedBody->result ?? new ResponseObject();
     }
 
     /**
