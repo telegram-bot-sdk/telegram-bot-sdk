@@ -3,6 +3,7 @@
 namespace Telegram\Bot\Methods;
 
 use Telegram\Bot\FileUpload\InputFile;
+use Telegram\Bot\Objects\BotCommand\BotCommand;
 use Telegram\Bot\Objects\BotCommandScope\BotCommandScope;
 use Telegram\Bot\Objects\InputMedia\ArrayOfInputMedia;
 use Telegram\Bot\Objects\InputMedia\InputMedia;
@@ -10,6 +11,7 @@ use Telegram\Bot\Objects\Keyboard\ForceReply;
 use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
 use Telegram\Bot\Objects\Keyboard\ReplyKeyboardMarkup;
 use Telegram\Bot\Objects\Keyboard\ReplyKeyboardRemove;
+use Telegram\Bot\Objects\Message\MessageEntity;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
@@ -74,7 +76,7 @@ trait Methods
      *    message_thread_id: int,
      *    text: string,
      *    parse_mode: string,
-     *    entities: array,
+     *    entities: MessageEntity[],
      *    disable_web_page_preview: bool,
      *    disable_notification: bool,
      *    protect_content: bool,
@@ -207,7 +209,7 @@ trait Methods
      *    message_id: int,
      *    caption: string,
      *    parse_mode: string,
-     *    caption_entities: array,
+     *    caption_entities: MessageEntity[],
      *    disable_notification: bool,
      *    protect_content: bool,
      *    reply_to_message_id: int,
@@ -236,7 +238,7 @@ trait Methods
      *    photo: InputFile|string,
      *    caption: string,
      *    parse_mode: string,
-     *    caption_entities: array,
+     *    caption_entities: MessageEntity[],
      *    has_spoiler: bool,
      *    disable_notification: bool,
      *    protect_content: bool,
@@ -263,7 +265,7 @@ trait Methods
      *    audio: InputFile|string,
      *    caption: string,
      *    parse_mode: string,
-     *    caption_entities: array,
+     *    caption_entities: MessageEntity[],
      *    duration: int,
      *    performer: string,
      *    title: string,
@@ -324,7 +326,7 @@ trait Methods
      *    thumbnail: InputFile|string,
      *    caption: string,
      *    parse_mode: string,
-     *    caption_entities: array,
+     *    caption_entities: MessageEntity[],
      *    supports_streaming: bool,
      *    disable_notification: bool,
      *    protect_content: bool,
@@ -355,7 +357,7 @@ trait Methods
      *    thumbnail: InputFile|string,
      *    caption: string,
      *    parse_mode: string,
-     *    caption_entities: array,
+     *    caption_entities: MessageEntity[],
      *    has_spoiler: bool,
      *    disable_notification: bool,
      *    protect_content: bool,
@@ -382,7 +384,7 @@ trait Methods
      *    voice: InputFile|string,
      *    caption: string,
      *    parse_mode: string,
-     *    caption_entities: array,
+     *    caption_entities: MessageEntity[],
      *    duration: int,
      *    disable_notification: bool,
      *    protect_content: bool,
@@ -542,14 +544,14 @@ trait Methods
      *    chat_id: int|string,
      *    message_thread_id: int,
      *    question: string,
-     *    options: array,
+     *    options: string[],
      *    is_anonymous: bool,
      *    type: string,
      *    allows_multiple_answers: bool,
      *    correct_option_id: int,
      *    explanation: string,
      *    explanation_parse_mode: string,
-     *    explanation_entities: array,
+     *    explanation_entities: MessageEntity[],
      *    open_period: int,
      *    close_date: int,
      *    is_closed: bool,
@@ -1464,7 +1466,7 @@ trait Methods
      * @link https://core.telegram.org/bots/api#setmycommands
      *
      * @param array{
-     *    commands: array<int, array{command: string, description: string}>,
+     *    commands: BotCommand[],
      *    scope: BotCommandScope[],
      *    language_code: String,
      * } $params

@@ -4,6 +4,7 @@ namespace Telegram\Bot\Methods;
 
 use Telegram\Bot\Objects\InputMedia\InputMedia;
 use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
+use Telegram\Bot\Objects\Message\MessageEntity;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
@@ -25,7 +26,7 @@ trait UpdateMessages
      * 	inline_message_id: string,
      * 	text: string,
      * 	parse_mode: string,
-     * 	entities: array,
+     * 	entities: MessageEntity[],
      * 	disable_web_page_preview: bool,
      *  reply_markup: InlineKeyboardMarkup,
      * } $params
@@ -48,7 +49,7 @@ trait UpdateMessages
      * 	inline_message_id: string,
      * 	caption: string,
      * 	parse_mode: string,
-     * 	caption_entities: array,
+     * 	caption_entities: MessageEntity[],
      *  reply_markup: InlineKeyboardMarkup,
      * } $params
      */

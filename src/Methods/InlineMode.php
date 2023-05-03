@@ -2,6 +2,8 @@
 
 namespace Telegram\Bot\Methods;
 
+use Telegram\Bot\Objects\InlineQuery\InlineQueryResult;
+use Telegram\Bot\Objects\InlineQuery\InlineQueryResultsButton;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
@@ -20,11 +22,11 @@ trait InlineMode
      *
      * @param array{
      * 	inline_query_id: string,
-     * 	results: array,
+     * 	results: InlineQueryResult[],
      * 	cache_time: int,
      * 	is_personal: bool,
      * 	next_offset: string,
-     * 	button: array,
+     * 	button: InlineQueryResultsButton,
      * } $params
      */
     public function answerInlineQuery(array $params): bool

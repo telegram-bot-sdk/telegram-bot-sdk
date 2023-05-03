@@ -8,6 +8,8 @@ use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
 use Telegram\Bot\Objects\Keyboard\ReplyKeyboardMarkup;
 use Telegram\Bot\Objects\Keyboard\ReplyKeyboardRemove;
 use Telegram\Bot\Objects\ResponseObject;
+use Telegram\Bot\Objects\Stickers\InputSticker;
+use Telegram\Bot\Objects\Stickers\MaskPosition;
 use Telegram\Bot\Traits\Http;
 
 /**
@@ -105,7 +107,7 @@ trait Stickers
      * 	user_id: int,
      * 	name: string,
      * 	title: string,
-     * 	stickers: array,
+     * 	stickers: InputSticker[],
      * 	sticker_format: string,
      * 	sticker_type: string,
      * 	needs_repainting: bool,
@@ -126,7 +128,7 @@ trait Stickers
      * @param array{
      * 	user_id: int,
      * 	name: string,
-     * 	sticker: array,
+     * 	sticker: InputSticker,
      * } $params
      */
     public function addStickerToSet(array $params): bool
@@ -206,7 +208,7 @@ trait Stickers
      *
      * @param array{
      * 	sticker: string,
-     * 	mask_position: array{point: string, x_shift:float, y_shift: float, scale: float},
+     * 	mask_position: MaskPosition
      * } $params
      */
     public function setStickerMaskPosition(array $params): bool
