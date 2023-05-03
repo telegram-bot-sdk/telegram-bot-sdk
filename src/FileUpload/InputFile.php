@@ -3,37 +3,24 @@
 namespace Telegram\Bot\FileUpload;
 
 use GuzzleHttp\Psr7\LazyOpenStream;
-use GuzzleHttp\Psr7\PumpStream;
-use GuzzleHttp\Psr7\Stream;
 use GuzzleHttp\Psr7\Utils;
-use Iterator;
 use JsonSerializable;
-use Psr\Http\Message\StreamInterface;
 use Telegram\Bot\Contracts\Multipartable;
 
 class InputFile implements Multipartable, JsonSerializable
 {
     protected string $multipartName;
 
-    /**
-     * Creates a new InputFile object.
-     */
     public function __construct(protected mixed $contents, protected ?string $filename = null)
     {
         $this->multipartName = $this->generateRandomName();
     }
 
-    /**
-     * @return static
-     */
-    public static function file(string $file, string $filename = null): self
+    public static function file(string $file, ?string $filename = null): self
     {
         return new static(new LazyOpenStream($file, 'rb'), $filename);
     }
 
-    /**
-     * @return static
-     */
     public static function contents(mixed $contents, string $filename): self
     {
         return new static(Utils::streamFor($contents), $filename);
@@ -44,10 +31,7 @@ class InputFile implements Multipartable, JsonSerializable
         return $this->filename;
     }
 
-    /**
-     * @return bool|callable|float|PumpStream|Stream|int|Iterator|StreamInterface|resource|string|null
-     */
-    public function getContents()
+    public function getContents(): mixed
     {
         return $this->contents;
     }
@@ -57,9 +41,6 @@ class InputFile implements Multipartable, JsonSerializable
         return $this->multipartName;
     }
 
-    /**
-     * @return $this
-     */
     public function setMultipartName(string $multipartName): self
     {
         $this->multipartName = $multipartName;
@@ -78,7 +59,7 @@ class InputFile implements Multipartable, JsonSerializable
     }
 
     /**
-     * @return array{name: string, contents: bool|callable|float|int|\Iterator|\Psr\Http\Message\StreamInterface|resource|string|null, filename: string|null}
+     * @return array{name: string, contents: mixed, filename: string|null}
      */
     public function toMultipart(): array
     {

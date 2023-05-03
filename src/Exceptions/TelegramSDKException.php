@@ -46,10 +46,11 @@ class TelegramSDKException extends Exception
     /**
      * Thrown when command name is not set.
      *
-     * @param  string|object  $command
+     * @param  object|string  $command
+     *
      * @return static
      */
-    public static function commandNameNotSet($command): self
+    public static function commandNameNotSet(object|string $command): self
     {
         $command = is_object($command) ? $command::class : $command;
 

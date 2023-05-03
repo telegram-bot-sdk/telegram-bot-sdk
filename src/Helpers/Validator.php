@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Telegram\Bot\Contracts\Jsonable;
 use Telegram\Bot\Contracts\Multipartable;
 use Telegram\Bot\FileUpload\InputFile;
-use Telegram\Bot\Objects\Update;
+use Telegram\Bot\Objects\ResponseObject;
 
 /**
  * Validator.
@@ -84,7 +84,7 @@ class Validator
     /**
      * Determine given update object has command entity.
      */
-    public static function hasCommand(Update $update): bool
+    public static function hasCommand(ResponseObject $update): bool
     {
         return (bool) $update->getMessage()
             ->collect()

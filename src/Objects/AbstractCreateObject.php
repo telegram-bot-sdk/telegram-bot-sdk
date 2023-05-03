@@ -12,21 +12,7 @@ use Illuminate\Support\Str;
  */
 abstract class AbstractCreateObject extends AbstractObject
 {
-    /**
-     * Create a new object.
-     */
-    public function __construct(array $fields = [])
-    {
-        parent::__construct($fields);
-    }
-
-    /**
-     * Magic method to set properties dynamically.
-     *
-     *
-     * @return $this
-     */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         $property = Str::snake($name);
         $this->fields[$property] = $arguments[0];

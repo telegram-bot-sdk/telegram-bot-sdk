@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Methods;
 
+use Telegram\Bot\Helpers\Json;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
@@ -68,7 +69,7 @@ trait GettingUpdates
             $params['certificate'] = $this->formatCertificate($params['certificate']);
 
             if (isset($params['allowed_updates']) && is_array($params['allowed_updates'])) {
-                $params['allowed_updates'] = json_encode($params['allowed_updates']);
+                $params['allowed_updates'] = Json::encode($params['allowed_updates']);
             }
 
             return $this->uploadFile('setWebhook', $params)->getResult();
@@ -125,9 +126,7 @@ trait GettingUpdates
      */
     public function getWebhookUpdate(): ResponseObject
     {
-        $body = json_decode(file_get_contents('php://input'), true, 512, JSON_THROW_ON_ERROR);
-
-        return new ResponseObject($body);
+        return new ResponseObject(Json::decode(file_get_contents('php://input')));
     }
 
     /**

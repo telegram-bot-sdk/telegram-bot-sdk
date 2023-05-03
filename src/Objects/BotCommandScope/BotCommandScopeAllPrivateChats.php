@@ -7,7 +7,7 @@ namespace Telegram\Bot\Objects\BotCommandScope;
  *
  * @link https://core.telegram.org/bots/api#botcommandscopeallprivatechats
  */
-class BotCommandScopeAllPrivateChats extends BotCommandScope
+final class BotCommandScopeAllPrivateChats extends BotCommandScope
 {
     protected string $type = 'all_private_chats';
 }

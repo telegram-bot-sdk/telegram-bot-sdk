@@ -12,6 +12,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  * @method $this command(string $command)          Text of the command; 1-32 characters. Can contain only lowercase English letters, digits and underscores.
  * @method $this description(string $description)  Description of the command; 1-256 characters.
  */
-class BotCommand extends AbstractCreateObject
+final class BotCommand extends AbstractCreateObject
 {
 }

@@ -2,72 +2,84 @@
 
 namespace Telegram\Bot\Objects;
 
-use ArrayAccess;
-use ArrayIterator;
 use Countable;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Support\Collection;
-use IteratorAggregate;
-use JsonSerializable;
-use LogicException;
+use Stringable;
+use ArrayAccess;
 use Traversable;
+use LogicException;
+use CachingIterator;
+use JsonSerializable;
+use IteratorAggregate;
+use Illuminate\Support\Collection;
+use Telegram\Bot\Contracts\Jsonable;
+use Telegram\Bot\Contracts\Arrayable;
 
-class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable, JsonSerializable
+class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable, JsonSerializable, Stringable
 {
-    public function __construct(private array $fields = [])
+    private Collection $fields;
+
+    public function __construct(array $fields = [])
     {
+        $this->fields = new Collection($fields);
     }
 
-    public function getCustomData(): ?array
+    public function getCustomData(): array
     {
-        return $this->fields['custom_data'] ?? null;
+        return $this->fields->get('custom_data', []);
     }
 
-    public function addCustomData(mixed $key, mixed $value): static
+    public function withCustomData(mixed $key, mixed $value): static
     {
+        $data = $this->getCustomData();
         if (is_null($key)) {
-            $this->fields['custom_data'][] = $value;
+            $data[] = $value;
         } else {
-            $this->fields['custom_data'][$key] = $value;
+            $data[$key] = $value;
         }
+
+        $this->fields->offsetSet('custom_data', $data);
 
         return $this;
     }
 
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        throw new LogicException('Cannot modify an immutable object. Value cannot be set. Use addCustomData() instead to add extra data.');
+    }
+
     public function count(): int
     {
-        return count($this->fields);
+        return $this->fields->count();
     }
 
     public function jsonSerialize(): array
     {
-        return $this->collect()->jsonSerialize();
+        return $this->fields->jsonSerialize();
     }
 
     public function collect(): Collection
     {
-        return new Collection($this->fields);
+        return $this->fields;
     }
 
-    public function toJson($options = 0): string
+    public function toJson(int $options = 0): string
     {
-        return $this->collect()->toJson($options);
-    }
-
-    public function toArray(): array
-    {
-        return $this->collect()->toArray();
+        return $this->fields->toJson($options);
     }
 
     public function getIterator(): Traversable
     {
-        return new ArrayIterator($this->fields);
+        return $this->fields->getIterator();
+    }
+
+    public function getCachingIterator(int $flags = CachingIterator::CALL_TOSTRING): CachingIterator
+    {
+        return $this->fields->getCachingIterator($flags);
     }
 
     public function __toString(): string
     {
-        return $this->collect()->__toString();
+        return $this->fields->__toString();
     }
 
     public function __get(string $name): mixed
@@ -82,14 +94,9 @@ class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggre
 
     public function offsetGet(mixed $offset): mixed
     {
-        $field = $this->collect()->get($offset);
+        $field = $this->fields->get($offset);
 
         return is_array($field) ? new static($field) : $field;
-    }
-
-    public function offsetSet(mixed $offset, mixed $value): void
-    {
-        throw new LogicException('Cannot modify an immutable object. Value cannot be set. Use addCustomData() instead to add extra data.');
     }
 
     public function __isset(string $name): bool
@@ -99,7 +106,7 @@ class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggre
 
     public function offsetExists(mixed $offset): bool
     {
-        return $this->collect()->has($offset);
+        return $this->fields->has($offset);
     }
 
     public function __unset(string $name): void
@@ -110,5 +117,15 @@ class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggre
     public function offsetUnset(mixed $offset): void
     {
         throw new LogicException('Cannot modify an immutable object. Value cannot be unset.');
+    }
+
+    public function __debugInfo()
+    {
+        return $this->toArray();
+    }
+
+    public function toArray(): array
+    {
+        return $this->fields->toArray();
     }
 }

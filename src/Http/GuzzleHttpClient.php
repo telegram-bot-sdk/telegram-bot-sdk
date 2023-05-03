@@ -2,11 +2,11 @@
 
 namespace Telegram\Bot\Http;
 
+use GuzzleHttp\Promise\Utils;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\PromiseInterface;
-use function GuzzleHttp\Promise\unwrap;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 use Telegram\Bot\Contracts\HttpClientInterface;
@@ -37,7 +37,7 @@ class GuzzleHttpClient implements HttpClientInterface
      */
     public function __destruct()
     {
-        unwrap(self::$promises);
+        Utils::unwrap(self::$promises);
     }
 
     /**
@@ -80,8 +80,6 @@ class GuzzleHttpClient implements HttpClientInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws TelegramSDKException
      */
     public function send(
@@ -90,7 +88,7 @@ class GuzzleHttpClient implements HttpClientInterface
         array $headers = [],
         array $options = [],
         bool $isAsyncRequest = false
-    ) {
+    ): PromiseInterface|ResponseInterface {
         $options[RequestOptions::HEADERS] = $headers;
         $options[RequestOptions::SYNCHRONOUS] = ! $isAsyncRequest;
 

@@ -9,5 +9,5 @@ interface Jsonable
      *
      * @param  int  $options
      */
-    public function toJson($options = 0): string;
+    public function toJson(int $options = 0): string;
 }

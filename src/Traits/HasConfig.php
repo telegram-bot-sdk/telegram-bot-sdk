@@ -4,9 +4,6 @@ namespace Telegram\Bot\Traits;
 
 use Illuminate\Support\Arr;
 
-/**
- * HasConfig.
- */
 trait HasConfig
 {
     private array $config;
@@ -19,13 +16,7 @@ trait HasConfig
         return Arr::has($this->config, $key);
     }
 
-    /**
-     * Get or set configuration value using "dot" notation.
-     *
-     * @param  mixed|null  $default
-     * @return mixed
-     */
-    public function config(array|string|null $key = null, $default = null)
+    public function config(array|string|null $key = null, mixed $default = null): mixed
     {
         if (null === $key) {
             return $this->config;
@@ -42,20 +33,11 @@ trait HasConfig
         return Arr::get($this->config, $key, $default);
     }
 
-    /**
-     * Get Config Array.
-     */
     public function getConfig(): array
     {
         return $this->config;
     }
 
-    /**
-     * Set Config Array.
-     *
-     *
-     * @return static
-     */
     public function setConfig(array $config): self
     {
         $this->config = $config;

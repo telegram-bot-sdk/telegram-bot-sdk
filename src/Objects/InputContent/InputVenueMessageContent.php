@@ -16,6 +16,6 @@ namespace Telegram\Bot\Objects\InputContent;
  * @method $this googlePlaceId(string $googlePlaceId)     (Optional). Google Places identifier of the venue
  * @method $this googlePlaceType(string $googlePlaceType) (Optional). Google Places type of the venue.
  */
-class InputVenueMessageContent extends InputMessageContent
+final class InputVenueMessageContent extends InputMessageContent
 {
 }

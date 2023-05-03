@@ -37,20 +37,11 @@ trait Http
         return $this->client ??= (new TelegramClient())->setToken($this->getToken());
     }
 
-    /**
-     * Get HTTP Client Config.
-     */
     public function getHttpClientConfig(): array
     {
         return $this->getClient()->getConfig();
     }
 
-    /**
-     * Set HTTP Client Config.
-     *
-     *
-     * @return $this
-     */
     public function setHttpClientConfig(array $config): self
     {
         $this->getClient()->setConfig($config);

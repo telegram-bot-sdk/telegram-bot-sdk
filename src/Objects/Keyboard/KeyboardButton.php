@@ -22,6 +22,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  * @method $this requestPoll(KeyboardButtonPollType $keyboardButtonPollType)   (Optional). If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only
  * @method $this webApp($webAppInfo)                                           (Optional). If specified, the described Web App will be launched when the button is pressed. The Web App will be able to send a “web_app_data” service message. Available in private chats only.
  */
-class KeyboardButton extends AbstractCreateObject
+final class KeyboardButton extends AbstractCreateObject
 {
 }

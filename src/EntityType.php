@@ -5,53 +5,53 @@ namespace Telegram\Bot;
 /**
  * Class EntityType.
  */
-final class EntityType
+enum EntityType: string
 {
     /** Sets MessageEntity Type as mention. */
-    public const MENTION = 'mention';
+    case MENTION = 'mention';
 
     /** Sets MessageEntity Type as hashtag . */
-    public const HASHTAG = 'hashtag';
+    case HASHTAG = 'hashtag';
 
     /** Sets MessageEntity Type as cashtag. */
-    public const CASHTAG = 'cashtag';
+    case CASHTAG = 'cashtag';
 
     /** Sets MessageEntity Type as Bot Command. */
-    public const BOT_COMMAND = 'bot_command';
+    case BOT_COMMAND = 'bot_command';
 
     /** Sets MessageEntity Type as url. */
-    public const URL = 'url';
+    case URL = 'url';
 
     /** Sets MessageEntity Type as email. */
-    public const EMAIL = 'email';
+    case EMAIL = 'email';
 
     /** Sets MessageEntity Type as phone number. */
-    public const PHONE_NUMBER = 'phone_number';
+    case PHONE_NUMBER = 'phone_number';
 
     /** Sets MessageEntity Type as bold. */
-    public const BOLD = 'bold';
+    case BOLD = 'bold';
 
     /** Sets MessageEntity Type as italic. */
-    public const ITALIC = 'italic';
+    case ITALIC = 'italic';
 
     /** Sets MessageEntity Type as underline. */
-    public const UNDERLINE = 'underline';
+    case UNDERLINE = 'underline';
 
     /** Sets MessageEntity Type as strike through. */
-    public const STRIKETHROUGH = 'strikethrough';
+    case STRIKETHROUGH = 'strikethrough';
 
     /** Sets MessageEntity Type as spoiler . */
-    public const SPOILER = 'spoiler';
+    case SPOILER = 'spoiler';
 
     /** Sets MessageEntity Type as code. */
-    public const CODE = 'code';
+    case CODE = 'code';
 
     /** Sets MessageEntity Type as pre. */
-    public const PRE = 'code';
+    case PRE = 'pre';
 
     /** Sets MessageEntity Type as text link. */
-    public const TEXT_LINK = 'text_link';
+    case TEXT_LINK = 'text_link';
 
     /** Sets MessageEntity Type as text mention. */
-    public const TEXT_MENTION = 'text_mention';
+    case TEXT_MENTION = 'text_mention';
 }

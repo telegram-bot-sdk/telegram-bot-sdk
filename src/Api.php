@@ -23,8 +23,7 @@ class Api
 {
     use ForwardsCalls;
     use Macroable {
-        __call as macroCall;
-
+        Macroable::__call as macroCall;
     }
     use Http;
     use HasToken;
@@ -42,7 +41,7 @@ class Api
      *
      * @param  string|null  $token  The Telegram Bot Token.
      */
-    public function __construct(string $token = null)
+    public function __construct(?string $token = null)
     {
         $this->token = $token;
     }

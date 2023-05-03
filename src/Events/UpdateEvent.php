@@ -3,13 +3,13 @@
 namespace Telegram\Bot\Events;
 
 use Telegram\Bot\Bot;
-use Telegram\Bot\Objects\Update;
+use Telegram\Bot\Objects\ResponseObject;
 
 class UpdateEvent
 {
     final public const NAME = 'update';
 
-    public function __construct(public Bot $bot, public Update $update)
+    public function __construct(public Bot $bot, public ResponseObject $update)
     {
     }
 }

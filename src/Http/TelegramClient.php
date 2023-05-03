@@ -259,7 +259,6 @@ class TelegramClient
     /**
      * Make API URL.
      *
-     *
      * @throws TelegramSDKException
      */
     protected function makeApiUrl(TelegramRequest $request): string

@@ -3,6 +3,7 @@
 namespace Telegram\Bot;
 
 use Closure;
+use Telegram\Bot\Objects\ResponseObject;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Addon\AddonManager;
@@ -12,7 +13,6 @@ use Telegram\Bot\Events\EventFactory;
 use Telegram\Bot\Events\UpdateEvent;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Http\GuzzleHttpClient;
-use Telegram\Bot\Objects\Update;
 use Telegram\Bot\Traits\ForwardsCalls;
 use Telegram\Bot\Traits\HasConfig;
 use Telegram\Bot\Traits\HasContainer;
@@ -26,7 +26,7 @@ class Bot
 {
     use ForwardsCalls;
     use Macroable {
-        __call as macroCall;
+        Macroable::__call as macroCall;
     }
     use HasConfig;
     use HasContainer;
@@ -47,7 +47,7 @@ class Bot
      */
     public function __construct(array $config = [])
     {
-        $this->config = $config;
+        $this->setConfig($config);
         $this->name = $config['bot'];
 
         $this->api = new Api($this->config('token'));
@@ -148,11 +148,11 @@ class Bot
      * Dispatches event when an inbound update is received.
      *
      *
-     * @return Update|Update[]
+     * @return ResponseObject|ResponseObject[]
      *
      * @throws TelegramSDKException
      */
-    public function listen(bool $webhook = false, array $params = []): Update|array
+    public function listen(bool $webhook = false, array $params = []): ResponseObject|array
     {
         return $webhook ? $this->useWebHook() : $this->useGetUpdates($params);
     }
@@ -160,7 +160,7 @@ class Bot
     /**
      * Process the update object for a command from your webhook.
      */
-    protected function useWebHook(): Update
+    protected function useWebHook(): ResponseObject
     {
         $update = $this->api->getWebhookUpdate();
 
@@ -170,10 +170,7 @@ class Bot
     /**
      * Process the update object using the getUpdates method.
      *
-     *
-     * @return Update[]
-     *
-     * @throws TelegramSDKException
+     * @return ResponseObject[]
      */
     protected function useGetUpdates(array $params = []): array
     {
@@ -197,7 +194,7 @@ class Bot
     /**
      * Dispatch Update Event.
      */
-    public function dispatchUpdateEvent(Update $update): Update
+    public function dispatchUpdateEvent(ResponseObject $update): ResponseObject
     {
         $event = new UpdateEvent($this, $update);
 
@@ -232,12 +229,6 @@ class Bot
         return $this;
     }
 
-    /**
-     * Magically pass methods to the api.
-     *
-     *
-     * @return mixed
-     */
     public function __call(string $method, array $parameters)
     {
         if (static::hasMacro($method)) {

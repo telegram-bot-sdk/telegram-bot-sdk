@@ -24,7 +24,7 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup)             (Optional). Inline keyboard attached to the message
  * @method $this inputMessageContent(InputMessageContent $inputMessageContent) (Optional). Content of the message to be sent instead of the video animation
  */
-class InlineQueryResultCachedMpeg4Gif extends InlineQueryResult
+final class InlineQueryResultCachedMpeg4Gif extends InlineQueryResult
 {
     protected string $type = 'mpeg4_gif';
 }

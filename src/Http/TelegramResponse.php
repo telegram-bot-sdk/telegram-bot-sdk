@@ -2,9 +2,11 @@
 
 namespace Telegram\Bot\Http;
 
+use JsonException;
+use Telegram\Bot\Helpers\Json;
 use GuzzleHttp\Promise\PromiseInterface;
-use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
+use Telegram\Bot\Exceptions\TelegramJsonException;
 use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\ResponseObject;
@@ -25,18 +27,13 @@ class TelegramResponse
     /** @var string The raw body of the response from API request. */
     protected string $body;
 
-    /** @var object The decoded body of the API response. */
-    protected object $decodedBody;
+    /** @var null|ResponseObject The decoded body of the API response. */
+    protected ?ResponseObject $decodedBody = null;
 
-    /** @var TelegramSDKException The exception thrown by this request. */
-    protected TelegramSDKException $thrownException;
+    /** @var null|TelegramSDKException The exception thrown by this request. */
+    protected ?TelegramSDKException $thrownException;
 
-    /**
-     * Gets the relevant data from the Http client.
-     *
-     * @param  ResponseInterface|PromiseInterface  $response
-     */
-    public function __construct(protected TelegramRequest $request, $response)
+    public function __construct(protected TelegramRequest $request, PromiseInterface|ResponseInterface $response)
     {
         if ($response instanceof ResponseInterface) {
             $this->httpStatusCode = $response->getStatusCode();
@@ -44,12 +41,8 @@ class TelegramResponse
             $this->headers = $response->getHeaders();
 
             $this->decodeBody();
-        } elseif ($response instanceof PromiseInterface) {
-            $this->httpStatusCode = null;
         } else {
-            throw new InvalidArgumentException(
-                'Second constructor argument "response" must be instance of ResponseInterface or PromiseInterface'
-            );
+            $this->httpStatusCode = null;
         }
     }
 
@@ -58,10 +51,10 @@ class TelegramResponse
      */
     public function decodeBody(): void
     {
-        $this->decodedBody = new ResponseObject(json_decode($this->body, true, 512, JSON_THROW_ON_ERROR));
-
-        if (! is_object($this->decodedBody)) {
-            $this->decodedBody = new ResponseObject();
+        try {
+            $this->decodedBody = new ResponseObject(Json::decode($this->body));
+        } catch (TelegramJsonException $e) {
+            $this->thrownException = TelegramResponseException::create($this, $e);
         }
 
         if ($this->isError()) {
@@ -74,7 +67,7 @@ class TelegramResponse
      */
     public function isError(): bool
     {
-        return isset($this->decodedBody->ok) && ($this->decodedBody->ok === false);
+        return $this->decodedBody?->offsetGet('ok') === false;
     }
 
     /**
@@ -82,7 +75,7 @@ class TelegramResponse
      */
     public function makeException(): void
     {
-        $this->thrownException = TelegramResponseException::create($this);
+        $this->thrownException ??= TelegramResponseException::create($this);
     }
 
     /**
@@ -139,7 +132,7 @@ class TelegramResponse
     /**
      * Return the decoded body response.
      */
-    public function getDecodedBody(): object
+    public function getDecodedBody(): ResponseObject
     {
         return $this->decodedBody ?? new ResponseObject();
     }
@@ -149,9 +142,9 @@ class TelegramResponse
      *
      * @return mixed
      */
-    public function getResult()
+    public function getResult(): mixed
     {
-        return $this->decodedBody->result ?? new ResponseObject();
+        return $this->decodedBody?->offsetGet('result') ?? new ResponseObject();
     }
 
     /**
@@ -167,7 +160,7 @@ class TelegramResponse
     /**
      * Returns the exception that was thrown for this request.
      */
-    public function getThrownException(): TelegramSDKException
+    public function getThrownException(): ?TelegramSDKException
     {
         return $this->thrownException;
     }

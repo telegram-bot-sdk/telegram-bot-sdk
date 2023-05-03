@@ -14,6 +14,6 @@ namespace Telegram\Bot\Objects\Keyboard;
  * @method $this inputFieldPlaceholder(string $inputFieldPlaceholder) (Optional). The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
  * @method $this selective(bool $selective)                           (Optional). Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are "@mentioned" in the text of the Message object. 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
  */
-class ReplyKeyboardMarkup extends AbstractKeyboard
+final class ReplyKeyboardMarkup extends AbstractKeyboard
 {
 }
