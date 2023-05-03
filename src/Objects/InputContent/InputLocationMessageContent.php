@@ -2,8 +2,6 @@
 
 namespace Telegram\Bot\Objects\InputContent;
 
-use Telegram\Bot\Objects\AbstractCreateObject;
-
 /**
  * Represents the content of a location message to be sent as the result of an inline query.
  *

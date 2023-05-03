@@ -29,7 +29,6 @@ use Telegram\Bot\Objects\Payments\LabeledPrice;
  * @method $this sendPhoneNumberToProvider(bool $bool)   (Optional). Pass True, if user's phone number should be sent to provider
  * @method $this sendEmailToProvider(bool $bool)         (Optional). Pass True, if user's email address should be sent to provider
  * @method $this isFlexible(bool $bool)                  (Optional). Pass True, if the final price depends on the shipping method
- *
  */
 class InputInvoiceMessageContent extends InputMessageContent
 {

@@ -39,7 +39,7 @@ class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggre
 
     public function updateType(): ?string
     {
-        if (!isset($this->fields['update_id'])) {
+        if (! isset($this->fields['update_id'])) {
             return null;
         }
 

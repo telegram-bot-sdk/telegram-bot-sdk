@@ -6,7 +6,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
 use Telegram\Bot\Objects\WebApp\WebAppInfo;
 
 /**
- *
  * Represents a button to be shown above inline query results. You must use exactly one of the optional fields.
  *
  * @link https://core.telegram.org/bots/api#inlinequeryresultsbutton

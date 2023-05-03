@@ -15,6 +15,7 @@ class KeyboardButtonPollType extends AbstractCreateObject
 {
     /**
      * Shortcut to set KeyboardButtonPollType to Quiz
+     *
      * @return void
      */
     public function quiz()
@@ -24,8 +25,6 @@ class KeyboardButtonPollType extends AbstractCreateObject
 
     /**
      * Shortcut to set KeyboardButtonPollType to Regular
-     *
-     * @return void
      */
     public function regular(): void
     {
