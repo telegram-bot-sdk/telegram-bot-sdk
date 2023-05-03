@@ -2,41 +2,33 @@
 
 namespace Telegram\Bot\Objects\Keyboard;
 
-class KeyboardButtonPollType
+use Telegram\Bot\Objects\AbstractCreateObject;
+
+/**
+ * Represents type of poll, which is allowed to be created and sent when the corresponding button is pressed.
+ *
+ * @link https://core.telegram.org/bots/api#keyboardbuttonpolltype
+ *
+ * @method void type(string $pollType)      Optional. If quiz is passed, the user will be allowed to create only polls in the quiz mode. If regular is passed, only regular polls will be allowed. Otherwise, the user will be allowed to create a poll of any type.
+ */
+class KeyboardButtonPollType extends AbstractCreateObject
 {
     /**
-     * Represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
-     *
-     * @link https://core.telegram.org/bots/api#keyboardbuttonpolltype
-     *
-     * @return array{type: string}
+     * Shortcut to set KeyboardButtonPollType to Quiz
+     * @return void
      */
-    public static function quiz(): array
+    public function quiz()
     {
-        return ['type' => 'quiz'];
+        $this->fields['type'] = 'quiz';
     }
 
     /**
-     * Represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
+     * Shortcut to set KeyboardButtonPollType to Regular
      *
-     * @link https://core.telegram.org/bots/api#keyboardbuttonpolltype
-     *
-     * @return array{type: string}
+     * @return void
      */
-    public static function regular(): array
+    public function regular(): void
     {
-        return ['type' => 'regular'];
-    }
-
-    /**
-     * Represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
-     *
-     * @link https://core.telegram.org/bots/api#keyboardbuttonpolltype
-     *
-     * @return array{type: string}
-     */
-    public static function any(): array
-    {
-        return ['type' => ''];
+        $this->fields['type'] = 'quiz';
     }
 }

@@ -15,6 +15,8 @@ use Traversable;
 
 class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable, JsonSerializable
 {
+    protected ?string $updateType = null;
+
     public function __construct(private array $fields = [])
     {
     }
@@ -33,6 +35,75 @@ class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggre
         }
 
         return $this;
+    }
+
+    public function updateType(): ?string
+    {
+        if (!isset($this->fields['update_id'])) {
+            return null;
+        }
+
+        return $this->updateType ??= $this->collect()
+            ->except('update_id')
+            ->keys()
+            ->first();
+    }
+
+    public function getMessage()
+    {
+        return $this->{$this->updateType()};
+    }
+
+    /**
+     * Determine the type by given types.
+     */
+    protected function findType(array $types): ?string
+    {
+        return $this->collect()
+            ->keys()
+            ->intersect($types)
+            ->pop();
+    }
+
+    public function objectType(): ?string
+    {
+        $types = [
+            'text',
+            'audio',
+            'document',
+            'animation',
+            'game',
+            'photo',
+            'sticker',
+            'video',
+            'voice',
+            'video_note',
+            'contact',
+            'location',
+            'venue',
+            'poll',
+            'dice',
+            'new_chat_members',
+            'left_chat_member',
+            'new_chat_title',
+            'new_chat_photo',
+            'delete_chat_photo',
+            'group_chat_created',
+            'supergroup_chat_created',
+            'channel_chat_created',
+            'migrate_to_chat_id',
+            'migrate_from_chat_id',
+            'pinned_message',
+            'invoice',
+            'successful_payment',
+            'passport_data',
+            'proximity_alert_triggered',
+            'voice_chat_started',
+            'voice_chat_ended',
+            'voice_chat_participants_invited',
+        ];
+
+        return $this->findType($types);
     }
 
     public function count(): int
