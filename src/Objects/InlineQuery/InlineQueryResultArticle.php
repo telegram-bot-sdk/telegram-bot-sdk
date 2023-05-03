@@ -2,40 +2,28 @@
 
 namespace Telegram\Bot\Objects\InlineQuery;
 
+use Telegram\Bot\Objects\InputContent\InputMessageContent;
+use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
+
 /**
  * Class InlineQueryResultArticle.
  *
  * Represents a link to an article or web page.
  *
- * <code>
- * [
- *   'id'                     => '', // string                 - Required. Unique identifier for this result, 1-64 Bytes
- *   'title'                  => '', // string                 - Required. Title of the result
- *   'input_message_content'  => '', // InputMessageContent    - Required. Content of the message to be sent.
- *   'reply_markup'           => '', // InlineKeyboardMarkup   - (Optional). Inline keyboard attached to the message
- *   'url'                    => '', // string                 - (Optional). URL of the result
- *   'hide_url'               => '', // bool                   - (Optional). Pass True, if you don't want the URL to be shown in the message
- *   'description'            => '', // string                 - (Optional). Short description of the result
- *   'thumb_url'              => '', // string                 - (Optional). Url of the thumbnail for the result
- *   'thumb_width'            => '', // int                    - (Optional). Thumbnail width
- *   'thumb_height'           => '', // int                    - (Optional). Thumbnail height
- * ]
- * </code>
- *
  * @link https://core.telegram.org/bots/api#inlinequeryresultarticle
  *
- * @method $this id($string)                  Required. Unique identifier for this result, 1-64 Bytes
- * @method $this title($string)               Required. Title of the result
- * @method $this inputMessageContent($object) Required. Content of the message to be sent.
- * @method $this replyMarkup($object)         (Optional). Inline keyboard attached to the message
- * @method $this url($string)                 (Optional). URL of the result
- * @method $this hideUrl($bool)               (Optional). Pass True, if you don't want the URL to be shown in the message
- * @method $this description($string)         (Optional). Short description of the result
- * @method $this thumbUrl($string)            (Optional). Url of the thumbnail for the result
- * @method $this thumbWidth($int)             (Optional). Thumbnail width
- * @method $this thumbHeight($int)            (Optional). Thumbnail height
+ * @method $this id(string $string)                               Required. Unique identifier for this result, 1-64 Bytes
+ * @method $this title(string $string)                            Required. Title of the result
+ * @method $this inputMessageContent(InputMessageContent $object) Required. Content of the message to be sent.
+ * @method $this replyMarkup(InlineKeyboardMarkup $object)        (Optional). Inline keyboard attached to the message
+ * @method $this url(string $string)                              (Optional). URL of the result
+ * @method $this hideUrl(bool $bool)                              (Optional). Pass True, if you don't want the URL to be shown in the message
+ * @method $this description(string $string)                      (Optional). Short description of the result
+ * @method $this thumbnailUrl(string $string)                     (Optional). Url of the thumbnail for the result
+ * @method $this thumbnailWidth(int $int)                         (Optional). Thumbnail width
+ * @method $this thumbnailHeight(int $int)                        (Optional). Thumbnail height
  */
-class InlineQueryResultArticle extends AbstractInlineObject
+class InlineQueryResultArticle extends InlineQueryResult
 {
     protected string $type = 'article';
 }

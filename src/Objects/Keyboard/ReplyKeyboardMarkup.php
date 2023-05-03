@@ -7,6 +7,8 @@ namespace Telegram\Bot\Objects\Keyboard;
  *
  * @link https://core.telegram.org/bots/api#replykeyboardmarkup
  *
+ * @method $this keyboard(array $arrayOfkeyboardButtons)              Array of Array of KeyboardButton. Array of button rows, each represented by an Array of KeyboardButton objects
+ * @method $this isPersistent(bool $isPersistent)                     (Optional). Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to false, in which case the custom keyboard can be hidden and opened with a keyboard icon.
  * @method $this resizeKeyboard(bool $resizeKeyboard)                 (Optional). Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
  * @method $this oneTimeKeyboard(bool $oneTimeKeyboard)               (Optional). Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat – the user can press a special button in the input field to see the custom keyboard again. Defaults to false.
  * @method $this inputFieldPlaceholder(string $inputFieldPlaceholder) (Optional). The placeholder to be shown in the input field when the keyboard is active; 1-64 characters

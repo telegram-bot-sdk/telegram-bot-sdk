@@ -3,6 +3,8 @@
 namespace Telegram\Bot\Methods;
 
 use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
+use Telegram\Bot\Objects\Payments\LabeledPrice;
+use Telegram\Bot\Objects\Payments\ShippingOption;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
@@ -26,7 +28,7 @@ trait Payments
      * 	payload: string,
      * 	provider_token: string,
      * 	currency: string,
-     * 	prices: array<array{label: string, amount: int}>,
+     * 	prices: LabeledPrice[],
      * 	max_tip_amount: int,
      * 	suggested_tip_amounts: int[],
      * 	start_parameter: string,
@@ -67,7 +69,7 @@ trait Payments
      * 	payload: string,
      * 	provider_token: string,
      * 	currency: string,
-     * 	prices: array<array{label: string, amount: int}>,
+     * 	prices: LabeledPrice[],
      * 	max_tip_amount: int,
      * 	suggested_tip_amounts: int[],
      * 	provider_data: string,
@@ -101,7 +103,7 @@ trait Payments
      * @param array{
      * 	shippingQueryId: string,
      * 	ok: bool,
-     * 	shippingOptions: array<array{id: string, title:string, prices: array}>,
+     * 	shippingOptions: ShippingOption[],
      * 	errorMessage: string,
      * } $params
      */

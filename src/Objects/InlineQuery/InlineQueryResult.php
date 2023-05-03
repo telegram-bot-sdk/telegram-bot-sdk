@@ -9,7 +9,7 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  *
  * To initialise quickly you can use the following array to construct the object:
  */
-abstract class AbstractInlineObject extends AbstractCreateObject
+abstract class InlineQueryResult extends AbstractCreateObject
 {
     protected string $type;
 
