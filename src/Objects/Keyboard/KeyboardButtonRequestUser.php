@@ -13,6 +13,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  * @method self userIsBot(bool $bool)        Optional. Pass True to request a bot, pass False to request a regular user. If not specified, no additional restrictions are applied.
  * @method self userIsPremium(bool $bool)    Optional. Pass True to request a premium user, pass False to request a non-premium user. If not specified, no additional restrictions are applied.
  */
-class KeyboardButtonRequestUser extends AbstractCreateObject
+final class KeyboardButtonRequestUser extends AbstractCreateObject
 {
 }

@@ -7,7 +7,7 @@ use Countable;
 use Illuminate\Support\Collection;
 use LogicException;
 
-class ResponseObject extends AbstractObject implements ArrayAccess, Countable
+final class ResponseObject extends AbstractObject implements ArrayAccess, Countable
 {
     public function withCustomData(mixed $key, mixed $value): static
     {

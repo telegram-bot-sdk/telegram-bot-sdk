@@ -29,7 +29,7 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  * @method $this thumbnailWidth(int $int)                                      (Optional). Thumbnail width
  * @method $this thumbnailHeight(int $int)                                     (Optional). Thumbnail height
  */
-class InlineQueryResultDocument extends InlineQueryResult
+final class InlineQueryResultDocument extends InlineQueryResult
 {
     protected string $type = 'document';
 }

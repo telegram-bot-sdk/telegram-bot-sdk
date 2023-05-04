@@ -11,6 +11,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  *
  * @method $this url(string $url)     An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps
  */
-class WebAppInfo extends AbstractCreateObject
+final class WebAppInfo extends AbstractCreateObject
 {
 }

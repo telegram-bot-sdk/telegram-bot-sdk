@@ -20,7 +20,7 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  * @method $this duration(int $int)                               (Optional). Animation duration
  * @method $this hasSpoiler(bool $bool)                           (Optional). Pass True if the photo needs to be covered with a spoiler animation
  */
-class InputMediaAnimation extends InputMedia
+final class InputMediaAnimation extends InputMedia
 {
     protected string $type = 'animation';
 }

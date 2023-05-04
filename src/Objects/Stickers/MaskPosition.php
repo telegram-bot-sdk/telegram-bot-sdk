@@ -14,6 +14,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  * @method $this y_shift(float $float)   Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. For example, 1.0 will place the mask just below the default mask position.
  * @method $this scale(float $float)     Mask scaling coefficient. For example, 2.0 means double size.
  */
-class MaskPosition extends AbstractCreateObject
+final class MaskPosition extends AbstractCreateObject
 {
 }

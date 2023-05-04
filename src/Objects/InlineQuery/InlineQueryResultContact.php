@@ -24,7 +24,7 @@ use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
  * @method $this thumbnailWidth(int $int)                                      (Optional). Thumbnail width
  * @method $this thumbnailHeight(int $int)                                     (Optional). Thumbnail height
  */
-class InlineQueryResultContact extends InlineQueryResult
+final class InlineQueryResultContact extends InlineQueryResult
 {
     protected string $type = 'contact';
 }

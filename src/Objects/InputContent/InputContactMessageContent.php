@@ -12,6 +12,6 @@ namespace Telegram\Bot\Objects\InputContent;
  * @method $this lastName(string $lastName)         (Optional). Contact's last name
  * @method $this vcard(string $vcard)               (Optional). Additional data about the contact in the form of a vCard, 0-2048 bytes
  */
-class InputContactMessageContent extends InputMessageContent
+final class InputContactMessageContent extends InputMessageContent
 {
 }

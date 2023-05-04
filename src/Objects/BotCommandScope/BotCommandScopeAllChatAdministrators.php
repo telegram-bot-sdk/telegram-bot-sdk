@@ -7,7 +7,7 @@ namespace Telegram\Bot\Objects\BotCommandScope;
  *
  * @link https://core.telegram.org/bots/api#botcommandscopeallchatadministrators
  */
-class BotCommandScopeAllChatAdministrators extends BotCommandScope
+final class BotCommandScopeAllChatAdministrators extends BotCommandScope
 {
     protected string $type = 'all_chat_administrators';
 }

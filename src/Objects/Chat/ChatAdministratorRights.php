@@ -22,6 +22,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  * @method $this canPinMessages(bool $bool)        Optional. True, if the user is allowed to pin messages; groups and supergroups only
  * @method $this canManageTopics(bool $bool)       Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
  */
-class ChatAdministratorRights extends AbstractCreateObject
+final class ChatAdministratorRights extends AbstractCreateObject
 {
 }

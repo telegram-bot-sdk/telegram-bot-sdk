@@ -25,7 +25,7 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup)             (Optional). Inline keyboard attached to the message
  * @method $this inputMessageContent(InputMessageContent $inputMessageContent) (Optional). Content of the message to be sent instead of the video
  */
-class InlineQueryResultCachedVideo extends InlineQueryResult
+final class InlineQueryResultCachedVideo extends InlineQueryResult
 {
     protected string $type = 'video';
 }

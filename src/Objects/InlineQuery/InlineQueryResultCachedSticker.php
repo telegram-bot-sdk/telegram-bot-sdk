@@ -18,7 +18,7 @@ use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
  * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup)             (Optional). Inline keyboard attached to the message
  * @method $this inputMessageContent(InputMessageContent $inputMessageContent) (Optional). Content of the message to be sent instead of the sticker
  */
-class InlineQueryResultCachedSticker extends InlineQueryResult
+final class InlineQueryResultCachedSticker extends InlineQueryResult
 {
     protected string $type = 'sticker';
 }

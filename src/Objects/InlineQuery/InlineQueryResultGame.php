@@ -15,7 +15,7 @@ use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
  * @method $this gameShortName(string $string)                      Required. Short name of the game.
  * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup)  (Optional). Inline keyboard attached to the message
  */
-class InlineQueryResultGame extends InlineQueryResult
+final class InlineQueryResultGame extends InlineQueryResult
 {
     protected string $type = 'game';
 }

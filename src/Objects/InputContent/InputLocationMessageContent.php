@@ -14,6 +14,6 @@ namespace Telegram\Bot\Objects\InputContent;
  * @method $this heading(int $int)                  (Optional). For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
  * @method $this proximityAlertRadius(int $int)     (Optional). For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
  */
-class InputLocationMessageContent extends InputMessageContent
+final class InputLocationMessageContent extends InputMessageContent
 {
 }

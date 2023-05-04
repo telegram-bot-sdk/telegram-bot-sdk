@@ -14,6 +14,6 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  * @method $this entities(MessageEntity[] $messageEntity)           (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
  * @method $this disableWebPagePreview(bool $disableWebPagePreview) (Optional). Disables link previews for links in the sent message
  */
-class InputTextMessageContent extends InputMessageContent
+final class InputTextMessageContent extends InputMessageContent
 {
 }

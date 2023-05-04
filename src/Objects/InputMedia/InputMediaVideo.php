@@ -23,7 +23,7 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  * @method $this supportsStreaming(bool $bool)                   (Optional). Pass True, if the uploaded video is suitable for streaming
  * @method $this hasSpoiler(bool $bool)                          (Optional). Pass True if the video needs to be covered with a spoiler animation
  */
-class InputMediaVideo extends InputMedia
+final class InputMediaVideo extends InputMedia
 {
     protected string $type = 'video';
 }
