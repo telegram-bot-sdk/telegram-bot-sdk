@@ -1,6 +1,6 @@
 <?php
 
-namespace Telegram\Bot;
+namespace Telegram\Bot\Enums;
 
 /**
  * Entity Type.

@@ -104,7 +104,7 @@ trait Methods
      *     date: int,
      *     chat: array,
      *     forward_from_chat: array,
-     *     forward_from_message_id: integer,
+     *     forward_from_message_id: int,
      *     forward_signature: string,
      *     forward_sender_name: string,
      *     forward_date: int,
@@ -427,7 +427,7 @@ trait Methods
     /**
      * Send a group of photos, audio, documents or videos as an album.
      *
-     * Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
+     * Documents and audio files can be only grouped on an album with messages of the same type. On success, an array of Messages that were sent is returned.
      *
      * @link https://core.telegram.org/bots/api#sendmediagroup
      *
@@ -792,7 +792,7 @@ trait Methods
 
     /**
      * Ban a channel chat in a supergroup or a channel. Until the chat is unbanned, the owner of the banned chat
-     * won't be able to send messages on behalf of any of their channels.
+     * won't be able to send messages on behalf of their channels.
      *
      * The bot must be an administrator in the supergroup or channel for this to work and must have the appropriate administrator rights.
      *
@@ -942,7 +942,7 @@ trait Methods
     }
 
     /**
-     * Revoke an invite link created by the bot.
+     * Revoke an invitation link created by the bot.
      *
      * The bot must be an administrator in the group for this to work.
      *
@@ -1138,7 +1138,7 @@ trait Methods
     }
 
     /**
-     * Get up to date information about the chat (current name of the user for one-on-one conversations,
+     * Get up-to-date information about the chat (current name of the user for one-on-one conversations,
      * current username of a user, group or channel, etc.).
      *
      * @link https://core.telegram.org/bots/api#getchat

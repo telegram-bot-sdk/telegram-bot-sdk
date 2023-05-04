@@ -153,7 +153,6 @@ abstract class Command implements CommandInterface
      *
      * @throws TelegramCommandException
      * @throws TelegramSDKException
-     * @noinspection PhpUnused
      */
     protected function triggerCommand(CommandInterface|string $command, array $params = []): void
     {
