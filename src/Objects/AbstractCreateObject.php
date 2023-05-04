@@ -14,7 +14,7 @@ abstract class AbstractCreateObject extends AbstractObject
 {
     public function __call(string $name, array $arguments)
     {
-        if(method_exists($this->fields, $name)) {
+        if (method_exists($this->fields, $name)) {
             return parent::__call($name, $arguments);
         }
 

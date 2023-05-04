@@ -33,8 +33,11 @@ class Bot
     use HasContainer;
 
     protected string $name;
+
     protected Api $api;
+
     protected EventFactory $eventFactory;
+
     protected array $listeners;
 
     /**
