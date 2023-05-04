@@ -121,7 +121,7 @@ class CommandBus
      *
      * @throws TelegramSDKException
      */
-    protected function process(ResponseObject $update, $entity): void
+    protected function process(ResponseObject $update, array $entity): void
     {
         $command = $this->parseCommand(
             Entity::from($update)->text(),

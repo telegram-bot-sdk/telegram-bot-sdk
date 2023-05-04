@@ -65,7 +65,7 @@ final class ResponseObject extends AbstractObject implements ArrayAccess, Counta
     {
         $field = $this->fields->get($offset);
 
-        return is_array($field) ? new static($field) : $field;
+        return is_array($field) ? new self($field) : $field;
     }
 
     public function __isset(string $name): bool

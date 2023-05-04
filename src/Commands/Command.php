@@ -148,8 +148,6 @@ abstract class Command implements CommandInterface
     /**
      * Helper to Trigger other Commands.
      *
-     * @param  string|CommandInterface  $command
-     * @param  array  $params
      *
      * @throws TelegramCommandException
      * @throws TelegramSDKException

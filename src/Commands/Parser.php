@@ -55,7 +55,7 @@ class Parser
         return $this->entity;
     }
 
-    public function setEntity($entity): self
+    public function setEntity(?array $entity): self
     {
         $this->entity = $entity;
 

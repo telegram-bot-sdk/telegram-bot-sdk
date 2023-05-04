@@ -30,7 +30,7 @@ class TelegramResponse
     protected ?ResponseObject $decodedBody = null;
 
     /** @var null|TelegramSDKException The exception thrown by this request. */
-    protected ?TelegramSDKException $thrownException;
+    protected ?TelegramSDKException $thrownException = null;
 
     public function __construct(protected TelegramRequest $request, PromiseInterface|ResponseInterface $response)
     {
