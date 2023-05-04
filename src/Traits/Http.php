@@ -7,6 +7,7 @@ use Telegram\Bot\Contracts\HttpClientInterface;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Http\TelegramClient;
 use Telegram\Bot\Http\TelegramResponse;
+use Telegram\Bot\Objects\ResponseObject;
 
 /**
  * Http.
@@ -50,39 +51,35 @@ trait Http
     }
 
     /**
-     * Download a file from Telegram server by file ID.
+     * Download a file from Telegram server by fileID or getFile() Response.
      *
-     * @param  string  $file     Telegram File Instance / File Response Object or File ID.
-     * @param  string  $filename Absolute path to dir or filename to save as.
+     *
+     * @param string|ResponseObject $fileId File ID or ResponseObject from getFile()
+     * @param string                $saveTo Absolute path to dir or filename to save as.
      *
      * @throws TelegramSDKException
+     * @return string
      */
-    public function downloadFile(string $file, string $filename): string
+    public function downloadFile(string|ResponseObject $fileId, string $saveTo): string
     {
         $originalFilename = null;
-        //        if (! $file instanceof File) {
-        //            if ($file instanceof AbstractResponseObject) {
-        //                $originalFilename = $file->get('file_name');
-        //
-        //                // Try to get file_id from the object or default to the original param.
-        //                $file = $file->get('file_id');
-        //            }
-        //
-        //            if (! is_string($file)) {
-        //                throw new InvalidArgumentException(
-        //                    'Invalid $file param provided. Please provide one of file_id, File or Response object containing file_id'
-        //                );
-        //            }
-        //
-        //            $file = $this->getFile(['file_id' => $file]);
-        //        }
-        //
-        //        // No filename provided.
-        //        if (pathinfo($filename, PATHINFO_EXTENSION) === '') {
-        //            // Attempt to use the original file name if there is one or fallback to the file_path filename.
-        //            $filename .= DIRECTORY_SEPARATOR.($originalFilename ?: basename((string) $file->file_path));
-        //        }
-        //
-        //        return $this->getClient()->download($file->file_path, $filename);
+
+        if (!$fileId instanceof ResponseObject) {
+            $fileId = $this->getFile(['file_id' => $fileId]);
+        }
+
+        if (!$fileId->has('file_id')) {
+            throw new InvalidArgumentException(
+                'Invalid param provided. Please provide either a file id or a ResponseObject containing file_id'
+            );
+        }
+
+        // No filename provided.
+        if (pathinfo($saveTo, PATHINFO_EXTENSION) === '') {
+            // Attempt to use the original file name if there is one or fallback to the file_path filename.
+            $saveTo .= DIRECTORY_SEPARATOR . ($originalFilename ?: basename((string)$fileId->file_path));
+        }
+
+        return $this->getClient()->download($fileId->file_path, $saveTo);
     }
 }
