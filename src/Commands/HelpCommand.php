@@ -2,9 +2,9 @@
 
 namespace Telegram\Bot\Commands;
 
-use Telegram\Bot\Helpers\Update;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Helpers\Update;
 use Throwable;
 
 /**

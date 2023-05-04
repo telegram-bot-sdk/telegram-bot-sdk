@@ -2,10 +2,10 @@
 
 namespace Telegram\Bot\Objects;
 
-use Countable;
 use ArrayAccess;
-use LogicException;
+use Countable;
 use Illuminate\Support\Collection;
+use LogicException;
 
 class ResponseObject extends AbstractObject implements ArrayAccess, Countable
 {

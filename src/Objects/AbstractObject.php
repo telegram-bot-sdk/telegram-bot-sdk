@@ -4,13 +4,13 @@ namespace Telegram\Bot\Objects;
 
 use ArrayIterator;
 use CachingIterator;
+use Illuminate\Support\Collection;
 use IteratorAggregate;
 use JsonSerializable;
 use Stringable;
-use Telegram\Bot\Helpers\Json;
-use Illuminate\Support\Collection;
 use Telegram\Bot\Contracts\Arrayable;
 use Telegram\Bot\Contracts\Jsonable;
+use Telegram\Bot\Helpers\Json;
 use Telegram\Bot\Traits\ForwardsCalls;
 
 abstract class AbstractObject implements Arrayable, IteratorAggregate, Jsonable, JsonSerializable, Stringable

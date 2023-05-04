@@ -13,7 +13,6 @@ use ReflectionType;
 use ReflectionUnionType;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\HasUpdate;
 
 /**

@@ -2,8 +2,8 @@
 
 namespace Telegram\Bot\Objects\InputMedia;
 
-use Telegram\Bot\Helpers\Validator;
 use Telegram\Bot\Contracts\Multipartable;
+use Telegram\Bot\Helpers\Validator;
 use Telegram\Bot\Objects\AbstractCreateObject;
 
 /**
@@ -23,8 +23,8 @@ abstract class AbstractArrayObject extends AbstractCreateObject implements Multi
 
     public function toMultipart(): array
     {
-        return $this->fields->filter(fn($field): bool => Validator::isMultipartable($field))
-            ->flatMap(fn($field) => $field->toMultipart())
+        return $this->fields->filter(fn ($field): bool => Validator::isMultipartable($field))
+            ->flatMap(fn ($field) => $field->toMultipart())
             ->all();
     }
 }

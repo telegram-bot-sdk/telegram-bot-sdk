@@ -2,13 +2,12 @@
 
 namespace Telegram\Bot\Http;
 
-use JsonException;
-use Telegram\Bot\Helpers\Json;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Telegram\Bot\Exceptions\TelegramJsonException;
 use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Helpers\Json;
 use Telegram\Bot\Objects\ResponseObject;
 
 /**
@@ -139,8 +138,6 @@ class TelegramResponse
 
     /**
      * Helper function to return the payload of a successful response.
-     *
-     * @return mixed
      */
     public function getResult(): mixed
     {

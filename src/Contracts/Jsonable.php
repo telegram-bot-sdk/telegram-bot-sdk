@@ -6,8 +6,6 @@ interface Jsonable
 {
     /**
      * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
      */
     public function toJson(int $options = 0): string;
 }

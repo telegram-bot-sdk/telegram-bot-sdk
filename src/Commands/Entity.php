@@ -2,9 +2,9 @@
 
 namespace Telegram\Bot\Commands;
 
-use Telegram\Bot\Helpers\Update;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Telegram\Bot\Helpers\Update;
 use Telegram\Bot\Objects\ResponseObject;
 
 /**

@@ -2,8 +2,8 @@
 
 namespace Telegram\Bot\Traits;
 
-use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\ResponseObject;
 
 /**
  * HasUpdate.

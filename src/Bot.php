@@ -3,8 +3,6 @@
 namespace Telegram\Bot;
 
 use Closure;
-use Telegram\Bot\Helpers\Update;
-use Telegram\Bot\Objects\ResponseObject;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Addon\AddonManager;
@@ -13,7 +11,9 @@ use Telegram\Bot\Contracts\HttpClientInterface;
 use Telegram\Bot\Events\EventFactory;
 use Telegram\Bot\Events\UpdateEvent;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Helpers\Update;
 use Telegram\Bot\Http\GuzzleHttpClient;
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\ForwardsCalls;
 use Telegram\Bot\Traits\HasConfig;
 use Telegram\Bot\Traits\HasContainer;

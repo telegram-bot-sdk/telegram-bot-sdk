@@ -46,7 +46,6 @@ class TelegramSDKException extends Exception
     /**
      * Thrown when command name is not set.
      *
-     * @param  object|string  $command
      *
      * @return static
      */

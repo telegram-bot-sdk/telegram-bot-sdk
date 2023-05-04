@@ -3,8 +3,8 @@
 namespace Telegram\Bot\Commands;
 
 use Telegram\Bot\Bot;
-use Throwable;
 use Telegram\Bot\Objects\ResponseObject;
+use Throwable;
 
 /**
  * Interface CommandInterface.

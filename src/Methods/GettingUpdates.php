@@ -2,8 +2,8 @@
 
 namespace Telegram\Bot\Methods;
 
-use Telegram\Bot\Helpers\Json;
 use Telegram\Bot\FileUpload\InputFile;
+use Telegram\Bot\Helpers\Json;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\Http;
 
@@ -23,7 +23,6 @@ trait GettingUpdates
      * 	timeout: int,
      * 	allowed_updates: string[],
      * } $params
-     *
      * @return ResponseObject<array{
      *     update_id: int,
      *     message: array,

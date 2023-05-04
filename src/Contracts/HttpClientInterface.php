@@ -2,8 +2,8 @@
 
 namespace Telegram\Bot\Contracts;
 
-use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 interface HttpClientInterface
 {

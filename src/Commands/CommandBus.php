@@ -2,13 +2,13 @@
 
 namespace Telegram\Bot\Commands;
 
-use Telegram\Bot\Objects\ResponseObject;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InvalidArgumentException;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Helpers\Validator;
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\HasBot;
 
 class CommandBus
