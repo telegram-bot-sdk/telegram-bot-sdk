@@ -2,10 +2,10 @@
 
 namespace Telegram\Bot\Commands;
 
-use Telegram\Bot\Events\CommandNotFoundEvent;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InvalidArgumentException;
 use Telegram\Bot\Bot;
+use Telegram\Bot\Events\CommandNotFoundEvent;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Helpers\Validator;
@@ -191,7 +191,7 @@ class CommandBus
         if (! class_exists($command)) {
             $this->dispatchCommandNotFoundEvent($command, $update);
 
-            if(array_key_exists('help', $this->commands)) {
+            if (array_key_exists('help', $this->commands)) {
                 $command = $this->commands['help'];
             } else {
                 throw TelegramCommandException::commandClassDoesNotExist($command);
