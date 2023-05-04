@@ -15,6 +15,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  * @method $this maskPosition(MaskPosition $mask)                 Optional. Position where the mask should be placed on faces. For “mask” stickers only.
  * @method $this keywords(string[] $strings)                      Optional. List of 0-20 search keywords for the sticker with total length of up to 64 characters. For “regular” and “custom_emoji” stickers only.
  */
-final class InputSticker extends AbstractCreateObject
+class InputSticker extends AbstractCreateObject
 {
 }

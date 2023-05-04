@@ -1658,8 +1658,8 @@ trait Methods
      * @link https://core.telegram.org/bots/api#setmydefaultadministratorrights
      *
      * @param array{
-     *  rights: array,
-     *    for_channels: bool,
+     *     rights: array,
+     *     for_channels: bool,
      * } $params
      */
     public function setMyDefaultAdministratorRights(array $params): ResponseObject

@@ -13,6 +13,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  * @method $this title(string $string)                   Option title
  * @method $this prices(LabeledPrice[] $labeledPrices)   List of price portions
  */
-final class ShippingOption extends AbstractCreateObject
+class ShippingOption extends AbstractCreateObject
 {
 }

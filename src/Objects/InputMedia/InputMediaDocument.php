@@ -19,7 +19,7 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  * @method $this captionEntities(MessageEntity[] $messageEntity)  (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
  * @method $this disableContentTypeDetection(bool $bool)          (Optional). Disables automatic server-side content type detection for files uploaded using multipart/form-data. Always true, if the document is sent as part of an album.
  */
-final class InputMediaDocument extends InputMedia
+class InputMediaDocument extends InputMedia
 {
     protected string $type = 'document';
 }

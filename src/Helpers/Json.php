@@ -5,7 +5,7 @@ namespace Telegram\Bot\Helpers;
 use JsonException;
 use Telegram\Bot\Exceptions\TelegramJsonException;
 
-class Json
+final class Json
 {
     public static function decode(string $json, int $options = 0): ?array
     {

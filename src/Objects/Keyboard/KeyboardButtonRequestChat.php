@@ -19,6 +19,6 @@ use Telegram\Bot\Objects\Chat\ChatAdministratorRights;
  * @method $this botAdministratorRights(ChatAdministratorRights $chatAdminRights)    Optional. A JSON-serialized object listing the required administrator rights of the bot in the chat. The rights must be a subset of user_administrator_rights. If not specified, no additional restrictions are applied.
  * @method $this botIsMember(bool $bool)                                             Optional. Pass True to request a chat with the bot as a member. Otherwise, no additional restrictions are applied.
  */
-final class KeyboardButtonRequestChat extends AbstractCreateObject
+class KeyboardButtonRequestChat extends AbstractCreateObject
 {
 }

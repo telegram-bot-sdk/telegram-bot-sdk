@@ -3,6 +3,7 @@
 namespace Telegram\Bot;
 
 use Closure;
+use Telegram\Bot\Helpers\Update;
 use Telegram\Bot\Objects\ResponseObject;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
@@ -147,10 +148,7 @@ class Bot
      * Listen for inbound updates using either webhook or polling method.
      * Dispatches event when an inbound update is received.
      *
-     *
      * @return ResponseObject|ResponseObject[]
-     *
-     * @throws TelegramSDKException
      */
     public function listen(bool $webhook = false, array $params = []): ResponseObject|array
     {
@@ -194,15 +192,17 @@ class Bot
     /**
      * Dispatch Update Event.
      */
-    public function dispatchUpdateEvent(ResponseObject $update): ResponseObject
+    public function dispatchUpdateEvent(ResponseObject $response): ResponseObject
     {
-        $event = new UpdateEvent($this, $update);
+        $event = new UpdateEvent($this, $response);
+
+        $update = Update::find($response);
 
         $this->eventFactory->dispatch(UpdateEvent::NAME, $event);
-        $this->eventFactory->dispatch($update->objectType(), $event);
+        $this->eventFactory->dispatch($update->type(), $event);
 
-        if (null !== $update->getMessage()->objectType()) {
-            $this->eventFactory->dispatch($update->objectType().'.'.$update->getMessage()->objectType(), $event);
+        if (null !== $update->messageType()) {
+            $this->eventFactory->dispatch($update->type().'.'.$update->messageType(), $event);
         }
 
         return $event->update;

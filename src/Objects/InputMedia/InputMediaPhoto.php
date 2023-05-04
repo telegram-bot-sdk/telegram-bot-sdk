@@ -18,7 +18,7 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  * @method $this captionEntities(MessageEntity[] $messageEntity)  (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
  * @method $this hasSpoiler(bool $bool)                           (Optional). Pass True if the photo needs to be covered with a spoiler animation
  */
-final class InputMediaPhoto extends InputMedia
+class InputMediaPhoto extends InputMedia
 {
     protected string $type = 'photo';
 }

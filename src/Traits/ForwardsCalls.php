@@ -5,20 +5,9 @@ namespace Telegram\Bot\Traits;
 use BadMethodCallException;
 use Error;
 
-/**
- * ForwardsCalls.
- */
 trait ForwardsCalls
 {
-    /**
-     * Forward a method call to the given object.
-     *
-     *
-     * @return mixed
-     *
-     * @throws BadMethodCallException
-     */
-    protected function forwardCallTo(mixed $object, string $method, array $parameters)
+    protected function forwardCallTo(mixed $object, string $method, array $parameters): mixed
     {
         try {
             return $object->{$method}(...$parameters);
@@ -37,14 +26,6 @@ trait ForwardsCalls
         }
     }
 
-    /**
-     * Throw a bad method call exception for the given method.
-     *
-     *
-     * @return void
-     *
-     * @throws BadMethodCallException
-     */
     protected static function throwBadMethodCallException(string $method): never
     {
         throw new BadMethodCallException(sprintf(

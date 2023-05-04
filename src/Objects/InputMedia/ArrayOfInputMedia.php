@@ -2,6 +2,6 @@
 
 namespace Telegram\Bot\Objects\InputMedia;
 
-final class ArrayOfInputMedia extends AbstractArrayObject
+class ArrayOfInputMedia extends AbstractArrayObject
 {
 }

@@ -24,7 +24,7 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup)             (Optional). Inline keyboard attached to the message
  * @method $this inputMessageContent(InputMessageContent $inputMessageContent) (Optional). Content of the message to be sent instead of the voice message
  */
-final class InlineQueryResultCachedVoice extends InlineQueryResult
+class InlineQueryResultCachedVoice extends InlineQueryResult
 {
     protected string $type = 'voice';
 }

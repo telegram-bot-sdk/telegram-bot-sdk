@@ -17,6 +17,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  * @method $this language(string $language)        Optional. For “pre” only, the programming language of the entity text
  * @method $this customEmojiId(string $emojiId)    Optional. For “custom_emoji” only, unique identifier of the custom emoji. Use getCustomEmojiStickers to get full information about the sticker                                       (Optional). If specified, the described Web App will be launched when the button is pressed. The Web App will be able to send a “web_app_data” service message. Available in private chats only.
  */
-final class MessageEntity extends AbstractCreateObject
+class MessageEntity extends AbstractCreateObject
 {
 }

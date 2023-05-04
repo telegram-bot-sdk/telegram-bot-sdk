@@ -9,10 +9,10 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  *
  * @link https://core.telegram.org/bots/api#keyboardbuttonrequestuser
  *
- * @method $this requestId(string $text)      Signed 32-bit identifier of the request, which will be received back in the UserShared object. Must be unique within the message
- * @method $this userIsBot(bool $bool)        Optional. Pass True to request a bot, pass False to request a regular user. If not specified, no additional restrictions are applied.
- * @method $this userIsPremium(bool $bool)    Optional. Pass True to request a premium user, pass False to request a non-premium user. If not specified, no additional restrictions are applied.
+ * @method self requestId(string $text)      Signed 32-bit identifier of the request, which will be received back in the UserShared object. Must be unique within the message
+ * @method self userIsBot(bool $bool)        Optional. Pass True to request a bot, pass False to request a regular user. If not specified, no additional restrictions are applied.
+ * @method self userIsPremium(bool $bool)    Optional. Pass True to request a premium user, pass False to request a non-premium user. If not specified, no additional restrictions are applied.
  */
-final class KeyboardButtonRequestUser extends AbstractCreateObject
+class KeyboardButtonRequestUser extends AbstractCreateObject
 {
 }

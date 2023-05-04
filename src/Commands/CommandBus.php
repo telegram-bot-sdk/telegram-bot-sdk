@@ -2,20 +2,15 @@
 
 namespace Telegram\Bot\Commands;
 
-use BadMethodCallException;
+use Telegram\Bot\Objects\ResponseObject;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InvalidArgumentException;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Helpers\Validator;
-use Telegram\Bot\Objects\MessageEntity;
-use Telegram\Bot\Objects\Update;
 use Telegram\Bot\Traits\HasBot;
 
-/**
- * Class CommandBus.
- */
 class CommandBus
 {
     use HasBot;
@@ -109,11 +104,12 @@ class CommandBus
     /**
      * Handles Inbound Messages and Executes Appropriate Command.
      */
-    public function handler(Update $update): Update
+    public function handler(ResponseObject $update): ResponseObject
     {
         if (Validator::hasCommand($update)) {
-            Entity::from($update)->commandEntities()
-                ->each(fn (MessageEntity $entity) => $this->process($update, $entity));
+            Entity::from($update)
+                ->commandEntities()
+                ->each(fn ($entity) => $this->process($update, $entity));
         }
 
         return $update;
@@ -122,15 +118,14 @@ class CommandBus
     /**
      * Execute a bot command from the update text.
      *
-     *
      * @throws TelegramSDKException
      */
-    protected function process(Update $update, MessageEntity $entity): void
+    protected function process(ResponseObject $update, $entity): void
     {
         $command = $this->parseCommand(
             Entity::from($update)->text(),
-            $entity->offset,
-            $entity->length
+            $entity['offset'],
+            $entity['length']
         );
 
         $this->execute($command, $update, $entity);
@@ -139,11 +134,10 @@ class CommandBus
     /**
      * Execute the command.
      *
-     *
      * @throws TelegramCommandException
      * @throws TelegramSDKException
      */
-    public function execute(CommandInterface|string $commandName, Update $update, MessageEntity|array $entity, bool $isTriggered = false): void
+    public function execute(CommandInterface|string $commandName, ResponseObject $update, array $entity, bool $isTriggered = false): void
     {
         $command = $this->resolveCommand($commandName);
 
@@ -183,11 +177,9 @@ class CommandBus
     /**
      * Resolve given command with IoC container.
      *
-     * @param  CommandInterface|string|object  $command
-     *
      * @throws TelegramCommandException
      */
-    public function resolveCommand($command): CommandInterface
+    public function resolveCommand(CommandInterface|string $command): CommandInterface
     {
         if (is_object($command)) {
             return $this->validateCommandClassInstance($command);
@@ -221,23 +213,5 @@ class CommandBus
         }
 
         throw TelegramCommandException::commandClassNotValid($command);
-    }
-
-    /**
-     * Handle calls to missing methods.
-     *
-     * @param  string  $method
-     * @param  array  $parameters
-     * @return mixed
-     *
-     * @throws BadMethodCallException
-     */
-    public function __call($method, $parameters)
-    {
-        if (method_exists($this, $method)) {
-            return $this->{$method}(...$parameters);
-        }
-
-        throw new BadMethodCallException("Method [$method] does not exist.");
     }
 }

@@ -8,17 +8,14 @@ use Telegram\Bot\Contracts\Multipartable;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Objects\ResponseObject;
 
-/**
- * Validator.
- */
-class Validator
+final class Validator
 {
     /**
      * Determine given param in params array is a file id.
      */
     public static function hasFileId(string $inputFileField, array $params): bool
     {
-        return isset($params[$inputFileField]) && static::isFileId($params[$inputFileField]);
+        return isset($params[$inputFileField]) && self::isFileId($params[$inputFileField]);
     }
 
     /**
@@ -32,9 +29,9 @@ class Validator
     /**
      * Determine the given string is a file id.
      *
-     * @param  string  $value
+     * @param  mixed|string  $value
      */
-    public static function isFileId($value): bool
+    public static function isFileId(mixed $value): bool
     {
         if (! is_string($value)) {
             return false;
@@ -86,10 +83,11 @@ class Validator
      */
     public static function hasCommand(ResponseObject $update): bool
     {
-        return (bool) $update->getMessage()
+        return Update::find($update)
+            ->message()
             ->collect()
             ->filter(fn ($val, $field): bool => Str::endsWith($field, 'entities'))
             ->flatten()
-            ->contains('type', 'bot_command');
+            ->contains('bot_command');
     }
 }

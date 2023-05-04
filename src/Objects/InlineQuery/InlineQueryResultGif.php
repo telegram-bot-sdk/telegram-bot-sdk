@@ -29,7 +29,7 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup)             (Optional). Inline keyboard attached to the message
  * @method $this inputMessageContent(InputMessageContent $inputMessageContent) (Optional). Content of the message to be sent instead of the GIF animation
  */
-final class InlineQueryResultGif extends InlineQueryResult
+class InlineQueryResultGif extends InlineQueryResult
 {
     protected string $type = 'gif';
 }

@@ -23,6 +23,6 @@ use Telegram\Bot\Objects\WebApp\WebAppInfo;
  * @method $this callbackGame(string $callbackGame)                                    (Optional). Description of the game that will be launched when the user presses the button. NOTE: This type of button must always be the first button in the first row.
  * @method $this pay(bool $pay)                                                        (Optional). Specify True, to send a Pay button. NOTE: This type of button must always be the first button in the first row.
  */
-final class InlineKeyboardButton extends AbstractCreateObject
+class InlineKeyboardButton extends AbstractCreateObject
 {
 }

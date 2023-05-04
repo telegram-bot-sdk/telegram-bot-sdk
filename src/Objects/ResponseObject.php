@@ -3,31 +3,12 @@
 namespace Telegram\Bot\Objects;
 
 use Countable;
-use Stringable;
 use ArrayAccess;
-use Traversable;
 use LogicException;
-use CachingIterator;
-use JsonSerializable;
-use IteratorAggregate;
 use Illuminate\Support\Collection;
-use Telegram\Bot\Contracts\Jsonable;
-use Telegram\Bot\Contracts\Arrayable;
 
-class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable, JsonSerializable, Stringable
+class ResponseObject extends AbstractObject implements ArrayAccess, Countable
 {
-    private Collection $fields;
-
-    public function __construct(array $fields = [])
-    {
-        $this->fields = new Collection($fields);
-    }
-
-    public function getCustomData(): array
-    {
-        return $this->fields->get('custom_data', []);
-    }
-
     public function withCustomData(mixed $key, mixed $value): static
     {
         $data = $this->getCustomData();
@@ -42,6 +23,11 @@ class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggre
         return $this;
     }
 
+    public function getCustomData(): array
+    {
+        return $this->fields->get('custom_data', []);
+    }
+
     public function offsetSet(mixed $offset, mixed $value): void
     {
         throw new LogicException('Cannot modify an immutable object. Value cannot be set. Use addCustomData() instead to add extra data.');
@@ -52,34 +38,17 @@ class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggre
         return $this->fields->count();
     }
 
-    public function jsonSerialize(): array
-    {
-        return $this->fields->jsonSerialize();
-    }
-
     public function collect(): Collection
     {
         return $this->fields;
     }
 
-    public function toJson(int $options = 0): string
+    public function findType(array $types): ?string
     {
-        return $this->fields->toJson($options);
-    }
-
-    public function getIterator(): Traversable
-    {
-        return $this->fields->getIterator();
-    }
-
-    public function getCachingIterator(int $flags = CachingIterator::CALL_TOSTRING): CachingIterator
-    {
-        return $this->fields->getCachingIterator($flags);
-    }
-
-    public function __toString(): string
-    {
-        return $this->fields->__toString();
+        return $this->collect()
+            ->keys()
+            ->intersect($types)
+            ->pop();
     }
 
     public function __get(string $name): mixed
@@ -117,15 +86,5 @@ class ResponseObject implements Arrayable, ArrayAccess, Countable, IteratorAggre
     public function offsetUnset(mixed $offset): void
     {
         throw new LogicException('Cannot modify an immutable object. Value cannot be unset.');
-    }
-
-    public function __debugInfo()
-    {
-        return $this->toArray();
-    }
-
-    public function toArray(): array
-    {
-        return $this->fields->toArray();
     }
 }

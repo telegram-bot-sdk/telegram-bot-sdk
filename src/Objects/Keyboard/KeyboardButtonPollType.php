@@ -11,14 +11,14 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  *
  * @method void type(string $pollType)      Optional. If quiz is passed, the user will be allowed to create only polls in the quiz mode. If regular is passed, only regular polls will be allowed. Otherwise, the user will be allowed to create a poll of any type.
  */
-final class KeyboardButtonPollType extends AbstractCreateObject
+class KeyboardButtonPollType extends AbstractCreateObject
 {
     /**
      * Shortcut to set KeyboardButtonPollType to Quiz
      */
     public function quiz(): void
     {
-        $this->fields['type'] = 'quiz';
+        $this->fields->offsetSet('type', 'quiz');
     }
 
     /**
@@ -26,6 +26,6 @@ final class KeyboardButtonPollType extends AbstractCreateObject
      */
     public function regular(): void
     {
-        $this->fields['type'] = 'quiz';
+        $this->fields->offsetSet('type', 'regular');
     }
 }

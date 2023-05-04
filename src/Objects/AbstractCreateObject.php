@@ -14,8 +14,12 @@ abstract class AbstractCreateObject extends AbstractObject
 {
     public function __call(string $name, array $arguments)
     {
-        $property = Str::snake($name);
-        $this->fields[$property] = $arguments[0];
+        $value = $arguments[0];
+        if ($value instanceof AbstractObject) {
+            $value = $value->toArray();
+        }
+
+        $this->fields->offsetSet(Str::snake($name), $value);
 
         return $this;
     }

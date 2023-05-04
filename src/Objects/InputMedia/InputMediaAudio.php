@@ -21,7 +21,7 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  * @method $this performer(int $string)                          (Optional). Performer of the audio
  * @method $this title(string $string)                           (Optional). Title of the audio
  */
-final class InputMediaAudio extends InputMedia
+class InputMediaAudio extends InputMedia
 {
     protected string $type = 'audio';
 }

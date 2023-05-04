@@ -3,8 +3,8 @@
 namespace Telegram\Bot\Commands;
 
 use Telegram\Bot\Bot;
-use Telegram\Bot\Objects\Update;
 use Throwable;
+use Telegram\Bot\Objects\ResponseObject;
 
 /**
  * Interface CommandInterface.
@@ -37,7 +37,7 @@ interface CommandInterface
 
     public function failed(array $arguments, Throwable $exception): void;
 
-    public function getUpdate(): Update;
+    public function getUpdate(): ResponseObject;
 
-    public function setUpdate(Update $update);
+    public function setUpdate(ResponseObject $update);
 }

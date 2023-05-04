@@ -6,6 +6,8 @@ use Telegram\Bot\Objects\AbstractCreateObject;
 
 abstract class AbstractKeyboard extends AbstractCreateObject
 {
+    private array $rows;
+
     /**
      * Create a new row in keyboard to add buttons.
      *
@@ -13,10 +15,17 @@ abstract class AbstractKeyboard extends AbstractCreateObject
      */
     public function row(...$buttons): self
     {
-        $type = ($this instanceof InlineKeyboardMarkup) ? 'inline_keyboard' : 'keyboard';
-
-        $this->fields[$type][] = $buttons;
+        $this->rows[] = $buttons;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        $type = ($this instanceof InlineKeyboardMarkup) ? 'inline_keyboard' : 'keyboard';
+
+        $this->fields->offsetSet($type, $this->rows);
+
+        return $this->fields->jsonSerialize();
     }
 }

@@ -7,7 +7,7 @@ namespace Telegram\Bot\Objects\BotCommandScope;
  *
  * @link https://core.telegram.org/bots/api#botcommandscopeallgroupchats
  */
-final class BotCommandScopeAllGroupChats extends BotCommandScope
+class BotCommandScopeAllGroupChats extends BotCommandScope
 {
     protected string $type = 'all_group_chats';
 }

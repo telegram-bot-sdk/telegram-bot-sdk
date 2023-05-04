@@ -23,6 +23,7 @@ trait GettingUpdates
      * 	timeout: int,
      * 	allowed_updates: string[],
      * } $params
+     *
      * @return ResponseObject<array{
      *     update_id: int,
      *     message: array,
@@ -41,9 +42,13 @@ trait GettingUpdates
      *     chat_join_request: array
      * }>
      */
-    public function getUpdates(array $params = []): ResponseObject
+    public function getUpdates(array $params = []): array
     {
-        return $this->get('getUpdates', $params)->getResult();
+        return $this->get('getUpdates', $params)
+            ->getResult()
+            ->collect()
+            ->mapInto(ResponseObject::class)
+            ->all();
     }
 
     /**
@@ -132,7 +137,7 @@ trait GettingUpdates
     /**
      * Confirm update as received.
      */
-    public function confirmUpdate(int $highestId): ResponseObject
+    public function confirmUpdate(int $highestId): array
     {
         return $this->getUpdates([
             'offset' => $highestId + 1,

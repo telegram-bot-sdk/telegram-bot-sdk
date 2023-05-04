@@ -7,7 +7,7 @@ namespace Telegram\Bot\Objects\MenuButton;
  *
  * @link https://core.telegram.org/bots/api#menubuttondefault
  */
-final class MenuButtonDefault extends MenuButton
+class MenuButtonDefault extends MenuButton
 {
     protected string $type = 'default';
 }

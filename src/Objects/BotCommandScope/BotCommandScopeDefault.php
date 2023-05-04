@@ -7,7 +7,7 @@ namespace Telegram\Bot\Objects\BotCommandScope;
  *
  * @link https://core.telegram.org/bots/api#botcommandscopedefault
  */
-final class BotCommandScopeDefault extends BotCommandScope
+class BotCommandScopeDefault extends BotCommandScope
 {
     protected string $type = 'default';
 }

@@ -5,32 +5,23 @@ namespace Telegram\Bot\Helpers;
 /**
  * Class Entities.
  */
-class Entities
+final class Entities
 {
     /** @var array Entities from Telegram */
-    protected array $entities;
+    private array $entities = [];
 
     /** @var int Formatting Mode: 0:Markdown | 1:HTML */
-    protected int $mode = 0;
+    private int $mode = 0;
 
-    /**
-     * Entities constructor.
-     */
-    public function __construct(protected string $text)
+    public function __construct(private string $text)
     {
     }
 
-    /**
-     * @return static
-     */
     public static function format(string $text): self
     {
-        return new static($text);
+        return new self($text);
     }
 
-    /**
-     * @return $this
-     */
     public function withEntities(array $entities): self
     {
         $this->entities = $entities;
@@ -38,9 +29,6 @@ class Entities
         return $this;
     }
 
-    /**
-     * Format it to markdown style.
-     */
     public function toMarkdown(): string
     {
         $this->mode = 0;
@@ -48,9 +36,6 @@ class Entities
         return $this->apply();
     }
 
-    /**
-     * Format it to HTML syntax.
-     */
     public function toHTML(): string
     {
         $this->mode = 1;
@@ -58,12 +43,7 @@ class Entities
         return $this->apply();
     }
 
-    /**
-     * Apply format for given text and entities.
-     *
-     * @return mixed|string
-     */
-    protected function apply(): string
+    private function apply(): string
     {
         $syntax = $this->syntax();
 
@@ -80,6 +60,7 @@ class Entities
                         ($type === 'text_mention') ? $entity['user']['username'] : $value
                     );
                 }
+
                 $this->text = substr_replace($this->text, $replacement, $entity['offset'], $entity['length']);
             }
         }
@@ -92,7 +73,7 @@ class Entities
      *
      * @return array{bold: string[], italic: string[], code: string[], pre: string[], text_mention: string[], text_link: string[]}
      */
-    protected function syntax(): array
+    private function syntax(): array
     {
         // No need of any special formatting for these entity types.
         // 'url', 'bot_command', 'hashtag', 'cashtag', 'email', 'phone_number', 'mention'

@@ -15,6 +15,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  * @method $this allowGroupChats(bool $bool)     Optional. True, if group and supergroup chats can be chosen
  * @method $this allowChannelChats(bool $bool)   Optional. True, if channel chats can be chosen
  */
-final class SwitchInlineQueryChosenChat extends AbstractCreateObject
+class SwitchInlineQueryChosenChat extends AbstractCreateObject
 {
 }

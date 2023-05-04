@@ -13,7 +13,7 @@ use ReflectionType;
 use ReflectionUnionType;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Objects\MessageEntity;
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\HasUpdate;
 
 /**
@@ -23,8 +23,8 @@ class Parser
 {
     use HasUpdate;
 
-    /** @var MessageEntity|null Details of the current entity this command is responding to - offset, length, type etc */
-    protected ?MessageEntity $entity = null;
+    /** @var array|null Details of the current entity this command is responding to - offset, length, type etc */
+    protected ?array $entity = null;
 
     protected CommandInterface|string $command;
 
@@ -51,12 +51,12 @@ class Parser
         return $this;
     }
 
-    public function getEntity(): ?MessageEntity
+    public function getEntity(): ?array
     {
         return $this->entity;
     }
 
-    public function setEntity(MessageEntity $entity): self
+    public function setEntity($entity): self
     {
         $this->entity = $entity;
 
@@ -101,10 +101,6 @@ class Parser
 
         return $this->params = collect($handle->getParameters())
             ->reject(function (ReflectionParameter $param): ReflectionClass|null|bool {
-                if (version_compare(phpversion(), '8.0.0', '<')) {
-                    return $param->getClass();
-                }
-
                 $type = $param->getType();
                 if (! $type instanceof ReflectionType) {
                     return false;
@@ -178,12 +174,6 @@ class Parser
         return "%/[\w]+(?:@.+?bot)?(?:\s+)?{$pattern}%si";
     }
 
-    /**
-     * Determine if its a regex parameter.
-     *
-     *
-     * @throws ReflectionException
-     */
     protected function isRegexParam(ReflectionParameter $param): bool
     {
         if (! $param->isDefaultValueAvailable()) {

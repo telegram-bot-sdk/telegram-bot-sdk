@@ -5,7 +5,7 @@ namespace Telegram\Bot\Commands;
 use Illuminate\Support\Collection;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Objects\Update;
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\HasBot;
 
 class CommandHandler
@@ -61,7 +61,7 @@ class CommandHandler
     /**
      * Check update object for a command and process.
      */
-    public function processCommand(Update $update): Update
+    public function processCommand(ResponseObject $update): ResponseObject
     {
         return $this->commandBus->handler($update);
     }

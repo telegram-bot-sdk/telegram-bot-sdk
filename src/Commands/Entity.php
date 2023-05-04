@@ -2,10 +2,10 @@
 
 namespace Telegram\Bot\Commands;
 
+use Telegram\Bot\Helpers\Update;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Telegram\Bot\Objects\MessageEntity;
-use Telegram\Bot\Objects\Update;
+use Telegram\Bot\Objects\ResponseObject;
 
 /**
  * Class Entity
@@ -14,23 +14,23 @@ class Entity
 {
     protected string $field;
 
-    public static function from(Update $update): self
+    public static function from(ResponseObject $update): self
     {
         return new static($update);
     }
 
-    public function __construct(protected Update $update)
+    public function __construct(protected ResponseObject $update)
     {
     }
 
-    public function entities(): ?array
+    public function entities(): ?ResponseObject
     {
-        return $this->update->getMessage()->{$this->field()};
+        return $this->message()->{$this->field()};
     }
 
     public function commandEntities(): Collection
     {
-        return collect($this->entities())->filter(fn (MessageEntity $entity): bool => $entity->type === 'bot_command');
+        return $this->entities()?->collect()->filter(fn ($entity): bool => $entity['type'] === 'bot_command');
     }
 
     /**
@@ -38,22 +38,29 @@ class Entity
      */
     public function text(): ?string
     {
-        if ($this->field() === '' || $this->field() === '0') {
+        if ($this->field() === '') {
             return null;
         }
 
-        if ($this->update->getMessage()->isType('text')) {
-            return $this->update->getMessage()->text;
+        $message = $this->message();
+
+        if ($message->offsetExists('text')) {
+            return $message->offsetGet('text');
         }
 
-        return $this->update->getMessage()->{Str::before($this->field(), '_')};
+        return $message->{Str::before($this->field(), '_')};
     }
 
     protected function field(): string
     {
-        return $this->field ??= $this->update->getMessage()
+        return $this->field ??= $this->message()
             ->collect()
             ->keys()
             ->first(fn ($key): bool => Str::contains($key, 'entities'), '');
+    }
+
+    protected function message(): ResponseObject
+    {
+        return Update::find($this->update)->message();
     }
 }

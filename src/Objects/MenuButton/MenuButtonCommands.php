@@ -7,7 +7,7 @@ namespace Telegram\Bot\Objects\MenuButton;
  *
  * @link https://core.telegram.org/bots/api#menubuttoncommands
  */
-final class MenuButtonCommands extends MenuButton
+class MenuButtonCommands extends MenuButton
 {
     protected string $type = 'commands';
 }
