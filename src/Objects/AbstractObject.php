@@ -49,6 +49,7 @@ abstract class AbstractObject implements Arrayable, IteratorAggregate, Jsonable,
         return $this->fields->getIterator();
     }
 
+    /** @noinspection PhpUnused */
     public function getCachingIterator(int $flags = CachingIterator::CALL_TOSTRING): CachingIterator
     {
         return $this->fields->getCachingIterator($flags);

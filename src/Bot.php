@@ -33,16 +33,12 @@ class Bot
     use HasContainer;
 
     protected string $name;
-
     protected Api $api;
-
     protected EventFactory $eventFactory;
-
     protected array $listeners;
 
     /**
      * Bot constructor.
-     *
      *
      * @throws TelegramSDKException
      */
@@ -229,7 +225,7 @@ class Bot
         return $this;
     }
 
-    public function __call(string $method, array $parameters)
+    public function __call($method, $parameters)
     {
         if (static::hasMacro($method)) {
             return $this->macroCall($method, $parameters);
