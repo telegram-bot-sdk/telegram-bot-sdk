@@ -148,12 +148,14 @@ abstract class Command implements CommandInterface
     /**
      * Helper to Trigger other Commands.
      *
-     * @param  CommandInterface|string  $command
+     * @param  string|CommandInterface  $command
+     * @param  array  $params
      *
      * @throws TelegramCommandException
      * @throws TelegramSDKException
+     * @noinspection PhpUnused
      */
-    protected function triggerCommand($command, array $params = []): void
+    protected function triggerCommand(CommandInterface|string $command, array $params = []): void
     {
         $this->commandBus->execute($command, $this->update, $params, true);
     }
