@@ -16,27 +16,15 @@ class EventFactory
 
     protected array $subscribers = [];
 
-    /**
-     * EventFactory constructor.
-     */
     public function __construct(protected array $listens = [])
     {
     }
 
-    /**
-     * Get the events and handlers.
-     */
     public function listens(): array
     {
         return $this->listens;
     }
 
-    /**
-     * Set the events and handlers.
-     *
-     *
-     * @return static
-     */
     public function setListeners(array $listeners): self
     {
         $this->listens = $listeners;
@@ -44,20 +32,11 @@ class EventFactory
         return $this;
     }
 
-    /**
-     * Get subscribers.
-     */
     public function subscribers(): array
     {
         return $this->subscribers;
     }
 
-    /**
-     * Add a subscriber.
-     *
-     *
-     * @return static
-     */
     public function setSubscriber(array $subscribe): self
     {
         $this->subscribers[] = $subscribe;
@@ -65,9 +44,6 @@ class EventFactory
         return $this;
     }
 
-    /**
-     * Register listeners for events.
-     */
     public function registerListeners(): void
     {
         $events = $this->listens();
@@ -83,12 +59,6 @@ class EventFactory
         }
     }
 
-    /**
-     * Register an event listener with the dispatcher.
-     *
-     *
-     * @return static
-     */
     public function listen(string|array $events, Closure|string $listener): self
     {
         $this->getDispatcher()->listen($events, $listener);
@@ -96,30 +66,16 @@ class EventFactory
         return $this;
     }
 
-    /**
-     * Register an event subscriber with the dispatcher.
-     *
-     * @param  object|string  $subscriber
-     */
-    public function subscribe($subscriber): void
+    public function subscribe(object|string $subscriber): void
     {
         $this->getDispatcher()->subscribe($subscriber);
     }
 
-    /**
-     * Dispatch an event and call the listeners.
-     *
-     * @param  string|object  $event
-     * @param  bool  $halt
-     */
-    public function dispatch($event, mixed $payload = [], $halt = false): ?array
+    public function dispatch(object|string $event, mixed $payload = [], bool $halt = false): ?array
     {
         return $this->getDispatcher()->dispatch($event, $payload, $halt);
     }
 
-    /**
-     * @return mixed
-     */
     public function __call($method, $params)
     {
         return $this->getDispatcher()->{$method}(...$params);

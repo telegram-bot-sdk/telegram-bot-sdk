@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Commands;
 
+use Telegram\Bot\Events\CommandNotFoundEvent;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InvalidArgumentException;
 use Telegram\Bot\Bot;
@@ -139,7 +140,7 @@ class CommandBus
      */
     public function execute(CommandInterface|string $commandName, ResponseObject $update, array $entity, bool $isTriggered = false): void
     {
-        $command = $this->resolveCommand($commandName);
+        $command = $this->resolveCommand($commandName, $update);
 
         $parser = Parser::parse($command)->setUpdate($update);
 
@@ -179,7 +180,7 @@ class CommandBus
      *
      * @throws TelegramCommandException
      */
-    public function resolveCommand(CommandInterface|string $command): CommandInterface
+    public function resolveCommand(CommandInterface|string $command, ?ResponseObject $update = null): CommandInterface
     {
         if (is_object($command)) {
             return $this->validateCommandClassInstance($command);
@@ -188,7 +189,13 @@ class CommandBus
         $command = array_change_key_case($this->commands)[strtolower($command)] ?? $command;
 
         if (! class_exists($command)) {
-            throw TelegramCommandException::commandClassDoesNotExist($command);
+            $this->dispatchCommandNotFoundEvent($command, $update);
+
+            if(array_key_exists('help', $this->commands)) {
+                $command = $this->commands['help'];
+            } else {
+                throw TelegramCommandException::commandClassDoesNotExist($command);
+            }
         }
 
         try {
@@ -213,5 +220,14 @@ class CommandBus
         }
 
         throw TelegramCommandException::commandClassNotValid($command);
+    }
+
+    private function dispatchCommandNotFoundEvent(string $command, ?ResponseObject $update): void
+    {
+        $this->getBot()?->getEventFactory()
+            ->dispatch(
+                CommandNotFoundEvent::NAME,
+                new CommandNotFoundEvent($command, $this->getBot(), $update)
+            );
     }
 }
