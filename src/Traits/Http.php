@@ -54,21 +54,20 @@ trait Http
      * Download a file from Telegram server by fileID or getFile() Response.
      *
      *
-     * @param string|ResponseObject $fileId File ID or ResponseObject from getFile()
-     * @param string                $saveTo Absolute path to dir or filename to save as.
+     * @param  string|ResponseObject  $fileId File ID or ResponseObject from getFile()
+     * @param  string  $saveTo Absolute path to dir or filename to save as.
      *
      * @throws TelegramSDKException
-     * @return string
      */
     public function downloadFile(string|ResponseObject $fileId, string $saveTo): string
     {
         $originalFilename = null;
 
-        if (!$fileId instanceof ResponseObject) {
+        if (! $fileId instanceof ResponseObject) {
             $fileId = $this->getFile(['file_id' => $fileId]);
         }
 
-        if (!$fileId->has('file_id')) {
+        if (! $fileId->has('file_id')) {
             throw new InvalidArgumentException(
                 'Invalid param provided. Please provide either a file id or a ResponseObject containing file_id'
             );
@@ -77,7 +76,7 @@ trait Http
         // No filename provided.
         if (pathinfo($saveTo, PATHINFO_EXTENSION) === '') {
             // Attempt to use the original file name if there is one or fallback to the file_path filename.
-            $saveTo .= DIRECTORY_SEPARATOR . ($originalFilename ?: basename((string)$fileId->file_path));
+            $saveTo .= DIRECTORY_SEPARATOR.($originalFilename ?: basename((string) $fileId->file_path));
         }
 
         return $this->getClient()->download($fileId->file_path, $saveTo);
