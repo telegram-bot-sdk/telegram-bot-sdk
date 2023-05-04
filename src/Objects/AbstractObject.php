@@ -24,7 +24,7 @@ abstract class AbstractObject implements Arrayable, IteratorAggregate, Jsonable,
         $this->fields = new Collection($fields);
     }
 
-    public static function make(array $fields = []): self
+    public static function make(array $fields = []): static
     {
         return new static($fields);
     }
