@@ -29,12 +29,12 @@ abstract class AbstractObject implements Arrayable, IteratorAggregate, Jsonable,
         return new static($fields);
     }
 
-    public function toArray(): array
+    public function __toArray(): array
     {
-        return Json::decode($this->toJson());
+        return Json::decode($this->__toJson());
     }
 
-    public function toJson(int $options = 0): string
+    public function __toJson(int $options = 0): string
     {
         return Json::encode($this->jsonSerialize(), $options);
     }
@@ -56,12 +56,12 @@ abstract class AbstractObject implements Arrayable, IteratorAggregate, Jsonable,
 
     public function __toString(): string
     {
-        return $this->toJson();
+        return $this->__toJson();
     }
 
     public function __debugInfo(): array
     {
-        return $this->toArray();
+        return $this->__toArray();
     }
 
     public function __call(string $name, array $arguments)

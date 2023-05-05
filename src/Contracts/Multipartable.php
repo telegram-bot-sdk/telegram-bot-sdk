@@ -7,5 +7,5 @@ interface Multipartable
     /**
      * Convert the object to a multipart format array.
      */
-    public function toMultipart(): array;
+    public function __toMultipart(): array;
 }

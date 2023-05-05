@@ -120,7 +120,7 @@ final class TelegramRequest
         $params = collect($params);
 
         $multipart = $params->filter(fn ($param): bool => $param instanceof AbstractArrayObject)
-            ->flatMap(fn ($param) => $param->toMultipart())
+            ->flatMap(fn ($param) => $param->__toMultipart())
             ->all();
 
         return $params->map(fn ($contents, $name): array => $this->generateMultipartData($contents, $name))
@@ -141,7 +141,7 @@ final class TelegramRequest
 
         // TODO: Remove after testing all methods, this might not be needed.
         if (Validator::isJsonable($contents)) {
-            $contents = $contents->toJson();
+            $contents = $contents->__toJson();
         }
 
         return ['name' => $name, 'contents' => $contents];

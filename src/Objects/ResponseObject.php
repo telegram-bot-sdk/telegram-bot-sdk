@@ -9,7 +9,7 @@ use LogicException;
 
 final class ResponseObject extends AbstractObject implements ArrayAccess, Countable
 {
-    public function withCustomData(mixed $key, mixed $value): static
+    public function withCustomData(mixed $key, mixed $value): self
     {
         $data = $this->getCustomData();
         if (is_null($key)) {

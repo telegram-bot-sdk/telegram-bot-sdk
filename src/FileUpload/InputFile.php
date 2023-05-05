@@ -61,7 +61,7 @@ final class InputFile implements Multipartable, JsonSerializable
     /**
      * @return array{name: string, contents: mixed, filename: string|null}
      */
-    public function toMultipart(): array
+    public function __toMultipart(): array
     {
         return [
             'name' => $this->multipartName,

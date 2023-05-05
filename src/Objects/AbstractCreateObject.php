@@ -20,7 +20,7 @@ abstract class AbstractCreateObject extends AbstractObject
 
         $value = $arguments[0];
         if ($value instanceof AbstractObject) {
-            $value = $value->toArray();
+            $value = $value->__toArray();
         }
 
         $this->fields->offsetSet(Str::snake($name), $value);
