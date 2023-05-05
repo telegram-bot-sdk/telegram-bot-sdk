@@ -1,8 +1,8 @@
 <?php
 
+use GuzzleHttp\Psr7\LazyOpenStream;
 use Psr\Http\Message\StreamInterface;
 use Telegram\Bot\FileUpload\InputFile;
-use GuzzleHttp\Psr7\LazyOpenStream;
 
 it('can create an InputFile from a file', function () {
     $file = InputFile::file(__DIR__.'/test.txt', 'test.txt');
