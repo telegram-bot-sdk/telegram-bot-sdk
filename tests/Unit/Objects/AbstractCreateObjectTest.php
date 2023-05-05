@@ -1,5 +1,6 @@
 <?php
 
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Objects\AbstractCreateObject;
 
 class DummyCreateObject extends AbstractCreateObject
@@ -32,6 +33,22 @@ it('can set fields using array', function () {
     $object->baz(['qux' => 'quux']);
 
     expect($object->__toArray())->toBe(['baz' => ['qux' => 'quux']]);
+});
+
+it('can set fields using abstract object', function () {
+    $object = new DummyCreateObject();
+    $object->foo('bar');
+    $object->baz(new ResponseObject(['qux' => 'quux']));
+
+    expect($object->__toArray())->toBe(['foo' => 'bar', 'baz' => ['qux' => 'quux']]);
+});
+
+it('sets fields in snake case', function () {
+    $object = new DummyCreateObject();
+    $object->fooBar('test');
+    $object->someLongFieldName('bar');
+
+    expect($object->__toArray())->toBe(['foo_bar' => 'test', 'some_long_field_name' => 'bar']);
 });
 
 it('can call methods on the object', function () {
