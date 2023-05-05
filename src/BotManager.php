@@ -91,7 +91,6 @@ final class BotManager
 
     /**
      * Disconnect from the given bot.
-     *
      */
     public function disconnect(string $name = null): self
     {

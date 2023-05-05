@@ -83,7 +83,6 @@ final class Bot
 
     /**
      * Set Api Instance.
-     *
      */
     public function setApi(Api $api): self
     {
@@ -102,7 +101,6 @@ final class Bot
 
     /**
      * Set Event Factory.
-     *
      */
     public function setEventFactory(EventFactory $eventFactory): self
     {
@@ -113,7 +111,6 @@ final class Bot
 
     /**
      * Adds a listener to be notified when an update is received.
-     *
      */
     public function onUpdate(Closure|string $listener): self
     {
@@ -124,7 +121,6 @@ final class Bot
 
     /**
      * Register an event listener with the dispatcher.
-     *
      */
     public function on(string|array $events, Closure|string $listener): self
     {
@@ -219,7 +215,7 @@ final class Bot
 
     public function __call($method, $parameters)
     {
-        if (static::hasMacro($method)) {
+        if (self::hasMacro($method)) {
             return $this->macroCall($method, $parameters);
         }
 

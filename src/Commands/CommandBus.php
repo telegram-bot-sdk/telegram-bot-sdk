@@ -142,7 +142,7 @@ final class CommandBus
     {
         $command = $this->resolveCommand($commandName, $update);
 
-        if (!$command instanceof CommandInterface) {
+        if (! $command instanceof CommandInterface) {
             return;
         }
 

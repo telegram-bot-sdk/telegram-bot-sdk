@@ -88,7 +88,7 @@ final class Api
      */
     public function __call($method, $parameters)
     {
-        if (static::hasMacro($method)) {
+        if (self::hasMacro($method)) {
             return $this->macroCall($method, $parameters);
         }
 

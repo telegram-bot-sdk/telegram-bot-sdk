@@ -39,7 +39,6 @@ final class CommandHandler
 
     /**
      * Set command bus.
-     *
      */
     public function setCommandBus(CommandBus $commandBus): self
     {
