@@ -40,7 +40,8 @@ it('can determine if an object is an instance of InputFile', function () {
 });
 
 it('can determine if an object is Jsonable', function () {
-    $jsonable = new class implements \Telegram\Bot\Contracts\Jsonable {
+    $jsonable = new class implements \Telegram\Bot\Contracts\Jsonable
+    {
         public function __toJson($options = 0): string
         {
             return '{"foo": "bar"}';
@@ -52,7 +53,8 @@ it('can determine if an object is Jsonable', function () {
 });
 
 it('can determine if an object is Multipartable', function () {
-    $multipartable = new class implements \Telegram\Bot\Contracts\Multipartable {
+    $multipartable = new class implements \Telegram\Bot\Contracts\Multipartable
+    {
         public function __toMultipart(): array
         {
             return ['foo' => 'bar'];

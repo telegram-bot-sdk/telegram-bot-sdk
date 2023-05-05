@@ -54,8 +54,6 @@ it('can format text with pre entities with tabs and spaces', function () {
     expect($formatted)->toBe("Hello, \n<pre>\tworld\n  \n\t</pre>\n!");
 });
 
-
-
 it('can format text with text_mention entities', function () {
     $text = 'Hello, @username!';
     $entities = [
