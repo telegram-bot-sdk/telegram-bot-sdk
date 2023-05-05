@@ -22,7 +22,7 @@ final class CommandBus
     /**
      * Instantiate Command Bus.
      */
-    public function __construct(Bot $bot = null)
+    public function __construct(?Bot $bot = null)
     {
         $this->bot = $bot;
     }
