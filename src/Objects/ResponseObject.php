@@ -12,6 +12,7 @@ final class ResponseObject extends AbstractObject implements ArrayAccess, Counta
     public function withCustomData(mixed $key, mixed $value): self
     {
         $data = $this->getCustomData();
+
         if (is_null($key)) {
             $data[] = $value;
         } else {
@@ -30,7 +31,7 @@ final class ResponseObject extends AbstractObject implements ArrayAccess, Counta
 
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        throw new LogicException('Cannot modify an immutable object. Value cannot be set. Use addCustomData() instead to add extra data.');
+        throw new LogicException('Cannot modify an immutable object. Use withCustomData() instead to add extra data.');
     }
 
     public function count(): int
@@ -85,6 +86,6 @@ final class ResponseObject extends AbstractObject implements ArrayAccess, Counta
 
     public function offsetUnset(mixed $offset): void
     {
-        throw new LogicException('Cannot modify an immutable object. Value cannot be unset.');
+        throw new LogicException('Cannot modify an immutable object.');
     }
 }
