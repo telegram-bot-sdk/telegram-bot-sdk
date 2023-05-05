@@ -37,7 +37,7 @@ final class EventFactory
         return $this->subscribers;
     }
 
-    public function setSubscriber(array $subscribe): self
+    public function setSubscriber(object|string $subscribe): self
     {
         $this->subscribers[] = $subscribe;
 
