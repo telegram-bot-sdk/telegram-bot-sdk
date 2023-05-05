@@ -142,6 +142,10 @@ class CommandBus
     {
         $command = $this->resolveCommand($commandName, $update);
 
+        if ($command === null) {
+            return;
+        }
+
         $parser = Parser::parse($command)->setUpdate($update);
 
         if ($isTriggered) {
@@ -180,7 +184,7 @@ class CommandBus
      *
      * @throws TelegramCommandException
      */
-    public function resolveCommand(CommandInterface|string $command, ?ResponseObject $update = null): CommandInterface
+    public function resolveCommand(CommandInterface|string $command, ?ResponseObject $update = null): ?CommandInterface
     {
         if (is_object($command)) {
             return $this->validateCommandClassInstance($command);
@@ -194,7 +198,7 @@ class CommandBus
             if (array_key_exists('help', $this->commands)) {
                 $command = $this->commands['help'];
             } else {
-                throw TelegramCommandException::commandClassDoesNotExist($command);
+                return null;
             }
         }
 
