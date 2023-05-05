@@ -46,6 +46,18 @@ it('can get a field value using array access', function () {
     expect($response['foo'])->toBe('bar');
 });
 
+it('can get a field value in an object syntax', function () {
+    $response = new ResponseObject(['foo' => 'bar']);
+
+    expect($response->foo)->toBe('bar');
+});
+
+it('can return null when a field does not exist', function () {
+    $response = new ResponseObject(['foo' => 'bar']);
+
+    expect($response->some)->toBeNull();
+});
+
 it('can check if a field exists using array access', function () {
     $response = new ResponseObject(['foo' => 'bar']);
 
