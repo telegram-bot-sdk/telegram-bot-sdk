@@ -10,11 +10,11 @@ use Illuminate\Events\Dispatcher;
  *
  * @mixin Dispatcher
  */
-class EventFactory
+final class EventFactory
 {
     use InteractsWithEvents;
 
-    protected array $subscribers = [];
+    private array $subscribers = [];
 
     public function __construct(protected array $listens = [])
     {
@@ -46,7 +46,7 @@ class EventFactory
 
     public function registerListeners(): void
     {
-        $events = $this->listens();
+        $events = $this->listens;
 
         foreach ($events as $event => $listeners) {
             foreach (array_unique($listeners) as $listener) {

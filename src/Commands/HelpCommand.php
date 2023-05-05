@@ -10,7 +10,7 @@ use Throwable;
 /**
  * Class HelpCommand.
  */
-class HelpCommand extends Command
+final class HelpCommand extends Command
 {
     /** @var string Command Description */
     protected string $description = 'Help command, Get a list of commands';
@@ -41,7 +41,7 @@ class HelpCommand extends Command
         $this->reply('Sorry. Currently it is not possible to list all the commands.');
     }
 
-    protected function reply(string $text): void
+    private function reply(string $text): void
     {
         $chat_id = Update::find($this->getUpdate())->chat()?->offsetGet('id');
 

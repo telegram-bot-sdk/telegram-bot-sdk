@@ -12,14 +12,14 @@ use Telegram\Bot\Traits\HasContainer;
  *
  * @mixin Bot
  */
-class BotManager
+final class BotManager
 {
     use ForwardsCalls;
     use HasContainer;
     use HasConfig;
 
     /** @var Bot[] The active bot instances. */
-    protected array $bots = [];
+    private array $bots = [];
 
     /**
      * Bots Manager constructor.
@@ -51,7 +51,6 @@ class BotManager
      * Set the default bot name.
      *
      *
-     * @return static
      *
      * @throws TelegramSDKException
      */
@@ -93,8 +92,6 @@ class BotManager
     /**
      * Disconnect from the given bot.
      *
-     *
-     * @return static
      */
     public function disconnect(string $name = null): self
     {
@@ -132,7 +129,7 @@ class BotManager
      *
      * @throws TelegramSDKException
      */
-    protected function makeBot(string $name): Bot
+    private function makeBot(string $name): Bot
     {
         return (new Bot($this->getBotConfig($name)))->setContainer($this->getContainer());
     }

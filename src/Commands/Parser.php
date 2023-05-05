@@ -18,21 +18,21 @@ use Telegram\Bot\Traits\HasUpdate;
 /**
  * Class Parser
  */
-class Parser
+final class Parser
 {
     use HasUpdate;
 
     /** @var array|null Details of the current entity this command is responding to - offset, length, type etc */
-    protected ?array $entity = null;
+    private ?array $entity = null;
 
-    protected CommandInterface|string $command;
+    private CommandInterface|string $command;
 
     /** @var Collection|null Hold command params */
-    protected ?Collection $params = null;
+    private ?Collection $params = null;
 
     public static function parse(CommandInterface|string $command): self
     {
-        return (new static())->setCommand($command);
+        return (new self())->setCommand($command);
     }
 
     public function getCommand(): CommandInterface|string
@@ -158,7 +158,7 @@ class Parser
      *
      * @throws TelegramCommandException
      */
-    protected function argumentsPattern(): string
+    private function argumentsPattern(): string
     {
         $pattern = $this->allParams()->map(function (ReflectionParameter $param): string {
             $regex = $this->isRegexParam($param)
@@ -173,7 +173,7 @@ class Parser
         return "%/[\w]+(?:@.+?bot)?(?:\s+)?{$pattern}%si";
     }
 
-    protected function isRegexParam(ReflectionParameter $param): bool
+    private function isRegexParam(ReflectionParameter $param): bool
     {
         if (! $param->isDefaultValueAvailable()) {
             return false;
@@ -191,7 +191,7 @@ class Parser
 
         //Find the start point for this command and, if it exists, the start point (offset) of the NEXT bot_command entity
         $splicePoints = $commandOffsets->splice(
-            $commandOffsets->search($this->getEntity()['offset']),
+            $commandOffsets->search($this->entity['offset']),
             2
         );
 

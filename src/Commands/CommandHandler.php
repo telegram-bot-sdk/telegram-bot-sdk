@@ -8,12 +8,12 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\HasBot;
 
-class CommandHandler
+final class CommandHandler
 {
     use HasBot;
 
     /** @var CommandBus Telegram Command Bus */
-    protected CommandBus $commandBus;
+    private CommandBus $commandBus;
 
     /**
      * CommandHandler constructor.
@@ -40,8 +40,6 @@ class CommandHandler
     /**
      * Set command bus.
      *
-     *
-     * @return static
      */
     public function setCommandBus(CommandBus $commandBus): self
     {
@@ -71,7 +69,7 @@ class CommandHandler
      *
      * @throws TelegramSDKException
      */
-    protected function registerCommands(): void
+    private function registerCommands(): void
     {
         $commands = $this->buildCommandsList();
 
@@ -86,7 +84,7 @@ class CommandHandler
      *
      * @throws TelegramSDKException
      */
-    protected function buildCommandsList(): array
+    private function buildCommandsList(): array
     {
         $commands = $this->bot->config('commands', []);
         $allCommands = collect($this->bot->config('global.commands', []))->merge($this->parseCommands($commands));
@@ -100,7 +98,7 @@ class CommandHandler
      *
      * @throws TelegramSDKException
      */
-    protected function validate(Collection $allCommands): array
+    private function validate(Collection $allCommands): array
     {
         $uniqueCommands = $allCommands->unique();
 
@@ -120,7 +118,7 @@ class CommandHandler
     /**
      * Parse an array of commands and build a list.
      */
-    protected function parseCommands(array $commands): array
+    private function parseCommands(array $commands): array
     {
         $groups = $this->bot->config('global.command_groups');
         $repo = $this->bot->config('global.command_repository');

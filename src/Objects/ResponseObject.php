@@ -45,7 +45,7 @@ final class ResponseObject extends AbstractObject implements ArrayAccess, Counta
 
     public function findType(array $types): ?string
     {
-        return $this->collect()
+        return $this->fields
             ->keys()
             ->intersect($types)
             ->pop();

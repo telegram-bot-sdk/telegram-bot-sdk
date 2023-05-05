@@ -12,12 +12,12 @@ use Telegram\Bot\Helpers\Validator;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\HasBot;
 
-class CommandBus
+final class CommandBus
 {
     use HasBot;
 
     /** @var string|CommandInterface[] Holds all commands. */
-    protected array $commands = [];
+    private array $commands = [];
 
     /**
      * Instantiate Command Bus.
@@ -121,7 +121,7 @@ class CommandBus
      *
      * @throws TelegramSDKException
      */
-    protected function process(ResponseObject $update, array $entity): void
+    private function process(ResponseObject $update, array $entity): void
     {
         $command = $this->parseCommand(
             Entity::from($update)->text(),
@@ -142,7 +142,7 @@ class CommandBus
     {
         $command = $this->resolveCommand($commandName, $update);
 
-        if ($command === null) {
+        if (!$command instanceof CommandInterface) {
             return;
         }
 
@@ -217,7 +217,7 @@ class CommandBus
      *
      * @throws TelegramCommandException
      */
-    protected function validateCommandClassInstance(object $command): CommandInterface
+    private function validateCommandClassInstance(object $command): CommandInterface
     {
         if ($command instanceof CommandInterface) {
             return $command;

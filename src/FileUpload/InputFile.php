@@ -7,9 +7,9 @@ use GuzzleHttp\Psr7\Utils;
 use JsonSerializable;
 use Telegram\Bot\Contracts\Multipartable;
 
-class InputFile implements Multipartable, JsonSerializable
+final class InputFile implements Multipartable, JsonSerializable
 {
-    protected string $multipartName;
+    private string $multipartName;
 
     public function __construct(protected mixed $contents, protected ?string $filename = null)
     {
@@ -18,12 +18,12 @@ class InputFile implements Multipartable, JsonSerializable
 
     public static function file(string $file, ?string $filename = null): self
     {
-        return new static(new LazyOpenStream($file, 'rb'), $filename);
+        return new self(new LazyOpenStream($file, 'rb'), $filename);
     }
 
     public static function contents(mixed $contents, string $filename): self
     {
-        return new static(Utils::streamFor($contents), $filename);
+        return new self(Utils::streamFor($contents), $filename);
     }
 
     public function getFilename(): ?string
@@ -50,7 +50,7 @@ class InputFile implements Multipartable, JsonSerializable
 
     public function getAttachString(): string
     {
-        return 'attach://'.$this->getMultipartName();
+        return 'attach://'.$this->multipartName;
     }
 
     public function jsonSerialize(): mixed
@@ -64,13 +64,13 @@ class InputFile implements Multipartable, JsonSerializable
     public function toMultipart(): array
     {
         return [
-            'name' => $this->getMultipartName(),
-            'contents' => $this->getContents(),
-            'filename' => $this->getFilename(),
+            'name' => $this->multipartName,
+            'contents' => $this->contents,
+            'filename' => $this->filename,
         ];
     }
 
-    protected function generateRandomName(): string
+    private function generateRandomName(): string
     {
         return substr(md5(uniqid('', true)), 0, 10);
     }

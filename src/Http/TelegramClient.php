@@ -11,21 +11,21 @@ use Telegram\Bot\Traits\HasToken;
 /**
  * Class TelegramClient.
  */
-class TelegramClient
+final class TelegramClient
 {
     use HasToken;
 
     /** @var string Telegram Bot API URL. */
-    protected string $baseApiUrl = 'https://api.telegram.org';
+    private string $baseApiUrl = 'https://api.telegram.org';
 
     /** @var HttpClientInterface HTTP Client. */
-    protected HttpClientInterface $httpClientHandler;
+    private HttpClientInterface $httpClientHandler;
 
     /** @var bool Indicates if the request to Telegram will be asynchronous (non-blocking). */
-    protected bool $isAsyncRequest = false;
+    private bool $isAsyncRequest = false;
 
     /** @var TelegramResponse|null Stores the last request made to Telegram Bot API. */
-    protected ?TelegramResponse $lastResponse = null;
+    private ?TelegramResponse $lastResponse = null;
 
     /**
      * Instantiates a new TelegramClient object.
@@ -61,7 +61,7 @@ class TelegramClient
      */
     public function getConfig(): array
     {
-        return $this->getHttpClientHandler()->getConfig();
+        return $this->httpClientHandler->getConfig();
     }
 
     /**
@@ -72,7 +72,7 @@ class TelegramClient
      */
     public function setConfig(array $config): self
     {
-        $this->getHttpClientHandler()->setConfig($config);
+        $this->httpClientHandler->setConfig($config);
 
         return $this;
     }
@@ -135,7 +135,7 @@ class TelegramClient
      */
     public function getFileUrl(string $path = null): string
     {
-        return sprintf('%s/file/bot%s/%s', $this->getBaseApiUrl(), $this->getToken(), $path);
+        return sprintf('%s/file/bot%s/%s', $this->baseApiUrl, $this->getToken(), $path);
     }
 
     /**
@@ -191,7 +191,7 @@ class TelegramClient
 
         $request = $this->resolveTelegramRequest('GET', '');
 
-        $response = $this->getHttpClientHandler()->send(
+        $response = $this->httpClientHandler->send(
             $url = $this->getFileUrl($filePath),
             $request->getMethod(),
             $request->getHeaders(),
@@ -212,7 +212,7 @@ class TelegramClient
      *
      * @throws TelegramSDKException
      */
-    protected function resolveTelegramRequest(
+    private function resolveTelegramRequest(
         string $method,
         string $endpoint,
         array $params = []
@@ -222,7 +222,7 @@ class TelegramClient
             $method,
             $endpoint,
             $params,
-            $this->isAsyncRequest()
+            $this->isAsyncRequest
         );
     }
 
@@ -232,14 +232,14 @@ class TelegramClient
      *
      * @throws TelegramSDKException
      */
-    protected function sendRequest(
+    private function sendRequest(
         string $method,
         string $endpoint,
         array $params = []
     ): TelegramResponse {
         $request = $this->resolveTelegramRequest($method, $endpoint, $params);
 
-        $rawResponse = $this->getHttpClientHandler()->send(
+        $rawResponse = $this->httpClientHandler->send(
             $this->makeApiUrl($request),
             $request->getMethod(),
             $request->getHeaders(),
@@ -261,15 +261,15 @@ class TelegramClient
      *
      * @throws TelegramSDKException
      */
-    protected function makeApiUrl(TelegramRequest $request): string
+    private function makeApiUrl(TelegramRequest $request): string
     {
-        return sprintf('%s/bot%s/%s', $this->getBaseApiUrl(), $request->getToken(), $request->getEndpoint());
+        return sprintf('%s/bot%s/%s', $this->baseApiUrl, $request->getToken(), $request->getEndpoint());
     }
 
     /**
      * Creates response object.
      */
-    protected function getResponse(TelegramRequest $request, ResponseInterface|PromiseInterface $response): TelegramResponse
+    private function getResponse(TelegramRequest $request, ResponseInterface|PromiseInterface $response): TelegramResponse
     {
         return new TelegramResponse($request, $response);
     }

@@ -9,10 +9,10 @@ use Telegram\Bot\Objects\ResponseObject;
 /**
  * Class TelegramResponseException.
  */
-class TelegramResponseException extends TelegramSDKException
+final class TelegramResponseException extends TelegramSDKException
 {
     /** @var object Decoded response. */
-    protected object $responseData;
+    private readonly object $responseData;
 
     public function __construct(protected TelegramResponse $response, ?TelegramSDKException $previousException = null)
     {
@@ -24,14 +24,14 @@ class TelegramResponseException extends TelegramSDKException
         parent::__construct($errorMessage, $errorCode, $previousException);
     }
 
-    protected function get(string $key, mixed $default = null): mixed
+    private function get(string $key, mixed $default = null): mixed
     {
         return data_get($this->responseData, $key, $default);
     }
 
     public static function create(TelegramResponse $response, ?Exception $previousException = null): self
     {
-        return new static($response, new TelegramOtherException($previousException?->getMessage(), $previousException?->getCode(), $previousException));
+        return new self($response, new TelegramOtherException($previousException?->getMessage(), $previousException?->getCode(), $previousException));
     }
 
     public function getHttpStatusCode(): ?int

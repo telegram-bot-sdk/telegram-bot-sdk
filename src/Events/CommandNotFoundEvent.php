@@ -5,7 +5,7 @@ namespace Telegram\Bot\Events;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Objects\ResponseObject;
 
-class CommandNotFoundEvent
+final class CommandNotFoundEvent
 {
     final public const NAME = 'command.notfound';
 

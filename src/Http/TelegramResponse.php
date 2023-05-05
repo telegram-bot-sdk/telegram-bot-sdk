@@ -15,22 +15,22 @@ use Telegram\Bot\Objects\ResponseObject;
  *
  * Handles the response from Telegram API.
  */
-class TelegramResponse
+final class TelegramResponse
 {
     /** @var null|int The HTTP status code response from API. */
-    protected ?int $httpStatusCode = null;
+    private ?int $httpStatusCode = null;
 
     /** @var array The headers returned from API request. */
-    protected array $headers;
+    private array $headers;
 
     /** @var string The raw body of the response from API request. */
-    protected string $body;
+    private string $body;
 
     /** @var null|ResponseObject The decoded body of the API response. */
-    protected ?ResponseObject $decodedBody = null;
+    private ?ResponseObject $decodedBody = null;
 
     /** @var null|TelegramSDKException The exception thrown by this request. */
-    protected ?TelegramSDKException $thrownException = null;
+    private ?TelegramSDKException $thrownException = null;
 
     public function __construct(protected TelegramRequest $request, PromiseInterface|ResponseInterface $response)
     {

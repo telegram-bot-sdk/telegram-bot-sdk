@@ -4,6 +4,6 @@ namespace Telegram\Bot\Exceptions;
 
 use JsonException;
 
-class TelegramJsonException extends JsonException
+final class TelegramJsonException extends JsonException
 {
 }

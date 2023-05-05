@@ -23,7 +23,7 @@ use Telegram\Bot\Traits\HasContainer;
  *
  * @mixin Api
  */
-class Bot
+final class Bot
 {
     use ForwardsCalls;
     use Macroable {
@@ -32,13 +32,11 @@ class Bot
     use HasConfig;
     use HasContainer;
 
-    protected string $name;
+    private readonly string $name;
 
-    protected Api $api;
+    private Api $api;
 
-    protected EventFactory $eventFactory;
-
-    protected array $listeners;
+    private EventFactory $eventFactory;
 
     /**
      * Bot constructor.
@@ -86,8 +84,6 @@ class Bot
     /**
      * Set Api Instance.
      *
-     *
-     * @return static
      */
     public function setApi(Api $api): self
     {
@@ -107,8 +103,6 @@ class Bot
     /**
      * Set Event Factory.
      *
-     *
-     * @return static
      */
     public function setEventFactory(EventFactory $eventFactory): self
     {
@@ -120,8 +114,6 @@ class Bot
     /**
      * Adds a listener to be notified when an update is received.
      *
-     *
-     * @return static
      */
     public function onUpdate(Closure|string $listener): self
     {
@@ -133,8 +125,6 @@ class Bot
     /**
      * Register an event listener with the dispatcher.
      *
-     *
-     * @return static
      */
     public function on(string|array $events, Closure|string $listener): self
     {
@@ -157,7 +147,7 @@ class Bot
     /**
      * Process the update object for a command from your webhook.
      */
-    protected function useWebHook(): ResponseObject
+    private function useWebHook(): ResponseObject
     {
         $update = $this->api->getWebhookUpdate();
 
@@ -169,7 +159,7 @@ class Bot
      *
      * @return ResponseObject[]
      */
-    protected function useGetUpdates(array $params = []): array
+    private function useGetUpdates(array $params = []): array
     {
         $updates = $this->api->getUpdates($params);
 
@@ -211,7 +201,6 @@ class Bot
      * Set the HTTP Client Handler.
      *
      *
-     * @return static
      *
      * @throws TelegramSDKException
      */

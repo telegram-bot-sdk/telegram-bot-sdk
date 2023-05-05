@@ -19,7 +19,7 @@ use Telegram\Bot\Traits\Http;
 /**
  * Class Api.
  */
-class Api
+final class Api
 {
     use ForwardsCalls;
     use Macroable {

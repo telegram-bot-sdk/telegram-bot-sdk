@@ -11,24 +11,24 @@ use Telegram\Bot\Traits\HasToken;
  *
  * Builds Telegram Bot API Request Entity.
  */
-class TelegramRequest
+final class TelegramRequest
 {
     use HasToken;
 
     /** @var string The HTTP method for this request. */
-    protected string $method;
+    private string $method;
 
     /** @var string The API endpoint for this request. */
-    protected string $endpoint;
+    private string $endpoint;
 
     /** @var array The headers to send with this request. */
-    protected array $headers = [];
+    private array $headers = [];
 
     /** @var array The parameters to send with this request. */
-    protected array $params = [];
+    private array $params = [];
 
     /** @var bool Indicates if the request to Telegram will be asynchronous (non-blocking). */
-    protected bool $isAsyncRequest = false;
+    private bool $isAsyncRequest = false;
 
     public function __construct(
         string $token = null,
@@ -115,7 +115,7 @@ class TelegramRequest
         ];
     }
 
-    protected function makeMultipartPayload($params): array
+    private function makeMultipartPayload($params): array
     {
         $params = collect($params);
 
@@ -129,7 +129,7 @@ class TelegramRequest
             ->all();
     }
 
-    protected function generateMultipartData(mixed $contents, string $name): array
+    private function generateMultipartData(mixed $contents, string $name): array
     {
         if (Validator::isInputFile($contents)) {
             return [

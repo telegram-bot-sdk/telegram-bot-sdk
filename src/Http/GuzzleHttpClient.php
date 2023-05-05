@@ -16,16 +16,16 @@ use Throwable;
 /**
  * Class GuzzleHttpClient.
  */
-class GuzzleHttpClient implements HttpClientInterface
+final class GuzzleHttpClient implements HttpClientInterface
 {
     /** @var PromiseInterface[] Holds promises. */
     private static array $promises = [];
 
     /** @var ClientInterface|null HTTP client. */
-    protected ?ClientInterface $client = null;
+    private ?ClientInterface $client = null;
 
     /** @var array Guzzle Config */
-    protected array $config = [
+    private array $config = [
         RequestOptions::TIMEOUT => 60,
         RequestOptions::CONNECT_TIMEOUT => 10,
     ];
