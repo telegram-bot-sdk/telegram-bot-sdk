@@ -1,7 +1,7 @@
 <?php
 
-use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Objects\AbstractCreateObject;
+use Telegram\Bot\Objects\ResponseObject;
 
 class DummyCreateObject extends AbstractCreateObject
 {
