@@ -72,6 +72,6 @@ final class InputFile implements Multipartable, JsonSerializable
 
     private function generateRandomName(): string
     {
-        return substr(md5(uniqid('', true)), 0, 10);
+        return bin2hex(random_bytes(5));
     }
 }
