@@ -41,7 +41,7 @@ final class Api
      *
      * @param  string  $token  The Telegram Bot Token.
      */
-    public function __construct(string $token)
+    public function __construct(#[\SensitiveParameter] string $token)
     {
         $this->token = $token;
     }
