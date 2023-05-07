@@ -1,6 +1,6 @@
 <?php
 
-namespace Telegram\Bot\Events;
+namespace Telegram\Bot\Commands\Events;
 
 use Telegram\Bot\Bot;
 use Telegram\Bot\Objects\ResponseObject;

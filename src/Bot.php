@@ -3,6 +3,7 @@
 namespace Telegram\Bot;
 
 use Closure;
+use Telegram\Bot\Commands\CommandHandler;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Addon\AddonManager;
@@ -37,6 +38,7 @@ final class Bot
     private Api $api;
 
     private EventFactory $eventFactory;
+    private CommandHandler $commandHandler;
 
     /**
      * Bot constructor.
@@ -54,6 +56,7 @@ final class Bot
         $this->api->setHttpClientConfig($this->config('global.http.config', []));
         $this->api->setAsyncRequest($this->config('global.http.async', false));
 
+        $this->commandHandler = new CommandHandler($this);
         $this->eventFactory = new EventFactory();
 
         if ($this->hasConfig('listen')) {
@@ -87,6 +90,18 @@ final class Bot
     public function setApi(Api $api): self
     {
         $this->api = $api;
+
+        return $this;
+    }
+
+    public function getCommandHandler(): CommandHandler
+    {
+        return $this->commandHandler;
+    }
+
+    public function setCommandHandler(CommandHandler $commandHandler): self
+    {
+        $this->commandHandler = $commandHandler;
 
         return $this;
     }

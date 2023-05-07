@@ -5,7 +5,7 @@ namespace Telegram\Bot\Commands;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InvalidArgumentException;
 use Telegram\Bot\Bot;
-use Telegram\Bot\Events\CommandNotFoundEvent;
+use Telegram\Bot\Commands\Events\CommandNotFoundEvent;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Helpers\Validator;
@@ -186,11 +186,11 @@ final class CommandBus
      */
     public function resolveCommand(CommandInterface|string $command, ?ResponseObject $update = null): ?CommandInterface
     {
+        $command = array_change_key_case($this->commands)[strtolower($command)] ?? $command;
+
         if (is_object($command)) {
             return $this->validateCommandClassInstance($command);
         }
-
-        $command = array_change_key_case($this->commands)[strtolower($command)] ?? $command;
 
         if (! class_exists($command)) {
             $this->dispatchCommandNotFoundEvent($command, $update);
