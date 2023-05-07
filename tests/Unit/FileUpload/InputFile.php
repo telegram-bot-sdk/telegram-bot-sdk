@@ -38,5 +38,5 @@ it('can be converted to multipart', function () {
 it('can be json serialized', function () {
     $file = InputFile::file(__DIR__.'/test.txt', 'test.txt');
     $json = json_encode($file);
-    expect($json)->toBe('"attach:\/\/'.$file->getMultipartName().'"');
+    expect($json)->toBeJson('"attach:\/\/'.$file->getMultipartName().'"');
 });

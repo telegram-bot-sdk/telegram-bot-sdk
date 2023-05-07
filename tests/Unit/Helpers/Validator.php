@@ -17,6 +17,16 @@ it('can determine if a string is a file id', function () {
         ->and(Validator::isFileId($object))->toBeFalse();
 });
 
+it('can determine if a given param in a parameters array is a file id', function () {
+    $params = [
+        'chat' => '456',
+        'file_id' => '12345678901234567890',
+    ];
+
+    expect(Validator::hasFileId('file_id', $params))->toBeTrue()
+        ->and(Validator::hasFileId('chat', $params))->toBeFalse();
+});
+
 it('can determine if a string is a URL', function () {
     expect(Validator::isUrl('https://example.com'))->toBeTrue()
         ->and(Validator::isUrl('http://example.com'))->toBeTrue()
