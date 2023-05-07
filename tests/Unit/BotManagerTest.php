@@ -13,7 +13,7 @@ it('returns the correct default bot name', function () {
 
 it('can set a default bot name', function () {
     $config = [
-        'use'  => 'test_bot',
+        'use' => 'test_bot',
         'bots' => [
             'new_bot' => [
                 'token' => 123,
@@ -28,7 +28,7 @@ it('can set a default bot name', function () {
 
 it('throws an exception if a bot does not have any config settings', function () {
     $config = [
-        'use'  => 'test_bot',
+        'use' => 'test_bot',
         'bots' => [],
     ];
     $manager = new BotManager($config);
@@ -38,7 +38,7 @@ it('throws an exception if a bot does not have any config settings', function ()
 
 it('allows a bot to reconnect', function () {
     $config = [
-        'use'  => 'test_bot',
+        'use' => 'test_bot',
         'bots' => [
             'test_bot' => [
                 'token' => 123,
@@ -57,7 +57,7 @@ it('allows a bot to reconnect', function () {
 
 it('can disconnect a bot', function () {
     $config = [
-        'use'  => 'test_bot',
+        'use' => 'test_bot',
         'bots' => [
             'test_bot' => [
                 'token' => 123,
@@ -75,7 +75,7 @@ it('can disconnect a bot', function () {
 
 it('can get a bot config', function () {
     $config = [
-        'use'  => 'test_bot',
+        'use' => 'test_bot',
         'bots' => [
             'test_bot' => [
                 'token' => 123,
@@ -86,10 +86,10 @@ it('can get a bot config', function () {
     $manager = new BotManager($config);
     expect($manager->getBotConfig())->toMatchArray(
         [
-            'token'  => 123,
-            'bot'    => 'test_bot',
+            'token' => 123,
+            'bot' => 'test_bot',
             'global' => [
-                'use'  => 'test_bot',
+                'use' => 'test_bot',
                 'bots' => [
                     'test_bot' => ['token' => 123],
                 ],
