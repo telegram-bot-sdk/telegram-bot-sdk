@@ -3,6 +3,7 @@
 namespace Telegram\Bot;
 
 use Closure;
+use Telegram\Bot\Commands\CallableCommand;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Addon\AddonManager;
@@ -105,6 +106,16 @@ final class Bot
         $this->commandHandler = $commandHandler;
 
         return $this;
+    }
+
+    public function command(string $command, array|string|callable $handler)
+    {
+        $commandClass = new CallableCommand();
+        $commandClass->setName($command)->setCommandHandler($handler);
+
+        $this->commandHandler->getCommandBus()->addCommand($command, $commandClass);
+
+        return $commandClass;
     }
 
     /**

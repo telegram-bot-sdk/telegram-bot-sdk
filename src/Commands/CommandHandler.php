@@ -134,8 +134,8 @@ final class CommandHandler
         string $name,
         string $description,
         callable $handler
-    ): AttributeCommand {
-        return (new AttributeCommand())
+    ): CallableCommand {
+        return (new CallableCommand())
             ->setName($name)
             ->setDescription($description)
             ->setCommandHandler($handler);

@@ -2,10 +2,11 @@
 
 namespace Telegram\Bot\Commands;
 
-use Telegram\Bot\Commands\Events\AttributeCommandFailed;
+use Closure;
+use Telegram\Bot\Commands\Events\CallableCommandFailed;
 use Throwable;
 
-final class AttributeCommand extends Command
+final class CallableCommand extends Command
 {
     private $handler;
 
@@ -13,8 +14,8 @@ final class AttributeCommand extends Command
 
     public function handle(): void
     {
-        if (! is_callable($this->handler)) {
-            return;
+        if(is_array($this->handler) && !is_callable($this->handler)) {
+            $this->handler[0] = $this->bot->getContainer()->make($this->handler[0]);
         }
 
         $this->bot->getContainer()->call($this->handler, [
@@ -30,8 +31,8 @@ final class AttributeCommand extends Command
     {
         $this->getBot()?->getEventFactory()
             ->dispatch(
-                AttributeCommandFailed::NAME,
-                new AttributeCommandFailed(
+                CallableCommandFailed::NAME,
+                new CallableCommandFailed(
                     $this->getName(),
                     $this->handler,
                     $exception,
@@ -41,9 +42,11 @@ final class AttributeCommand extends Command
             );
     }
 
-    public function setCommandHandler(callable $handler): self
+    public function setCommandHandler(string|array|callable $handler): self
     {
-        $this->handler = $handler;
+        $this->handler = (is_array($handler) || is_string($handler))
+            ? $handler
+            : Closure::bind($handler, $this, self::class);
 
         return $this;
     }
