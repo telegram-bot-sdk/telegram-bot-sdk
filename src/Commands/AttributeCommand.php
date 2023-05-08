@@ -19,6 +19,10 @@ final class AttributeCommand extends Command
             return;
         }
 
+        if(! method_exists($this->class, $this->method)) {
+            return;
+        }
+
         $this->class->{$this->method}($this->getBot(), $this->getUpdate());
     }
 
