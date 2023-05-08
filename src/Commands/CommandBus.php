@@ -186,7 +186,7 @@ final class CommandBus
      */
     public function resolveCommand(CommandInterface|string $command, ?ResponseObject $update = null): ?CommandInterface
     {
-        if($command instanceof CommandInterface) {
+        if ($command instanceof CommandInterface) {
             return $command;
         }
 
