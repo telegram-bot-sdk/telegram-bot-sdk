@@ -2,18 +2,20 @@
 
 namespace Telegram\Bot\Commands;
 
-use Throwable;
 use Telegram\Bot\Commands\Events\AttributeCommandFailed;
+use Throwable;
 
 final class AttributeCommand extends Command
 {
     protected object|string $class;
+
     protected string $description = '';
+
     protected string $method;
 
     public function handle(): void
     {
-        if (!is_object($this->class)) {
+        if (! is_object($this->class)) {
             return;
         }
 

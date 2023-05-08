@@ -2,15 +2,15 @@
 
 namespace Telegram\Bot\Commands;
 
-use ReflectionClass;
-use Telegram\Bot\Bot;
-use ReflectionMethod;
-use Telegram\Bot\Traits\HasBot;
 use Illuminate\Support\Collection;
-use Telegram\Bot\Traits\ForwardsCalls;
-use Telegram\Bot\Objects\ResponseObject;
+use ReflectionClass;
+use ReflectionMethod;
+use Telegram\Bot\Bot;
 use Telegram\Bot\Commands\Attributes\Command;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\ResponseObject;
+use Telegram\Bot\Traits\ForwardsCalls;
+use Telegram\Bot\Traits\HasBot;
 
 final class CommandHandler
 {
@@ -50,9 +50,9 @@ final class CommandHandler
     /**
      * Builds the list of commands.
      *
-     * @throws TelegramSDKException
      * @return array An array of commands which includes global, shared and bot specific commands.
      *
+     * @throws TelegramSDKException
      */
     private function buildCommandsList(): array
     {

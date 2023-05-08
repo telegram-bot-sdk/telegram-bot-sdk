@@ -2,9 +2,9 @@
 
 namespace Telegram\Bot\Commands\Events;
 
-use Throwable;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Objects\ResponseObject;
+use Throwable;
 
 final class AttributeCommandFailed
 {
