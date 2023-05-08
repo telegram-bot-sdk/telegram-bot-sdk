@@ -3,10 +3,10 @@
 namespace Telegram\Bot;
 
 use Closure;
-use Telegram\Bot\Commands\CallableCommand;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Addon\AddonManager;
+use Telegram\Bot\Commands\CallableCommand;
 use Telegram\Bot\Commands\CommandHandler;
 use Telegram\Bot\Commands\Listeners\ProcessCommand;
 use Telegram\Bot\Contracts\HttpClientInterface;

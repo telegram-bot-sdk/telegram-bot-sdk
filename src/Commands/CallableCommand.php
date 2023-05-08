@@ -14,7 +14,7 @@ final class CallableCommand extends Command
 
     public function handle(): void
     {
-        if(is_array($this->handler) && !is_callable($this->handler)) {
+        if (is_array($this->handler) && ! is_callable($this->handler)) {
             $this->handler[0] = $this->bot->getContainer()->make($this->handler[0]);
         }
 

@@ -100,7 +100,7 @@ final class CommandHandler
         $reflectionClass = new ReflectionClass($class);
         $methods = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
 
-        if(! is_object($class)) {
+        if (! is_object($class)) {
             $class = $this->bot->getContainer()->make($class);
         }
 
