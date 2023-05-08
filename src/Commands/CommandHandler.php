@@ -71,6 +71,12 @@ final class CommandHandler
         $repo = $this->bot->config('global.command_repository');
 
         return collect($commands)->flatMap(function ($command, $name) use ($groups, $repo): array {
+            // If this is a multi-commands class, we'll parse through the class and
+            // build the commands based on attributes.
+            if (is_int($name)) {
+                return $this->getAttributeCommands($command);
+            }
+
             // If the command is a group, we'll parse through the group of commands
             // and resolve the full class name.
             if (isset($groups[$command])) {
@@ -84,12 +90,6 @@ final class CommandHandler
                 $command = $repo[$command];
             }
 
-            // If this is a multi-commands class, we'll parse through the class and
-            // build the commands based on attributes.
-            if (is_int($name)) {
-                return $this->getAttributeCommands($command);
-            }
-
             return [$name => $command];
         })->all();
     }
@@ -99,6 +99,10 @@ final class CommandHandler
         $commands = [];
         $reflectionClass = new ReflectionClass($class);
         $methods = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
+
+        if(! is_object($class)) {
+            $class = $this->bot->getContainer()->make($class);
+        }
 
         foreach ($methods as $method) {
             $attributes = $method->getAttributes(Command::class);
@@ -110,16 +114,14 @@ final class CommandHandler
                 $commands[$commandName] = $this->makeAttributeCommand(
                     $commandName,
                     $commandDescription,
-                    $class,
-                    $commandName
+                    [$class, $commandName]
                 );
 
                 foreach ($command->aliases as $commandAlias) {
                     $commands[$commandAlias] = $this->makeAttributeCommand(
                         $commandAlias,
                         $commandDescription,
-                        $class,
-                        $commandName
+                        [$class, $commandName]
                     );
                 }
             }
@@ -131,13 +133,12 @@ final class CommandHandler
     private function makeAttributeCommand(
         string $name,
         string $description,
-        object|string $class,
-        string $method
+        callable $handler
     ): AttributeCommand {
         return (new AttributeCommand())
             ->setName($name)
             ->setDescription($description)
-            ->setAttributeCaller($class, $method);
+            ->setCommandHandler($handler);
     }
 
     /**

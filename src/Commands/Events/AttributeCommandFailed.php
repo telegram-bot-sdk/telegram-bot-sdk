@@ -12,8 +12,7 @@ final class AttributeCommandFailed
 
     public function __construct(
         public string $command,
-        public object|string $class,
-        public string $method,
+        public $handler,
         public Throwable $exception,
         public Bot $bot,
         public ?ResponseObject $update = null
