@@ -38,12 +38,12 @@ final class CommandBus
     /**
      * Add a list of commands.
      *
-     * @param  string|CommandInterface[]  $commands
+     * @param  CommandInterface[]  $commands
      * @return $this
      */
-    public function addCommands(string|array $commands): self
+    public function addCommands(array $commands): self
     {
-        $this->commands = $commands;
+        $this->commands = array_change_key_case($commands);
 
         return $this;
     }
@@ -57,7 +57,7 @@ final class CommandBus
      */
     public function addCommand(string $command, string|CommandInterface $commandClass): self
     {
-        $this->commands[$command] = $commandClass;
+        $this->commands[strtolower($command)] = $commandClass;
 
         return $this;
     }
@@ -186,7 +186,11 @@ final class CommandBus
      */
     public function resolveCommand(CommandInterface|string $command, ?ResponseObject $update = null): ?CommandInterface
     {
-        $command = array_change_key_case($this->commands)[strtolower($command)] ?? $command;
+        if($command instanceof CommandInterface) {
+            return $command;
+        }
+
+        $command = $this->commands[strtolower($command)] ?? $command;
 
         if (is_object($command)) {
             return $this->validateCommandClassInstance($command);

@@ -34,6 +34,16 @@ final class CommandHandler
         $this->registerCommands();
     }
 
+    public function command(string $name, array|string|callable $handler): CallableCommand
+    {
+        $command = new CallableCommand();
+        $command->setName($name)->setCommandHandler($handler);
+
+        $this->commandBus->addCommand($name, $command);
+
+        return $command;
+    }
+
     /**
      * Register the commands.
      *

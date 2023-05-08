@@ -23,7 +23,7 @@ final class HelpCommand extends Command
      */
     public function handle(): void
     {
-        $handler = new CommandHandler($this->bot);
+        $handler = $this->bot->getCommandHandler();
         $commands = $handler->getCommands();
 
         $text = '';

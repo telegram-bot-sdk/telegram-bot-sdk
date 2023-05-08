@@ -108,14 +108,9 @@ final class Bot
         return $this;
     }
 
-    public function command(string $command, array|string|callable $handler)
+    public function command(string $command, array|string|callable $handler): CallableCommand
     {
-        $commandClass = new CallableCommand();
-        $commandClass->setName($command)->setCommandHandler($handler);
-
-        $this->commandHandler->getCommandBus()->addCommand($command, $commandClass);
-
-        return $commandClass;
+        return $this->commandHandler->command($command, $handler);
     }
 
     /**
