@@ -9,14 +9,24 @@ use Throwable;
 
 final class CallableCommand extends Command implements CallableContract
 {
-    private $handler;
-
     private $failCallback;
 
     protected string $description = '';
 
+    public function __construct(private $handler = null)
+    {
+    }
+
     public function handle(): void
     {
+        if(! $this->handler) {
+            return;
+        }
+
+        if ($this->handler instanceof Closure) {
+            $this->handler = Closure::bind($this->handler, $this, self::class);
+        }
+
         if (is_array($this->handler) && ! is_callable($this->handler)) {
             $this->handler[0] = $this->bot->getContainer()->make($this->handler[0]);
         }
@@ -65,9 +75,7 @@ final class CallableCommand extends Command implements CallableContract
 
     public function setCommandHandler(string|array|callable $handler): self
     {
-        $this->handler = (is_array($handler) || is_string($handler))
-            ? $handler
-            : Closure::bind($handler, $this, self::class);
+        $this->handler = $handler;
 
         return $this;
     }

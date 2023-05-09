@@ -3,10 +3,11 @@
 namespace Telegram\Bot;
 
 use Closure;
+use Telegram\Bot\Commands\Contracts\CallableContract;
+use Telegram\Bot\Commands\Contracts\CommandContract;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Addon\AddonManager;
-use Telegram\Bot\Commands\CallableCommand;
 use Telegram\Bot\Commands\CommandHandler;
 use Telegram\Bot\Commands\Listeners\ProcessCommand;
 use Telegram\Bot\Contracts\HttpClientInterface;
@@ -108,7 +109,7 @@ final class Bot
         return $this;
     }
 
-    public function command(string $command, array|string|callable $handler): CallableCommand
+    public function command(string $command, array|string|callable|CommandContract $handler): CommandContract|CallableContract
     {
         return $this->commandHandler->command($command, $handler);
     }

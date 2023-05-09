@@ -11,6 +11,8 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\ForwardsCalls;
 use Telegram\Bot\Traits\HasBot;
+use Telegram\Bot\Commands\Contracts\CommandContract;
+use Telegram\Bot\Commands\Contracts\CallableContract;
 
 final class CommandHandler
 {
@@ -34,10 +36,15 @@ final class CommandHandler
         $this->registerCommands();
     }
 
-    public function command(string $name, array|string|callable $handler): CallableCommand
+    public function command(string $name, array|string|callable|CommandContract $handler)
     {
-        $command = new CallableCommand();
-        $command->setName($name)->setCommandHandler($handler);
+        $command = match (true) {
+            is_string($handler) && class_exists($handler) => $this->bot->getContainer()->make($handler),
+            !($handler instanceof CommandContract) => new CallableCommand($handler),
+            default => $handler,
+        };
+
+        $command->setName($name);
 
         $this->commandBus->addCommand($name, $command);
 
