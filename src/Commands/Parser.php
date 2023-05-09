@@ -11,10 +11,12 @@ use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionType;
 use ReflectionUnionType;
+use Telegram\Bot\Commands\Contracts\CommandContract;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Helpers\Reflector;
 use Telegram\Bot\Traits\HasUpdate;
+use Telegram\Bot\Commands\Contracts\CallableContract;
 
 /**
  * Class Parser
@@ -26,17 +28,17 @@ final class Parser
     /** @var array|null Details of the current entity this command is responding to - offset, length, type etc */
     private ?array $entity = null;
 
-    private CommandInterface|string $command;
+    private CommandContract|string $command;
 
     /** @var Collection|null Hold command params */
     private ?Collection $params = null;
 
-    public static function parse(CommandInterface|string $command): self
+    public static function parse(CommandContract|string $command): self
     {
         return (new self())->setCommand($command);
     }
 
-    public function getCommand(): CommandInterface|string
+    public function getCommand(): CommandContract|string
     {
         return $this->command;
     }
@@ -44,7 +46,7 @@ final class Parser
     /**
      * @return $this
      */
-    public function setCommand(CommandInterface|string $command): self
+    public function setCommand(CommandContract|string $command): self
     {
         $this->command = $command;
 
@@ -93,7 +95,7 @@ final class Parser
             return $this->params;
         }
 
-        if ($this->command instanceof CallableInterface) {
+        if ($this->command instanceof CallableContract) {
             $params = Reflector::getParameters($this->command->getCommandHandler());
         } else {
             try {

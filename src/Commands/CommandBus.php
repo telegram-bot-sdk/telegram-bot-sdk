@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Commands;
 
+use Telegram\Bot\Commands\Contracts\CommandContract;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InvalidArgumentException;
 use Telegram\Bot\Bot;
@@ -16,7 +17,7 @@ final class CommandBus
 {
     use HasBot;
 
-    /** @var string|CommandInterface[] Holds all commands. */
+    /** @var string|CommandContract[] Holds all commands. */
     private array $commands = [];
 
     /**
@@ -38,7 +39,8 @@ final class CommandBus
     /**
      * Add a list of commands.
      *
-     * @param  CommandInterface[]  $commands
+     * @param  CommandContract[]  $commands
+     *
      * @return $this
      */
     public function addCommands(array $commands): self
@@ -52,10 +54,11 @@ final class CommandBus
      * Add a command to the commands list.
      *
      * @param  string  $command      Command name.
-     * @param  string|CommandInterface  $commandClass Either an object or full path to the command class.
+     * @param  string|CommandContract  $commandClass Either an object or full path to the command class.
+     *
      * @return $this
      */
-    public function addCommand(string $command, string|CommandInterface $commandClass): self
+    public function addCommand(string $command, string|CommandContract $commandClass): self
     {
         $this->commands[strtolower($command)] = $commandClass;
 
@@ -138,11 +141,11 @@ final class CommandBus
      * @throws TelegramCommandException
      * @throws TelegramSDKException
      */
-    public function execute(CommandInterface|string $commandName, ResponseObject $update, array $entity, bool $isTriggered = false): void
+    public function execute(CommandContract|string $commandName, ResponseObject $update, array $entity, bool $isTriggered = false): void
     {
         $command = $this->resolveCommand($commandName, $update);
 
-        if (! $command instanceof CommandInterface) {
+        if (! $command instanceof CommandContract) {
             return;
         }
 
@@ -184,9 +187,9 @@ final class CommandBus
      *
      * @throws TelegramCommandException
      */
-    public function resolveCommand(CommandInterface|string $command, ?ResponseObject $update = null): ?CommandInterface
+    public function resolveCommand(CommandContract|string $command, ?ResponseObject $update = null): ?CommandContract
     {
-        if ($command instanceof CommandInterface) {
+        if ($command instanceof CommandContract) {
             return $command;
         }
 
@@ -221,9 +224,9 @@ final class CommandBus
      *
      * @throws TelegramCommandException
      */
-    private function validateCommandClassInstance(object $command): CommandInterface
+    private function validateCommandClassInstance(object $command): CommandContract
     {
-        if ($command instanceof CommandInterface) {
+        if ($command instanceof CommandContract) {
             return $command;
         }
 

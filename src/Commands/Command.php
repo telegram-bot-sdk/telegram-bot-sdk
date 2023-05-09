@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Commands;
 
+use Telegram\Bot\Commands\Contracts\CommandContract;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Traits\HasBot;
@@ -11,7 +12,7 @@ use Throwable;
 /**
  * Class Command.
  */
-abstract class Command implements CommandInterface
+abstract class Command implements CommandContract
 {
     use HasBot;
     use HasUpdate;
@@ -152,7 +153,7 @@ abstract class Command implements CommandInterface
      * @throws TelegramCommandException
      * @throws TelegramSDKException
      */
-    protected function triggerCommand(CommandInterface|string $command, array $params = []): void
+    protected function triggerCommand(CommandContract|string $command, array $params = []): void
     {
         $this->commandBus->execute($command, $this->update, $params, true);
     }

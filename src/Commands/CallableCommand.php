@@ -3,13 +3,12 @@
 namespace Telegram\Bot\Commands;
 
 use Closure;
+use Telegram\Bot\Commands\Contracts\CallableContract;
 use Telegram\Bot\Commands\Events\CallableCommandFailed;
 use Throwable;
 
-final class CallableCommand extends Command implements CallableInterface
+final class CallableCommand extends Command implements CallableContract
 {
-    private array $params;
-
     private $handler;
 
     private $failCallback = null;

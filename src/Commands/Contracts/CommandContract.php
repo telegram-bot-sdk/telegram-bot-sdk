@@ -1,15 +1,13 @@
 <?php
 
-namespace Telegram\Bot\Commands;
+namespace Telegram\Bot\Commands\Contracts;
 
 use Telegram\Bot\Bot;
+use Telegram\Bot\Commands\CommandBus;
 use Telegram\Bot\Objects\ResponseObject;
 use Throwable;
 
-/**
- * Interface CommandInterface.
- */
-interface CommandInterface
+interface CommandContract
 {
     public function getName(): string;
 

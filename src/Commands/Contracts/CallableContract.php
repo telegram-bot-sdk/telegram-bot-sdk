@@ -1,8 +1,8 @@
 <?php
 
-namespace Telegram\Bot\Commands;
+namespace Telegram\Bot\Commands\Contracts;
 
-interface CallableInterface
+interface CallableContract
 {
     public function getCommandHandler(): string|array|callable;
 

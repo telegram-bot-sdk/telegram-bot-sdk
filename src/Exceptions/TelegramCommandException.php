@@ -3,8 +3,8 @@
 namespace Telegram\Bot\Exceptions;
 
 use Illuminate\Support\Collection;
-use Telegram\Bot\Commands\CommandInterface;
 use Throwable;
+use Telegram\Bot\Commands\Contracts\CommandContract;
 
 /**
  * Class TelegramCommandException.
@@ -28,7 +28,7 @@ final class TelegramCommandException extends TelegramSDKException
     }
 
     /**
-     * Thrown when command class is not a valid instance of CommandInterface.
+     * Thrown when command class is not a valid instance of CommandContract.
      */
     public static function commandClassNotValid(object $commandClass): self
     {
@@ -36,7 +36,7 @@ final class TelegramCommandException extends TelegramSDKException
             sprintf(
                 'Command class [%s] should be an instance of [%s]',
                 $commandClass::class,
-                CommandInterface::class
+                CommandContract::class
             )
         );
     }
