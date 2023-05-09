@@ -7,12 +7,11 @@ use ReflectionClass;
 use ReflectionMethod;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Commands\Attributes\Command;
+use Telegram\Bot\Commands\Contracts\CommandContract;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Traits\ForwardsCalls;
 use Telegram\Bot\Traits\HasBot;
-use Telegram\Bot\Commands\Contracts\CommandContract;
-use Telegram\Bot\Commands\Contracts\CallableContract;
 
 final class CommandHandler
 {
@@ -40,7 +39,7 @@ final class CommandHandler
     {
         $command = match (true) {
             is_string($handler) && class_exists($handler) => $this->bot->getContainer()->make($handler),
-            !($handler instanceof CommandContract) => new CallableCommand($handler),
+            ! ($handler instanceof CommandContract) => new CallableCommand($handler),
             default => $handler,
         };
 

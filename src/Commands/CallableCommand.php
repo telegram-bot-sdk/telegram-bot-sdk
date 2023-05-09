@@ -19,7 +19,7 @@ final class CallableCommand extends Command implements CallableContract
 
     public function handle(): void
     {
-        if(! $this->handler) {
+        if (! $this->handler) {
             return;
         }
 
