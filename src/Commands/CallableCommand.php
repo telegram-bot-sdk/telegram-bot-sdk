@@ -24,6 +24,11 @@ final class CallableCommand extends Command
         ]);
     }
 
+    public function description(string $description): self
+    {
+        return $this->setDescription($description);
+    }
+
     /**
      * Triggered on failure.
      */
