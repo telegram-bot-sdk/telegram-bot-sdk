@@ -2,10 +2,10 @@
 
 namespace Telegram\Bot\Commands;
 
-use Telegram\Bot\Commands\Contracts\CommandContract;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InvalidArgumentException;
 use Telegram\Bot\Bot;
+use Telegram\Bot\Commands\Contracts\CommandContract;
 use Telegram\Bot\Commands\Events\CommandNotFoundEvent;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -40,7 +40,6 @@ final class CommandBus
      * Add a list of commands.
      *
      * @param  CommandContract[]  $commands
-     *
      * @return $this
      */
     public function addCommands(array $commands): self
@@ -55,7 +54,6 @@ final class CommandBus
      *
      * @param  string  $command      Command name.
      * @param  string|CommandContract  $commandClass Either an object or full path to the command class.
-     *
      * @return $this
      */
     public function addCommand(string $command, string|CommandContract $commandClass): self

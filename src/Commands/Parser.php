@@ -11,12 +11,12 @@ use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionType;
 use ReflectionUnionType;
+use Telegram\Bot\Commands\Contracts\CallableContract;
 use Telegram\Bot\Commands\Contracts\CommandContract;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Helpers\Reflector;
 use Telegram\Bot\Traits\HasUpdate;
-use Telegram\Bot\Commands\Contracts\CallableContract;
 
 /**
  * Class Parser

@@ -3,8 +3,8 @@
 namespace Telegram\Bot\Exceptions;
 
 use Illuminate\Support\Collection;
-use Throwable;
 use Telegram\Bot\Commands\Contracts\CommandContract;
+use Throwable;
 
 /**
  * Class TelegramCommandException.
