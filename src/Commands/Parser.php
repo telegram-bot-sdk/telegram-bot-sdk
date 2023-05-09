@@ -11,9 +11,9 @@ use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionType;
 use ReflectionUnionType;
-use Telegram\Bot\Helpers\Reflector;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Helpers\Reflector;
 use Telegram\Bot\Traits\HasUpdate;
 
 /**
@@ -93,7 +93,7 @@ final class Parser
             return $this->params;
         }
 
-        if($this->command instanceof CallableInterface) {
+        if ($this->command instanceof CallableInterface) {
             $params = Reflector::getParameters($this->command->getCommandHandler());
         } else {
             try {

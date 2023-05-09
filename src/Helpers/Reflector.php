@@ -3,9 +3,9 @@
 namespace Telegram\Bot\Helpers;
 
 use Closure;
-use ReflectionMethod;
-use ReflectionFunction;
 use ReflectionException;
+use ReflectionFunction;
+use ReflectionMethod;
 
 class Reflector
 {
@@ -27,7 +27,7 @@ class Reflector
             };
         }
 
-        if (is_object($callback) && !$callback instanceof Closure) {
+        if (is_object($callback) && ! $callback instanceof Closure) {
             $callback = [$callback, $method ?? '__invoke'];
         }
 

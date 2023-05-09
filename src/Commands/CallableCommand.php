@@ -3,14 +3,15 @@
 namespace Telegram\Bot\Commands;
 
 use Closure;
-use Telegram\Bot\Helpers\Reflector;
 use Telegram\Bot\Commands\Events\CallableCommandFailed;
 use Throwable;
 
 final class CallableCommand extends Command implements CallableInterface
 {
     private array $params;
+
     private $handler;
+
     private $failCallback = null;
 
     protected string $description = '';
@@ -47,7 +48,7 @@ final class CallableCommand extends Command implements CallableInterface
      */
     public function failed(array $arguments, Throwable $exception): void
     {
-        if($this->failCallback) {
+        if ($this->failCallback) {
             $this->bot->getContainer()->call($this->failCallback, [
                 'bot' => $this->getBot(),
                 'update' => $this->getUpdate(),
