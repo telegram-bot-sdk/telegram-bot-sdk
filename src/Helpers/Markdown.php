@@ -7,12 +7,18 @@ namespace Telegram\Bot\Helpers;
  *
  * @link https://core.telegram.org/bots/api#markdownv2-style
  */
-class Markdown
+final class Markdown
 {
+    private const SPECIAL_CHARS = [
+        '\\', '_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!',
+    ];
+
+    private const ESCAPED_SPECIAL_CHARS = [
+        '\\\\', '\\_', '\\*', '\\[', '\\]', '\\(', '\\)', '\\~', '\\`', '\\>', '\\#', '\\+', '\\-', '\\=', '\\|', '\\{', '\\}', '\\.', '\\!',
+    ];
+
     public static function escape(string $text): string
     {
-        $text = str_replace('\\', '\\\\', $text);
-
-        return preg_replace('/([_*\[\]()~`>#+\-=|{}.!])/', '\\\\$1', $text);
+        return str_replace(self::SPECIAL_CHARS, self::ESCAPED_SPECIAL_CHARS, $text);
     }
 }
