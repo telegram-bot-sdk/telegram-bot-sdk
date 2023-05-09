@@ -68,7 +68,7 @@ abstract class Command implements CommandContract
      *
      * @return static
      */
-    public function setDescription(string $description): self
+    public function description(string $description): self
     {
         $this->description = $description;
 

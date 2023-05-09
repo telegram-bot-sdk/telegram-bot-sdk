@@ -28,11 +28,6 @@ final class CallableCommand extends Command implements CallableContract
         ]);
     }
 
-    public function description(string $description): self
-    {
-        return $this->setDescription($description);
-    }
-
     public function onFailure(string|array|callable $callback): self
     {
         $this->failCallback = (is_array($callback) || is_string($callback))

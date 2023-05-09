@@ -147,7 +147,7 @@ final class CommandHandler
     ): CallableCommand {
         return (new CallableCommand())
             ->setName($name)
-            ->setDescription($description)
+            ->description($description)
             ->setCommandHandler($handler);
     }
 
