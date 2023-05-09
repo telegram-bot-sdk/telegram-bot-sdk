@@ -15,7 +15,7 @@ interface CommandContract
 
     public function getDescription(): string;
 
-    public function setDescription(string $description): self;
+    public function description(string $description): self;
 
     public function getArguments(): array;
 
