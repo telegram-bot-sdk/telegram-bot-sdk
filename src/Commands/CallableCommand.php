@@ -11,7 +11,7 @@ final class CallableCommand extends Command implements CallableContract
 {
     private $handler;
 
-    private $failCallback = null;
+    private $failCallback;
 
     protected string $description = '';
 
