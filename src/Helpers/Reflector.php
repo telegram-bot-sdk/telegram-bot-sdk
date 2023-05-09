@@ -9,15 +9,15 @@ use ReflectionMethod;
 
 class Reflector
 {
-    public static function getParameters(array|string|callable $callback, ?string $method = null): array
+    public static function getParameters(array|string|callable $callback): array
     {
-        return self::getCallReflector($callback, $method)->getParameters();
+        return self::getCallReflector($callback)->getParameters();
     }
 
     /**
      * @throws ReflectionException
      */
-    public static function getCallReflector(array|string|callable $callback, ?string $method = null): ReflectionMethod|ReflectionFunction
+    public static function getCallReflector(array|string|callable $callback): ReflectionMethod|ReflectionFunction
     {
         if (is_string($callback)) {
             match (true) {
@@ -28,7 +28,7 @@ class Reflector
         }
 
         if (is_object($callback) && ! $callback instanceof Closure) {
-            $callback = [$callback, $method ?? '__invoke'];
+            $callback = [$callback, '__invoke'];
         }
 
         return is_array($callback)
