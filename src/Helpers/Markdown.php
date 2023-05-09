@@ -32,42 +32,42 @@ final class Markdown
 
     public static function bold(string $text): string
     {
-        return '*' . self::escape($text) . '*';
+        return '*'.self::escape($text).'*';
     }
 
     public static function italic(string $text): string
     {
-        return '_' . self::escape($text) . '_';
+        return '_'.self::escape($text).'_';
     }
 
     public static function underline(string $text): string
     {
-        return '__' . self::escape($text) . '__';
+        return '__'.self::escape($text).'__';
     }
 
     public static function strike(string $text): string
     {
-        return '~' . self::escape($text) . '~';
+        return '~'.self::escape($text).'~';
     }
 
     public static function spoiler(string $text): string
     {
-        return '||' . self::escape($text) . '||';
+        return '||'.self::escape($text).'||';
     }
 
     public static function url(string $text, string $url): string
     {
-        return '[' . self::escape($text) . '](' . self::escape($url) . ')';
+        return '['.self::escape($text).']('.self::escape($url).')';
     }
 
     public static function emoji(string $emoji, int|string $id): string
     {
-        return '!' . self::url($emoji, 'tg://emoji?id=' . $id);
+        return '!'.self::url($emoji, 'tg://emoji?id='.$id);
     }
 
     public static function mention(string $name, int|string $id): string
     {
-        return self::url($name, 'tg://user?id=' . $id);
+        return self::url($name, 'tg://user?id='.$id);
     }
 
     public static function pre(string $text): string
@@ -82,12 +82,12 @@ final class Markdown
             $str .= self::escape($language);
         }
 
-        return $str . "\n" . self::escape($code) . "\n" . '```';
+        return $str."\n".self::escape($code)."\n".'```';
     }
 
     public static function inlineCode(string $text): string
     {
-        return '`' . self::escape($text) . '`';
+        return '`'.self::escape($text).'`';
     }
 
     public static function list(array $items, bool $ordered = false): string
@@ -95,11 +95,11 @@ final class Markdown
         $list = '';
         foreach ($items as $index => $item) {
             if ($ordered) {
-                $list .= ($index + 1) . '\\. ';
+                $list .= ($index + 1).'\\. ';
             } else {
                 $list .= '\\- ';
             }
-            $list .= self::escape($item) . "\n";
+            $list .= self::escape($item)."\n";
         }
 
         return $list;
