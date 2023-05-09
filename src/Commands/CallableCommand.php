@@ -3,12 +3,15 @@
 namespace Telegram\Bot\Commands;
 
 use Closure;
+use Telegram\Bot\Helpers\Reflector;
 use Telegram\Bot\Commands\Events\CallableCommandFailed;
 use Throwable;
 
-final class CallableCommand extends Command
+final class CallableCommand extends Command implements CallableInterface
 {
+    private array $params;
     private $handler;
+    private $failCallback = null;
 
     protected string $description = '';
 
@@ -19,6 +22,7 @@ final class CallableCommand extends Command
         }
 
         $this->bot->getContainer()->call($this->handler, [
+            ...$this->getArguments(),
             'bot' => $this->getBot(),
             'update' => $this->getUpdate(),
         ]);
@@ -29,11 +33,28 @@ final class CallableCommand extends Command
         return $this->setDescription($description);
     }
 
+    public function onFailure(string|array|callable $callback): self
+    {
+        $this->failCallback = (is_array($callback) || is_string($callback))
+            ? $callback
+            : Closure::bind($callback, $this, self::class);
+
+        return $this;
+    }
+
     /**
      * Triggered on failure.
      */
     public function failed(array $arguments, Throwable $exception): void
     {
+        if($this->failCallback) {
+            $this->bot->getContainer()->call($this->failCallback, [
+                'bot' => $this->getBot(),
+                'update' => $this->getUpdate(),
+                'exception' => $exception,
+            ]);
+        }
+
         $this->getBot()?->getEventFactory()
             ->dispatch(
                 CallableCommandFailed::NAME,
@@ -54,5 +75,10 @@ final class CallableCommand extends Command
             : Closure::bind($handler, $this, self::class);
 
         return $this;
+    }
+
+    public function getCommandHandler(): string|array|callable
+    {
+        return $this->handler;
     }
 }

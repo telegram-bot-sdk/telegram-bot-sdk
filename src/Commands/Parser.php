@@ -11,6 +11,7 @@ use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionType;
 use ReflectionUnionType;
+use Telegram\Bot\Helpers\Reflector;
 use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Traits\HasUpdate;
@@ -92,13 +93,18 @@ final class Parser
             return $this->params;
         }
 
-        try {
-            $handle = new ReflectionMethod($this->command, 'handle');
-        } catch (ReflectionException $e) {
-            throw TelegramCommandException::commandMethodDoesNotExist($e);
+        if($this->command instanceof CallableInterface) {
+            $params = Reflector::getParameters($this->command->getCommandHandler());
+        } else {
+            try {
+                $handle = new ReflectionMethod($this->command, 'handle');
+                $params = $handle->getParameters();
+            } catch (ReflectionException $e) {
+                throw TelegramCommandException::commandMethodDoesNotExist($e);
+            }
         }
 
-        return $this->params = collect($handle->getParameters())
+        return $this->params = collect($params)
             ->reject(function (ReflectionParameter $param): ReflectionClass|null|bool {
                 $type = $param->getType();
                 if (! $type instanceof ReflectionType) {
