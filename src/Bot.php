@@ -26,7 +26,7 @@ use Telegram\Bot\Traits\HasContainer;
  *
  * @mixin Api
  */
-final class Bot
+class Bot
 {
     use ForwardsCalls;
     use Macroable {

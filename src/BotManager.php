@@ -130,7 +130,9 @@ final class BotManager
      */
     private function makeBot(string $name): Bot
     {
-        return (new Bot($this->getBotConfig($name)))->setContainer($this->getContainer());
+        //Using the FakeBot here as it has the extra functionality
+        //But if this was moved into Bot I suppose we could revert back to normal Bot
+        return (new FakeBot($this->getBotConfig($name)))->setContainer($this->getContainer());
     }
 
     /**
