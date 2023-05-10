@@ -87,21 +87,21 @@ final class CommandHandler
         $repo = $this->bot->config('global.command_repository');
 
         return collect($commands)->flatMap(function ($command, $name) use ($groups, $repo): array {
-            // If this is a multi-commands class, we'll parse through the class and
-            // build the commands based on attributes.
-            if (is_int($name)) {
-                return $this->getAttributeCommands($command);
-            }
-
             // If the command is a group, we'll parse through the group of commands
             // and resolve the full class name.
-            if (isset($groups[$command])) {
+            if (is_string($command) && isset($groups[$command])) {
                 return $this->parseCommands($groups[$command]);
+            }
+
+            // If this is a multi-commands class, we'll parse through the class and
+            // build the commands based on attributes.
+            if (is_int($name) && (is_object($command) || class_exists($command))) {
+                return $this->getAttributeCommands($command);
             }
 
             // If this command is actually a command from command repo, we'll extract the full
             // class name out of the command list now.
-            if (isset($repo[$command])) {
+            if (is_string($command) && isset($repo[$command])) {
                 $name = $command;
                 $command = $repo[$command];
             }
