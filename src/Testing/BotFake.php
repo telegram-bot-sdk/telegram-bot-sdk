@@ -112,4 +112,9 @@ class BotFake
     {
         return $this->record(new TestRequest($method, ...$parameters));
     }
+
+    public function bot(?string $string = null): static
+    {
+        return $this;
+    }
 }
