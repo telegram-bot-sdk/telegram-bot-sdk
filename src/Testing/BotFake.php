@@ -2,10 +2,10 @@
 
 namespace Telegram\Bot\Testing;
 
-use PHPUnit\Framework\Assert as PHPUnit;
 use Exception;
-use Throwable;
+use PHPUnit\Framework\Assert as PHPUnit;
 use Telegram\Bot\Testing\Requests\TestRequest;
+use Throwable;
 
 class BotFake
 {
