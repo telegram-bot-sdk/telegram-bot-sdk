@@ -4,6 +4,7 @@ namespace Telegram\Bot\Testing;
 
 use Exception;
 use PHPUnit\Framework\Assert as PHPUnit;
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Testing\Requests\TestRequest;
 use Throwable;
 
@@ -13,6 +14,8 @@ class BotFake
      * @var array<array-key, TestRequest>
      */
     private array $requests = [];
+
+    private bool $failWhenEmpty = false;
 
     /**
      * @param  array<array-key, string>  $responses
@@ -35,7 +38,9 @@ class BotFake
         }
 
         PHPUnit::assertNotSame(
-            $this->sent($method, $callback), [], "The expected [{$method}] request was not sent."
+            $this->sent($method, $callback),
+            [],
+            "The expected [{$method}] request was not sent."
         );
     }
 
@@ -44,7 +49,8 @@ class BotFake
         $count = count($this->sent($method));
 
         PHPUnit::assertSame(
-            $times, $count,
+            $times,
+            $count,
             "The expected [{$method}] method was sent {$count} times instead of {$times} times."
         );
     }
@@ -68,7 +74,8 @@ class BotFake
     public function assertNotSent(string $method, callable $callback = null): void
     {
         PHPUnit::assertCount(
-            0, $this->sent($method, $callback),
+            0,
+            $this->sent($method, $callback),
             "The unexpected [{$method}] request was sent."
         );
     }
@@ -95,17 +102,24 @@ class BotFake
     {
         $this->requests[] = $request;
 
-        $response = array_shift($this->responses);
-
-        if (is_null($response)) {
+        if ($this->failWhenEmpty && $this->isEmpty()) {
             throw new Exception('No fake responses left.');
         }
+
+        if (! $this->failWhenEmpty && $this->isEmpty()) {
+            return new ResponseObject([
+                'ok' => true,
+                'result' => true,
+            ]);
+        }
+
+        $response = array_shift($this->responses);
 
         if ($response instanceof Throwable) {
             throw $response;
         }
 
-        return $response;
+        return $response instanceof ResponseObject ? $response : ResponseObject::make($response);
     }
 
     public function __call(string $method, array $parameters)
@@ -115,6 +129,18 @@ class BotFake
 
     public function bot(?string $string = null): static
     {
+        return $this;
+    }
+
+    protected function isEmpty(): bool
+    {
+        return count($this->responses) === 0;
+    }
+
+    public function failWhenEmpty(): static
+    {
+        $this->failWhenEmpty = true;
+
         return $this;
     }
 }
