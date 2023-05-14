@@ -38,6 +38,7 @@
     "telegram-bot-sdk/addon-manager": "^1.0@dev"
   },
   "require-dev": {
+    "fakerphp/faker": "^1.21",
     "pestphp/pest": "^2.0",
     "pestphp/pest-plugin-mock": "^2.0",
     "php-parallel-lint/php-parallel-lint": "^1.3",
