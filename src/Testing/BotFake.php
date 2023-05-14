@@ -8,7 +8,7 @@ use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Testing\Requests\TestRequest;
 use Throwable;
 
-class BotFake
+final class BotFake
 {
     /**
      * @var array<array-key, TestRequest>
@@ -44,7 +44,7 @@ class BotFake
         );
     }
 
-    protected function assertSentTimes(string $method, int $times = 1): void
+    private function assertSentTimes(string $method, int $times = 1): void
     {
         $count = count($this->sent($method));
 
@@ -55,7 +55,7 @@ class BotFake
         );
     }
 
-    protected function sent(string $method, callable $callback = null): array
+    private function sent(string $method, callable $callback = null): array
     {
         if (! $this->hasSent($method)) {
             return [];
@@ -66,7 +66,7 @@ class BotFake
         return array_filter($this->methodsOf($method), fn (TestRequest $request) => $callback($request->parameters()));
     }
 
-    protected function hasSent(string $method): bool
+    private function hasSent(string $method): bool
     {
         return $this->methodsOf($method) !== [];
     }
@@ -93,7 +93,7 @@ class BotFake
     /**
      * @return array<array-key, TestRequest>
      */
-    protected function methodsOf(string $method): array
+    private function methodsOf(string $method): array
     {
         return array_filter($this->requests, fn (TestRequest $request): bool => $request->method() === $method);
     }
@@ -132,9 +132,9 @@ class BotFake
         return $this;
     }
 
-    protected function isEmpty(): bool
+    private function isEmpty(): bool
     {
-        return count($this->responses) === 0;
+        return $this->responses === [];
     }
 
     public function failWhenEmpty(): static

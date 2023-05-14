@@ -12,6 +12,9 @@ final class Payload
         return new self();
     }
 
+    /**
+     * @return array{id: string, is_bot: true, first_name: string, username: string, can_join_groups: true, can_read_all_group_messages: false, supports_inline_queries: false}
+     */
     public function user(): array
     {
         return [
@@ -25,6 +28,9 @@ final class Payload
         ];
     }
 
+    /**
+     * @return array{update_id: string, message: array{message_id: string, from: array{id: string, is_bot: false, first_name: string, last_name: string, username: string, language_code: string}, chat: array{id: string, first_name: string, last_name: string, username: string, type: string}, date: string, text: string}}
+     */
     public function update(): array
     {
         return [
@@ -52,6 +58,9 @@ final class Payload
         ];
     }
 
+    /**
+     * @return array{message_id: string, from: array{id: string, is_bot: true, first_name: string, username: string}, chat: array{id: string, first_name: string, username: string, type: string}, date: string, text: string}
+     */
     public function message(): array
     {
         return [

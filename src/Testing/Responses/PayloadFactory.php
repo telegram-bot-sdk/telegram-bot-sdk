@@ -2,6 +2,8 @@
 
 namespace Telegram\Bot\Testing\Responses;
 
+use RuntimeException;
+use InvalidArgumentException;
 use Faker\Generator;
 use Faker\Factory as Faker;
 use Illuminate\Support\Collection;
@@ -12,56 +14,56 @@ use Telegram\Bot\Objects\ResponseObject;
  * @method static array message(array $payload = [])
  * @method static array update(array $payload = [])
  */
-class PayloadFactory
+final class PayloadFactory
 {
-    protected int $count = 1;
-    protected ?int $seed = null;
-    protected bool $asCollection = false;
-    protected bool $asResult = false;
-    protected bool $asResponseObject = false;
-    protected bool $asJson = false;
+    private int $count = 1;
+    private ?int $seed = null;
+    private bool $asCollection = false;
+    private bool $asResult = false;
+    private bool $asResponseObject = false;
+    private bool $asJson = false;
 
-    public static function create(): static
+    public static function create(): self
     {
-        return new static();
+        return new self();
     }
 
-    public function times(int $count): static
+    public function times(int $count): self
     {
         $this->count = $count;
 
         return $this;
     }
 
-    public function asCollection(): static
+    public function asCollection(): self
     {
         $this->asCollection = true;
 
         return $this;
     }
 
-    public function asResult(): static
+    public function asResult(): self
     {
         $this->asResult = true;
 
         return $this;
     }
 
-    public function asResponseObject(): static
+    public function asResponseObject(): self
     {
         $this->asResponseObject = true;
 
         return $this;
     }
 
-    public function asJson(): static
+    public function asJson(): self
     {
         $this->asJson = true;
 
         return $this;
     }
 
-    public function seed(int $seed): static
+    public function seed(int $seed): self
     {
         $this->seed = $seed;
 
@@ -82,7 +84,7 @@ class PayloadFactory
             return $this->makePayloads($this->generate($name, ...$arguments));
         }
 
-        throw new \RuntimeException("Method {$name} does not exist");
+        throw new RuntimeException("Method {$name} does not exist");
     }
 
     private function makePayloads(array $payloads): array|string|ResponseObject|Collection
@@ -137,7 +139,7 @@ class PayloadFactory
 
                 try {
                     return $this->faker()->$value();
-                } catch (\InvalidArgumentException $e) {
+                } catch (InvalidArgumentException) {
                 }
 
                 return $value;

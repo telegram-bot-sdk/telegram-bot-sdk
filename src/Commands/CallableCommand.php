@@ -9,7 +9,7 @@ use Throwable;
 
 final class CallableCommand extends Command implements CallableContract
 {
-    private $failCallback;
+    private string|Closure|array|null $failCallback = null;
 
     protected string $description = '';
 

@@ -7,7 +7,7 @@ use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
 
-class Reflector
+final class Reflector
 {
     public static function getParameters(array|string|callable $callback): array
     {

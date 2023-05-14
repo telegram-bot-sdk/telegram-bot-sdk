@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot;
 
+use SensitiveParameter;
 use Illuminate\Support\Traits\Macroable;
 use Telegram\Bot\Exceptions\TelegramLoginAuthException;
 use Telegram\Bot\Methods\Games;
@@ -41,7 +42,7 @@ final class Api
      *
      * @param  string  $token  The Telegram Bot Token.
      */
-    public function __construct(#[\SensitiveParameter] string $token)
+    public function __construct(#[SensitiveParameter] string $token)
     {
         $this->token = $token;
     }

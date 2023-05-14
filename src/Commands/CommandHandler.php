@@ -149,7 +149,7 @@ final class CommandHandler
     private function makeAttributeCommand(
         string $name,
         string $description,
-        callable $handler
+        array $handler
     ): CallableCommand {
         return (new CallableCommand())
             ->setName($name)
@@ -220,7 +220,7 @@ final class CommandHandler
      *
      * @return mixed|void
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters)
     {
         return $this->forwardCallTo($this->commandBus, $method, $parameters);
     }

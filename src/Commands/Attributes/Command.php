@@ -5,7 +5,7 @@ namespace Telegram\Bot\Commands\Attributes;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_METHOD)]
-class Command
+final class Command
 {
     public function __construct(
         public string $description,
