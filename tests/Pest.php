@@ -1,17 +1,17 @@
 <?php
 
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Telegram\Bot\Bot;
 use Telegram\Bot\BotManager;
-use GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\ResponseInterface;
 use Telegram\Bot\Contracts\HttpClientInterface;
-use GuzzleHttp\Psr7\Response;
 
 function mockBotManager(array|string|ResponseInterface|PromiseInterface $response, array $config = []): BotManager
 {
     $httpClient = Mockery::mock(HttpClientInterface::class);
 
-    if(! $response instanceof ResponseInterface || ! $response instanceof PromiseInterface) {
+    if (! $response instanceof ResponseInterface || ! $response instanceof PromiseInterface) {
         $response = new Response(
             body: json_encode($response),
         );
@@ -22,7 +22,7 @@ function mockBotManager(array|string|ResponseInterface|PromiseInterface $respons
         ->andReturn($response);
 
     $config = [
-        'use'  => 'default',
+        'use' => 'default',
         'bots' => [
             'default' => [
                 'token' => 'your-bot-token',
@@ -31,7 +31,7 @@ function mockBotManager(array|string|ResponseInterface|PromiseInterface $respons
         'http' => [
             'api_url' => 'https://api.telegram.org',
         ],
-        ... $config,
+        ...$config,
     ];
 
     $botManager = new BotManager($config);

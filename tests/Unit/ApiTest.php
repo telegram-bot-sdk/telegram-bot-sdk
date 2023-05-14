@@ -2,7 +2,7 @@
 
 use Telegram\Bot\Objects\ResponseObject;
 
-it('can call getMe', function() {
+it('can call getMe', function () {
     $user = ResponseObject::factory()->asResult()->user([
         'id' => 123456789,
     ]);

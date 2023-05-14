@@ -18,13 +18,13 @@ final class Payload
     public function user(): array
     {
         return [
-            'id'                          => 'randomNumber:9',
-            'is_bot'                      => true,
-            'first_name'                  => 'firstName',
-            'username'                    => 'userName',
-            'can_join_groups'             => true,
+            'id' => 'randomNumber:9',
+            'is_bot' => true,
+            'first_name' => 'firstName',
+            'username' => 'userName',
+            'can_join_groups' => true,
             'can_read_all_group_messages' => false,
-            'supports_inline_queries'     => false,
+            'supports_inline_queries' => false,
         ];
     }
 
@@ -65,20 +65,20 @@ final class Payload
     {
         return [
             'message_id' => 'randomNumber:5',
-            'from'       => [
-                'id'         => 'randomNumber:9',
-                'is_bot'     => true,
+            'from' => [
+                'id' => 'randomNumber:9',
+                'is_bot' => true,
                 'first_name' => 'firstName',
-                'username'   => 'userName',
+                'username' => 'userName',
             ],
-            'chat'       => [
-                'id'         => 'randomNumber:9',
+            'chat' => [
+                'id' => 'randomNumber:9',
                 'first_name' => 'firstName',
-                'username'   => 'userName',
-                'type'       => 'private',
+                'username' => 'userName',
+                'type' => 'private',
             ],
-            'date'       => 'unixTime',
-            'text'       => 'sentence',
+            'date' => 'unixTime',
+            'text' => 'sentence',
         ];
     }
 }

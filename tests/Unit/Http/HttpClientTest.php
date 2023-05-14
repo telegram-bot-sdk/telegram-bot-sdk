@@ -1,9 +1,9 @@
 <?php
 
-use Telegram\Bot\Contracts\HttpClientInterface;
 use GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Telegram\Bot\Contracts\HttpClientInterface;
 
 it('can get the configuration', function () {
     $httpClient = Mockery::mock(HttpClientInterface::class);

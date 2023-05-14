@@ -2,11 +2,11 @@
 
 namespace Telegram\Bot\Testing\Responses;
 
-use RuntimeException;
-use InvalidArgumentException;
-use Faker\Generator;
 use Faker\Factory as Faker;
+use Faker\Generator;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
+use RuntimeException;
 use Telegram\Bot\Objects\ResponseObject;
 
 /**
@@ -17,10 +17,15 @@ use Telegram\Bot\Objects\ResponseObject;
 final class PayloadFactory
 {
     private int $count = 1;
+
     private ?int $seed = null;
+
     private bool $asCollection = false;
+
     private bool $asResult = false;
+
     private bool $asResponseObject = false;
+
     private bool $asJson = false;
 
     public static function create(): self
@@ -89,7 +94,7 @@ final class PayloadFactory
 
     private function makePayloads(array $payloads): array|string|ResponseObject|Collection
     {
-        if($this->count === 1) {
+        if ($this->count === 1) {
             $payloads = $payloads[0];
         }
 
@@ -104,11 +109,11 @@ final class PayloadFactory
             ];
         }
 
-        if($this->asResponseObject) {
+        if ($this->asResponseObject) {
             return ResponseObject::make($payloads);
         }
 
-        if($this->asJson) {
+        if ($this->asJson) {
             return ResponseObject::make($payloads)->__toJson();
         }
 
@@ -130,8 +135,8 @@ final class PayloadFactory
     private function makeWithFaker(array $payloadFormat): array
     {
         return (new Collection($payloadFormat))->map(function ($value, $key) {
-            if(is_string($value)) {
-                if(str_contains($value, ':')) {
+            if (is_string($value)) {
+                if (str_contains($value, ':')) {
                     [$method, $val] = explode(':', $value, 2);
 
                     return $this->faker()->$method($val);
@@ -145,7 +150,7 @@ final class PayloadFactory
                 return $value;
             }
 
-            if(is_array($value)) {
+            if (is_array($value)) {
                 return $this->makeWithFaker($value);
             }
 

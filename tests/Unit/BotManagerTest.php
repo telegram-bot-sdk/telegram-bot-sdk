@@ -6,7 +6,7 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 
 it('can create BotManager instance', function () {
     $config = [
-        'use'  => 'default',
+        'use' => 'default',
         'bots' => [
             'default' => [
                 'token' => 'your-bot-token',
@@ -21,12 +21,12 @@ it('can create BotManager instance', function () {
 
 it('can get all the created bots', function () {
     $config = [
-        'use'  => 'default',
+        'use' => 'default',
         'bots' => [
             'default' => [
                 'token' => 'your-bot-token',
             ],
-            'second'  => [
+            'second' => [
                 'token' => 'your-second-bot-token',
             ],
         ],
@@ -47,7 +47,7 @@ it('can get all the created bots', function () {
 
 it('can get the default bot name', function () {
     $config = [
-        'use'  => 'default',
+        'use' => 'default',
         'bots' => [
             'default' => [
                 'token' => 'your-bot-token',
@@ -62,12 +62,12 @@ it('can get the default bot name', function () {
 
 it('can set the default bot name', function () {
     $config = [
-        'use'  => 'default',
+        'use' => 'default',
         'bots' => [
             'default' => [
                 'token' => 'your-bot-token',
             ],
-            'second'  => [
+            'second' => [
                 'token' => 'your-second-bot-token',
             ],
         ],
@@ -82,12 +82,12 @@ it('can set the default bot name', function () {
 
 it('can get a bot instance', function () {
     $config = [
-        'use'  => 'default',
+        'use' => 'default',
         'bots' => [
             'default' => [
                 'token' => 'your-bot-token',
             ],
-            'second'  => [
+            'second' => [
                 'token' => 'your-second-bot-token',
             ],
         ],
@@ -104,12 +104,12 @@ it('can get a bot instance', function () {
 
 it('can reconnect to a bot', function () {
     $config = [
-        'use'  => 'default',
+        'use' => 'default',
         'bots' => [
             'default' => [
                 'token' => 'your-bot-token',
             ],
-            'second'  => [
+            'second' => [
                 'token' => 'your-second-bot-token',
             ],
         ],
@@ -160,7 +160,7 @@ it('can disconnect from a bot', function () {
 
 it('can get the configuration for a bot', function () {
     $config = [
-        'use'  => 'default',
+        'use' => 'default',
         'bots' => [
             'default' => [
                 'token' => 'your-bot-token',
@@ -184,7 +184,7 @@ it('can get the configuration for a bot', function () {
 
 it('can get the configuration for a specific bot', function () {
     $config = [
-        'use'  => 'default',
+        'use' => 'default',
         'bots' => [
             'default' => [
                 'token' => 'your-bot-token',
@@ -210,7 +210,7 @@ it('throws an exception when getting the configuration for a non-configured bot'
         ],
     ];
 
-    $this->expectExceptionMessage("Bot [non-existing-bot] not configured.");
+    $this->expectExceptionMessage('Bot [non-existing-bot] not configured.');
 
     $botManager = new BotManager($config);
     $botManager->getBotConfig('non-existing-bot');

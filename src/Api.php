@@ -2,8 +2,8 @@
 
 namespace Telegram\Bot;
 
-use SensitiveParameter;
 use Illuminate\Support\Traits\Macroable;
+use SensitiveParameter;
 use Telegram\Bot\Exceptions\TelegramLoginAuthException;
 use Telegram\Bot\Methods\Games;
 use Telegram\Bot\Methods\GettingUpdates;
