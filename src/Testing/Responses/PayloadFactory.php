@@ -79,6 +79,7 @@ final class PayloadFactory
     {
         $faker = Faker::create(Faker::DEFAULT_LOCALE);
         $faker->seed($this->seed);
+        $faker->addProvider(new TelegramFakerProvider($faker));
 
         return $faker;
     }
