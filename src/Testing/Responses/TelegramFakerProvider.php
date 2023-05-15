@@ -2,7 +2,9 @@
 
 namespace Telegram\Bot\Testing\Responses;
 
+use Exception;
 use Faker\Provider\Base;
+use Illuminate\Support\Collection;
 
 class TelegramFakerProvider extends Base
 {
@@ -59,5 +61,33 @@ class TelegramFakerProvider extends Base
         $command = $command ?? $this->generator->word();
 
         return '/'.$command;
+    }
+
+    public function commandWithArgs(string|null $command = null, string ...$args)
+    {
+        $arguments = (new Collection($args))->map(function ($arg) {
+            if (str_starts_with($arg, 'faker-')) {
+                return $this->fakerArg(str_replace('faker-', '', $arg));
+            }
+
+            return $arg;
+        })->implode(' ');
+
+        return $this->command($command) . ' ' . $arguments;
+    }
+
+    private function fakerArg(string $name)
+    {
+        try {
+            if(str_contains($name, '-') === false) {
+                return $this->generator->$name();
+            }
+
+            [$method, $arg] = explode('-', $name, 2);
+
+            return $this->generator->$method($arg);
+        } catch (Exception $e) {
+            return $name;
+        }
     }
 }

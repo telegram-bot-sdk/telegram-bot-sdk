@@ -4,6 +4,7 @@ namespace Telegram\Bot\Testing\Responses;
 
 use Faker\Factory as Faker;
 use Faker\Generator;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use RuntimeException;
@@ -137,14 +138,12 @@ final class PayloadFactory
     {
         return (new Collection($payloadFormat))->map(function ($value, $key) {
             if (is_string($value)) {
-                if (str_contains($value, ':')) {
-                    [$method, $val] = explode(':', $value, 2);
-
-                    return $this->faker()->$method($val);
-                }
+                $format = Str::of($value)->explode(':');
+                $method = $format->shift();
+                $args = $format->toArray();
 
                 try {
-                    return $this->faker()->$value();
+                    return $this->faker()->$method(...$args);
                 } catch (InvalidArgumentException) {
                 }
 
