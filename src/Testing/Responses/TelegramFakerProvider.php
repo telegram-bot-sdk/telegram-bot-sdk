@@ -58,7 +58,7 @@ class TelegramFakerProvider extends Base
 
     public function command(string|null $command = null)
     {
-        if(str_contains($command, '?') || str_contains($command, '#')) {
+        if (str_contains($command, '?') || str_contains($command, '#')) {
             return '/'.$this->generator->bothify($command);
         }
 
@@ -77,7 +77,7 @@ class TelegramFakerProvider extends Base
             return $arg;
         })->implode(' ');
 
-        return trim($this->command($command) . ' ' . $arguments);
+        return trim($this->command($command).' '.$arguments);
     }
 
     private function fakerArg(string $name)
