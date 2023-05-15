@@ -13,11 +13,11 @@ class TelegramFakerProvider extends Base
 
     public function botName()
     {
-        return $this->generator->firstName() . ' Bot';
+        return $this->generator->firstName().' Bot';
     }
 
     public function botUserName()
     {
-        return $this->generator->firstName() . 'Bot';
+        return $this->generator->firstName().'Bot';
     }
 }
