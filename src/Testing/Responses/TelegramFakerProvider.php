@@ -58,6 +58,6 @@ class TelegramFakerProvider extends Base
     {
         $command = $command ?? $this->generator->word();
 
-        return '/'. $command;
+        return '/'.$command;
     }
 }
