@@ -74,7 +74,7 @@ final class TelegramFakerProvider extends Base
         if (str_contains($command, '#')) {
             return '/'.$this->generator->bothify($command);
         }
-        
+
         $command ??= $this->generator->word();
 
         return '/'.$command;
@@ -96,7 +96,7 @@ final class TelegramFakerProvider extends Base
     private function fakerArg(string $name)
     {
         try {
-            if (!str_contains($name, '-')) {
+            if (! str_contains($name, '-')) {
                 return $this->generator->$name();
             }
 
