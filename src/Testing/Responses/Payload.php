@@ -18,7 +18,7 @@ final class Payload
     public function user(): array
     {
         return [
-            'id' => 'randomNumber:9',
+            'id' => 'id',
             'is_bot' => true,
             'first_name' => 'firstName',
             'username' => 'userName',
@@ -34,11 +34,11 @@ final class Payload
     public function update(): array
     {
         return [
-            'update_id' => 'randomNumber:9',
+            'update_id' => 'id',
             'message' => [
-                'message_id' => 'randomNumber:9',
+                'message_id' => 'id',
                 'from' => [
-                    'id' => 'randomNumber:9',
+                    'id' => 'id',
                     'is_bot' => false,
                     'first_name' => 'firstName',
                     'last_name' => 'lastName',
@@ -46,7 +46,7 @@ final class Payload
                     'language_code' => 'languageCode',
                 ],
                 'chat' => [
-                    'id' => 'randomNumber:9',
+                    'id' => 'id',
                     'first_name' => 'firstName',
                     'last_name' => 'lastName',
                     'username' => 'userName',
@@ -66,13 +66,13 @@ final class Payload
         return [
             'message_id' => 'randomNumber:5',
             'from' => [
-                'id' => 'randomNumber:9',
+                'id' => 'id',
                 'is_bot' => true,
-                'first_name' => 'firstName',
-                'username' => 'userName',
+                'first_name' => 'botName',
+                'username' => 'botUserName',
             ],
             'chat' => [
-                'id' => 'randomNumber:9',
+                'id' => 'id',
                 'first_name' => 'firstName',
                 'username' => 'userName',
                 'type' => 'private',
