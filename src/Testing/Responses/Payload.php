@@ -53,12 +53,7 @@ final class Payload
         return [
             'message_id' => 'id:4',
             'from' => 'botFrom',
-            'chat' => [
-                'id' => 'id',
-                'first_name' => 'firstName',
-                'username' => 'userName',
-                'type' => 'private',
-            ],
+            'chat' => 'chat',
             'date' => 'unixTime',
             'text' => 'sentence',
         ];

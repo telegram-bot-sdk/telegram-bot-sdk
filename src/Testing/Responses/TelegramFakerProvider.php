@@ -53,4 +53,11 @@ class TelegramFakerProvider extends Base
             'username' => $this->botUserName(),
         ];
     }
+
+    public function command(string|null $command = null)
+    {
+        $command = $command ?? $this->generator->word();
+
+        return '/'. $command;
+    }
 }
