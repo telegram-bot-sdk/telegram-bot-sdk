@@ -4,8 +4,8 @@ namespace Telegram\Bot\Testing\Responses;
 
 use Faker\Factory as Faker;
 use Faker\Generator;
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 use RuntimeException;
 use Telegram\Bot\Objects\ResponseObject;

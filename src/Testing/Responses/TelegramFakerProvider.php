@@ -73,13 +73,13 @@ class TelegramFakerProvider extends Base
             return $arg;
         })->implode(' ');
 
-        return $this->command($command) . ' ' . $arguments;
+        return $this->command($command).' '.$arguments;
     }
 
     private function fakerArg(string $name)
     {
         try {
-            if(str_contains($name, '-') === false) {
+            if (str_contains($name, '-') === false) {
                 return $this->generator->$name();
             }
 
