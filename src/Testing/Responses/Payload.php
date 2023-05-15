@@ -37,21 +37,8 @@ final class Payload
             'update_id' => 'id',
             'message' => [
                 'message_id' => 'id',
-                'from' => [
-                    'id' => 'id',
-                    'is_bot' => false,
-                    'first_name' => 'firstName',
-                    'last_name' => 'lastName',
-                    'username' => 'userName',
-                    'language_code' => 'languageCode',
-                ],
-                'chat' => [
-                    'id' => 'id',
-                    'first_name' => 'firstName',
-                    'last_name' => 'lastName',
-                    'username' => 'userName',
-                    'type' => 'private',
-                ],
+                'from' => 'from',
+                'chat' => 'chat',
                 'date' => 'unixTime',
                 'text' => 'sentence',
             ],
@@ -64,13 +51,8 @@ final class Payload
     public function message(): array
     {
         return [
-            'message_id' => 'randomNumber:5',
-            'from' => [
-                'id' => 'id',
-                'is_bot' => true,
-                'first_name' => 'botName',
-                'username' => 'botUserName',
-            ],
+            'message_id' => 'id:4',
+            'from' => 'botFrom',
             'chat' => [
                 'id' => 'id',
                 'first_name' => 'firstName',
