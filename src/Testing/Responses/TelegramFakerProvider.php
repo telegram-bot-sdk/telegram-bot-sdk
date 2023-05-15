@@ -6,24 +6,27 @@ use Exception;
 use Faker\Provider\Base;
 use Illuminate\Support\Collection;
 
-class TelegramFakerProvider extends Base
+final class TelegramFakerProvider extends Base
 {
-    public function id(int $digits = 9)
+    public function id(int $digits = 9): int
     {
         return $this->generator->randomNumber($digits);
     }
 
-    public function botName()
+    public function botName(): string
     {
         return $this->generator->firstName().' Bot';
     }
 
-    public function botUserName()
+    public function botUserName(): string
     {
         return $this->generator->firstName().'Bot';
     }
 
-    public function from()
+    /**
+     * @return array{id: int, is_bot: false, first_name: string, last_name: string, username: string, language_code: string}
+     */
+    public function from(): array
     {
         return [
             'id' => $this->generator->randomNumber(9),
@@ -35,7 +38,10 @@ class TelegramFakerProvider extends Base
         ];
     }
 
-    public function chat()
+    /**
+     * @return array{id: int, first_name: string, last_name: string, username: string, type: string}
+     */
+    public function chat(): array
     {
         return [
             'id' => $this->generator->randomNumber(9),
@@ -46,7 +52,10 @@ class TelegramFakerProvider extends Base
         ];
     }
 
-    public function botFrom()
+    /**
+     * @return array{id: int, is_bot: true, first_name: mixed, username: mixed}
+     */
+    public function botFrom(): array
     {
         return [
             'id' => $this->generator->randomNumber(9),
@@ -56,18 +65,22 @@ class TelegramFakerProvider extends Base
         ];
     }
 
-    public function command(string|null $command = null)
+    public function command(string|null $command = null): string
     {
-        if (str_contains($command, '?') || str_contains($command, '#')) {
+        if (str_contains($command, '?')) {
             return '/'.$this->generator->bothify($command);
         }
 
-        $command = $command ?? $this->generator->word();
+        if (str_contains($command, '#')) {
+            return '/'.$this->generator->bothify($command);
+        }
+        
+        $command ??= $this->generator->word();
 
         return '/'.$command;
     }
 
-    public function commandWithArgs(string|null $command = null, string ...$args)
+    public function commandWithArgs(string|null $command = null, string ...$args): string
     {
         $arguments = (new Collection($args))->map(function ($arg) {
             if (str_starts_with($arg, 'faker-')) {
@@ -83,14 +96,14 @@ class TelegramFakerProvider extends Base
     private function fakerArg(string $name)
     {
         try {
-            if (str_contains($name, '-') === false) {
+            if (!str_contains($name, '-')) {
                 return $this->generator->$name();
             }
 
             [$method, $arg] = explode('-', $name, 2);
 
             return $this->generator->$method($arg);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return $name;
         }
     }
