@@ -17,7 +17,7 @@ final class TelegramClient
 
     /** @var string Telegram Bot API URL. */
     private string $baseApiUrl = 'https://api.telegram.org';
-
+    private string $fileUrl = '{BASE_API_URL}/file/bot{TOKEN}/{FILE_PATH}';
     /** @var HttpClientInterface HTTP Client. */
     private HttpClientInterface $httpClientHandler;
 
@@ -127,6 +127,15 @@ final class TelegramClient
         return $this->lastResponse;
     }
 
+    public function withFileUrl(string $fileUrl): self
+    {
+        if ($fileUrl !== '') {
+            $this->fileUrl = $fileUrl;
+        }
+
+        return $this;
+    }
+
     /**
      * Get File URL.
      *
@@ -135,7 +144,11 @@ final class TelegramClient
      */
     public function getFileUrl(string $path = null): string
     {
-        return sprintf('%s/file/bot%s/%s', $this->baseApiUrl, $this->getToken(), $path);
+        return str_replace(
+            ['{BASE_API_URL}', '{TOKEN}', '{FILE_PATH}'],
+            [$this->baseApiUrl, $this->getToken(), $path],
+            $this->fileUrl
+        );
     }
 
     /**

@@ -17,6 +17,7 @@ use Telegram\Bot\Objects\ResponseObject;
  * @method self setToken(string $token) Set the bot token.
  * @method string getBaseApiUrl() Get the Base API URL.
  * @method self setBaseApiUrl(string $baseApiUrl) Set the Base API URL.
+ * @method self withFileUrl(string $fileUrl) Set the File URL.
  * @method string getFileUrl(string $path = null) Get File URL.
  * @method bool isAsyncRequest() Check if this is an asynchronous request (non-blocking).
  * @method self setAsyncRequest(bool $isAsyncRequest) Make this request asynchronous (non-blocking).

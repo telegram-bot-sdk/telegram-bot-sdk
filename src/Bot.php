@@ -56,6 +56,7 @@ final class Bot
         $this->api = new Api($this->config('token'));
         $this->setHttpClientHandler($this->config('global.http.client', GuzzleHttpClient::class));
         $this->api->setBaseApiUrl($this->config('global.http.api_url', 'https://api.telegram.org'));
+        $this->api->withFileUrl($this->config('global.http.file_url', ''));
         $this->api->setHttpClientConfig($this->config('global.http.config', []));
         $this->api->setAsyncRequest($this->config('global.http.async', false));
 
