@@ -17,7 +17,9 @@ final class TelegramClient
 
     /** @var string Telegram Bot API URL. */
     private string $baseApiUrl = 'https://api.telegram.org';
+
     private string $fileUrl = '{BASE_API_URL}/file/bot{TOKEN}/{FILE_PATH}';
+
     /** @var HttpClientInterface HTTP Client. */
     private HttpClientInterface $httpClientHandler;
 
