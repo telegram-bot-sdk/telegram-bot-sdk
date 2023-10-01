@@ -191,7 +191,7 @@ trait Update
             throw new TelegramSDKException('Invalid URL Provided');
         }
 
-        if (parse_url($url, PHP_URL_SCHEME) !== 'https') {
+        if (parse_url($url, PHP_URL_SCHEME) !== 'https' && parse_url($url, PHP_URL_SCHEME) !== 'http') {
             throw new TelegramSDKException('Invalid URL, should be a HTTPS url.');
         }
     }
