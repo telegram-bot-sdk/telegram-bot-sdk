@@ -32,9 +32,9 @@
     "php": ">=8.1",
     "ext-json": "*",
     "guzzlehttp/guzzle": "^7.5.1",
-    "illuminate/container": "^10",
-    "illuminate/events": "^10",
-    "illuminate/support": "^10",
+    "illuminate/container": "^10.0 || ^11.0",
+    "illuminate/events": "^10.0 || ^11.0",
+    "illuminate/support": "^10.0 || ^11.0",
     "telegram-bot-sdk/addon-manager": "^1.0@dev"
   },
   "require-dev": {
@@ -42,7 +42,7 @@
     "pestphp/pest": "^2.0",
     "pestphp/pest-plugin-mock": "^2.0",
     "php-parallel-lint/php-parallel-lint": "^1.3",
-    "rector/rector": "^0.16"
+    "rector/rector": "^1.0"
   },
   "suggest": {
     "telegram-bot-sdk/laravel": "Laravel Support for Telegram Bot SDK."
