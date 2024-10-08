@@ -93,8 +93,8 @@ This project is open-sourced software licensed under the [BSD 3-Clause][link-lic
 [link-team]: https://github.com/orgs/telegram-bot-sdk/people
 [link-contributors]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/contributors
 [link-license]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/blob/master/LICENSE.md
-[link-contributing]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/blob/master/.github/CONTRIBUTING.md
-[link-code-of-conduct]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/blob/master/.github/CODE_OF_CONDUCT.md
+[link-contributing]: https://telegram-bot-sdk.com/community/contributing
+[link-code-of-conduct]: https://telegram-bot-sdk.com/community/code-of-conduct
 [link-security-policy]: https://github.com/telegram-bot-sdk/telegram-bot-sdk/security/policy
 [link-awesome-telegram-bots]: https://github.com/telegram-bot-sdk/awesome-telegram-bots
 [link-telegram-bot-api]: https://core.telegram.org/bots
