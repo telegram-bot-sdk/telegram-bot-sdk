@@ -129,4 +129,50 @@ trait Payments
     {
         return $this->post('answerPreCheckoutQuery', $params)->getResult();
     }
+
+    /**
+     * Get the bot's Telegram Star transactions in chronological order.
+     *
+     * @link https://core.telegram.org/bots/api#getstartransactions
+     *
+     * @param array{
+     *     offset?: int,
+     *     limit?: int,
+     * } $params
+     */
+    public function getStarTransactions(array $params = []): ResponseObject
+    {
+        return $this->post('getStarTransactions', $params)->getResult();
+    }
+
+    /**
+     * Refunds a successful payment in Telegram Stars.
+     *
+     * @link https://core.telegram.org/bots/api#refundstarpayment
+     *
+     * @param array{
+     *     user_id: int,
+     *     telegram_payment_charge_id: string,
+     * } $params
+     */
+    public function refundStarPayment(array $params): bool
+    {
+        return $this->post('refundStarPayment', $params)->getResult();
+    }
+
+    /**
+     * Allows the bot to cancel or re-enable extension of a subscription paid in Telegram Stars.
+     *
+     * @link https://core.telegram.org/bots/api#edituserstarsubscription
+     *
+     * @param array{
+     *     user_id: int,
+     *     telegram_payment_charge_id: string,
+     *     is_canceled: bool,
+     * } $params
+     */
+    public function editUserStarSubscription(array $params): bool
+    {
+        return $this->post('editUserStarSubscription', $params)->getResult();
+    }
 }
