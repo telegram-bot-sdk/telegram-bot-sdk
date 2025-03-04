@@ -3,9 +3,7 @@
 use Telegram\Bot\Objects\AbstractCreateObject;
 use Telegram\Bot\Objects\ResponseObject;
 
-class DummyCreateObject extends AbstractCreateObject
-{
-}
+class DummyCreateObject extends AbstractCreateObject {}
 
 it('can create an object using the make method', function () {
     $object = DummyCreateObject::make(['foo' => 'bar']);
@@ -15,7 +13,7 @@ it('can create an object using the make method', function () {
 });
 
 it('can set fields using magic methods', function () {
-    $object = new DummyCreateObject();
+    $object = new DummyCreateObject;
     $object->foo('bar');
     $object->baz(['qux' => 'quux']);
 
@@ -29,14 +27,14 @@ it('can set fields using constructor', function () {
 });
 
 it('can set fields using array', function () {
-    $object = new DummyCreateObject();
+    $object = new DummyCreateObject;
     $object->baz(['qux' => 'quux']);
 
     expect($object->__toArray())->toBe(['baz' => ['qux' => 'quux']]);
 });
 
 it('can set fields using abstract object', function () {
-    $object = new DummyCreateObject();
+    $object = new DummyCreateObject;
     $object->foo('bar');
     $object->baz(new ResponseObject(['qux' => 'quux']));
 
@@ -44,7 +42,7 @@ it('can set fields using abstract object', function () {
 });
 
 it('sets fields in snake case', function () {
-    $object = new DummyCreateObject();
+    $object = new DummyCreateObject;
     $object->fooBar('test');
     $object->someLongFieldName('bar');
 

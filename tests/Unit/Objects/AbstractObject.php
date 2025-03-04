@@ -2,9 +2,7 @@
 
 use Telegram\Bot\Objects\AbstractObject;
 
-class DummyObject extends AbstractObject
-{
-}
+class DummyObject extends AbstractObject {}
 
 it('can create an object using the make method', function () {
     $object = DummyObject::make(['foo' => 'bar']);

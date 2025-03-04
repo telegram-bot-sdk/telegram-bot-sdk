@@ -11,9 +11,9 @@ use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
  *
  * @link https://core.telegram.org/bots/api#inlinequeryresultgame
  *
- * @method $this id(string $string)                                 Required. Unique identifier for this result, 1-64 Bytes.
- * @method $this gameShortName(string $string)                      Required. Short name of the game.
- * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup)  (Optional). Inline keyboard attached to the message
+ * @method $this id(string $string) Required. Unique identifier for this result, 1-64 Bytes.
+ * @method $this gameShortName(string $string) Required. Short name of the game.
+ * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup) (Optional). Inline keyboard attached to the message
  */
 final class InlineQueryResultGame extends InlineQueryResult
 {

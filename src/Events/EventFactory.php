@@ -16,9 +16,7 @@ final class EventFactory
 
     private array $subscribers = [];
 
-    public function __construct(protected array $listens = [])
-    {
-    }
+    public function __construct(protected array $listens = []) {}
 
     public function listens(): array
     {

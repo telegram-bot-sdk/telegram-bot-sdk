@@ -31,9 +31,9 @@ final class TelegramRequest
     private bool $isAsyncRequest = false;
 
     public function __construct(
-        string $token = null,
-        string $method = null,
-        string $endpoint = null,
+        ?string $token = null,
+        ?string $method = null,
+        ?string $endpoint = null,
         array $params = [],
         bool $isAsyncRequest = false
     ) {

@@ -9,8 +9,6 @@ use Telegram\Bot\Objects\AbstractCreateObject;
  *
  * @link https://core.telegram.org/bots/api#webappinfo
  *
- * @method $this url(string $url)     An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps
+ * @method $this url(string $url) An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps
  */
-final class WebAppInfo extends AbstractCreateObject
-{
-}
+final class WebAppInfo extends AbstractCreateObject {}

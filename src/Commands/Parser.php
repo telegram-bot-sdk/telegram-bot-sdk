@@ -35,7 +35,7 @@ final class Parser
 
     public static function parse(CommandContract|string $command): self
     {
-        return (new self())->setCommand($command);
+        return (new self)->setCommand($command);
     }
 
     public function getCommand(): CommandContract|string
@@ -197,7 +197,7 @@ final class Parser
     {
         $commandOffsets = $this->allCommandOffsets();
 
-        //Find the start point for this command and, if it exists, the start point (offset) of the NEXT bot_command entity
+        // Find the start point for this command and, if it exists, the start point (offset) of the NEXT bot_command entity
         $splicePoints = $commandOffsets->splice(
             $commandOffsets->search($this->entity['offset']),
             2

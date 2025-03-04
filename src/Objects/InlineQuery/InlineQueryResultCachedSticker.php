@@ -13,9 +13,9 @@ use Telegram\Bot\Objects\Keyboard\InlineKeyboardMarkup;
  *
  * @link https://core.telegram.org/bots/api#inlinequeryresultcachedsticker
  *
- * @method $this id(string $string)                                             Required. Unique identifier for this result, 1-64 Bytes
- * @method $this stickerFileId(string $string)                                  Required. A valid file identifier of the sticker
- * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup)             (Optional). Inline keyboard attached to the message
+ * @method $this id(string $string) Required. Unique identifier for this result, 1-64 Bytes
+ * @method $this stickerFileId(string $string) Required. A valid file identifier of the sticker
+ * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup) (Optional). Inline keyboard attached to the message
  * @method $this inputMessageContent(InputMessageContent $inputMessageContent) (Optional). Content of the message to be sent instead of the sticker
  */
 final class InlineQueryResultCachedSticker extends InlineQueryResult

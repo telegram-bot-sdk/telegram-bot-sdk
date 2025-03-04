@@ -43,7 +43,7 @@ final class Validator
     /**
      * Determine given string is a URL.
      *
-     * @param  string  $value A filename or URL to a sticker
+     * @param  string  $value  A filename or URL to a sticker
      */
     public static function isUrl(string $value): bool
     {
@@ -53,7 +53,7 @@ final class Validator
     /**
      * Determine given string is a json object.
      *
-     * @param  string  $string A json string
+     * @param  string  $string  A json string
      */
     public static function isJson(string $string): bool
     {

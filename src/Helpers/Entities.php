@@ -13,9 +13,7 @@ final class Entities
     /** @var int Formatting Mode: 0:Markdown | 1:HTML */
     private int $mode = 0;
 
-    public function __construct(private string $text)
-    {
-    }
+    public function __construct(private string $text) {}
 
     public static function format(string $text): self
     {

@@ -8,9 +8,7 @@ final class Update
 {
     private ?string $updateType = null;
 
-    public function __construct(private readonly ResponseObject $response)
-    {
-    }
+    public function __construct(private readonly ResponseObject $response) {}
 
     public static function find(ResponseObject $response): Update
     {
@@ -28,7 +26,7 @@ final class Update
 
     public function message(): ResponseObject
     {
-        return $this->response->offsetGet($this->type()) ?? new ResponseObject();
+        return $this->response->offsetGet($this->type()) ?? new ResponseObject;
     }
 
     public function chat(): ?ResponseObject

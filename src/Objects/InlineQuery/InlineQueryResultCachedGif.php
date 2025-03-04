@@ -15,13 +15,13 @@ use Telegram\Bot\Objects\Message\MessageEntity;
  *
  * @link https://core.telegram.org/bots/api#inlinequeryresultcachedgif
  *
- * @method $this id(string $string)                                            Required. Unique identifier for this result, 1-64 bytes
- * @method $this gifFileId(string $string)                                     Required. A valid file identifier for the GIF file
- * @method $this title(string $string)                                         (Optional). Title for the result
- * @method $this caption(string $string)                                       (Optional). Caption of the GIF file to be sent, 0-200 characters
- * @method $this parseMode($string)                                            (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
- * @method $this captionEntities(MessageEntity[] $captionEntities)             (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
- * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup)             (Optional). Inline keyboard attached to the message
+ * @method $this id(string $string) Required. Unique identifier for this result, 1-64 bytes
+ * @method $this gifFileId(string $string) Required. A valid file identifier for the GIF file
+ * @method $this title(string $string) (Optional). Title for the result
+ * @method $this caption(string $string) (Optional). Caption of the GIF file to be sent, 0-200 characters
+ * @method $this parseMode($string) (Optional). Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+ * @method $this captionEntities(MessageEntity[] $captionEntities) (Optional). List of special entities that appear in the caption, which can be specified instead of parse_mode
+ * @method $this replyMarkup(InlineKeyboardMarkup $keyboardMarkup) (Optional). Inline keyboard attached to the message
  * @method $this inputMessageContent(InputMessageContent $inputMessageContent) (Optional). Content of the message to be sent instead of the GIF animation
  */
 final class InlineQueryResultCachedGif extends InlineQueryResult

@@ -133,7 +133,7 @@ final class TelegramResponse
      */
     public function getDecodedBody(): ResponseObject
     {
-        return $this->decodedBody ?? new ResponseObject();
+        return $this->decodedBody ?? new ResponseObject;
     }
 
     /**
@@ -141,7 +141,7 @@ final class TelegramResponse
      */
     public function getResult(): mixed
     {
-        return $this->decodedBody?->offsetGet('result') ?? new ResponseObject();
+        return $this->decodedBody?->offsetGet('result') ?? new ResponseObject;
     }
 
     /**

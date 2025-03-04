@@ -13,9 +13,7 @@ final class CallableCommand extends Command implements CallableContract
 
     protected string $description = '';
 
-    public function __construct(private $handler = null)
-    {
-    }
+    public function __construct(private $handler = null) {}
 
     public function handle(): void
     {

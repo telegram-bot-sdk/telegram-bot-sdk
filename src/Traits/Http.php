@@ -36,7 +36,7 @@ trait Http
      */
     public function getClient(): TelegramClient
     {
-        return $this->client ??= (new TelegramClient())->setToken($this->getToken());
+        return $this->client ??= (new TelegramClient)->setToken($this->getToken());
     }
 
     public function getHttpClientConfig(): array
@@ -55,8 +55,8 @@ trait Http
      * Download a file from Telegram server by fileID or getFile() Response.
      *
      *
-     * @param  string|ResponseObject  $fileId File ID or ResponseObject from getFile()
-     * @param  string  $saveTo Absolute path to dir or filename to save as.
+     * @param  string|ResponseObject  $fileId  File ID or ResponseObject from getFile()
+     * @param  string  $saveTo  Absolute path to dir or filename to save as.
      *
      * @throws TelegramSDKException
      */

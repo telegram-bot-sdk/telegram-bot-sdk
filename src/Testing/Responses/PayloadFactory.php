@@ -31,7 +31,7 @@ final class PayloadFactory
 
     public static function create(): self
     {
-        return new self();
+        return new self;
     }
 
     public function times(int $count): self
