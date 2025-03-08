@@ -32,9 +32,9 @@ final class TelegramClient
     /**
      * Instantiates a new TelegramClient object.
      */
-    public function __construct(HttpClientInterface $httpClientHandler = null)
+    public function __construct(?HttpClientInterface $httpClientHandler = null)
     {
-        $this->httpClientHandler = $httpClientHandler ?? new GuzzleHttpClient();
+        $this->httpClientHandler = $httpClientHandler ?? new GuzzleHttpClient;
     }
 
     /**
@@ -144,7 +144,7 @@ final class TelegramClient
      *
      * @throws TelegramSDKException
      */
-    public function getFileUrl(string $path = null): string
+    public function getFileUrl(?string $path = null): string
     {
         return str_replace(
             ['{BASE_API_URL}', '{TOKEN}', '{FILE_PATH}'],
@@ -190,8 +190,8 @@ final class TelegramClient
     /**
      * Download file from Telegram server for given file path.
      *
-     * @param  string  $filePath File path on Telegram server.
-     * @param  string  $filename Download path to save file.
+     * @param  string  $filePath  File path on Telegram server.
+     * @param  string  $filename  Download path to save file.
      *
      * @throws TelegramSDKException
      */

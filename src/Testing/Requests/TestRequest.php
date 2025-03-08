@@ -7,9 +7,7 @@ final class TestRequest
     /**
      * @param  array<string, mixed>|string|null  $parameters
      */
-    public function __construct(protected string $method, protected array|string|null $parameters)
-    {
-    }
+    public function __construct(protected string $method, protected array|string|null $parameters) {}
 
     public function method(): string
     {

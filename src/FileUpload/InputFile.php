@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Utils;
 use JsonSerializable;
 use Telegram\Bot\Contracts\Multipartable;
 
-final class InputFile implements Multipartable, JsonSerializable
+final class InputFile implements JsonSerializable, Multipartable
 {
     private string $multipartName;
 

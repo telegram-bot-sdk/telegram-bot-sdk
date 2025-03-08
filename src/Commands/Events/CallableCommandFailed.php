@@ -16,6 +16,5 @@ final class CallableCommandFailed
         public Throwable $exception,
         public Bot $bot,
         public ?ResponseObject $update = null
-    ) {
-    }
+    ) {}
 }

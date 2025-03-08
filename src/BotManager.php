@@ -15,8 +15,8 @@ use Telegram\Bot\Traits\HasContainer;
 final class BotManager
 {
     use ForwardsCalls;
-    use HasContainer;
     use HasConfig;
+    use HasContainer;
 
     /** @var Bot[] The active bot instances. */
     private array $bots = [];
@@ -69,7 +69,7 @@ final class BotManager
      *
      * @throws TelegramSDKException
      */
-    public function bot(string $name = null): Bot
+    public function bot(?string $name = null): Bot
     {
         $name ??= $this->getDefaultBotName();
 
@@ -82,7 +82,7 @@ final class BotManager
      *
      * @throws TelegramSDKException
      */
-    public function reconnect(string $name = null): Bot
+    public function reconnect(?string $name = null): Bot
     {
         $this->disconnect($name);
 
@@ -92,7 +92,7 @@ final class BotManager
     /**
      * Disconnect from the given bot.
      */
-    public function disconnect(string $name = null): self
+    public function disconnect(?string $name = null): self
     {
         $name ??= $this->getDefaultBotName();
         unset($this->bots[$name]);
@@ -106,7 +106,7 @@ final class BotManager
      *
      * @throws TelegramSDKException
      */
-    public function getBotConfig(string $name = null): array
+    public function getBotConfig(?string $name = null): array
     {
         $name ??= $this->getDefaultBotName();
 

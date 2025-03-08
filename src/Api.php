@@ -23,19 +23,19 @@ use Telegram\Bot\Traits\Http;
 final class Api
 {
     use ForwardsCalls;
+    use Games;
+    use GettingUpdates;
+    use HasToken;
+    use Http;
+    use InlineMode;
     use Macroable {
         Macroable::__call as macroCall;
     }
-    use Http;
-    use HasToken;
-    use GettingUpdates;
     use Methods;
-    use UpdateMessages;
-    use InlineMode;
-    use Stickers;
-    use Payments;
     use Passport;
-    use Games;
+    use Payments;
+    use Stickers;
+    use UpdateMessages;
 
     /**
      * Instantiates a new Telegram super-class object.

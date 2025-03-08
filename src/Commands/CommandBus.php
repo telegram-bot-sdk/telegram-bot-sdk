@@ -52,8 +52,8 @@ final class CommandBus
     /**
      * Add a command to the commands list.
      *
-     * @param  string  $command      Command name.
-     * @param  string|CommandContract  $commandClass Either an object or full path to the command class.
+     * @param  string  $command  Command name.
+     * @param  string|CommandContract  $commandClass  Either an object or full path to the command class.
      * @return $this
      */
     public function addCommand(string $command, string|CommandContract $commandClass): self
@@ -66,7 +66,7 @@ final class CommandBus
     /**
      * Remove a command from the list.
      *
-     * @param  string  $name Command name.
+     * @param  string  $name  Command name.
      * @return $this
      */
     public function removeCommand(string $name): self

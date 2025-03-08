@@ -20,9 +20,7 @@ final class BotFake
     /**
      * @param  array<array-key, string>  $responses
      */
-    public function __construct(protected array $responses = [])
-    {
-    }
+    public function __construct(protected array $responses = []) {}
 
     public function addResponses(array $responses): void
     {
@@ -55,7 +53,7 @@ final class BotFake
         );
     }
 
-    private function sent(string $method, callable $callback = null): array
+    private function sent(string $method, ?callable $callback = null): array
     {
         if (! $this->hasSent($method)) {
             return [];
@@ -71,7 +69,7 @@ final class BotFake
         return $this->methodsOf($method) !== [];
     }
 
-    public function assertNotSent(string $method, callable $callback = null): void
+    public function assertNotSent(string $method, ?callable $callback = null): void
     {
         PHPUnit::assertCount(
             0,

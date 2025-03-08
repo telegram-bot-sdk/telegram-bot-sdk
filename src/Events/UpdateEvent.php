@@ -9,7 +9,5 @@ final class UpdateEvent
 {
     final public const NAME = 'update';
 
-    public function __construct(public Bot $bot, public ResponseObject $update)
-    {
-    }
+    public function __construct(public Bot $bot, public ResponseObject $update) {}
 }

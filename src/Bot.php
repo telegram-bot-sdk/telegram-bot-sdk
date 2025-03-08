@@ -29,11 +29,11 @@ use Telegram\Bot\Traits\HasContainer;
 final class Bot
 {
     use ForwardsCalls;
+    use HasConfig;
+    use HasContainer;
     use Macroable {
         Macroable::__call as macroCall;
     }
-    use HasConfig;
-    use HasContainer;
 
     private readonly string $name;
 
@@ -61,7 +61,7 @@ final class Bot
         $this->api->setAsyncRequest($this->config('global.http.async', false));
 
         $this->commandHandler = new CommandHandler($this);
-        $this->eventFactory = new EventFactory();
+        $this->eventFactory = new EventFactory;
 
         if ($this->hasConfig('listen')) {
             $this->eventFactory->setListeners($this->config('listen'));
@@ -210,7 +210,7 @@ final class Bot
         $this->eventFactory->dispatch(UpdateEvent::NAME, $event);
         $this->eventFactory->dispatch($update->type(), $event);
 
-        if (null !== $update->messageType()) {
+        if ($update->messageType() !== null) {
             $this->eventFactory->dispatch($update->type().'.'.$update->messageType(), $event);
         }
 

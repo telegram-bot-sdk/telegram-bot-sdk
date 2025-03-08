@@ -142,9 +142,7 @@ abstract class Command implements CommandContract
     /**
      * Triggered on failure to find params in command.
      */
-    public function failed(array $arguments, Throwable $exception): void
-    {
-    }
+    public function failed(array $arguments, Throwable $exception): void {}
 
     /**
      * Helper to Trigger other Commands.

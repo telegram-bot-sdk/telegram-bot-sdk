@@ -9,7 +9,5 @@ final class CommandNotFoundEvent
 {
     final public const NAME = 'command.notfound';
 
-    public function __construct(public string $command, public Bot $bot, public ?ResponseObject $update = null)
-    {
-    }
+    public function __construct(public string $command, public Bot $bot, public ?ResponseObject $update = null) {}
 }

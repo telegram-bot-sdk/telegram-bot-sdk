@@ -18,7 +18,7 @@ trait HasConfig
 
     public function config(array|string|null $key = null, mixed $default = null): mixed
     {
-        if (null === $key) {
+        if ($key === null) {
             return $this->config;
         }
 

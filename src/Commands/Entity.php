@@ -19,9 +19,7 @@ final class Entity
         return new self($update);
     }
 
-    public function __construct(protected ResponseObject $update)
-    {
-    }
+    public function __construct(protected ResponseObject $update) {}
 
     public function entities(): ?ResponseObject
     {

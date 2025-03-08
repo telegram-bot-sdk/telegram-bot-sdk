@@ -65,7 +65,7 @@ final class TelegramFakerProvider extends Base
         ];
     }
 
-    public function command(string|null $command = null): string
+    public function command(?string $command = null): string
     {
         if (str_contains($command, '?')) {
             return '/'.$this->generator->bothify($command);
@@ -80,7 +80,7 @@ final class TelegramFakerProvider extends Base
         return '/'.$command;
     }
 
-    public function commandWithArgs(string|null $command = null, string ...$args): string
+    public function commandWithArgs(?string $command = null, string ...$args): string
     {
         $arguments = (new Collection($args))->map(function ($arg) {
             if (str_starts_with($arg, 'faker-')) {
