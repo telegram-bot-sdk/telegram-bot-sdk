@@ -51,4 +51,26 @@ trait InlineMode
     {
         return $this->post('answerWebAppQuery', $params)->getResult();
     }
+
+    /**
+     * Store a message that can be sent by a user of a Mini App.
+     *
+     * Returns a PreparedInlineMessage object on success.
+     *
+     * @link <Add the relevant Telegram API documentation link here>
+     *
+     * @param array{
+     * 	user_id: int,
+     * 	result: InlineQueryResult,
+     * 	allow_user_chats: bool,
+     * 	allow_bot_chats: bool,
+     * 	allow_group_chats: bool,
+     * 	allow_channel_chats: bool,
+     * } $params
+     * @return ResponseObject{prepared_message_id: string}
+     */
+    public function savePreparedInlineMessage(array $params): ResponseObject
+    {
+        return $this->post('savePreparedInlineMessage', $params)->getResult();
+    }
 }
