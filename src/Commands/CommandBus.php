@@ -11,6 +11,7 @@ use Telegram\Bot\Exceptions\TelegramCommandException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Helpers\Validator;
 use Telegram\Bot\Objects\ResponseObject;
+use Telegram\Bot\Testing\Fakes\BotFake;
 use Telegram\Bot\Traits\HasBot;
 
 final class CommandBus
@@ -171,6 +172,10 @@ final class CommandBus
             }
 
             $this->bot->getContainer()->call([$command, 'handle'], $arguments);
+
+            if ($this->bot instanceof BotFake) {
+                $this->bot->recordCommandHandled($commandName, $arguments);
+            }
         } catch (BindingResolutionException|TelegramCommandException $e) {
             if (method_exists($command, 'failed')) {
                 $params = $requiredParamsNotProvided->all();

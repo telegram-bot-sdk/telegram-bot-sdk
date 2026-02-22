@@ -31,7 +31,14 @@ final class TelegramResponseException extends TelegramSDKException
 
     public static function create(TelegramResponse $response, ?Exception $previousException = null): self
     {
-        return new self($response, new TelegramOtherException($previousException?->getMessage(), $previousException?->getCode(), $previousException));
+        return new self(
+            $response,
+            new TelegramOtherException(
+                $previousException?->getMessage() ?? 'Unknown exception',
+                $previousException?->getCode() ?? 0,
+                $previousException
+            )
+        );
     }
 
     public function getHttpStatusCode(): ?int

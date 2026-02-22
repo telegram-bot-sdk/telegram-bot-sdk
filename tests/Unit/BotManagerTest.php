@@ -214,7 +214,7 @@ it('throws an exception when getting the configuration for a non-configured bot'
 
     $botManager = new BotManager($config);
     $botManager->getBotConfig('non-existing-bot');
-})->expectException(TelegramSDKException::class);
+})->throws(TelegramSDKException::class);
 
 it('can forward method calls to the default bot', function () {
     $config = [

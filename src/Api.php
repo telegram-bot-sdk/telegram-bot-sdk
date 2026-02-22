@@ -20,7 +20,7 @@ use Telegram\Bot\Traits\Http;
 /**
  * Class Api.
  */
-final class Api
+class Api
 {
     use ForwardsCalls;
     use Games;
